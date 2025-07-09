@@ -31,9 +31,10 @@ export default function Footer() {
               </h3>
             </div>
             <p className="text-sm mb-4 text-dark-gray">
-              Seeds Financial Group is in partnership with one of the world's
-              largest financial groups, providing advisory services using a wide
-              range of risk management, strategy and asset allocation plans.
+              Seeds Financial Group is in partnership with one of the
+              world&apos;s largest financial groups, providing advisory services
+              using a wide range of risk management, strategy and asset
+              allocation plans.
             </p>
             <div className="flex space-x-4">
               <a

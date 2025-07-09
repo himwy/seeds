@@ -68,17 +68,18 @@ export default function Home() {
                 About Seeds Financial Group
               </h2>
               <p className="text-dark-gray mb-6">
-                Seeds Financial Group is in partnership with one of the world's
-                largest financial groups provides advisory services using a wide
-                range of risk management, strategy and asset allocation plans,
-                enabling our clients to achieve their financial goals and future
-                needs.
+                Seeds Financial Group is in partnership with one of the
+                world&apos;s largest financial groups provides advisory services
+                using a wide range of risk management, strategy and asset
+                allocation plans, enabling our clients to achieve their
+                financial goals and future needs.
               </p>
               <p className="text-dark-gray mb-6">
                 No matter what age a person is, as long as he/she has
-                enthusiasm, we believe that he/she is a 'seed' full of hope for
-                growth. We will try our best to provide them opportunities and
-                nurture them carefully to turn them into a strong tree.
+                enthusiasm, we believe that he/she is a &apos;seed&apos; full of
+                hope for growth. We will try our best to provide them
+                opportunities and nurture them carefully to turn them into a
+                strong tree.
               </p>
               <Link href="/about" className="btn-primary inline-block">
                 Learn More About Us
@@ -142,9 +143,9 @@ export default function Home() {
               </h3>
               <p className="text-dark-gray mb-4">
                 Education Plan is designed with a specific goal in mind –
-                financing your child's higher education. The plan offers short
-                premium payment terms, opportunities for growth and guaranteed
-                cash payments when your child reaches university age.
+                financing your child&apos;s higher education. The plan offers
+                short premium payment terms, opportunities for growth and
+                guaranteed cash payments when your child reaches university age.
               </p>
               <Link
                 href="/services/education"
@@ -266,8 +267,8 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-4">IIQE Exam Discount</h2>
           <p className="text-xl mb-6 max-w-3xl mx-auto">
             Great news! You have the chance to register for the IIQE exam with a
-            huge 50% discount. Don't let this opportunity slip away—save big and
-            take your career to the next level.
+            huge 50% discount. Don&apos;t let this opportunity slip away—save
+            big and take your career to the next level.
           </p>
           <Link
             href="/iiqe"

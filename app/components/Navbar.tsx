@@ -3,14 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  FaBars,
-  FaTimes,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaLinkedin,
-  FaWeixin,
-} from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
