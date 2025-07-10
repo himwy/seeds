@@ -248,7 +248,7 @@ export default function Navbar() {
           <div className="md:hidden flex items-center">
             <LanguageSwitcher />
             <button
-              className="text-dark-gray focus:outline-none ml-2 p-2"
+              className="text-dark-gray hover:text-primary focus:outline-none ml-2 p-2 rounded-full transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
@@ -261,16 +261,20 @@ export default function Navbar() {
         {isMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className="md:hidden fixed left-0 right-0 bg-white z-50 overflow-y-auto top-0 pt-16"
+            className="md:hidden fixed left-0 right-0 bg-white z-50 overflow-y-auto top-0 pt-16 shadow-lg"
             style={{
               width: "100vw",
               marginLeft: "calc(50% - 50vw)",
               top: isScrolled ? "60px" : "68px",
               height: "calc(100vh - 60px)",
               maxHeight: "100vh",
+              borderTopLeftRadius: "16px",
+              borderTopRightRadius: "16px",
+              animation: "slideInUp 0.3s ease-out forwards",
             }}
           >
             <div className="px-4 py-2">
+              <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
               <nav className="flex flex-col">
                 {menuItems.map((item) => (
                   <div
@@ -280,15 +284,17 @@ export default function Navbar() {
                     {item.submenu && item.submenu.length > 0 ? (
                       <>
                         <button
-                          className="flex justify-between items-center w-full text-left text-dark-gray"
+                          className="flex justify-between items-center w-full text-left text-dark-gray hover:text-primary transition-colors"
                           onClick={() => toggleMobileSubmenu(item.title)}
                         >
                           <div className="flex items-center">
-                            <span className="mr-2">{item.icon}</span>
+                            <span className="mr-2 text-primary">
+                              {item.icon}
+                            </span>
                             <span className="font-medium">{item.title}</span>
                           </div>
                           <FaAngleDown
-                            className={`w-4 h-4 transition-transform duration-200 ${
+                            className={`w-4 h-4 transition-transform duration-200 text-primary ${
                               expandedMobileItems.includes(item.title)
                                 ? "rotate-180"
                                 : ""
@@ -297,15 +303,15 @@ export default function Navbar() {
                         </button>
 
                         {expandedMobileItems.includes(item.title) && (
-                          <div className="ml-7 mt-3 space-y-3">
+                          <div className="ml-7 mt-3 space-y-3 pl-2 border-l-2 border-primary">
                             {item.submenu.map((subItem) => (
                               <Link
                                 key={subItem.title}
                                 href={subItem.path}
-                                className="flex items-center py-2 text-gray-700 hover:text-primary"
+                                className="flex items-center py-2 text-gray-700 hover:text-primary transition-colors"
                                 onClick={() => setIsMenuOpen(false)}
                               >
-                                <FaAngleRight className="w-3 h-3 mr-2" />
+                                <FaAngleRight className="w-3 h-3 mr-2 text-primary" />
                                 {subItem.title}
                               </Link>
                             ))}
@@ -315,10 +321,10 @@ export default function Navbar() {
                     ) : (
                       <Link
                         href={item.path}
-                        className="flex items-center text-dark-gray hover:text-primary"
+                        className="flex items-center text-dark-gray hover:text-primary transition-colors py-1"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        <span className="mr-2">{item.icon}</span>
+                        <span className="mr-2 text-primary">{item.icon}</span>
                         <span className="font-medium">{item.title}</span>
                       </Link>
                     )}
@@ -329,6 +335,19 @@ export default function Navbar() {
           </div>
         )}
       </div>
+
+      <style jsx global>{`
+        @keyframes slideInUp {
+          from {
+            transform: translateY(10%);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </header>
   );
 }

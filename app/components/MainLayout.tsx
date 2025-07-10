@@ -13,6 +13,7 @@ export default function MainLayout({
   const {} = useLanguage();
 
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -23,16 +24,26 @@ export default function MainLayout({
       document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
 
-    // Set it initially
+    // Function to check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Set them initially
     setVHVariable();
+    checkMobile();
 
     // Update on resize and orientation change
     window.addEventListener("resize", setVHVariable);
+    window.addEventListener("resize", checkMobile);
     window.addEventListener("orientationchange", setVHVariable);
+    window.addEventListener("orientationchange", checkMobile);
 
     return () => {
       window.removeEventListener("resize", setVHVariable);
+      window.removeEventListener("resize", checkMobile);
       window.removeEventListener("orientationchange", setVHVariable);
+      window.removeEventListener("orientationchange", checkMobile);
     };
   }, []);
 
@@ -45,12 +56,13 @@ export default function MainLayout({
       className="flex flex-col w-full relative max-w-full overflow-x-hidden"
       style={{
         minHeight: "calc(var(--vh, 1vh) * 100)",
+        paddingBottom: isMobile ? "env(safe-area-inset-bottom, 0px)" : "0",
       }}
     >
       <Navbar />
       <div className="flex-grow w-full max-w-full relative z-10">
-        <main className="w-full max-w-full overflow-x-hidden pt-16 md:pt-20 relative">
-          {children}
+        <main className="w-full max-w-full overflow-x-hidden pt-12 md:pt-16 px-4 md:px-6 relative">
+          <div className={isMobile ? "pb-6" : ""}>{children}</div>
         </main>
       </div>
       <Footer />

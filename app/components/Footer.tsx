@@ -11,16 +11,33 @@ import {
   FaWeixin,
   FaAngleDown,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "./LanguageContext";
 import { translations } from "../translations";
 
 export default function Footer() {
   const { language } = useLanguage();
   const t = translations[language];
+  const [isMobile, setIsMobile] = useState(false);
 
   // State for accordion-style mobile footer sections
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Function to check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Set initially
+    checkMobile();
+
+    // Update on resize
+    window.addEventListener("resize", checkMobile);
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
 
   const toggleSection = (section: string) => {
     setExpandedSections((prev) =>
@@ -59,14 +76,14 @@ export default function Footer() {
                 href="https://www.linkedin.com/company/seeds-financial-group"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:text-secondary"
+                className="text-primary hover:text-secondary transition-colors"
                 aria-label="LinkedIn"
               >
                 <FaLinkedin size={20} />
               </a>
               <a
                 href="#"
-                className="text-primary hover:text-secondary"
+                className="text-primary hover:text-secondary transition-colors"
                 aria-label="WeChat"
               >
                 <FaWeixin size={20} />
@@ -77,7 +94,7 @@ export default function Footer() {
           {/* Services - Mobile Accordion / Desktop Normal */}
           <div className="border-t md:border-t-0 py-2 md:py-0">
             <button
-              className="md:hidden w-full flex justify-between items-center font-bold text-lg py-2 text-primary"
+              className="md:hidden w-full flex justify-between items-center font-bold text-lg py-2 text-primary focus:outline-none"
               onClick={() => toggleSection("services")}
               aria-expanded={isSectionExpanded("services")}
             >
@@ -93,15 +110,15 @@ export default function Footer() {
             </h3>
             <ul
               className={`space-y-2 overflow-hidden transition-all duration-300 ${
-                isSectionExpanded("services") || window.innerWidth >= 768
+                isSectionExpanded("services") || !isMobile
                   ? "max-h-96"
-                  : "max-h-0 md:max-h-96"
+                  : "max-h-0"
               }`}
             >
               <li>
                 <Link
                   href="/services/critical-illness"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors"
+                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
                 >
                   {t.footer.services.criticalIllness}
                 </Link>
@@ -109,7 +126,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/services/education"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors"
+                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
                 >
                   {t.footer.services.education}
                 </Link>
@@ -117,7 +134,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/services/annuity"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors"
+                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
                 >
                   {t.footer.services.annuity}
                 </Link>
@@ -125,7 +142,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/services/medical"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors"
+                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
                 >
                   {t.footer.services.medical}
                 </Link>
@@ -133,7 +150,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/services/travel"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors"
+                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
                 >
                   {t.footer.services.travel}
                 </Link>
@@ -141,7 +158,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/services/life"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors"
+                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
                 >
                   {t.footer.services.life}
                 </Link>
@@ -152,7 +169,7 @@ export default function Footer() {
           {/* Contact Info - Mobile Accordion / Desktop Normal */}
           <div className="border-t md:border-t-0 py-2 md:py-0">
             <button
-              className="md:hidden w-full flex justify-between items-center font-bold text-lg py-2 text-primary"
+              className="md:hidden w-full flex justify-between items-center font-bold text-lg py-2 text-primary focus:outline-none"
               onClick={() => toggleSection("contact")}
               aria-expanded={isSectionExpanded("contact")}
             >
@@ -168,16 +185,16 @@ export default function Footer() {
             </h3>
             <ul
               className={`space-y-3 overflow-hidden transition-all duration-300 ${
-                isSectionExpanded("contact") || window.innerWidth >= 768
+                isSectionExpanded("contact") || !isMobile
                   ? "max-h-96"
-                  : "max-h-0 md:max-h-96"
+                  : "max-h-0"
               }`}
             >
               <li className="flex items-start">
                 <FaPhoneAlt className="mt-1 mr-2 text-primary flex-shrink-0" />
                 <a
                   href="tel:+85255304114"
-                  className="text-sm text-dark-gray hover:text-primary"
+                  className="text-sm text-dark-gray hover:text-primary transition-colors"
                 >
                   (852) 5530-4114
                 </a>
@@ -186,7 +203,7 @@ export default function Footer() {
                 <FaEnvelope className="mt-1 mr-2 text-primary flex-shrink-0" />
                 <a
                   href="mailto:hr@actiondoitnow.com"
-                  className="text-sm text-dark-gray hover:text-primary break-all"
+                  className="text-sm text-dark-gray hover:text-primary transition-colors break-all"
                 >
                   hr@actiondoitnow.com
                 </a>
@@ -204,7 +221,7 @@ export default function Footer() {
           {/* Service Hours - Mobile Accordion / Desktop Normal */}
           <div className="border-t md:border-t-0 py-2 md:py-0">
             <button
-              className="md:hidden w-full flex justify-between items-center font-bold text-lg py-2 text-primary"
+              className="md:hidden w-full flex justify-between items-center font-bold text-lg py-2 text-primary focus:outline-none"
               onClick={() => toggleSection("hours")}
               aria-expanded={isSectionExpanded("hours")}
             >
@@ -220,9 +237,7 @@ export default function Footer() {
             </h3>
             <ul
               className={`space-y-2 overflow-hidden transition-all duration-300 ${
-                isSectionExpanded("hours") || window.innerWidth >= 768
-                  ? "max-h-96"
-                  : "max-h-0 md:max-h-96"
+                isSectionExpanded("hours") || !isMobile ? "max-h-96" : "max-h-0"
               }`}
             >
               <li className="flex items-center">
