@@ -20,7 +20,6 @@ import { translations } from "../translations";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [expandedMobileItems, setExpandedMobileItems] = useState<string[]>([]);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const { language } = useLanguage();
@@ -215,12 +214,7 @@ export default function Navbar() {
           {/* Desktop Menu - Only render when language is loaded */}
           <nav className="hidden md:flex items-center space-x-6">
             {menuItems.map((item) => (
-              <div
-                key={item.title}
-                className="relative group"
-                onMouseEnter={() => setHoveredItem(item.title)}
-                onMouseLeave={() => setHoveredItem(null)}
-              >
+              <div key={item.title} className="relative group">
                 <Link
                   href={item.path}
                   className="flex items-center text-dark-gray hover:text-primary transition-colors py-2"
@@ -272,7 +266,10 @@ export default function Navbar() {
             <div className="px-4 py-2">
               <nav className="flex flex-col">
                 {menuItems.map((item) => (
-                  <div key={item.title} className="border-b border-gray-200 py-3">
+                  <div
+                    key={item.title}
+                    className="border-b border-gray-200 py-3"
+                  >
                     {item.submenu && item.submenu.length > 0 ? (
                       <>
                         <button

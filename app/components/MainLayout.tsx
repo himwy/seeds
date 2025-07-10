@@ -10,60 +10,50 @@ export default function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Remove unused variables and only keep what's needed for the component
   const {} = useLanguage();
 
-  // This prevents the hydration error with Next.js when using localStorage
-  const [mounted, setMounted] = React.useState(false);
-  
-  // State for managing mobile viewport adjustments
+  const [mounted, setMounted] = useState(false);
   const [viewportHeight, setViewportHeight] = useState(0);
-  
-  React.useEffect(() => {
+
+  useEffect(() => {
     setMounted(true);
-    
-    // Handle mobile viewport height adjustments
+
     const updateViewportHeight = () => {
       setViewportHeight(window.innerHeight);
     };
-    
-    // Set initial viewport height
+
     updateViewportHeight();
-    
-    // Update viewport height on resize
-    window.addEventListener('resize', updateViewportHeight);
-    
-    // Fix for mobile browsers' viewport issues
+
+    window.addEventListener("resize", updateViewportHeight);
+
     const fixMobileViewport = () => {
-      // Use a small timeout to ensure the browser has finished any UI adjustments
       setTimeout(() => {
         const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
       }, 100);
     };
-    
+
     fixMobileViewport();
-    window.addEventListener('resize', fixMobileViewport);
-    window.addEventListener('orientationchange', fixMobileViewport);
-    
+    window.addEventListener("resize", fixMobileViewport);
+    window.addEventListener("orientationchange", fixMobileViewport);
+
     return () => {
-      window.removeEventListener('resize', updateViewportHeight);
-      window.removeEventListener('resize', fixMobileViewport);
-      window.removeEventListener('orientationchange', fixMobileViewport);
+      window.removeEventListener("resize", updateViewportHeight);
+      window.removeEventListener("resize", fixMobileViewport);
+      window.removeEventListener("orientationchange", fixMobileViewport);
     };
   }, []);
 
-  // Shows a minimal layout until language preferences are loaded
   if (!mounted) {
-    return null; // Return nothing during SSR to prevent hydration mismatch
+    return null;
   }
 
   return (
-    <div 
-      className="flex flex-col min-h-screen" 
-      style={{ 
-        minHeight: viewportHeight > 0 ? `${viewportHeight}px` : '100vh',
-        height: 'calc(var(--vh, 1vh) * 100)'
+    <div
+      className="flex flex-col min-h-screen"
+      style={{
+        minHeight: viewportHeight > 0 ? `${viewportHeight}px` : "100vh",
+        height: "calc(var(--vh, 1vh) * 100)",
       }}
     >
       <Navbar />

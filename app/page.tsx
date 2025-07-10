@@ -193,13 +193,22 @@ export default function Home() {
         }}
       >
         <div className="container mx-auto px-4 text-center md:text-left py-12">
-          <div className="max-w-2xl mx-auto md:mx-0" data-aos="fade-right" data-aos-delay="100">
+          <div
+            className="max-w-2xl mx-auto md:mx-0"
+            data-aos="fade-right"
+            data-aos-delay="100"
+          >
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
               {t.hero.title}
             </h1>
-            <p className="text-lg md:text-xl text-white mb-8">{t.hero.description}</p>
+            <p className="text-lg md:text-xl text-white mb-8">
+              {t.hero.description}
+            </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Link href="/services" className="btn-primary text-center w-full sm:w-auto">
+              <Link
+                href="/services"
+                className="btn-primary text-center w-full sm:w-auto"
+              >
                 {t.hero.exploreButton}
               </Link>
               <Link
@@ -230,7 +239,9 @@ export default function Home() {
               <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
                 {t.about.title}
               </h2>
-              <p className="text-dark-gray mb-4 md:mb-6">{t.about.description1}</p>
+              <p className="text-dark-gray mb-4 md:mb-6">
+                {t.about.description1}
+              </p>
               <p className="text-dark-gray mb-6">{t.about.description2}</p>
               <div className="text-center md:text-left">
                 <Link href="/about" className="btn-primary inline-block">
@@ -399,7 +410,9 @@ export default function Home() {
       {/* Promotional Offer Section - Mobile optimized */}
       <section className="py-8 md:py-10 bg-primary text-white">
         <div className="container mx-auto px-4 text-center" data-aos="zoom-in">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{t.promo.title}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">
+            {t.promo.title}
+          </h2>
           <p className="text-base md:text-xl mb-6 max-w-3xl mx-auto">
             {t.promo.description}
           </p>
@@ -420,9 +433,14 @@ export default function Home() {
               <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
                 {t.contact.title}
               </h2>
-              <p className="text-dark-gray mb-6 text-center md:text-left">{t.contact.description}</p>
+              <p className="text-dark-gray mb-6 text-center md:text-left">
+                {t.contact.description}
+              </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <Link href="/contact" className="btn-primary inline-block w-full sm:w-auto text-center">
+                <Link
+                  href="/contact"
+                  className="btn-primary inline-block w-full sm:w-auto text-center"
+                >
                   {t.contact.contactButton}
                 </Link>
                 <a

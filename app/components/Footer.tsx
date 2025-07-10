@@ -30,7 +30,8 @@ export default function Footer() {
     );
   };
 
-  const isSectionExpanded = (section: string) => expandedSections.includes(section);
+  const isSectionExpanded = (section: string) =>
+    expandedSections.includes(section);
 
   return (
     <footer className="bg-white pt-8 md:pt-16 pb-6 border-t border-gray-200">
