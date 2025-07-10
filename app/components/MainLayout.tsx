@@ -61,7 +61,7 @@ export default function MainLayout({
     >
       <Navbar />
       <div className="flex-grow w-full max-w-full relative z-10">
-        <main className="w-full max-w-full overflow-x-hidden pt-12 md:pt-16 relative">
+        <main className="w-full max-w-full overflow-x-hidden pt-0 relative">
           {children}
         </main>
       </div>

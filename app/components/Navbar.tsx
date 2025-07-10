@@ -261,15 +261,14 @@ export default function Navbar() {
         {isMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className="md:hidden fixed left-0 right-0 bg-white z-50 overflow-y-auto top-0 pt-16 shadow-lg"
+            className="md:hidden fixed left-0 right-0 bg-white z-50 overflow-y-auto top-0 shadow-lg"
             style={{
               width: "100vw",
               marginLeft: "calc(50% - 50vw)",
               top: isScrolled ? "60px" : "68px",
-              height: "calc(100vh - 60px)",
+              height: `calc(100vh - ${isScrolled ? "60px" : "68px"})`,
               maxHeight: "100vh",
-              borderTopLeftRadius: "16px",
-              borderTopRightRadius: "16px",
+              borderTopWidth: "0",
               animation: "slideInUp 0.3s ease-out forwards",
             }}
           >
