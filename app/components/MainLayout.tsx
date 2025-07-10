@@ -50,7 +50,7 @@ export default function MainLayout({
 
   return (
     <div
-      className="flex flex-col min-h-screen"
+      className="flex flex-col min-h-screen w-full"
       style={{
         minHeight: viewportHeight > 0 ? `${viewportHeight}px` : "100vh",
         height: "calc(var(--vh, 1vh) * 100)",
@@ -58,7 +58,7 @@ export default function MainLayout({
     >
       <Navbar />
       <div className="flex flex-grow w-full">
-        <main className="flex-grow transition-all duration-300 mt-16 md:mt-20 w-full px-4 md:px-6 overflow-x-hidden">
+        <main className="flex-grow transition-all duration-300 mt-16 md:mt-20 w-full px-0 md:px-6 overflow-x-hidden">
           {children}
         </main>
       </div>

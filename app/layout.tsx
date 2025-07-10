@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     icon: [{ url: "/assets/Seeds_Icon_Trans.png" }],
     apple: [{ url: "/assets/Seeds_Icon_Trans.png" }],
   },
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
 };
 
 export default function RootLayout({
