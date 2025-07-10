@@ -53,14 +53,17 @@ export default function MainLayout({
 
   return (
     <div
-      className="flex flex-col w-full relative max-w-full overflow-x-hidden bg-white"
+      className="flex flex-col w-full min-w-full relative max-w-full overflow-x-hidden bg-white"
       style={{
         minHeight: "calc(var(--vh, 1vh) * 100)",
         paddingBottom: isMobile ? "env(safe-area-inset-bottom, 0px)" : "0",
+        width: "100vw",
+        margin: 0,
+        padding: 0,
       }}
     >
       <Navbar />
-      <div className="flex-grow w-full max-w-full relative z-10">
+      <div className="flex-grow w-full max-w-full relative z-10 overflow-x-hidden">
         <main className="w-full max-w-full overflow-x-hidden pt-0 relative">
           {children}
         </main>

@@ -201,9 +201,9 @@ export default function Home() {
   // Mobile specific design
   if (isMobile) {
     return (
-      <div className="w-full overflow-x-hidden">
+      <div className="w-full overflow-x-hidden min-w-full">
         {/* Mobile Hero Section */}
-        <section className="bg-primary text-white pt-14 pb-8 px-6">
+        <section className="bg-primary text-white pt-14 pb-8 px-6 w-full" style={{ width: "100%", margin: 0 }}>
           <div className="text-center mb-6">
             <h1 className="text-3xl font-bold mb-4">{t.hero.title}</h1>
             <p className="text-lg mb-6">{t.hero.description}</p>
@@ -235,7 +235,7 @@ export default function Home() {
         </section>
 
         {/* Mobile About Section */}
-        <section className="py-10 px-6 bg-white">
+        <section className="py-10 px-6 bg-white w-full" style={{ width: "100%", margin: 0 }}>
           <div className="flex flex-col items-center text-center mb-6">
             <Image
               src="/assets/Seeds_Icon_Trans.png"
@@ -264,7 +264,7 @@ export default function Home() {
         </section>
 
         {/* Mobile Services Section - Horizontal Scrolling Cards */}
-        <section className="py-10 px-6 bg-light-gray">
+        <section className="py-10 px-6 bg-light-gray w-full" style={{ width: "100%", margin: 0 }}>
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-4 text-primary">
               {t.services.title}
@@ -398,7 +398,7 @@ export default function Home() {
         </section>
 
         {/* Mobile Promo Section */}
-        <section className="py-8 px-6 bg-primary text-white">
+        <section className="py-8 px-6 bg-primary text-white w-full" style={{ width: "100%", margin: 0 }}>
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-3">{t.promo.title}</h2>
             <p className="text-base mb-6">{t.promo.description}</p>
@@ -412,7 +412,7 @@ export default function Home() {
         </section>
 
         {/* Mobile Contact Section */}
-        <section className="py-10 px-6 bg-white">
+        <section className="py-10 px-6 bg-white w-full" style={{ width: "100%", margin: 0 }}>
           <h2 className="text-2xl font-bold mb-4 text-primary text-center">
             {t.contact.title}
           </h2>
