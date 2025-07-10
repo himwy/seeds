@@ -467,20 +467,24 @@ export default function Home() {
     <div className="overflow-x-hidden w-full">
       {/* Hero Section */}
       <section
-        className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden"
+        className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden bg-black"
         style={{
           backgroundImage:
             "linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/Lee_Garden 5.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           width: "100%",
+          margin: 0,
+          padding: 0,
         }}
+        data-aos="fade-in"
+        data-aos-duration="1000"
       >
         <div className="container mx-auto px-6 text-center md:text-left py-12 z-10 relative">
           <div
             className="max-w-2xl mx-auto md:mx-0"
-            data-aos="fade-right"
-            data-aos-delay="100"
+            data-aos="fade-up"
+            data-aos-delay="200"
           >
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
               {t.hero.title}
@@ -492,12 +496,16 @@ export default function Home() {
               <Link
                 href="/services"
                 className="btn-primary text-center w-full sm:w-auto"
+                data-aos="fade-up"
+                data-aos-delay="300"
               >
                 {t.hero.exploreButton}
               </Link>
               <Link
                 href="/contact"
                 className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary transition-all duration-300 px-6 py-3 rounded-md font-semibold text-center w-full sm:w-auto"
+                data-aos="fade-up"
+                data-aos-delay="400"
               >
                 {t.hero.contactButton}
               </Link>
@@ -510,7 +518,11 @@ export default function Home() {
       <section className="py-12 md:py-20 bg-light-gray w-full">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <div className="w-full md:w-1/2" data-aos="fade-right">
+            <div
+              className="w-full md:w-1/2"
+              data-aos="fade-right"
+              data-aos-duration="1000"
+            >
               <Image
                 src="/assets/Seeds_Icon_Trans.png"
                 alt="Seeds Financial Group"
@@ -519,7 +531,11 @@ export default function Home() {
                 className="mx-auto md:mx-0"
               />
             </div>
-            <div className="w-full md:w-1/2 mt-6 md:mt-0" data-aos="fade-left">
+            <div
+              className="w-full md:w-1/2 mt-6 md:mt-0"
+              data-aos="fade-left"
+              data-aos-duration="1000"
+            >
               <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
                 {t.about.title}
               </h2>
@@ -528,7 +544,12 @@ export default function Home() {
               </p>
               <p className="text-dark-gray mb-6">{t.about.description2}</p>
               <div className="text-center md:text-left">
-                <Link href="/about" className="btn-primary inline-block">
+                <Link
+                  href="/about"
+                  className="btn-primary inline-block"
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                >
                   {t.about.learnMoreButton}
                 </Link>
               </div>
@@ -540,7 +561,11 @@ export default function Home() {
       {/* Services Section */}
       <section className="py-12 md:py-20 w-full">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-10 md:mb-16" data-aos="fade-up">
+          <div
+            className="text-center mb-10 md:mb-16"
+            data-aos="fade-up"
+            data-aos-duration="800"
+          >
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
               {t.services.title}
             </h2>

@@ -11,27 +11,36 @@ export default function AnimationProvider({
 }) {
   useEffect(() => {
     AOS.init({
-      duration: 400, // Even shorter duration for subtle animations
+      duration: 800, // Slightly longer for smoother animations
       once: true, // Elements will only animate once
       mirror: false, // Don't mirror animations when scrolling back up
-      offset: 20, // Reduced offset to minimize gaps, especially on mobile
+      offset: 0, // Removed offset to eliminate gaps
       easing: "ease-out",
       // Enable animations on mobile but use mobile-specific settings
       disable: false,
-      // Responsive settings to make mobile animations more subtle
-      startEvent: "DOMContentLoaded",
+      // Improved animation behavior
+      anchorPlacement: "top-bottom", // Animate when the top of the element reaches the bottom of the viewport
+      // Make animations feel more natural and coordinated
+      delay: 0,
     });
 
     // Refresh AOS when window is resized
-    window.addEventListener("resize", () => {
+    const refreshAOS = () => {
       AOS.refresh();
-    });
+    };
 
-    // Clean up event listener
+    window.addEventListener("resize", refreshAOS);
+    window.addEventListener("orientationchange", refreshAOS);
+
+    // Add a small delay to refresh AOS after load to ensure all elements are properly sized
+    setTimeout(() => {
+      AOS.refresh();
+    }, 100);
+
+    // Clean up event listeners
     return () => {
-      window.removeEventListener("resize", () => {
-        AOS.refresh();
-      });
+      window.removeEventListener("resize", refreshAOS);
+      window.removeEventListener("orientationchange", refreshAOS);
     };
   }, []);
 
