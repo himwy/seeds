@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaBars, FaTimes, FaAngleDown } from "react-icons/fa";
+import { FaBars, FaTimes, FaAngleDown, FaAngleRight } from "react-icons/fa";
 import {
   FaInfoCircle,
   FaLightbulb,
@@ -21,6 +21,8 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [expandedMobileItems, setExpandedMobileItems] = useState<string[]>([]);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const { language } = useLanguage();
   const t = translations[language];
 
@@ -145,15 +147,46 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
+
+    // Close mobile menu when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node) &&
+        isMenuOpen
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Lock body scroll when mobile menu is open
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "";
     };
-  }, []);
+  }, [isMenuOpen]);
+
+  const toggleMobileSubmenu = (title: string) => {
+    setExpandedMobileItems((prev) =>
+      prev.includes(title)
+        ? prev.filter((item) => item !== title)
+        : [...prev, title]
+    );
+  };
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white ${
-        isScrolled ? "shadow-md py-2" : "py-4"
+        isScrolled ? "shadow-md py-2" : "py-3"
       }`}
     >
       <div className="container mx-auto px-4">
@@ -164,15 +197,15 @@ export default function Navbar() {
               <Image
                 src="/assets/Seeds_Icon_Trans.png"
                 alt="Seeds Financial Group"
-                width={50}
-                height={50}
+                width={40}
+                height={40}
                 className="mr-2"
               />
               <div>
-                <h1 className="text-primary font-bold text-xl">
+                <h1 className="text-primary font-bold text-lg md:text-xl">
                   Seeds Financial Group
                 </h1>
-                <p className="text-secondary text-xs">
+                <p className="text-secondary text-xs hidden sm:block">
                   {t.navbar.companyTagline}
                 </p>
               </div>
@@ -190,11 +223,11 @@ export default function Navbar() {
               >
                 <Link
                   href={item.path}
-                  className="flex items-center text-dark-gray hover:text-primary transition-colors"
+                  className="flex items-center text-dark-gray hover:text-primary transition-colors py-2"
                 >
                   <span className="mr-1">{item.title}</span>
                   {item.submenu && item.submenu.length > 0 && (
-                    <FaAngleDown className="w-3 h-3 mt-1" />
+                    <FaAngleDown className="w-3 h-3" />
                   )}
                 </Link>
 
@@ -220,8 +253,9 @@ export default function Navbar() {
           <div className="md:hidden flex items-center">
             <LanguageSwitcher />
             <button
-              className="text-dark-gray focus:outline-none ml-2"
+              className="text-dark-gray focus:outline-none ml-2 p-2"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
@@ -230,48 +264,64 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 pb-4">
-            <nav className="flex flex-col space-y-3">
-              {menuItems.map((item) => (
-                <div key={item.title}>
-                  <Link
-                    href={item.path}
-                    className="flex justify-between items-center text-dark-gray hover:text-primary transition-colors"
-                    onClick={() => {
-                      if (!item.submenu || item.submenu.length === 0) {
-                        setIsMenuOpen(false);
-                      } else {
-                        setHoveredItem(
-                          hoveredItem === item.title ? null : item.title
-                        );
-                      }
-                    }}
-                  >
-                    <span>{item.title}</span>
-                    {item.submenu && item.submenu.length > 0 && (
-                      <FaAngleDown className="w-4 h-4" />
-                    )}
-                  </Link>
+          <div
+            ref={mobileMenuRef}
+            className="md:hidden fixed inset-0 bg-white z-50 pt-16 overflow-y-auto"
+            style={{ top: isScrolled ? "60px" : "68px" }}
+          >
+            <div className="px-4 py-2">
+              <nav className="flex flex-col">
+                {menuItems.map((item) => (
+                  <div key={item.title} className="border-b border-gray-200 py-3">
+                    {item.submenu && item.submenu.length > 0 ? (
+                      <>
+                        <button
+                          className="flex justify-between items-center w-full text-left text-dark-gray"
+                          onClick={() => toggleMobileSubmenu(item.title)}
+                        >
+                          <div className="flex items-center">
+                            <span className="mr-2">{item.icon}</span>
+                            <span className="font-medium">{item.title}</span>
+                          </div>
+                          <FaAngleDown
+                            className={`w-4 h-4 transition-transform duration-200 ${
+                              expandedMobileItems.includes(item.title)
+                                ? "rotate-180"
+                                : ""
+                            }`}
+                          />
+                        </button>
 
-                  {hoveredItem === item.title &&
-                    item.submenu &&
-                    item.submenu.length > 0 && (
-                      <div className="ml-4 mt-2 space-y-2">
-                        {item.submenu.map((subItem) => (
-                          <Link
-                            key={subItem.title}
-                            href={subItem.path}
-                            className="block py-1 text-sm text-gray-700 hover:text-primary"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            {subItem.title}
-                          </Link>
-                        ))}
-                      </div>
+                        {expandedMobileItems.includes(item.title) && (
+                          <div className="ml-7 mt-3 space-y-3">
+                            {item.submenu.map((subItem) => (
+                              <Link
+                                key={subItem.title}
+                                href={subItem.path}
+                                className="flex items-center py-2 text-gray-700 hover:text-primary"
+                                onClick={() => setIsMenuOpen(false)}
+                              >
+                                <FaAngleRight className="w-3 h-3 mr-2" />
+                                {subItem.title}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <Link
+                        href={item.path}
+                        className="flex items-center text-dark-gray hover:text-primary"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <span className="mr-2">{item.icon}</span>
+                        <span className="font-medium">{item.title}</span>
+                      </Link>
                     )}
-                </div>
-              ))}
-            </nav>
+                  </div>
+                ))}
+              </nav>
+            </div>
           </div>
         )}
       </div>

@@ -182,29 +182,29 @@ export default function Home() {
 
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero Section with improved mobile layout */}
       <section
-        className="relative h-screen flex items-center"
+        className="relative min-h-[85vh] md:h-screen flex items-center"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Lee_Garden 5.jpg')",
+            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Lee_Garden 5.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="container mx-auto px-4 text-center md:text-left">
-          <div className="max-w-2xl" data-aos="fade-right" data-aos-delay="100">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <div className="container mx-auto px-4 text-center md:text-left py-12">
+          <div className="max-w-2xl mx-auto md:mx-0" data-aos="fade-right" data-aos-delay="100">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
               {t.hero.title}
             </h1>
-            <p className="text-xl text-white mb-8">{t.hero.description}</p>
+            <p className="text-lg md:text-xl text-white mb-8">{t.hero.description}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Link href="/services" className="btn-primary text-center">
+              <Link href="/services" className="btn-primary text-center w-full sm:w-auto">
                 {t.hero.exploreButton}
               </Link>
               <Link
                 href="/contact"
-                className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary transition-all duration-300 px-6 py-3 rounded-md font-semibold text-center"
+                className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary transition-all duration-300 px-6 py-3 rounded-md font-semibold text-center w-full sm:w-auto"
               >
                 {t.hero.contactButton}
               </Link>
@@ -213,38 +213,40 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Introduction Section */}
-      <section className="section-padding bg-light-gray">
+      {/* Introduction Section with improved spacing for mobile */}
+      <section className="py-12 md:py-20 bg-light-gray">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="md:w-1/2" data-aos="fade-right">
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <div className="w-full md:w-1/2" data-aos="fade-right">
               <Image
                 src="/assets/Seeds_Icon_Trans.png"
                 alt="Seeds Financial Group"
-                width={200}
-                height={200}
+                width={180}
+                height={180}
                 className="mx-auto md:mx-0"
               />
             </div>
-            <div className="md:w-1/2" data-aos="fade-left">
-              <h2 className="text-3xl font-bold mb-6 text-primary">
+            <div className="w-full md:w-1/2 mt-6 md:mt-0" data-aos="fade-left">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
                 {t.about.title}
               </h2>
-              <p className="text-dark-gray mb-6">{t.about.description1}</p>
+              <p className="text-dark-gray mb-4 md:mb-6">{t.about.description1}</p>
               <p className="text-dark-gray mb-6">{t.about.description2}</p>
-              <Link href="/about" className="btn-primary inline-block">
-                {t.about.learnMoreButton}
-              </Link>
+              <div className="text-center md:text-left">
+                <Link href="/about" className="btn-primary inline-block">
+                  {t.about.learnMoreButton}
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="section-padding">
+      {/* Services Section with better mobile card layout */}
+      <section className="py-12 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16" data-aos="fade-up">
-            <h2 className="text-3xl font-bold mb-4 text-primary">
+          <div className="text-center mb-10 md:mb-16" data-aos="fade-up">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
               {t.services.title}
             </h2>
             <p className="text-dark-gray max-w-3xl mx-auto">
@@ -252,25 +254,25 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {/* Critical Illness Protection */}
             <div
-              className="card bg-white p-8"
+              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <FaShieldAlt className="text-primary text-2xl" />
+              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
+                <FaShieldAlt className="text-primary text-xl md:text-2xl" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-primary">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.criticalIllness.title}
               </h3>
-              <p className="text-dark-gray mb-4">
+              <p className="text-dark-gray mb-4 text-sm md:text-base">
                 {t.services.criticalIllness.description}
               </p>
               <Link
                 href="/services/critical-illness"
-                className="text-primary font-medium hover:underline"
+                className="text-primary font-medium hover:underline inline-block"
               >
                 {t.services.criticalIllness.learnMore}
               </Link>
@@ -278,22 +280,22 @@ export default function Home() {
 
             {/* Education Plan */}
             <div
-              className="card bg-white p-8"
+              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <FaGraduationCap className="text-primary text-2xl" />
+              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
+                <FaGraduationCap className="text-primary text-xl md:text-2xl" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-primary">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.education.title}
               </h3>
-              <p className="text-dark-gray mb-4">
+              <p className="text-dark-gray mb-4 text-sm md:text-base">
                 {t.services.education.description}
               </p>
               <Link
                 href="/services/education"
-                className="text-primary font-medium hover:underline"
+                className="text-primary font-medium hover:underline inline-block"
               >
                 {t.services.education.learnMore}
               </Link>
@@ -301,22 +303,22 @@ export default function Home() {
 
             {/* Annuity Plan */}
             <div
-              className="card bg-white p-8"
+              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
               data-aos="fade-up"
               data-aos-delay="300"
             >
-              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <FaMoneyBillWave className="text-primary text-2xl" />
+              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
+                <FaMoneyBillWave className="text-primary text-xl md:text-2xl" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-primary">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.annuity.title}
               </h3>
-              <p className="text-dark-gray mb-4">
+              <p className="text-dark-gray mb-4 text-sm md:text-base">
                 {t.services.annuity.description}
               </p>
               <Link
                 href="/services/annuity"
-                className="text-primary font-medium hover:underline"
+                className="text-primary font-medium hover:underline inline-block"
               >
                 {t.services.annuity.learnMore}
               </Link>
@@ -324,22 +326,22 @@ export default function Home() {
 
             {/* Medical Protection */}
             <div
-              className="card bg-white p-8"
+              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
               data-aos="fade-up"
               data-aos-delay="400"
             >
-              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <FaMedkit className="text-primary text-2xl" />
+              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
+                <FaMedkit className="text-primary text-xl md:text-2xl" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-primary">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.medical.title}
               </h3>
-              <p className="text-dark-gray mb-4">
+              <p className="text-dark-gray mb-4 text-sm md:text-base">
                 {t.services.medical.description}
               </p>
               <Link
                 href="/services/medical"
-                className="text-primary font-medium hover:underline"
+                className="text-primary font-medium hover:underline inline-block"
               >
                 {t.services.medical.learnMore}
               </Link>
@@ -347,22 +349,22 @@ export default function Home() {
 
             {/* Travel Insurance */}
             <div
-              className="card bg-white p-8"
+              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
               data-aos="fade-up"
               data-aos-delay="500"
             >
-              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <FaPlane className="text-primary text-2xl" />
+              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
+                <FaPlane className="text-primary text-xl md:text-2xl" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-primary">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.travel.title}
               </h3>
-              <p className="text-dark-gray mb-4">
+              <p className="text-dark-gray mb-4 text-sm md:text-base">
                 {t.services.travel.description}
               </p>
               <Link
                 href="/services/travel"
-                className="text-primary font-medium hover:underline"
+                className="text-primary font-medium hover:underline inline-block"
               >
                 {t.services.travel.learnMore}
               </Link>
@@ -370,22 +372,22 @@ export default function Home() {
 
             {/* Life Insurance */}
             <div
-              className="card bg-white p-8"
+              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
               data-aos="fade-up"
               data-aos-delay="600"
             >
-              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <FaHeart className="text-primary text-2xl" />
+              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
+                <FaHeart className="text-primary text-xl md:text-2xl" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-primary">
+              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.life.title}
               </h3>
-              <p className="text-dark-gray mb-4">
+              <p className="text-dark-gray mb-4 text-sm md:text-base">
                 {t.services.life.description}
               </p>
               <Link
                 href="/services/life"
-                className="text-primary font-medium hover:underline"
+                className="text-primary font-medium hover:underline inline-block"
               >
                 {t.services.life.learnMore}
               </Link>
@@ -394,60 +396,60 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Promotional Offer Section */}
-      <section className="py-8 bg-primary text-white">
+      {/* Promotional Offer Section - Mobile optimized */}
+      <section className="py-8 md:py-10 bg-primary text-white">
         <div className="container mx-auto px-4 text-center" data-aos="zoom-in">
-          <h2 className="text-3xl font-bold mb-4">{t.promo.title}</h2>
-          <p className="text-xl mb-6 max-w-3xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{t.promo.title}</h2>
+          <p className="text-base md:text-xl mb-6 max-w-3xl mx-auto">
             {t.promo.description}
           </p>
           <Link
             href="/iiqe"
-            className="bg-accent hover:bg-opacity-90 transition-colors text-dark-gray font-bold py-3 px-8 rounded-md inline-block"
+            className="bg-accent hover:bg-opacity-90 transition-colors text-dark-gray font-bold py-3 px-6 md:px-8 rounded-md inline-block"
           >
             {t.promo.registerButton}
           </Link>
         </div>
       </section>
 
-      {/* Contact CTA Section */}
-      <section className="py-16 bg-light-gray">
+      {/* Contact CTA Section - Improved mobile layout */}
+      <section className="py-12 md:py-16 bg-light-gray">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="md:w-1/2" data-aos="fade-right">
-              <h2 className="text-3xl font-bold mb-6 text-primary">
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <div className="w-full md:w-1/2" data-aos="fade-right">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
                 {t.contact.title}
               </h2>
-              <p className="text-dark-gray mb-6">{t.contact.description}</p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/contact" className="btn-primary inline-block">
+              <p className="text-dark-gray mb-6 text-center md:text-left">{t.contact.description}</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <Link href="/contact" className="btn-primary inline-block w-full sm:w-auto text-center">
                   {t.contact.contactButton}
                 </Link>
                 <a
                   href="tel:85255304114"
-                  className="bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 px-6 py-3 rounded-md font-semibold text-center"
+                  className="bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 px-6 py-3 rounded-md font-semibold text-center w-full sm:w-auto"
                 >
                   {t.contact.callButton}
                 </a>
               </div>
             </div>
-            <div className="md:w-1/2" data-aos="fade-left">
-              <div className="bg-white p-8 rounded-lg shadow-md">
+            <div className="w-full md:w-1/2 mt-8 md:mt-0" data-aos="fade-left">
+              <div className="bg-white p-6 md:p-8 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4 text-primary">
                   {t.contact.serviceHours}
                 </h3>
                 <ul className="space-y-4">
-                  <li className="flex justify-between">
+                  <li className="flex flex-col sm:flex-row sm:justify-between">
                     <span className="font-medium">
                       {t.contact.mondayToFriday}
                     </span>
                     <span>{t.contact.mondayToFridayHours}</span>
                   </li>
-                  <li className="flex justify-between">
+                  <li className="flex flex-col sm:flex-row sm:justify-between">
                     <span className="font-medium">{t.contact.saturday}</span>
                     <span>{t.contact.saturdayHours}</span>
                   </li>
-                  <li className="flex justify-between">
+                  <li className="flex flex-col sm:flex-row sm:justify-between">
                     <span className="font-medium">{t.contact.evenings}</span>
                     <span>{t.contact.eveningHours}</span>
                   </li>
@@ -455,7 +457,7 @@ export default function Home() {
                 <div className="mt-6 pt-6 border-t">
                   <p className="text-dark-gray">
                     <strong>{t.contact.address}</strong>{" "}
-                    {t.contact.addressValue}
+                    <span className="block mt-1">{t.contact.addressValue}</span>
                   </p>
                 </div>
               </div>

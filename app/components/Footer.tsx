@@ -9,7 +9,9 @@ import {
   FaClock,
   FaLinkedin,
   FaWeixin,
+  FaAngleDown,
 } from "react-icons/fa";
+import { useState } from "react";
 import { useLanguage } from "./LanguageContext";
 import { translations } from "../translations";
 
@@ -17,12 +19,25 @@ export default function Footer() {
   const { language } = useLanguage();
   const t = translations[language];
 
+  // State for accordion-style mobile footer sections
+  const [expandedSections, setExpandedSections] = useState<string[]>([]);
+
+  const toggleSection = (section: string) => {
+    setExpandedSections((prev) =>
+      prev.includes(section)
+        ? prev.filter((item) => item !== section)
+        : [...prev, section]
+    );
+  };
+
+  const isSectionExpanded = (section: string) => expandedSections.includes(section);
+
   return (
-    <footer className="bg-white pt-16 pb-8 border-t border-gray-200">
+    <footer className="bg-white pt-8 md:pt-16 pb-6 border-t border-gray-200">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-8">
           {/* Company Info */}
-          <div>
+          <div className="py-2 md:py-0">
             <div className="flex items-center mb-4">
               <Image
                 src="/assets/Seeds_Icon_Trans.png"
@@ -44,21 +59,44 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-secondary"
+                aria-label="LinkedIn"
               >
                 <FaLinkedin size={20} />
               </a>
-              <a href="#" className="text-primary hover:text-secondary">
+              <a
+                href="#"
+                className="text-primary hover:text-secondary"
+                aria-label="WeChat"
+              >
                 <FaWeixin size={20} />
               </a>
             </div>
           </div>
 
-          {/* Services */}
-          <div>
-            <h3 className="font-bold text-lg mb-4 text-primary">
+          {/* Services - Mobile Accordion / Desktop Normal */}
+          <div className="border-t md:border-t-0 py-2 md:py-0">
+            <button
+              className="md:hidden w-full flex justify-between items-center font-bold text-lg py-2 text-primary"
+              onClick={() => toggleSection("services")}
+              aria-expanded={isSectionExpanded("services")}
+            >
+              {t.footer.ourServices}
+              <FaAngleDown
+                className={`transition-transform duration-200 ${
+                  isSectionExpanded("services") ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            <h3 className="hidden md:block font-bold text-lg mb-4 text-primary">
               {t.footer.ourServices}
             </h3>
-            <ul className="space-y-2">
+            <ul
+              className={`space-y-2 overflow-hidden transition-all duration-300 ${
+                isSectionExpanded("services") || window.innerWidth >= 768
+                  ? "max-h-96"
+                  : "max-h-0 md:max-h-96"
+              }`}
+            >
               <li>
                 <Link
                   href="/services/critical-illness"
@@ -110,24 +148,50 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div>
-            <h3 className="font-bold text-lg mb-4 text-primary">
+          {/* Contact Info - Mobile Accordion / Desktop Normal */}
+          <div className="border-t md:border-t-0 py-2 md:py-0">
+            <button
+              className="md:hidden w-full flex justify-between items-center font-bold text-lg py-2 text-primary"
+              onClick={() => toggleSection("contact")}
+              aria-expanded={isSectionExpanded("contact")}
+            >
+              {t.footer.contactUs}
+              <FaAngleDown
+                className={`transition-transform duration-200 ${
+                  isSectionExpanded("contact") ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            <h3 className="hidden md:block font-bold text-lg mb-4 text-primary">
               {t.footer.contactUs}
             </h3>
-            <ul className="space-y-3">
+            <ul
+              className={`space-y-3 overflow-hidden transition-all duration-300 ${
+                isSectionExpanded("contact") || window.innerWidth >= 768
+                  ? "max-h-96"
+                  : "max-h-0 md:max-h-96"
+              }`}
+            >
               <li className="flex items-start">
-                <FaPhoneAlt className="mt-1 mr-2 text-primary" />
-                <span className="text-sm text-dark-gray">(852) 5530-4114</span>
+                <FaPhoneAlt className="mt-1 mr-2 text-primary flex-shrink-0" />
+                <a
+                  href="tel:+85255304114"
+                  className="text-sm text-dark-gray hover:text-primary"
+                >
+                  (852) 5530-4114
+                </a>
               </li>
               <li className="flex items-start">
-                <FaEnvelope className="mt-1 mr-2 text-primary" />
-                <span className="text-sm text-dark-gray">
+                <FaEnvelope className="mt-1 mr-2 text-primary flex-shrink-0" />
+                <a
+                  href="mailto:hr@actiondoitnow.com"
+                  className="text-sm text-dark-gray hover:text-primary break-all"
+                >
                   hr@actiondoitnow.com
-                </span>
+                </a>
               </li>
               <li className="flex items-start">
-                <FaMapMarkerAlt className="mt-1 mr-2 text-primary" />
+                <FaMapMarkerAlt className="mt-1 mr-2 text-primary flex-shrink-0" />
                 <span className="text-sm text-dark-gray">
                   Caroline Centre, Lee Gardens Two, 28, Yun Ping Road, Causeway
                   Bay, Hong Kong
@@ -136,14 +200,32 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Service Hours */}
-          <div>
-            <h3 className="font-bold text-lg mb-4 text-primary">
+          {/* Service Hours - Mobile Accordion / Desktop Normal */}
+          <div className="border-t md:border-t-0 py-2 md:py-0">
+            <button
+              className="md:hidden w-full flex justify-between items-center font-bold text-lg py-2 text-primary"
+              onClick={() => toggleSection("hours")}
+              aria-expanded={isSectionExpanded("hours")}
+            >
+              {t.footer.serviceHours}
+              <FaAngleDown
+                className={`transition-transform duration-200 ${
+                  isSectionExpanded("hours") ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            <h3 className="hidden md:block font-bold text-lg mb-4 text-primary">
               {t.footer.serviceHours}
             </h3>
-            <ul className="space-y-2">
+            <ul
+              className={`space-y-2 overflow-hidden transition-all duration-300 ${
+                isSectionExpanded("hours") || window.innerWidth >= 768
+                  ? "max-h-96"
+                  : "max-h-0 md:max-h-96"
+              }`}
+            >
               <li className="flex items-center">
-                <FaClock className="mr-2 text-primary" />
+                <FaClock className="mr-2 text-primary flex-shrink-0" />
                 <div>
                   <p className="text-sm font-semibold text-primary">
                     {t.footer.weekdays}
@@ -152,7 +234,7 @@ export default function Footer() {
                 </div>
               </li>
               <li className="flex items-center">
-                <FaClock className="mr-2 text-primary" />
+                <FaClock className="mr-2 text-primary flex-shrink-0" />
                 <div>
                   <p className="text-sm font-semibold text-primary">
                     {t.footer.saturday}
@@ -161,7 +243,7 @@ export default function Footer() {
                 </div>
               </li>
               <li className="flex items-center">
-                <FaClock className="mr-2 text-primary" />
+                <FaClock className="mr-2 text-primary flex-shrink-0" />
                 <div>
                   <p className="text-sm font-semibold text-primary">
                     {t.footer.evenings}
@@ -175,9 +257,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 mt-12 pt-8">
+        <div className="border-t border-gray-200 mt-6 md:mt-12 pt-6 md:pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-dark-gray mb-4 md:mb-0">
+            <p className="text-sm text-dark-gray mb-4 md:mb-0 text-center md:text-left">
               &copy; {new Date().getFullYear()} Seeds Financial Group.{" "}
               {t.footer.copyright}
             </p>
