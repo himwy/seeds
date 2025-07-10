@@ -11,6 +11,7 @@ import {
   FaPlane,
   FaHeart,
 } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 // Translations object for all text content
 const translations = {
@@ -179,7 +180,284 @@ const translations = {
 export default function Home() {
   const { language } = useLanguage();
   const t = translations[language];
+  const [isMobile, setIsMobile] = useState(true);
 
+  // Detect if the user is on a mobile device
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Mobile specific design
+  if (isMobile) {
+    return (
+      <div className="w-full overflow-x-hidden">
+        {/* Mobile Hero Section */}
+        <section className="bg-primary text-white py-8 px-6">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-4">{t.hero.title}</h1>
+            <p className="text-lg mb-6">{t.hero.description}</p>
+            <div className="flex flex-col gap-3">
+              <Link
+                href="/services"
+                className="bg-accent text-dark-gray font-bold py-3 px-6 rounded-md w-full"
+              >
+                {t.hero.exploreButton}
+              </Link>
+              <Link
+                href="/contact"
+                className="bg-transparent border-2 border-white text-white py-3 px-6 rounded-md font-semibold w-full"
+              >
+                {t.hero.contactButton}
+              </Link>
+            </div>
+          </div>
+          <div className="relative h-48 rounded-lg overflow-hidden mt-4">
+            <Image
+              src="/assets/Lee_Garden 5.jpg"
+              alt="Seeds Financial Group"
+              fill
+              style={{ objectFit: "cover" }}
+              className="rounded-lg"
+            />
+          </div>
+        </section>
+
+        {/* Mobile About Section */}
+        <section className="py-10 px-6 bg-white">
+          <div className="flex flex-col items-center">
+            <Image
+              src="/assets/Seeds_Icon_Trans.png"
+              alt="Seeds Financial Group"
+              width={120}
+              height={120}
+              className="mb-6"
+            />
+            <h2 className="text-2xl font-bold mb-4 text-primary text-center">
+              {t.about.title}
+            </h2>
+            <p className="text-dark-gray mb-4 text-center">
+              {t.about.description1}
+            </p>
+            <p className="text-dark-gray mb-6 text-center">
+              {t.about.description2}
+            </p>
+            <Link href="/about" className="btn-primary inline-block">
+              {t.about.learnMoreButton}
+            </Link>
+          </div>
+        </section>
+
+        {/* Mobile Services Section - Horizontal Scrolling Cards */}
+        <section className="py-10 px-6 bg-light-gray">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold mb-4 text-primary">
+              {t.services.title}
+            </h2>
+            <p className="text-dark-gray">{t.services.description}</p>
+          </div>
+
+          <div className="overflow-x-auto pb-4">
+            <div className="flex gap-4 min-w-max px-2">
+              {/* Critical Illness Card */}
+              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <FaShieldAlt className="text-primary text-xl" />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-primary">
+                  {t.services.criticalIllness.title}
+                </h3>
+                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                  {t.services.criticalIllness.description}
+                </p>
+                <Link
+                  href="/services/critical-illness"
+                  className="text-primary font-medium hover:underline inline-block"
+                >
+                  {t.services.criticalIllness.learnMore}
+                </Link>
+              </div>
+
+              {/* Education Plan Card */}
+              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <FaGraduationCap className="text-primary text-xl" />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-primary">
+                  {t.services.education.title}
+                </h3>
+                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                  {t.services.education.description}
+                </p>
+                <Link
+                  href="/services/education"
+                  className="text-primary font-medium hover:underline inline-block"
+                >
+                  {t.services.education.learnMore}
+                </Link>
+              </div>
+
+              {/* Annuity Plan Card */}
+              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <FaMoneyBillWave className="text-primary text-xl" />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-primary">
+                  {t.services.annuity.title}
+                </h3>
+                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                  {t.services.annuity.description}
+                </p>
+                <Link
+                  href="/services/annuity"
+                  className="text-primary font-medium hover:underline inline-block"
+                >
+                  {t.services.annuity.learnMore}
+                </Link>
+              </div>
+
+              {/* Medical Protection Card */}
+              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <FaMedkit className="text-primary text-xl" />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-primary">
+                  {t.services.medical.title}
+                </h3>
+                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                  {t.services.medical.description}
+                </p>
+                <Link
+                  href="/services/medical"
+                  className="text-primary font-medium hover:underline inline-block"
+                >
+                  {t.services.medical.learnMore}
+                </Link>
+              </div>
+
+              {/* Travel Insurance Card */}
+              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <FaPlane className="text-primary text-xl" />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-primary">
+                  {t.services.travel.title}
+                </h3>
+                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                  {t.services.travel.description}
+                </p>
+                <Link
+                  href="/services/travel"
+                  className="text-primary font-medium hover:underline inline-block"
+                >
+                  {t.services.travel.learnMore}
+                </Link>
+              </div>
+
+              {/* Life Insurance Card */}
+              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                  <FaHeart className="text-primary text-xl" />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-primary">
+                  {t.services.life.title}
+                </h3>
+                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                  {t.services.life.description}
+                </p>
+                <Link
+                  href="/services/life"
+                  className="text-primary font-medium hover:underline inline-block"
+                >
+                  {t.services.life.learnMore}
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-6">
+            <Link href="/services" className="btn-primary">
+              View All Services
+            </Link>
+          </div>
+        </section>
+
+        {/* Mobile Promo Section */}
+        <section className="py-8 px-6 bg-primary text-white">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-3">{t.promo.title}</h2>
+            <p className="text-base mb-6">{t.promo.description}</p>
+            <Link
+              href="/iiqe"
+              className="bg-accent hover:bg-opacity-90 transition-colors text-dark-gray font-bold py-3 px-6 rounded-md inline-block w-full"
+            >
+              {t.promo.registerButton}
+            </Link>
+          </div>
+        </section>
+
+        {/* Mobile Contact Section */}
+        <section className="py-10 px-6 bg-white">
+          <h2 className="text-2xl font-bold mb-4 text-primary text-center">
+            {t.contact.title}
+          </h2>
+          <p className="text-dark-gray mb-6 text-center">
+            {t.contact.description}
+          </p>
+
+          <div className="flex flex-col gap-3 mb-8">
+            <Link href="/contact" className="btn-primary text-center w-full">
+              {t.contact.contactButton}
+            </Link>
+            <a
+              href="tel:85255304114"
+              className="bg-transparent border-2 border-primary text-primary text-center py-3 px-6 rounded-md font-semibold w-full"
+            >
+              {t.contact.callButton}
+            </a>
+          </div>
+
+          <div className="bg-light-gray p-6 rounded-lg">
+            <h3 className="text-xl font-bold mb-4 text-primary">
+              {t.contact.serviceHours}
+            </h3>
+            <ul className="space-y-4">
+              <li className="flex flex-col">
+                <span className="font-medium">{t.contact.mondayToFriday}</span>
+                <span>{t.contact.mondayToFridayHours}</span>
+              </li>
+              <li className="flex flex-col">
+                <span className="font-medium">{t.contact.saturday}</span>
+                <span>{t.contact.saturdayHours}</span>
+              </li>
+              <li className="flex flex-col">
+                <span className="font-medium">{t.contact.evenings}</span>
+                <span>{t.contact.eveningHours}</span>
+              </li>
+            </ul>
+            <div className="mt-6 pt-6 border-t">
+              <p className="text-dark-gray">
+                <strong>{t.contact.address}</strong>
+                <span className="block mt-1">{t.contact.addressValue}</span>
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  // Desktop design remains the same
   return (
     <div className="overflow-x-hidden w-full">
       {/* Hero Section */}
