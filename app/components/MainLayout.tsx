@@ -53,7 +53,7 @@ export default function MainLayout({
 
   return (
     <div
-      className="flex flex-col w-full relative max-w-full overflow-x-hidden"
+      className="flex flex-col w-full relative max-w-full overflow-x-hidden bg-white"
       style={{
         minHeight: "calc(var(--vh, 1vh) * 100)",
         paddingBottom: isMobile ? "env(safe-area-inset-bottom, 0px)" : "0",
@@ -61,8 +61,8 @@ export default function MainLayout({
     >
       <Navbar />
       <div className="flex-grow w-full max-w-full relative z-10">
-        <main className="w-full max-w-full overflow-x-hidden pt-12 md:pt-16 px-4 md:px-6 relative">
-          <div className={isMobile ? "pb-6" : ""}>{children}</div>
+        <main className="w-full max-w-full overflow-x-hidden pt-14 md:pt-16 relative">
+          {children}
         </main>
       </div>
       <Footer />

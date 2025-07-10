@@ -11,12 +11,12 @@ export default function AnimationProvider({
 }) {
   useEffect(() => {
     AOS.init({
-      duration: 800,
-      once: false,
-      mirror: true,
+      duration: 500, // Reduced duration for more subtle animations
+      once: true, // Elements will only animate once
+      mirror: false, // Don't mirror animations when scrolling back up
       offset: 50,
-      easing: "ease-out-cubic",
-      // Remove the "disable: mobile" to enable animations on all devices
+      easing: "ease-out",
+      disable: "mobile", // Disable animations on mobile for better performance
     });
 
     // Refresh AOS when window is resized
