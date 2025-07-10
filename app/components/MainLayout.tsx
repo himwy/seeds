@@ -48,8 +48,8 @@ export default function MainLayout({
       }}
     >
       <Navbar />
-      <div className="flex-grow w-full max-w-full">
-        <main className="w-full max-w-full overflow-x-hidden pt-16 md:pt-20">
+      <div className="flex-grow w-full max-w-full relative z-10">
+        <main className="w-full max-w-full overflow-x-hidden pt-16 md:pt-20 relative">
           {children}
         </main>
       </div>
