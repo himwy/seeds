@@ -10,7 +10,8 @@ export default function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { language, isLoaded } = useLanguage();
+  // Remove unused variables and only keep what's needed for the component
+  const {} = useLanguage();
 
   // This prevents the hydration error with Next.js when using localStorage
   const [mounted, setMounted] = React.useState(false);

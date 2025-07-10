@@ -17,15 +17,13 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "./LanguageContext";
 import { translations } from "../translations";
 
-interface NavbarProps {
-  toggleSidebar?: () => void;
-}
+interface NavbarProps {}
 
-export default function Navbar({ toggleSidebar }: NavbarProps) {
+export default function Navbar({}: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const { language, isLoaded } = useLanguage();
+  const { language } = useLanguage();
   const t = translations[language];
 
   // Define the navbar menu structure with nested items and translations

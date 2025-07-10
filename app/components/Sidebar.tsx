@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   FaAngleDown,
   FaAngleRight,
@@ -95,10 +94,9 @@ const menuItems = [
 
 interface SidebarProps {
   isOpen: boolean;
-  toggleSidebar?: () => void;
 }
 
-export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
+export default function Sidebar({ isOpen }: SidebarProps) {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   return (
