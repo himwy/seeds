@@ -203,8 +203,8 @@ export default function Home() {
     return (
       <div className="w-full overflow-x-hidden">
         {/* Mobile Hero Section */}
-        <section className="bg-primary text-white py-8 px-6">
-          <div className="text-center mb-8">
+        <section className="bg-primary text-white pt-14 pb-8 px-6">
+          <div className="text-center mb-6" data-aos="fade-up">
             <h1 className="text-3xl font-bold mb-4">{t.hero.title}</h1>
             <p className="text-lg mb-6">{t.hero.description}</p>
             <div className="flex flex-col gap-3">
@@ -222,55 +222,85 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="relative h-48 rounded-lg overflow-hidden mt-4">
+          <div
+            className="relative h-56 rounded-lg overflow-hidden mt-6 shadow-md"
+            data-aos="zoom-in"
+            data-aos-delay="200"
+          >
             <Image
               src="/assets/Lee_Garden 5.jpg"
               alt="Seeds Financial Group"
               fill
               style={{ objectFit: "cover" }}
               className="rounded-lg"
+              priority
             />
           </div>
         </section>
 
         {/* Mobile About Section */}
         <section className="py-10 px-6 bg-white">
-          <div className="flex flex-col items-center">
-            <Image
-              src="/assets/Seeds_Icon_Trans.png"
-              alt="Seeds Financial Group"
-              width={120}
-              height={120}
-              className="mb-6"
-            />
-            <h2 className="text-2xl font-bold mb-4 text-primary text-center">
-              {t.about.title}
-            </h2>
-            <p className="text-dark-gray mb-4 text-center">
-              {t.about.description1}
-            </p>
-            <p className="text-dark-gray mb-6 text-center">
-              {t.about.description2}
-            </p>
-            <Link href="/about" className="btn-primary inline-block">
-              {t.about.learnMoreButton}
-            </Link>
+          <div className="flex flex-row items-start gap-4">
+            <div
+              className="flex-shrink-0 w-1/3"
+              data-aos="fade-right"
+              data-aos-duration="600"
+            >
+              <Image
+                src="/assets/Seeds_Icon_Trans.png"
+                alt="Seeds Financial Group"
+                width={100}
+                height={100}
+                className="mx-auto"
+              />
+            </div>
+            <div
+              className="w-2/3"
+              data-aos="fade-left"
+              data-aos-duration="600"
+              data-aos-delay="100"
+            >
+              <h2 className="text-2xl font-bold mb-3 text-primary">
+                {t.about.title}
+              </h2>
+              <p className="text-dark-gray text-sm mb-3">
+                {t.about.description1}
+              </p>
+              <p className="text-dark-gray text-sm mb-4">
+                {t.about.description2}
+              </p>
+              <Link href="/about" className="btn-primary inline-block text-sm">
+                {t.about.learnMoreButton}
+              </Link>
+            </div>
           </div>
         </section>
 
         {/* Mobile Services Section - Horizontal Scrolling Cards */}
         <section className="py-10 px-6 bg-light-gray">
-          <div className="text-center mb-8">
+          <div
+            className="text-center mb-8"
+            data-aos="fade-up"
+            data-aos-duration="600"
+          >
             <h2 className="text-2xl font-bold mb-4 text-primary">
               {t.services.title}
             </h2>
             <p className="text-dark-gray">{t.services.description}</p>
           </div>
 
-          <div className="overflow-x-auto pb-4">
-            <div className="flex gap-4 min-w-max px-2">
+          <div
+            className="overflow-x-auto pb-4 -mx-6 px-6"
+            data-aos="fade-up"
+            data-aos-duration="800"
+          >
+            <div className="flex gap-4 min-w-max">
               {/* Critical Illness Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+              <div
+                className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
                 <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <FaShieldAlt className="text-primary text-xl" />
                 </div>
@@ -289,7 +319,11 @@ export default function Home() {
               </div>
 
               {/* Education Plan Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+              <div
+                className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]"
+                data-aos="fade-up"
+                data-aos-delay="150"
+              >
                 <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <FaGraduationCap className="text-primary text-xl" />
                 </div>
@@ -308,7 +342,11 @@ export default function Home() {
               </div>
 
               {/* Annuity Plan Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+              <div
+                className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]"
+                data-aos="fade-up"
+                data-aos-delay="200"
+              >
                 <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <FaMoneyBillWave className="text-primary text-xl" />
                 </div>
@@ -327,7 +365,11 @@ export default function Home() {
               </div>
 
               {/* Medical Protection Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+              <div
+                className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]"
+                data-aos="fade-up"
+                data-aos-delay="250"
+              >
                 <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <FaMedkit className="text-primary text-xl" />
                 </div>
@@ -346,7 +388,11 @@ export default function Home() {
               </div>
 
               {/* Travel Insurance Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+              <div
+                className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]"
+                data-aos="fade-up"
+                data-aos-delay="300"
+              >
                 <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <FaPlane className="text-primary text-xl" />
                 </div>
@@ -365,7 +411,11 @@ export default function Home() {
               </div>
 
               {/* Life Insurance Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+              <div
+                className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]"
+                data-aos="fade-up"
+                data-aos-delay="350"
+              >
                 <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <FaHeart className="text-primary text-xl" />
                 </div>
@@ -385,7 +435,11 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="text-center mt-6">
+          <div
+            className="text-center mt-6"
+            data-aos="fade-up"
+            data-aos-duration="600"
+          >
             <Link href="/services" className="btn-primary">
               View All Services
             </Link>
@@ -393,7 +447,11 @@ export default function Home() {
         </section>
 
         {/* Mobile Promo Section */}
-        <section className="py-8 px-6 bg-primary text-white">
+        <section
+          className="py-8 px-6 bg-primary text-white"
+          data-aos="fade-up"
+          data-aos-duration="800"
+        >
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-3">{t.promo.title}</h2>
             <p className="text-base mb-6">{t.promo.description}</p>
@@ -407,7 +465,11 @@ export default function Home() {
         </section>
 
         {/* Mobile Contact Section */}
-        <section className="py-10 px-6 bg-white">
+        <section
+          className="py-10 px-6 bg-white"
+          data-aos="fade-up"
+          data-aos-duration="800"
+        >
           <h2 className="text-2xl font-bold mb-4 text-primary text-center">
             {t.contact.title}
           </h2>
@@ -415,7 +477,11 @@ export default function Home() {
             {t.contact.description}
           </p>
 
-          <div className="flex flex-col gap-3 mb-8">
+          <div
+            className="flex flex-col gap-3 mb-8"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
             <Link href="/contact" className="btn-primary text-center w-full">
               {t.contact.contactButton}
             </Link>
@@ -427,7 +493,11 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="bg-light-gray p-6 rounded-lg">
+          <div
+            className="bg-light-gray p-6 rounded-lg"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             <h3 className="text-xl font-bold mb-4 text-primary">
               {t.contact.serviceHours}
             </h3>
