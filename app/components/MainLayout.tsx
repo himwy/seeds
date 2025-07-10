@@ -13,34 +13,26 @@ export default function MainLayout({
   const {} = useLanguage();
 
   const [mounted, setMounted] = useState(false);
-  const [viewportHeight, setViewportHeight] = useState(0);
 
   useEffect(() => {
     setMounted(true);
 
-    const updateViewportHeight = () => {
-      setViewportHeight(window.innerHeight);
+    // Function to set the viewport height CSS variable
+    const setVHVariable = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
 
-    updateViewportHeight();
+    // Set it initially
+    setVHVariable();
 
-    window.addEventListener("resize", updateViewportHeight);
-
-    const fixMobileViewport = () => {
-      setTimeout(() => {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty("--vh", `${vh}px`);
-      }, 100);
-    };
-
-    fixMobileViewport();
-    window.addEventListener("resize", fixMobileViewport);
-    window.addEventListener("orientationchange", fixMobileViewport);
+    // Update on resize and orientation change
+    window.addEventListener("resize", setVHVariable);
+    window.addEventListener("orientationchange", setVHVariable);
 
     return () => {
-      window.removeEventListener("resize", updateViewportHeight);
-      window.removeEventListener("resize", fixMobileViewport);
-      window.removeEventListener("orientationchange", fixMobileViewport);
+      window.removeEventListener("resize", setVHVariable);
+      window.removeEventListener("orientationchange", setVHVariable);
     };
   }, []);
 
@@ -50,15 +42,14 @@ export default function MainLayout({
 
   return (
     <div
-      className="flex flex-col min-h-screen w-full"
+      className="flex flex-col w-full relative"
       style={{
-        minHeight: viewportHeight > 0 ? `${viewportHeight}px` : "100vh",
-        height: "calc(var(--vh, 1vh) * 100)",
+        minHeight: "calc(var(--vh, 1vh) * 100)",
       }}
     >
       <Navbar />
-      <div className="flex flex-grow w-full">
-        <main className="flex-grow transition-all duration-300 mt-16 md:mt-20 w-full px-0 md:px-6 overflow-x-hidden">
+      <div className="flex-grow w-full">
+        <main className="w-full px-0 md:px-6 overflow-x-hidden pt-16 md:pt-20">
           {children}
         </main>
       </div>
