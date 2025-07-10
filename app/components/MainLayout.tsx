@@ -42,14 +42,14 @@ export default function MainLayout({
 
   return (
     <div
-      className="flex flex-col w-full relative"
+      className="flex flex-col w-full relative max-w-full overflow-x-hidden"
       style={{
         minHeight: "calc(var(--vh, 1vh) * 100)",
       }}
     >
       <Navbar />
-      <div className="flex-grow w-full">
-        <main className="w-full px-0 md:px-6 overflow-x-hidden pt-16 md:pt-20">
+      <div className="flex-grow w-full max-w-full">
+        <main className="w-full max-w-full overflow-x-hidden pt-16 md:pt-20">
           {children}
         </main>
       </div>

@@ -187,6 +187,7 @@ export default function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white ${
         isScrolled ? "shadow-md py-2" : "py-3"
       }`}
+      style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
@@ -260,8 +261,14 @@ export default function Navbar() {
         {isMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className="md:hidden fixed inset-0 bg-white z-50 pt-16 overflow-y-auto"
-            style={{ top: isScrolled ? "60px" : "68px" }}
+            className="md:hidden fixed left-0 right-0 bg-white z-50 overflow-y-auto top-0 pt-16"
+            style={{
+              width: "100vw",
+              marginLeft: "calc(50% - 50vw)",
+              top: isScrolled ? "60px" : "68px",
+              height: "calc(100vh - 60px)",
+              maxHeight: "100vh",
+            }}
           >
             <div className="px-4 py-2">
               <nav className="flex flex-col">

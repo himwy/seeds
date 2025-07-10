@@ -181,18 +181,21 @@ export default function Home() {
   const t = translations[language];
 
   return (
-    <>
-      {/* Hero Section with improved mobile layout */}
+    <div className="overflow-x-hidden w-full">
+      {/* Hero Section */}
       <section
-        className="relative min-h-[85vh] md:h-screen flex items-center"
+        className="relative min-h-[100vh] md:min-h-[85vh] flex items-center w-full overflow-hidden"
         style={{
           backgroundImage:
             "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Lee_Garden 5.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginTop: "-1px" /* Prevents any gap at the top */,
         }}
       >
-        <div className="container mx-auto px-4 text-center md:text-left py-12">
+        <div className="container mx-auto px-4 text-center md:text-left py-12 mt-16 md:mt-20">
           <div
             className="max-w-2xl mx-auto md:mx-0"
             data-aos="fade-right"
@@ -222,8 +225,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Introduction Section with improved spacing for mobile */}
-      <section className="py-12 md:py-20 bg-light-gray">
+      {/* Introduction Section */}
+      <section
+        className="py-12 md:py-20 bg-light-gray w-full"
+        style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
+      >
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="w-full md:w-1/2" data-aos="fade-right">
@@ -253,8 +259,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section with better mobile card layout */}
-      <section className="py-12 md:py-20">
+      {/* Services Section */}
+      <section
+        className="py-12 md:py-20 w-full"
+        style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-10 md:mb-16" data-aos="fade-up">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
@@ -407,8 +416,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Promotional Offer Section - Mobile optimized */}
-      <section className="py-8 md:py-10 bg-primary text-white">
+      {/* Promotional Offer Section */}
+      <section
+        className="py-8 md:py-10 bg-primary text-white w-full"
+        style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
+      >
         <div className="container mx-auto px-4 text-center" data-aos="zoom-in">
           <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">
             {t.promo.title}
@@ -425,8 +437,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact CTA Section - Improved mobile layout */}
-      <section className="py-12 md:py-16 bg-light-gray">
+      {/* Contact CTA Section */}
+      <section
+        className="py-12 md:py-16 bg-light-gray w-full"
+        style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}
+      >
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="w-full md:w-1/2" data-aos="fade-right">
@@ -483,6 +498,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
