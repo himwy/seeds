@@ -17,8 +17,7 @@ export const metadata: Metadata = {
   description:
     "Seeds Financial Group provides advisory services using a wide range of risk management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
   icons: {
-    icon: [{ url: "/assets/Seeds_Icon_Trans.png" }],
-    apple: [{ url: "/assets/Seeds_Icon_Trans.png" }],
+    icon: "/assets/Seeds_Icon_Trans.png",
   },
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",
 };
