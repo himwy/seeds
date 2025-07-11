@@ -194,13 +194,15 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <Image
-                src="/assets/Seeds_Icon_Trans.png"
-                alt="Seeds Financial Group"
-                width={40}
-                height={40}
-                className="mr-2"
-              />
+              <div className="pl-2 mr-3">
+                <Image
+                  src="/assets/Seeds_Icon_Trans.png"
+                  alt="Seeds Financial Group"
+                  width={55}
+                  height={55}
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
               <div>
                 <h1 className="text-primary font-bold text-lg md:text-xl">
                   Seeds Financial Group

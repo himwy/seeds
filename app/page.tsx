@@ -243,13 +243,16 @@ export default function Home() {
           style={{ width: "100%", margin: 0 }}
         >
           <div className="flex flex-col items-center text-center mb-6">
-            <Image
-              src="/assets/Seeds_Icon_Trans.png"
-              alt="Seeds Financial Group"
-              width={90}
-              height={90}
-              className="mb-4"
-            />
+            <div className="bg-white rounded-full shadow-md p-3 mb-4">
+              <Image
+                src="/assets/Seeds_Icon_Trans.png"
+                alt="Seeds Financial Group"
+                width={130}
+                height={130}
+                className="mb-2"
+                style={{ objectFit: "contain" }}
+              />
+            </div>
             <h2 className="text-2xl font-bold mb-3 text-primary">
               {t.about.title}
             </h2>
@@ -291,15 +294,9 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.criticalIllness.title}
                 </h3>
-                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-3">
                   {t.services.criticalIllness.description}
                 </p>
-                <Link
-                  href="/services/critical-illness"
-                  className="text-primary font-medium hover:underline inline-block"
-                >
-                  {t.services.criticalIllness.learnMore}
-                </Link>
               </div>
 
               {/* Education Plan Card */}
@@ -310,15 +307,9 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.education.title}
                 </h3>
-                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-3">
                   {t.services.education.description}
                 </p>
-                <Link
-                  href="/services/education"
-                  className="text-primary font-medium hover:underline inline-block"
-                >
-                  {t.services.education.learnMore}
-                </Link>
               </div>
 
               {/* Annuity Plan Card */}
@@ -329,15 +320,9 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.annuity.title}
                 </h3>
-                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-3">
                   {t.services.annuity.description}
                 </p>
-                <Link
-                  href="/services/annuity"
-                  className="text-primary font-medium hover:underline inline-block"
-                >
-                  {t.services.annuity.learnMore}
-                </Link>
               </div>
 
               {/* Medical Protection Card */}
@@ -348,15 +333,9 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.medical.title}
                 </h3>
-                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-3">
                   {t.services.medical.description}
                 </p>
-                <Link
-                  href="/services/medical"
-                  className="text-primary font-medium hover:underline inline-block"
-                >
-                  {t.services.medical.learnMore}
-                </Link>
               </div>
 
               {/* Travel Insurance Card */}
@@ -367,15 +346,9 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.travel.title}
                 </h3>
-                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-3">
                   {t.services.travel.description}
                 </p>
-                <Link
-                  href="/services/travel"
-                  className="text-primary font-medium hover:underline inline-block"
-                >
-                  {t.services.travel.learnMore}
-                </Link>
               </div>
 
               {/* Life Insurance Card */}
@@ -386,15 +359,9 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.life.title}
                 </h3>
-                <p className="text-dark-gray mb-4 text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-3">
                   {t.services.life.description}
                 </p>
-                <Link
-                  href="/services/life"
-                  className="text-primary font-medium hover:underline inline-block"
-                >
-                  {t.services.life.learnMore}
-                </Link>
               </div>
             </div>
           </div>
@@ -532,33 +499,20 @@ export default function Home() {
       {/* Introduction Section */}
       <section className="py-12 md:py-20 bg-light-gray w-full">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <div
-              className="w-full md:w-1/2"
-              data-aos="fade-right"
-              data-aos-duration="1000"
-            >
-              <Image
-                src="/assets/Seeds_Icon_Trans.png"
-                alt="Seeds Financial Group"
-                width={180}
-                height={180}
-                className="mx-auto md:mx-0"
-              />
-            </div>
-            <div
-              className="w-full md:w-1/2 mt-6 md:mt-0"
-              data-aos="fade-left"
-              data-aos-duration="1000"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
-                {t.about.title}
-              </h2>
-              <p className="text-dark-gray mb-4 md:mb-6">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
+              {t.about.title}
+            </h2>
+          </div>
+          <div className="flex justify-center">
+            <div className="max-w-3xl mx-auto">
+              <p className="text-dark-gray mb-4 md:mb-6 text-center">
                 {t.about.description1}
               </p>
-              <p className="text-dark-gray mb-6">{t.about.description2}</p>
-              <div className="text-center md:text-left">
+              <p className="text-dark-gray mb-6 text-center">
+                {t.about.description2}
+              </p>
+              <div className="text-center">
                 <Link
                   href="/about"
                   className="btn-primary inline-block"
@@ -602,15 +556,9 @@ export default function Home() {
               <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.criticalIllness.title}
               </h3>
-              <p className="text-dark-gray mb-4 text-sm md:text-base">
+              <p className="text-dark-gray text-sm md:text-base">
                 {t.services.criticalIllness.description}
               </p>
-              <Link
-                href="/services/critical-illness"
-                className="text-primary font-medium hover:underline inline-block"
-              >
-                {t.services.criticalIllness.learnMore}
-              </Link>
             </div>
 
             {/* Education Plan */}
@@ -625,15 +573,9 @@ export default function Home() {
               <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.education.title}
               </h3>
-              <p className="text-dark-gray mb-4 text-sm md:text-base">
+              <p className="text-dark-gray text-sm md:text-base">
                 {t.services.education.description}
               </p>
-              <Link
-                href="/services/education"
-                className="text-primary font-medium hover:underline inline-block"
-              >
-                {t.services.education.learnMore}
-              </Link>
             </div>
 
             {/* Annuity Plan */}
@@ -648,15 +590,9 @@ export default function Home() {
               <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.annuity.title}
               </h3>
-              <p className="text-dark-gray mb-4 text-sm md:text-base">
+              <p className="text-dark-gray text-sm md:text-base">
                 {t.services.annuity.description}
               </p>
-              <Link
-                href="/services/annuity"
-                className="text-primary font-medium hover:underline inline-block"
-              >
-                {t.services.annuity.learnMore}
-              </Link>
             </div>
 
             {/* Medical Protection */}
@@ -671,15 +607,9 @@ export default function Home() {
               <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.medical.title}
               </h3>
-              <p className="text-dark-gray mb-4 text-sm md:text-base">
+              <p className="text-dark-gray text-sm md:text-base">
                 {t.services.medical.description}
               </p>
-              <Link
-                href="/services/medical"
-                className="text-primary font-medium hover:underline inline-block"
-              >
-                {t.services.medical.learnMore}
-              </Link>
             </div>
 
             {/* Travel Insurance */}
@@ -694,15 +624,9 @@ export default function Home() {
               <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.travel.title}
               </h3>
-              <p className="text-dark-gray mb-4 text-sm md:text-base">
+              <p className="text-dark-gray text-sm md:text-base">
                 {t.services.travel.description}
               </p>
-              <Link
-                href="/services/travel"
-                className="text-primary font-medium hover:underline inline-block"
-              >
-                {t.services.travel.learnMore}
-              </Link>
             </div>
 
             {/* Life Insurance */}
@@ -717,15 +641,9 @@ export default function Home() {
               <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
                 {t.services.life.title}
               </h3>
-              <p className="text-dark-gray mb-4 text-sm md:text-base">
+              <p className="text-dark-gray text-sm md:text-base">
                 {t.services.life.description}
               </p>
-              <Link
-                href="/services/life"
-                className="text-primary font-medium hover:underline inline-block"
-              >
-                {t.services.life.learnMore}
-              </Link>
             </div>
           </div>
         </div>

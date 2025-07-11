@@ -53,20 +53,23 @@ export default function Footer() {
   return (
     <footer className="bg-white pt-8 md:pt-16 pb-6 border-t border-gray-200">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-2 md:gap-8">
           {/* Company Info */}
           <div className="py-2 md:py-0">
             <div className="flex items-center mb-4">
-              <Image
-                src="/assets/Seeds_Icon_Trans.png"
-                alt="Seeds Financial Group"
-                width={40}
-                height={40}
-                className="mr-2"
-              />
-              <h3 className="font-bold text-lg text-primary">
-                Seeds Financial Group
-              </h3>
+              <div className="flex items-center">
+                <Image
+                  src="/assets/Seeds_Icon_Trans.png"
+                  alt="Seeds Financial Group"
+                  width={45}
+                  height={45}
+                  className="mr-2"
+                  style={{ objectFit: "contain" }}
+                />
+                <h3 className="font-bold text-lg text-primary">
+                  Seeds Financial Group
+                </h3>
+              </div>
             </div>
             <p className="text-sm mb-4 text-dark-gray">
               {t.footer.companyInfo}
@@ -89,81 +92,6 @@ export default function Footer() {
                 <FaWeixin size={20} />
               </a>
             </div>
-          </div>
-
-          {/* Services - Mobile Accordion / Desktop Normal */}
-          <div className="border-t md:border-t-0 py-2 md:py-0">
-            <button
-              className="md:hidden w-full flex justify-between items-center font-bold text-lg py-2 text-primary focus:outline-none"
-              onClick={() => toggleSection("services")}
-              aria-expanded={isSectionExpanded("services")}
-            >
-              {t.footer.ourServices}
-              <FaAngleDown
-                className={`transition-transform duration-200 ${
-                  isSectionExpanded("services") ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-            <h3 className="hidden md:block font-bold text-lg mb-4 text-primary">
-              {t.footer.ourServices}
-            </h3>
-            <ul
-              className={`space-y-2 overflow-hidden transition-all duration-300 ${
-                isSectionExpanded("services") || !isMobile
-                  ? "max-h-96"
-                  : "max-h-0"
-              }`}
-            >
-              <li>
-                <Link
-                  href="/services/critical-illness"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
-                >
-                  {t.footer.services.criticalIllness}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/education"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
-                >
-                  {t.footer.services.education}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/annuity"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
-                >
-                  {t.footer.services.annuity}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/medical"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
-                >
-                  {t.footer.services.medical}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/travel"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
-                >
-                  {t.footer.services.travel}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/life"
-                  className="text-sm text-dark-gray hover:text-primary transition-colors block py-1.5"
-                >
-                  {t.footer.services.life}
-                </Link>
-              </li>
-            </ul>
           </div>
 
           {/* Contact Info - Mobile Accordion / Desktop Normal */}
