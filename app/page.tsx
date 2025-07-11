@@ -204,7 +204,7 @@ export default function Home() {
       <div className="w-full overflow-x-hidden min-w-full">
         {/* Mobile Hero Section */}
         <section
-          className="bg-primary text-white pt-14 pb-8 px-6 w-full"
+          className="bg-primary text-white pt-4 pb-8 px-6 w-full"
           style={{ width: "100%", margin: 0 }}
         >
           <div className="text-center mb-6">
