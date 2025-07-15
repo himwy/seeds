@@ -204,12 +204,12 @@ export default function Home() {
       <div className="w-full overflow-x-hidden min-w-full">
         {/* Mobile Hero Section */}
         <section
-          className="bg-primary text-white pt-4 pb-8 px-6 w-full"
+          className="bg-primary text-white pt-3 pb-6 px-6 w-full"
           style={{ width: "100%", margin: 0 }}
         >
-          <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold mb-4">{t.hero.title}</h1>
-            <p className="text-lg mb-6">{t.hero.description}</p>
+          <div className="text-center mb-4">
+            <h1 className="text-3xl font-bold mb-3">{t.hero.title}</h1>
+            <p className="text-lg mb-5">{t.hero.description}</p>
             <div className="flex flex-col gap-3">
               <Link
                 href="/services"
@@ -225,7 +225,7 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="relative h-56 rounded-lg overflow-hidden mt-6 shadow-md">
+          <div className="relative h-52 rounded-lg overflow-hidden mt-5 shadow-md">
             <Image
               src="/assets/Lee_Garden 5.jpg"
               alt="Seeds Financial Group"
@@ -369,7 +369,7 @@ export default function Home() {
 
         {/* Mobile Promo Section */}
         <section
-          className="py-8 px-6 bg-primary text-white w-full"
+          className="py-6 px-6 bg-primary text-white w-full"
           style={{ width: "100%", margin: 0 }}
         >
           <div className="text-center">
@@ -377,7 +377,7 @@ export default function Home() {
             <p className="text-base mb-6">{t.promo.description}</p>
             <Link
               href="/iiqe"
-              className="bg-accent hover:bg-opacity-90 transition-colors text-dark-gray font-bold py-3 px-6 rounded-md inline-block w-full"
+              className="bg-white hover:bg-opacity-90 transition-colors text-primary font-bold py-3 px-6 rounded-md inline-block w-full"
             >
               {t.promo.registerButton}
             </Link>

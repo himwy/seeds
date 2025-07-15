@@ -3,6 +3,10 @@ export const translations = {
   en: {
     navbar: {
       about: "About Us",
+      aboutItems: {
+        aboutCompany: "About the Company",
+        ourTeam: "Our Team",
+      },
       concepts: "Concepts",
       conceptsItems: {
         financialPlanning: "Financial Planning",
@@ -62,6 +66,10 @@ export const translations = {
   "zh-HK": {
     navbar: {
       about: "關於我們",
+      aboutItems: {
+        aboutCompany: "關於公司",
+        ourTeam: "我們的團隊",
+      },
       concepts: "概念",
       conceptsItems: {
         financialPlanning: "財務規劃",

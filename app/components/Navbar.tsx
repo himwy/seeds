@@ -31,7 +31,16 @@ export default function Navbar() {
       title: t.navbar.about,
       path: "/about",
       icon: <FaInfoCircle className="w-5 h-5" />,
-      submenu: [],
+      submenu: [
+        {
+          title: t.navbar.aboutItems?.aboutCompany || "About the Company",
+          path: "/about",
+        },
+        {
+          title: t.navbar.aboutItems?.ourTeam || "Our Team",
+          path: "/team",
+        },
+      ],
     },
     {
       title: t.navbar.concepts,

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import AnimationProvider from "./components/AnimationProvider";
@@ -19,7 +19,12 @@ export const metadata: Metadata = {
   icons: {
     icon: "/assets/Seeds_Icon_Trans.png",
   },
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
