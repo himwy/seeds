@@ -294,7 +294,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.criticalIllness.title}
                 </h3>
-                <p className="text-dark-gray text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-4">
                   {t.services.criticalIllness.description}
                 </p>
               </div>
@@ -307,7 +307,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.education.title}
                 </h3>
-                <p className="text-dark-gray text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-4">
                   {t.services.education.description}
                 </p>
               </div>
@@ -320,7 +320,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.annuity.title}
                 </h3>
-                <p className="text-dark-gray text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-4">
                   {t.services.annuity.description}
                 </p>
               </div>
@@ -333,7 +333,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.medical.title}
                 </h3>
-                <p className="text-dark-gray text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-4">
                   {t.services.medical.description}
                 </p>
               </div>
@@ -346,7 +346,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.travel.title}
                 </h3>
-                <p className="text-dark-gray text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-4">
                   {t.services.travel.description}
                 </p>
               </div>
@@ -359,7 +359,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold mb-2 text-primary">
                   {t.services.life.title}
                 </h3>
-                <p className="text-dark-gray text-sm line-clamp-3">
+                <p className="text-dark-gray text-sm line-clamp-4">
                   {t.services.life.description}
                 </p>
               </div>

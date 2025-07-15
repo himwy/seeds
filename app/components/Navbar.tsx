@@ -185,7 +185,7 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white ${
-        isScrolled ? "shadow-md py-2" : "py-3"
+        isScrolled ? "shadow-md py-1" : "py-2"
       }`}
       style={{ width: "100vw", marginLeft: 0 }}
     >
@@ -194,17 +194,19 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <div className="pl-2 mr-3">
+              {/* Mobile design: No padding, simplified logo layout */}
+              <div className="md:pl-2 md:mr-3 mr-2">
                 <Image
                   src="/assets/Seeds_Icon_Trans.png"
                   alt="Seeds Financial Group"
-                  width={55}
-                  height={55}
+                  width={50}
+                  height={50}
+                  className="md:rounded-none"
                   style={{ objectFit: "contain" }}
                 />
               </div>
               <div>
-                <h1 className="text-primary font-bold text-lg md:text-xl">
+                <h1 className="text-primary font-bold text-base md:text-xl">
                   Seeds Financial Group
                 </h1>
                 <p className="text-secondary text-xs hidden sm:block">
@@ -250,11 +252,11 @@ export default function Navbar() {
           <div className="md:hidden flex items-center">
             <LanguageSwitcher />
             <button
-              className="text-dark-gray hover:text-primary focus:outline-none ml-2 p-2 rounded-full transition-colors"
+              className="text-dark-gray hover:text-primary focus:outline-none ml-2 p-1 transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
-              {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+              {isMenuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
             </button>
           </div>
         </div>
@@ -266,8 +268,8 @@ export default function Navbar() {
             className="md:hidden fixed left-0 right-0 bg-white z-50 overflow-y-auto shadow-lg"
             style={{
               width: "100%",
-              top: isScrolled ? "60px" : "68px",
-              height: `calc(100vh - ${isScrolled ? "60px" : "68px"})`,
+              top: isScrolled ? "54px" : "62px", // Reduced top position to eliminate gap
+              height: `calc(100vh - ${isScrolled ? "54px" : "62px"})`,
               maxHeight: "100vh",
               borderTopWidth: "0",
               animation: "slideInUp 0.3s ease-out forwards",
