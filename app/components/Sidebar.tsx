@@ -24,7 +24,7 @@ const menuItems = [
   },
   {
     title: "About Us",
-    path: "/about-us",
+    path: "/about",
     icon: <FaInfoCircle className="w-5 h-5" />,
     submenu: [],
   },

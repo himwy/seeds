@@ -243,7 +243,7 @@ export default function Home() {
           style={{ width: "100%", margin: 0 }}
         >
           <div className="flex flex-col items-center text-center mb-6">
-            <div className="bg-white rounded-full shadow-md p-3 mb-4">
+            <div className="mb-4">
               <Image
                 src="/assets/Seeds_Icon_Trans.png"
                 alt="Seeds Financial Group"
@@ -364,12 +364,6 @@ export default function Home() {
                 </p>
               </div>
             </div>
-          </div>
-
-          <div className="text-center mt-6">
-            <Link href="/services" className="btn-primary">
-              View All Services
-            </Link>
           </div>
         </section>
 

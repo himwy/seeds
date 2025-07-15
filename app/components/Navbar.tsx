@@ -29,7 +29,7 @@ export default function Navbar() {
   const menuItems = [
     {
       title: t.navbar.about,
-      path: "/about-us",
+      path: "/about",
       icon: <FaInfoCircle className="w-5 h-5" />,
       submenu: [],
     },
