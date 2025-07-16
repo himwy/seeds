@@ -451,7 +451,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
       viewport={{ once: true, margin: "-100px" }}
       className={`scroll-mt-24 p-${
         isMobile ? "5" : "8"
-      } rounded-2xl ${bgColor} border border-gray-100 shadow-sm`}
+      } rounded-2xl ${bgColor} shadow-sm`}
       id={section.id}
     >
       <div className="flex items-center mb-6">
@@ -520,7 +520,9 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
   onSectionClick,
 }) => (
   <div className="sticky top-24 bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
-    <h3 className="text-lg font-bold mb-4 text-primary">Contents</h3>
+    <h3 className="text-lg font-bold mb-4 text-primary">
+      Contents
+    </h3>
     <ul className="space-y-1">
       {sections.map((section: Section) => {
         const IconComponent = sectionIcons[section.id]?.icon || FaChartLine;
@@ -530,7 +532,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
               onClick={() => onSectionClick(section.id)}
               className={`flex items-center py-2 px-3 rounded-lg transition-colors w-full text-left ${
                 activeSection === section.id
-                  ? "bg-primary/10 text-dark-gray font-medium"
+                  ? "bg-primary/10 text-dark-gray"
                   : "text-dark-gray hover:bg-gray-100"
               }`}
               aria-current={activeSection === section.id ? "page" : undefined}
@@ -630,7 +632,7 @@ export default function FinancialPlanningPage() {
       <div className="w-full overflow-x-hidden pb-16">
         {/* Hero Banner */}
         <div className="bg-gradient-to-r from-primary to-blue-700 text-white py-10 px-4 mt-16">
-          <h1 className="text-2xl font-bold text-center">{t.pageTitle}</h1>
+          <h1 className="text-2xl font-bold text-center text-white">{t.pageTitle}</h1>
           <p className="text-center mt-2 text-white">{t.pageSubtitle}</p>
           <div className="h-1 w-16 bg-white mx-auto mt-3 rounded-full"></div>
         </div>

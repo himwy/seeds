@@ -405,10 +405,13 @@ export default function Home() {
             </h2>
           </div>
           <div>
-            <p className="text-black text-sm mb-3">{t.about.description1}</p>
-            <p className="text-black text-sm mb-4">{t.about.description2}</p>
+            <p className="text-dark-gray text-sm mb-3">{t.about.description1}</p>
+            <p className="text-dark-gray text-sm mb-4">{t.about.description2}</p>
             <div className="text-center">
-              <Link href="/about" className="btn-primary inline-block text-sm">
+              <Link
+                href="/about"
+                className="btn-primary inline-block text-sm text-white"
+              >
                 {t.about.learnMoreButton}
               </Link>
             </div>

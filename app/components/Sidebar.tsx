@@ -14,24 +14,27 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import { IoIosSchool } from "react-icons/io";
+import Image from "next/image";
+import LanguageSwitcher from "./LanguageSwitcher"; // Adjust the import based on your file structure
+import { FaTimes } from "react-icons/fa";
 
 // Define the sidebar menu structure with nested items
 const menuItems = [
   {
     title: "Home",
     path: "/",
-    icon: <FaHome className="w-5 h-5" />,
+    icon: FaHome,
   },
   {
     title: "About Us",
     path: "/about",
-    icon: <FaInfoCircle className="w-5 h-5" />,
+    icon: FaInfoCircle,
     submenu: [],
   },
   {
     title: "Concepts",
     path: "/concepts",
-    icon: <FaLightbulb className="w-5 h-5" />,
+    icon: FaLightbulb,
     submenu: [
       { title: "Financial Planning", path: "/concepts/financial-planning" },
       { title: "Investment Strategy", path: "/concepts/investment-strategy" },
@@ -42,7 +45,7 @@ const menuItems = [
   {
     title: "Case Studies",
     path: "/case-studies",
-    icon: <FaBriefcase className="w-5 h-5" />,
+    icon: FaBriefcase,
     submenu: [
       { title: "Success Stories", path: "/case-studies/success-stories" },
       { title: "Client Testimonials", path: "/case-studies/testimonials" },
@@ -51,7 +54,7 @@ const menuItems = [
   {
     title: "Career Development",
     path: "/career-development",
-    icon: <FaGraduationCap className="w-5 h-5" />,
+    icon: FaGraduationCap,
     submenu: [
       { title: "Career Paths", path: "/career-development/career-paths" },
       {
@@ -67,13 +70,13 @@ const menuItems = [
   {
     title: "Latest News",
     path: "/latest-news",
-    icon: <FaNewspaper className="w-5 h-5" />,
+    icon: FaNewspaper,
     submenu: [],
   },
   {
     title: "IIQE",
     path: "/iiqe",
-    icon: <IoIosSchool className="w-5 h-5" />,
+    icon: IoIosSchool,
     submenu: [
       { title: "IIQE Exam Preparation", path: "/iiqe/exam-preparation" },
       { title: "Study Materials", path: "/iiqe/study-materials" },
@@ -83,7 +86,7 @@ const menuItems = [
   {
     title: "Events",
     path: "/events",
-    icon: <FaCalendarAlt className="w-5 h-5" />,
+    icon: FaCalendarAlt,
     submenu: [
       { title: "Upcoming Events", path: "/events/upcoming" },
       { title: "Past Events", path: "/events/past" },
@@ -122,7 +125,7 @@ export default function Sidebar({ isOpen }: SidebarProps) {
                     className="flex items-center justify-between w-full p-2 text-gray-800 hover:bg-gray-100 rounded-md transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      {item.icon}
+                      <item.icon className="w-5 h-5" />
                       <span>{item.title}</span>
                     </div>
                     {hoveredItem === item.title ? (
@@ -152,13 +155,66 @@ export default function Sidebar({ isOpen }: SidebarProps) {
                   href={item.path}
                   className="flex items-center gap-3 p-2 text-gray-800 hover:bg-gray-100 rounded-md transition-colors"
                 >
-                  {item.icon}
+                  <item.icon className="w-5 h-5" />
                   <span>{item.title}</span>
                 </Link>
               )}
             </li>
           ))}
         </ul>
+      </div>
+
+      {/* Mobile Sidebar */}
+      <div
+        className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 ${
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div
+          className={`fixed top-0 right-0 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ${
+            isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-8">
+              <div className="flex items-center">
+                <Image
+                  src="/assets/Seeds_Icon_Trans.png"
+                  alt="Seeds Financial Group"
+                  width={40}
+                  height={40}
+                  className="mr-3"
+                />
+                <span className="text-xl font-bold text-primary">Seeds</span>
+              </div>
+              <button
+                onClick={() => {}}
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <FaTimes className="w-5 h-5 text-gray-600" />
+              </button>
+            </div>
+
+            <nav className="space-y-2">
+              {menuItems.map((item) => (
+                <div key={item.title}>
+                  <Link
+                    href={item.path}
+                    className="flex items-center px-4 py-3 text-dark-gray hover:bg-gray-50 rounded-lg transition-colors"
+                    onClick={() => {}}
+                  >
+                    <item.icon className="w-5 h-5 mr-3 text-primary" />
+                    {item.title}
+                  </Link>
+                </div>
+              ))}
+            </nav>
+
+            <div className="mt-8 pt-8">
+              <LanguageSwitcher />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
