@@ -702,7 +702,7 @@ export default function FinancialPlanningPage() {
                     key={section.id}
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 0.6, delay: index * 0.05 }}
                     viewport={{ once: true, margin: "-100px" }}
                     className={`scroll-mt-24 p-8 rounded-2xl ${section.bgColor} border border-gray-100 shadow-sm`}
                     id={section.id}
