@@ -734,7 +734,10 @@ export default function FinancialPlanningPage() {
                     <div className={section.steps ? "lg:w-2/3" : "w-full"}>
                       <div className="space-y-4">
                         {section.content.map((paragraph) => (
-                          <p key={paragraph} className="text-dark-gray leading-relaxed">
+                          <p
+                            key={paragraph}
+                            className="text-dark-gray leading-relaxed"
+                          >
                             {paragraph}
                           </p>
                         ))}
