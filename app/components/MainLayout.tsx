@@ -3,47 +3,40 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { useLanguage } from "./LanguageContext";
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const {} = useLanguage();
-
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
 
-    // Function to set the viewport height CSS variable
-    const setVHVariable = () => {
+    // Combined function for viewport height and mobile check
+    const updateViewport = () => {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
 
-    // Function to check if device is mobile
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    // Set initial viewport
+    updateViewport();
+
+    // Throttled resize handler for performance
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateViewport, 150);
     };
 
-    // Set them initially
-    setVHVariable();
-    checkMobile();
-
-    // Update on resize and orientation change
-    window.addEventListener("resize", setVHVariable);
-    window.addEventListener("resize", checkMobile);
-    window.addEventListener("orientationchange", setVHVariable);
-    window.addEventListener("orientationchange", checkMobile);
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", updateViewport);
 
     return () => {
-      window.removeEventListener("resize", setVHVariable);
-      window.removeEventListener("resize", checkMobile);
-      window.removeEventListener("orientationchange", setVHVariable);
-      window.removeEventListener("orientationchange", checkMobile);
+      clearTimeout(resizeTimeout);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", updateViewport);
     };
   }, []);
 
@@ -52,22 +45,9 @@ export default function MainLayout({
   }
 
   return (
-    <div
-      className="flex flex-col w-full min-w-full relative max-w-full overflow-x-hidden bg-white"
-      style={{
-        minHeight: "calc(var(--vh, 1vh) * 100)",
-        paddingBottom: isMobile ? "env(safe-area-inset-bottom, 0px)" : "0",
-        width: "100vw",
-        margin: 0,
-        padding: 0,
-      }}
-    >
+    <div className="flex flex-col min-h-screen w-full overflow-x-hidden bg-white">
       <Navbar />
-      <div className="flex-grow w-full max-w-full relative z-10 overflow-x-hidden">
-        <main className="w-full max-w-full overflow-x-hidden pt-0 relative">
-          {children}
-        </main>
-      </div>
+      <main className="flex-grow w-full overflow-x-hidden">{children}</main>
       <Footer />
     </div>
   );

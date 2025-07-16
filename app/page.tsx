@@ -11,9 +11,117 @@ import {
   FaPlane,
   FaHeart,
 } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { ReactNode, CSSProperties, MouseEvent } from "react";
 
-// Translations object for all text content
+// Types
+interface ServiceData {
+  id: string;
+  icon: React.ComponentType<{ className?: string }>;
+  key: keyof ServiceTranslations;
+}
+
+interface ServiceTranslations {
+  criticalIllness: { title: string; description: string };
+  education: { title: string; description: string };
+  annuity: { title: string; description: string };
+  medical: { title: string; description: string };
+  travel: { title: string; description: string };
+  life: { title: string; description: string };
+}
+
+interface ServicesSection {
+  title: string;
+  description: string;
+  criticalIllness: { title: string; description: string };
+  education: { title: string; description: string };
+  annuity: { title: string; description: string };
+  medical: { title: string; description: string };
+  travel: { title: string; description: string };
+  life: { title: string; description: string };
+}
+
+interface TranslationData {
+  hero: {
+    title: string;
+    description: string;
+    exploreButton: string;
+    contactButton: string;
+  };
+  about: {
+    title: string;
+    description1: string;
+    description2: string;
+    learnMoreButton: string;
+  };
+  services: ServicesSection;
+  contact: {
+    title: string;
+    description: string;
+    contactButton: string;
+    callButton: string;
+    serviceHours: string;
+    mondayToFriday: string;
+    mondayToFridayHours: string;
+    saturday: string;
+    saturdayHours: string;
+    evenings: string;
+    eveningHours: string;
+    address: string;
+    addressValue: string;
+  };
+}
+
+interface ContactButtonProps {
+  href: string;
+  className: string;
+  children: ReactNode;
+  style: CSSProperties;
+  onMouseEnter: (e: MouseEvent<HTMLAnchorElement>) => void;
+  onMouseLeave: (e: MouseEvent<HTMLAnchorElement>) => void;
+  [key: string]: any;
+}
+
+interface ServiceCardProps {
+  service: ServiceData;
+  t: TranslationData;
+}
+
+// Service data for better maintainability
+const serviceData: ServiceData[] = [
+  {
+    id: "criticalIllness",
+    icon: FaShieldAlt,
+    key: "criticalIllness",
+  },
+  {
+    id: "education",
+    icon: FaGraduationCap,
+    key: "education",
+  },
+  {
+    id: "annuity",
+    icon: FaMoneyBillWave,
+    key: "annuity",
+  },
+  {
+    id: "medical",
+    icon: FaMedkit,
+    key: "medical",
+  },
+  {
+    id: "travel",
+    icon: FaPlane,
+    key: "travel",
+  },
+  {
+    id: "life",
+    icon: FaHeart,
+    key: "life",
+  },
+];
+
+// Optimized translations object
 const translations = {
   en: {
     hero: {
@@ -39,44 +147,32 @@ const translations = {
         title: "Critical Illness Protection",
         description:
           "Critical illness can strike when you least expect it, placing a heavy financial burden on the whole family. With life expectancy rising, there is now an even greater chance of suffering multiple critical illnesses in a lifetime.",
-        learnMore: "Learn More →",
       },
       education: {
         title: "Education Plan",
         description:
           "Education Plan is designed with a specific goal in mind – financing your child's higher education. The plan offers short premium payment terms, opportunities for growth and guaranteed cash payments when your child reaches university age.",
-        learnMore: "Learn More →",
       },
       annuity: {
         title: "Annuity Plan",
         description:
           "A stable guaranteed annuity income stream that you can rely on for your retirement is a must. Our annuity plans are designed to provide financial security during your retirement years.",
-        learnMore: "Learn More →",
       },
       medical: {
         title: "Medical Protection",
         description:
           "In view of rising medical expenses, it is important for you and your family to have adequate hospitalisation protection. Your family responsibilities remain even as you progress with your career.",
-        learnMore: "Learn More →",
       },
       travel: {
         title: "Travel Insurance",
         description:
           "A world of adventure is out there, waiting to be explored. Take iTravel Protect with you for worldwide travel protection that covers all your essential needs, with optional benefits to suit your own itinerary.",
-        learnMore: "Learn More →",
       },
       life: {
         title: "Life Insurance",
         description:
           "Life is unpredictable. As a breadwinner, you will always worry about the wellbeing of your family when mishap unexpectedly happens. Our life insurance plans provide financial security for your loved ones.",
-        learnMore: "Learn More →",
       },
-    },
-    promo: {
-      title: "IIQE Exam Discount",
-      description:
-        "Great news! You have the chance to register for the IIQE exam with a huge 50% discount. Don't let this opportunity slip away—save big and take your career to the next level.",
-      registerButton: "Register for IIQE Exam",
     },
     contact: {
       title: "Ready to Secure Your Financial Future?",
@@ -119,44 +215,32 @@ const translations = {
         title: "危疾保障",
         description:
           "危疾可能在您最意想不到的時候發生，給整個家庭帶來沉重的經濟負擔。隨著預期壽命的增加，現在在一生中患上多種危疾的可能性更大。",
-        learnMore: "了解更多 →",
       },
       education: {
         title: "教育計劃",
         description:
           "教育計劃是為特定目標而設計的 - 為您子女的高等教育提供資金。該計劃提供短期保費支付期限，增長機會和當您的孩子達到大學年齡時的保證現金支付。",
-        learnMore: "了解更多 →",
       },
       annuity: {
         title: "年金計劃",
         description:
           "退休時可靠的穩定保證年金收入流是必須的。我們的年金計劃旨在為您的退休年齡提供財務保障。",
-        learnMore: "了解更多 →",
       },
       medical: {
         title: "醫療保障",
         description:
           "鑑於醫療費用不斷上漲，您和您的家人擁有足夠的住院保障非常重要。即使您在職業生涯中不斷進步，您的家庭責任仍然存在。",
-        learnMore: "了解更多 →",
       },
       travel: {
         title: "旅遊保險",
         description:
           "外面有一個冒險的世界，等待被探索。帶上iTravel Protect，獲得全球旅行保護，涵蓋您所有的基本需求，並提供可選福利以適應您自己的行程。",
-        learnMore: "了解更多 →",
       },
       life: {
         title: "人壽保險",
         description:
           "生活是不可預測的。作為一家之主，當意外發生時，您將始終擔心家人的福祉。我們的人壽保險計劃為您所愛的人提供財務保障。",
-        learnMore: "了解更多 →",
       },
-    },
-    promo: {
-      title: "保險中介人資格考試折扣",
-      description:
-        "好消息！您有機會以高達50%的折扣報名參加保險中介人資格考試。不要讓這個機會溜走—省錢並將您的職業生涯提升到一個新的水平。",
-      registerButton: "報名保險中介人資格考試",
     },
     contact: {
       title: "準備好保障您的財務未來了嗎？",
@@ -177,36 +261,101 @@ const translations = {
   },
 };
 
+// Contact button component for reusability
+const ContactButton: React.FC<ContactButtonProps> = ({
+  href,
+  className,
+  children,
+  style,
+  onMouseEnter,
+  onMouseLeave,
+  ...props
+}) => (
+  <Link
+    href={href}
+    className={className}
+    style={style}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+    {...props}
+  >
+    {children}
+  </Link>
+);
+
+// Service card component for reusability
+const ServiceCard: React.FC<ServiceCardProps> = ({ service, t }) => {
+  const IconComponent = service.icon;
+  return (
+    <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+      <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+        <IconComponent className="text-primary text-xl" />
+      </div>
+      <h3 className="text-lg font-bold mb-2 text-primary">
+        {t.services[service.key].title}
+      </h3>
+      <p className="text-dark-gray text-sm line-clamp-4">
+        {t.services[service.key].description}
+      </p>
+    </div>
+  );
+};
+
 export default function Home() {
   const { language } = useLanguage();
   const t = translations[language];
-  const [isMobile, setIsMobile] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Detect if the user is on a mobile device
+  // Optimized mobile detection with debounce
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    // Set initial value
     handleResize();
 
-    // Add event listener
-    window.addEventListener("resize", handleResize);
+    let resizeTimeout: NodeJS.Timeout;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(handleResize, 100);
+    };
 
-    // Cleanup
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", debouncedResize);
+    return () => {
+      clearTimeout(resizeTimeout);
+      window.removeEventListener("resize", debouncedResize);
+    };
   }, []);
 
-  // Mobile specific design
+  // Memoized contact button handlers
+  const contactButtonHandlers = useMemo(
+    () => ({
+      onMouseEnter: (e: MouseEvent<HTMLAnchorElement>) => {
+        e.currentTarget.style.backgroundColor = "#1f2937";
+        e.currentTarget.style.color = "#ffffff";
+        e.currentTarget.style.borderColor = "#1f2937";
+      },
+      onMouseLeave: (e: MouseEvent<HTMLAnchorElement>) => {
+        e.currentTarget.style.backgroundColor = "transparent";
+        e.currentTarget.style.color = "white";
+        e.currentTarget.style.borderColor = "white";
+      },
+    }),
+    []
+  );
+
+  const contactButtonStyle = {
+    backgroundColor: "transparent",
+    borderColor: "white",
+    color: "white",
+  };
+
+  // Mobile view
   if (isMobile) {
     return (
-      <div className="w-full overflow-x-hidden min-w-full">
+      <div className="w-full overflow-x-hidden">
         {/* Mobile Hero Section */}
-        <section
-          className="bg-primary text-white pt-3 pb-6 px-6 w-full"
-          style={{ width: "100%", margin: 0 }}
-        >
+        <section className="bg-primary text-white pt-3 pb-6 px-6 w-full">
           <div className="text-center mb-4">
             <h1 className="text-3xl font-bold mb-3">{t.hero.title}</h1>
             <p className="text-lg mb-5">{t.hero.description}</p>
@@ -217,40 +366,38 @@ export default function Home() {
               >
                 {t.hero.exploreButton}
               </Link>
-              <Link
+              <ContactButton
                 href="/contact"
-                className="bg-transparent border-2 border-white text-white py-3 px-6 rounded-md font-semibold w-full"
+                className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full transition-all duration-300"
+                style={contactButtonStyle}
+                {...contactButtonHandlers}
               >
                 {t.hero.contactButton}
-              </Link>
+              </ContactButton>
             </div>
           </div>
           <div className="relative h-52 rounded-lg overflow-hidden mt-5 shadow-md">
             <Image
               src="/assets/Lee_Garden 5.jpg"
-              alt="Seeds Financial Group"
+              alt="Seeds Financial Group Office"
               fill
-              style={{ objectFit: "cover" }}
-              className="rounded-lg"
+              className="object-cover rounded-lg"
               priority
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
         </section>
 
         {/* Mobile About Section */}
-        <section
-          className="py-10 px-6 bg-white w-full"
-          style={{ width: "100%", margin: 0 }}
-        >
+        <section className="py-10 px-6 bg-white w-full">
           <div className="flex flex-col items-center text-center mb-6">
             <div className="mb-4">
               <Image
                 src="/assets/Seeds_Icon_Trans.png"
-                alt="Seeds Financial Group"
+                alt="Seeds Financial Group Logo"
                 width={130}
                 height={130}
                 className="mb-2"
-                style={{ objectFit: "contain" }}
               />
             </div>
             <h2 className="text-2xl font-bold mb-3 text-primary">
@@ -258,12 +405,8 @@ export default function Home() {
             </h2>
           </div>
           <div>
-            <p className="text-dark-gray text-sm mb-3">
-              {t.about.description1}
-            </p>
-            <p className="text-dark-gray text-sm mb-4">
-              {t.about.description2}
-            </p>
+            <p className="text-black text-sm mb-3">{t.about.description1}</p>
+            <p className="text-black text-sm mb-4">{t.about.description2}</p>
             <div className="text-center">
               <Link href="/about" className="btn-primary inline-block text-sm">
                 {t.about.learnMoreButton}
@@ -272,123 +415,26 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Mobile Services Section - Horizontal Scrolling Cards */}
-        <section
-          className="py-10 px-6 bg-light-gray w-full"
-          style={{ width: "100%", margin: 0 }}
-        >
+        {/* Mobile Services Section */}
+        <section className="py-10 px-6 bg-light-gray w-full">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-4 text-primary">
               {t.services.title}
             </h2>
-            <p className="text-dark-gray">{t.services.description}</p>
+            <p className="text-black">{t.services.description}</p>
           </div>
 
           <div className="overflow-x-auto pb-4 -mx-6 px-6">
             <div className="flex gap-4 min-w-max">
-              {/* Critical Illness Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
-                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <FaShieldAlt className="text-primary text-xl" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-primary">
-                  {t.services.criticalIllness.title}
-                </h3>
-                <p className="text-dark-gray text-sm line-clamp-4">
-                  {t.services.criticalIllness.description}
-                </p>
-              </div>
-
-              {/* Education Plan Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
-                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <FaGraduationCap className="text-primary text-xl" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-primary">
-                  {t.services.education.title}
-                </h3>
-                <p className="text-dark-gray text-sm line-clamp-4">
-                  {t.services.education.description}
-                </p>
-              </div>
-
-              {/* Annuity Plan Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
-                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <FaMoneyBillWave className="text-primary text-xl" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-primary">
-                  {t.services.annuity.title}
-                </h3>
-                <p className="text-dark-gray text-sm line-clamp-4">
-                  {t.services.annuity.description}
-                </p>
-              </div>
-
-              {/* Medical Protection Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
-                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <FaMedkit className="text-primary text-xl" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-primary">
-                  {t.services.medical.title}
-                </h3>
-                <p className="text-dark-gray text-sm line-clamp-4">
-                  {t.services.medical.description}
-                </p>
-              </div>
-
-              {/* Travel Insurance Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
-                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <FaPlane className="text-primary text-xl" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-primary">
-                  {t.services.travel.title}
-                </h3>
-                <p className="text-dark-gray text-sm line-clamp-4">
-                  {t.services.travel.description}
-                </p>
-              </div>
-
-              {/* Life Insurance Card */}
-              <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
-                <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <FaHeart className="text-primary text-xl" />
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-primary">
-                  {t.services.life.title}
-                </h3>
-                <p className="text-dark-gray text-sm line-clamp-4">
-                  {t.services.life.description}
-                </p>
-              </div>
+              {serviceData.map((service) => (
+                <ServiceCard key={service.id} service={service} t={t} />
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Mobile Promo Section */}
-        <section
-          className="py-6 px-6 bg-primary text-white w-full"
-          style={{ width: "100%", margin: 0 }}
-        >
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-3">{t.promo.title}</h2>
-            <p className="text-base mb-6">{t.promo.description}</p>
-            <Link
-              href="/iiqe"
-              className="bg-white hover:bg-opacity-90 transition-colors text-primary font-bold py-3 px-6 rounded-md inline-block w-full"
-            >
-              {t.promo.registerButton}
-            </Link>
-          </div>
-        </section>
-
         {/* Mobile Contact Section */}
-        <section
-          className="py-10 px-6 bg-white w-full"
-          style={{ width: "100%", margin: 0 }}
-        >
+        <section className="py-10 px-6 bg-white w-full">
           <h2 className="text-2xl font-bold mb-4 text-primary text-center">
             {t.contact.title}
           </h2>
@@ -415,21 +461,29 @@ export default function Home() {
             <ul className="space-y-4">
               <li className="flex flex-col">
                 <span className="font-medium">{t.contact.mondayToFriday}</span>
-                <span>{t.contact.mondayToFridayHours}</span>
+                <span className="font-black text-black">
+                  {t.contact.mondayToFridayHours}
+                </span>
               </li>
               <li className="flex flex-col">
                 <span className="font-medium">{t.contact.saturday}</span>
-                <span>{t.contact.saturdayHours}</span>
+                <span className="font-black text-black">
+                  {t.contact.saturdayHours}
+                </span>
               </li>
               <li className="flex flex-col">
                 <span className="font-medium">{t.contact.evenings}</span>
-                <span>{t.contact.eveningHours}</span>
+                <span className="font-black text-black">
+                  {t.contact.eveningHours}
+                </span>
               </li>
             </ul>
             <div className="mt-6 pt-6 border-t">
-              <p className="text-dark-gray">
+              <p className="text-black">
                 <strong>{t.contact.address}</strong>
-                <span className="block mt-1">{t.contact.addressValue}</span>
+                <span className="block mt-1 font-black text-black">
+                  {t.contact.addressValue}
+                </span>
               </p>
             </div>
           </div>
@@ -438,7 +492,7 @@ export default function Home() {
     );
   }
 
-  // Desktop design remains the same
+  // Desktop view
   return (
     <div className="overflow-x-hidden w-full">
       {/* Hero Section */}
@@ -449,19 +503,10 @@ export default function Home() {
             "linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/Lee_Garden 5.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          width: "100%",
-          margin: 0,
-          padding: 0,
         }}
-        data-aos="fade-in"
-        data-aos-duration="1000"
       >
         <div className="container mx-auto px-6 text-center md:text-left py-12 z-10 relative">
-          <div
-            className="max-w-2xl mx-auto md:mx-0"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
+          <div className="max-w-2xl mx-auto md:mx-0">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
               {t.hero.title}
             </h1>
@@ -472,25 +517,23 @@ export default function Home() {
               <Link
                 href="/services"
                 className="btn-primary text-center w-full sm:w-auto"
-                data-aos="fade-up"
-                data-aos-delay="300"
               >
                 {t.hero.exploreButton}
               </Link>
-              <Link
+              <ContactButton
                 href="/contact"
-                className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary transition-all duration-300 px-6 py-3 rounded-md font-semibold text-center w-full sm:w-auto"
-                data-aos="fade-up"
-                data-aos-delay="400"
+                className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full sm:w-auto transition-all duration-300"
+                style={contactButtonStyle}
+                {...contactButtonHandlers}
               >
                 {t.hero.contactButton}
-              </Link>
+              </ContactButton>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Introduction Section */}
+      {/* About Section */}
       <section className="py-12 md:py-20 bg-light-gray w-full">
         <div className="container mx-auto px-6">
           <div className="text-center mb-8">
@@ -507,12 +550,7 @@ export default function Home() {
                 {t.about.description2}
               </p>
               <div className="text-center">
-                <Link
-                  href="/about"
-                  className="btn-primary inline-block"
-                  data-aos="fade-up"
-                  data-aos-delay="200"
-                >
+                <Link href="/about" className="btn-primary inline-block">
                   {t.about.learnMoreButton}
                 </Link>
               </div>
@@ -524,11 +562,7 @@ export default function Home() {
       {/* Services Section */}
       <section className="py-12 md:py-20 w-full">
         <div className="container mx-auto px-6">
-          <div
-            className="text-center mb-10 md:mb-16"
-            data-aos="fade-up"
-            data-aos-duration="800"
-          >
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
               {t.services.title}
             </h2>
@@ -538,134 +572,34 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {/* Critical Illness Protection */}
-            <div
-              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              data-aos="fade-up"
-              data-aos-delay="100"
-            >
-              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
-                <FaShieldAlt className="text-primary text-xl md:text-2xl" />
-              </div>
-              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
-                {t.services.criticalIllness.title}
-              </h3>
-              <p className="text-dark-gray text-sm md:text-base">
-                {t.services.criticalIllness.description}
-              </p>
-            </div>
-
-            {/* Education Plan */}
-            <div
-              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              data-aos="fade-up"
-              data-aos-delay="200"
-            >
-              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
-                <FaGraduationCap className="text-primary text-xl md:text-2xl" />
-              </div>
-              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
-                {t.services.education.title}
-              </h3>
-              <p className="text-dark-gray text-sm md:text-base">
-                {t.services.education.description}
-              </p>
-            </div>
-
-            {/* Annuity Plan */}
-            <div
-              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              data-aos="fade-up"
-              data-aos-delay="300"
-            >
-              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
-                <FaMoneyBillWave className="text-primary text-xl md:text-2xl" />
-              </div>
-              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
-                {t.services.annuity.title}
-              </h3>
-              <p className="text-dark-gray text-sm md:text-base">
-                {t.services.annuity.description}
-              </p>
-            </div>
-
-            {/* Medical Protection */}
-            <div
-              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              data-aos="fade-up"
-              data-aos-delay="400"
-            >
-              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
-                <FaMedkit className="text-primary text-xl md:text-2xl" />
-              </div>
-              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
-                {t.services.medical.title}
-              </h3>
-              <p className="text-dark-gray text-sm md:text-base">
-                {t.services.medical.description}
-              </p>
-            </div>
-
-            {/* Travel Insurance */}
-            <div
-              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              data-aos="fade-up"
-              data-aos-delay="500"
-            >
-              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
-                <FaPlane className="text-primary text-xl md:text-2xl" />
-              </div>
-              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
-                {t.services.travel.title}
-              </h3>
-              <p className="text-dark-gray text-sm md:text-base">
-                {t.services.travel.description}
-              </p>
-            </div>
-
-            {/* Life Insurance */}
-            <div
-              className="card bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              data-aos="fade-up"
-              data-aos-delay="600"
-            >
-              <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
-                <FaHeart className="text-primary text-xl md:text-2xl" />
-              </div>
-              <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
-                {t.services.life.title}
-              </h3>
-              <p className="text-dark-gray text-sm md:text-base">
-                {t.services.life.description}
-              </p>
-            </div>
+            {serviceData.map((service) => {
+              const IconComponent = service.icon;
+              return (
+                <div
+                  key={service.id}
+                  className="bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
+                    <IconComponent className="text-primary text-xl md:text-2xl" />
+                  </div>
+                  <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-primary">
+                    {t.services[service.key].title}
+                  </h3>
+                  <p className="text-dark-gray text-sm md:text-base">
+                    {t.services[service.key].description}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Promotional Offer Section */}
-      <section className="py-8 md:py-10 bg-primary text-white w-full">
-        <div className="container mx-auto px-6 text-center" data-aos="zoom-in">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">
-            {t.promo.title}
-          </h2>
-          <p className="text-base md:text-xl mb-6 max-w-3xl mx-auto">
-            {t.promo.description}
-          </p>
-          <Link
-            href="/iiqe"
-            className="bg-accent hover:bg-opacity-90 transition-colors text-dark-gray font-bold py-3 px-6 md:px-8 rounded-md inline-block"
-          >
-            {t.promo.registerButton}
-          </Link>
-        </div>
-      </section>
-
-      {/* Contact CTA Section */}
+      {/* Contact Section */}
       <section className="py-12 md:py-16 bg-light-gray w-full">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <div className="w-full md:w-1/2" data-aos="fade-right">
+            <div className="w-full md:w-1/2">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
                 {t.contact.title}
               </h2>
@@ -687,7 +621,7 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="w-full md:w-1/2 mt-8 md:mt-0" data-aos="fade-left">
+            <div className="w-full md:w-1/2 mt-8 md:mt-0">
               <div className="bg-white p-6 md:p-8 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4 text-primary">
                   {t.contact.serviceHours}
@@ -697,21 +631,27 @@ export default function Home() {
                     <span className="font-medium">
                       {t.contact.mondayToFriday}
                     </span>
-                    <span>{t.contact.mondayToFridayHours}</span>
+                    <span className="text-black">
+                      {t.contact.mondayToFridayHours}
+                    </span>
                   </li>
                   <li className="flex flex-col sm:flex-row sm:justify-between">
                     <span className="font-medium">{t.contact.saturday}</span>
-                    <span>{t.contact.saturdayHours}</span>
+                    <span className="text-black">
+                      {t.contact.saturdayHours}
+                    </span>
                   </li>
                   <li className="flex flex-col sm:flex-row sm:justify-between">
                     <span className="font-medium">{t.contact.evenings}</span>
-                    <span>{t.contact.eveningHours}</span>
+                    <span className="text-black">{t.contact.eveningHours}</span>
                   </li>
                 </ul>
                 <div className="mt-6 pt-6 border-t">
-                  <p className="text-dark-gray">
+                  <p className="text-black">
                     <strong>{t.contact.address}</strong>{" "}
-                    <span className="block mt-1">{t.contact.addressValue}</span>
+                    <span className="block mt-1 text-black">
+                      {t.contact.addressValue}
+                    </span>
                   </p>
                 </div>
               </div>

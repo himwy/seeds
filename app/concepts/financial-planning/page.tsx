@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useLanguage } from "../../components/LanguageContext";
-import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   FaChartLine,
@@ -24,8 +23,96 @@ import {
   FaChartPie,
   FaRegClock,
 } from "react-icons/fa";
+import { IconType } from "react-icons";
 
-// Translations for the Financial Planning page
+// Types
+interface SectionIcon {
+  icon: IconType;
+  badge: IconType | null;
+}
+
+interface SectionStep {
+  title: string;
+  description: string;
+}
+
+interface Section {
+  id: string;
+  title: string;
+  content: string[];
+  highlights?: string[];
+  steps?: SectionStep[];
+}
+
+interface Translation {
+  pageTitle: string;
+  pageSubtitle: string;
+  sections: Section[];
+  source: string;
+  contactCTA: string;
+  tableOfContents: string;
+}
+
+interface SectionCardProps {
+  section: Section;
+  index: number;
+  t: Translation;
+  isMobile: boolean;
+}
+
+interface TableOfContentsProps {
+  sections: Section[];
+  activeSection: string;
+  onSectionClick: (sectionId: string) => void;
+}
+
+interface QuickNavItem {
+  id: string;
+  title: string;
+  isActive: boolean;
+}
+
+// Icons configuration for sections
+const sectionIcons: Record<string, SectionIcon> = {
+  "what-is": { icon: FaChartLine, badge: FaHome },
+  benefits: { icon: FaBalanceScale, badge: FaPiggyBank },
+  process: { icon: FaRegLightbulb, badge: null },
+  "who-needs": { icon: FaUsers, badge: FaGraduationCap },
+  "risk-management": { icon: FaShieldAlt, badge: FaHeartbeat },
+  "why-hire": { icon: FaUserTie, badge: null },
+  "cfp-difference": { icon: FaAward, badge: null },
+  "why-choose-cfp": { icon: FaMedal, badge: null },
+  "cfp-guarantee": { icon: FaCertificate, badge: null },
+  "how-to-use": { icon: FaClipboardList, badge: null },
+  "first-step": { icon: FaHandshake, badge: null },
+};
+
+// Background colors for sections
+const sectionBgColors: Record<string, string> = {
+  "what-is": "bg-blue-50",
+  benefits: "bg-green-50",
+  process: "bg-purple-50",
+  "who-needs": "bg-yellow-50",
+  "risk-management": "bg-red-50",
+  "why-hire": "bg-indigo-50",
+  "cfp-difference": "bg-orange-50",
+  "why-choose-cfp": "bg-teal-50",
+  "cfp-guarantee": "bg-pink-50",
+  "how-to-use": "bg-cyan-50",
+  "first-step": "bg-lime-50",
+};
+
+// Process steps icons
+const processStepIcons: IconType[] = [
+  FaHandshake,
+  FaClipboardList,
+  FaChartPie,
+  FaRegLightbulb,
+  FaMoneyBillWave,
+  FaRegClock,
+];
+
+// Optimized translations
 const translations = {
   en: {
     pageTitle: "Financial Planning",
@@ -39,9 +126,6 @@ const translations = {
           "Life goals include buying a home, getting married, raising children and planning for their education, insuring yourself and your family, saving and investing for retirement, estate and tax planning, etc.",
           "Life goals are not limited to personal matters; they may involve starting and financing a business, joining or leaving a partnership, etc.",
         ],
-        icon: <FaChartLine className="w-12 h-12 text-primary" />,
-        bgColor: "bg-blue-50",
-        iconBadge: <FaHome className="w-8 h-8 text-blue-500" />,
         highlights: ["Set goals", "Create plans", "Achieve financial security"],
       },
       {
@@ -53,9 +137,6 @@ const translations = {
           "Financial planning allows you to list your financial expectations, now and in the future, and helps you develop realistic plans, objectively evaluate alternatives, and take effective measures.",
           "It can also help you understand how your financial goals relate to each other and how they balance each other.",
         ],
-        icon: <FaBalanceScale className="w-12 h-12 text-primary" />,
-        bgColor: "bg-green-50",
-        iconBadge: <FaPiggyBank className="w-8 h-8 text-green-600" />,
         highlights: [
           "Better control",
           "Reduced uncertainty",
@@ -72,36 +153,28 @@ const translations = {
           {
             title: "Establish client-planner relationship",
             description: "Building trust and understanding your needs",
-            icon: <FaHandshake className="w-6 h-6 text-primary" />,
           },
           {
             title: "Collect client data and determine goals",
             description: "Gathering information and setting clear objectives",
-            icon: <FaClipboardList className="w-6 h-6 text-primary" />,
           },
           {
             title: "Determine client's financial status",
             description: "Analyzing your current financial situation",
-            icon: <FaChartPie className="w-6 h-6 text-primary" />,
           },
           {
             title: "Analyze and evaluate client information",
             description: "Finding opportunities and addressing challenges",
-            icon: <FaRegLightbulb className="w-6 h-6 text-primary" />,
           },
           {
             title: "Develop and present financial plan",
             description: "Creating a customized roadmap for your finances",
-            icon: <FaMoneyBillWave className="w-6 h-6 text-primary" />,
           },
           {
             title: "Implement and monitor financial plan",
             description: "Taking action and tracking progress over time",
-            icon: <FaRegClock className="w-6 h-6 text-primary" />,
           },
         ],
-        icon: <FaRegLightbulb className="w-12 h-12 text-primary" />,
-        bgColor: "bg-purple-50",
       },
       {
         id: "who-needs",
@@ -113,9 +186,6 @@ const translations = {
           "The advantage of starting financial planning early is that you can get ahead of others who haven't achieved your life goals.",
           "You may be surprised to find that your friends and relatives have been doing financial planning with the help of a financial planner for some time.",
         ],
-        icon: <FaUsers className="w-12 h-12 text-primary" />,
-        bgColor: "bg-yellow-50",
-        iconBadge: <FaGraduationCap className="w-8 h-8 text-yellow-600" />,
         highlights: [
           "Everyone benefits",
           "Start early",
@@ -130,9 +200,6 @@ const translations = {
           "As the breadwinner of the family, you must ensure that your dependents have strong financial security.",
           "It is natural to want to give children the best. For every parent, the primary concern is to ensure that their children have a safe and better tomorrow. This includes being able to give your child the best future and get all the necessary financial support in all the major milestones of their lives—education, lifestyle, marriage, etc. But to achieve this, people should have a clear plan on how to provide the same.",
         ],
-        icon: <FaShieldAlt className="w-12 h-12 text-primary" />,
-        bgColor: "bg-red-50",
-        iconBadge: <FaHeartbeat className="w-8 h-8 text-red-500" />,
         highlights: [
           "Protect loved ones",
           "Secure their future",
@@ -149,8 +216,6 @@ const translations = {
           "For all the above reasons, the benefits of hiring a financial planner far outweigh the cost. The cost of hiring a financial planner will depend on the size of the investment amount and the complexity of the financial arrangement.",
           "Please contact a CFP professional in Hong Kong or a company that provides financial planning services. They are happy to help you evaluate your financial planning needs.",
         ],
-        icon: <FaUserTie className="w-12 h-12 text-primary" />,
-        bgColor: "bg-indigo-50",
         highlights: ["Expert guidance", "Time-saving", "Optimal strategies"],
       },
       {
@@ -162,8 +227,6 @@ const translations = {
           "Each of the above advisors has their own strengths. But some of them can provide you with more than one professional opinion.",
           "Financial planners who hold CFP certified financial planner qualification certification have undergone professional training and can provide clients with a comprehensive financial planning process.",
         ],
-        icon: <FaAward className="w-12 h-12 text-primary" />,
-        bgColor: "bg-orange-50",
         highlights: [
           "Comprehensive training",
           "Broad expertise",
@@ -179,8 +242,6 @@ const translations = {
           "You can also hire them to deal with individual financial issues, but they will still provide you with professional advice based on your overall financial situation.",
           "The advantage of CFP professionals is that they can use a comprehensive approach to find solutions for you to achieve your set financial goals. Because other financial advisors may only provide opinions on one of your financial needs.",
         ],
-        icon: <FaMedal className="w-12 h-12 text-primary" />,
-        bgColor: "bg-teal-50",
         highlights: [
           "Globally recognized",
           "Holistic approach",
@@ -198,8 +259,6 @@ const translations = {
           "Third, the association sets up disciplinary rules and procedures to maintain the 'Professional Ethics and Responsibilities' of the association and the high professional standards of CFP professionals.",
           "To summarize, CFP professionals (1) have the highest competence and professional ethics, (2) hold a CFP certified financial planner certificate, and (3) objectively provide solutions at any time to meet your financial planning needs.",
         ],
-        icon: <FaCertificate className="w-12 h-12 text-primary" />,
-        bgColor: "bg-pink-50",
         highlights: [
           "Strict requirements",
           "Continuing education",
@@ -214,8 +273,6 @@ const translations = {
           "• Start financial planning early.\n• Set measurable financial goals.\n• Understand that financial goals may be interconnected.\n• Set realistic expectations.\n• Actively participate in the entire financial planning process.\n• Regularly review your financial situation.",
           "The above financial planning process and our suggestions are expressed in a simple mode. If you need a detailed explanation, please consult your CFP professional.",
         ],
-        icon: <FaClipboardList className="w-12 h-12 text-primary" />,
-        bgColor: "bg-cyan-50",
         highlights: ["Be proactive", "Stay engaged", "Regular reviews"],
       },
       {
@@ -227,8 +284,6 @@ const translations = {
           "Please carefully refer to the list of CFP professionals to choose a suitable financial planner.",
           "You can also inquire with the founding members of the association (see the introduction to the Hong Kong Institute of Financial Planners).",
         ],
-        icon: <FaHandshake className="w-12 h-12 text-primary" />,
-        bgColor: "bg-lime-50",
         highlights: ["Start today", "Secure tomorrow", "Build wealth"],
       },
     ],
@@ -248,9 +303,6 @@ const translations = {
           "人生目標包括買房、結婚、撫養孩子和規劃他們的教育、為自己和家人投保、為退休存錢和投資、遺產和稅務規劃等。",
           "人生目標不僅限於個人事務；它們可能涉及創業和融資、加入或退出合夥企業等。",
         ],
-        icon: <FaChartLine className="w-12 h-12 text-primary" />,
-        bgColor: "bg-blue-50",
-        iconBadge: <FaHome className="w-8 h-8 text-blue-500" />,
         highlights: ["設定目標", "創建計劃", "實現財務安全"],
       },
       {
@@ -262,9 +314,6 @@ const translations = {
           "財務規劃使您能夠列出您的財務預期、現在和未來，並幫助您制定切合實際的計劃、客觀地評估備選方案並採取有效措施。",
           "它還可以幫助您了解您的財務目標如何相互關聯以及它們如何相互平衡。",
         ],
-        icon: <FaBalanceScale className="w-12 h-12 text-primary" />,
-        bgColor: "bg-green-50",
-        iconBadge: <FaPiggyBank className="w-8 h-8 text-green-600" />,
         highlights: ["更好的控制", "減少不確定性", "平衡優先事項"],
       },
       {
@@ -277,36 +326,28 @@ const translations = {
           {
             title: "建立客戶與規劃師的關係",
             description: "建立信任並了解您的需求",
-            icon: <FaHandshake className="w-6 h-6 text-primary" />,
           },
           {
             title: "收集客戶數據和確定目標",
             description: "收集信息並設定明確的目標",
-            icon: <FaClipboardList className="w-6 h-6 text-primary" />,
           },
           {
             title: "決定客戶的財務狀況",
             description: "分析您當前的財務狀況",
-            icon: <FaChartPie className="w-6 h-6 text-primary" />,
           },
           {
             title: "分析和評估客戶信息",
             description: "發現機會並應對挑戰",
-            icon: <FaRegLightbulb className="w-6 h-6 text-primary" />,
           },
           {
             title: "開發和提出財務計劃",
             description: "為您的財務創建定制的路線圖",
-            icon: <FaMoneyBillWave className="w-6 h-6 text-primary" />,
           },
           {
             title: "實施和監控財務計劃",
             description: "採取行動並隨時間跟踪進度",
-            icon: <FaRegClock className="w-6 h-6 text-primary" />,
           },
         ],
-        icon: <FaRegLightbulb className="w-12 h-12 text-primary" />,
-        bgColor: "bg-purple-50",
       },
       {
         id: "who-needs",
@@ -318,9 +359,6 @@ const translations = {
           "儘早開始財務規劃的好處是可以領先於其他沒有實現您的人生目標。",
           "您可能會驚訝地發現，您的親朋好友已經在理財師的幫助下進行了一段時間的理財規劃",
         ],
-        icon: <FaUsers className="w-12 h-12 text-primary" />,
-        bgColor: "bg-yellow-50",
-        iconBadge: <FaGraduationCap className="w-8 h-8 text-yellow-600" />,
         highlights: ["每個人都能受益", "及早開始", "更快實現目標"],
       },
       {
@@ -328,14 +366,9 @@ const translations = {
         title: "風險管理是健康財務策劃的基礎",
         content: [
           "有了適當的人壽保險、醫療保險和收入保障，可以為親人的財務保駕護航。",
-          "為親人保障財務",
           "作為家庭的養家糊口者，您必須確保受撫養人有強大的經濟保障。",
-          "孩子計劃確保他們的夢想",
           "想要給孩子最好的東西是很自然的。對於每一位父母來說，首要關注的是確保他們的孩子有一個安全和更美好的明天。這包括能夠給您的孩子最好的未來，並在他們生活的所有主要里程碑——教育、生活方式、婚姻等方面獲得所有必要的經濟支持。但要實現這一點，人們應該有一個關於如何提供相同的明確計劃。",
         ],
-        icon: <FaShieldAlt className="w-12 h-12 text-primary" />,
-        bgColor: "bg-red-50",
-        iconBadge: <FaHeartbeat className="w-8 h-8 text-red-500" />,
         highlights: ["保護親人", "確保他們的未來", "心靈平靜"],
       },
       {
@@ -348,8 +381,6 @@ const translations = {
           "基於以上種種原因，聘用財務策劃師的好處是遠遠超過其費用。聘用財務策劃師的費用，會視乎投資金額的大小及財務安排的複雜性而設。",
           "請與香港的CFP專業人士，或提供財務策劃服務的公司聯絡。他們很樂意協助您評估您的財務策劃需要。",
         ],
-        icon: <FaUserTie className="w-12 h-12 text-primary" />,
-        bgColor: "bg-indigo-50",
         highlights: ["專家指導", "節省時間", "最佳策略"],
       },
       {
@@ -361,8 +392,6 @@ const translations = {
           "以上各類顧問都各有所長。但當中有些顧問，可以為您提供超過一項的專業意見。",
           "持有CFP認可財務策劃師資格認證的財務策劃師均受過專業的加練，能為客户提供綜合的財務策劃程序。",
         ],
-        icon: <FaAward className="w-12 h-12 text-primary" />,
-        bgColor: "bg-orange-50",
         highlights: ["全面培訓", "廣泛專業知識", "高標準"],
       },
       {
@@ -374,8 +403,6 @@ const translations = {
           "您亦可聘用他們為您處理個別的財務間題，但他們仍會以您整體的財務狀況為前提，為您提供專業意見。",
           "CFP專業人士的優勢在於他/她們可運用綜合性的方法，為您得找解決方案，使您達到設定的財務目標。因為，其他的財務顧問可能界會為您某一項的財務需求提供意見。",
         ],
-        icon: <FaMedal className="w-12 h-12 text-primary" />,
-        bgColor: "bg-teal-50",
         highlights: ["全球認可", "整體方法", "以客戶為中心"],
       },
       {
@@ -389,8 +416,6 @@ const translations = {
           "第三、學會設定紀律規則及程序，以維持學會的《專業操守及責任》及CFP專業人士高度的專業標準。",
           "總結以上各項範疇，CFP專業人士(一)具備最高的勝任能力及專業操守，(二)持有CFP認可財務策劃師證書，及(三)隨時客觀地提供解決方案以符合您的財務策劃需要。",
         ],
-        icon: <FaCertificate className="w-12 h-12 text-primary" />,
-        bgColor: "bg-pink-50",
         highlights: ["嚴格要求", "持續教育", "道德標準"],
       },
       {
@@ -401,8 +426,6 @@ const translations = {
           "• 盡早開始財務策劃。\n• 設定可量度的財務目標。\n• 了解財務目標可能互相關連。\n• 要設定實際的期望。\n• 主動參與整個財務策劃程序。\n• 定期對財務狀況作出檢討。",
           "以上的財務策劃程序及我們的建議，皆以簡單的模式表達出來。如需要詳細的解釋，請向您的CFP專業人士查詢。",
         ],
-        icon: <FaClipboardList className="w-12 h-12 text-primary" />,
-        bgColor: "bg-cyan-50",
         highlights: ["積極主動", "保持參與", "定期審查"],
       },
       {
@@ -414,8 +437,6 @@ const translations = {
           "請細心參考CFP專業人士的名單，從而選擇一位合適的財務策劃師。",
           "您亦可向學會的創會會員（見香港財務策劃師學會簡介 ） 查詢。",
         ],
-        icon: <FaHandshake className="w-12 h-12 text-primary" />,
-        bgColor: "bg-lime-50",
         highlights: ["今天開始", "確保明天", "積累財富"],
       },
     ],
@@ -425,6 +446,126 @@ const translations = {
   },
 };
 
+// Reusable components
+const SectionCard: React.FC<SectionCardProps> = ({
+  section,
+  index,
+  t,
+  isMobile,
+}) => {
+  const sectionConfig = sectionIcons[section.id];
+  const bgColor = sectionBgColors[section.id];
+  const IconComponent = sectionConfig?.icon || FaChartLine;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.05 }}
+      viewport={{ once: true, margin: "-100px" }}
+      className={`scroll-mt-24 p-${
+        isMobile ? "5" : "8"
+      } rounded-2xl ${bgColor} border border-gray-100 shadow-sm`}
+      id={section.id}
+    >
+      <div className="flex items-center mb-6">
+        <div className="mr-4 p-3 bg-white rounded-full shadow-sm">
+          <IconComponent className="w-6 h-6 text-primary" />
+        </div>
+        <h2
+          className={`text-${isMobile ? "2xl" : "3xl"} font-bold text-primary`}
+        >
+          {section.title}
+        </h2>
+      </div>
+
+      {section.highlights && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {section.highlights.map((highlight: string, i: number) => (
+            <span
+              key={i}
+              className="bg-white px-4 py-1.5 rounded-full text-sm font-medium text-primary border border-primary/20 shadow-sm"
+            >
+              {highlight}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <div className={section.steps ? "lg:w-2/3" : "w-full"}>
+        <div className="space-y-4">
+          {section.content.map((paragraph: string, i: number) => (
+            <p key={i} className="text-black leading-relaxed">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </div>
+
+      {section.steps && (
+        <div className="mt-8 grid md:grid-cols-2 gap-4">
+          {section.steps.map((step: SectionStep, i: number) => {
+            const StepIcon = processStepIcons[i];
+            return (
+              <div
+                key={i}
+                className="bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 mr-4">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <span className="text-primary font-bold">{i + 1}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-primary">{step.title}</h3>
+                    <p className="text-sm text-black mt-1">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </motion.div>
+  );
+};
+
+const TableOfContents: React.FC<TableOfContentsProps> = ({
+  sections,
+  activeSection,
+  onSectionClick,
+}) => (
+  <div className="sticky top-24 bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
+    <h3 className="text-lg font-bold mb-4 text-primary">
+      {translations.en.tableOfContents}
+    </h3>
+    <ul className="space-y-1">
+      {sections.map((section: Section) => {
+        const IconComponent = sectionIcons[section.id]?.icon || FaChartLine;
+        return (
+          <li key={section.id}>
+            <button
+              onClick={() => onSectionClick(section.id)}
+              className={`flex items-center py-2 px-3 rounded-lg transition-colors w-full text-left ${
+                activeSection === section.id
+                  ? "bg-primary/10 text-dark-gray font-medium"
+                  : "text-dark-gray hover:bg-gray-100"
+              }`}
+              aria-current={activeSection === section.id ? "page" : undefined}
+            >
+              <IconComponent className="w-4 h-4 mr-2 flex-shrink-0 text-dark-gray" />
+              <span>{section.title}</span>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+);
+
 export default function FinancialPlanningPage() {
   const { language } = useLanguage();
   const t = translations[language];
@@ -432,19 +573,12 @@ export default function FinancialPlanningPage() {
   const [activeSection, setActiveSection] = useState("what-is");
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Detect if the user is on a mobile device
+  // Optimized mobile detection
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    // Set initial value
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
-
-    // Mark as loaded after initial render
     setIsLoaded(true);
 
-    // Add event listener with debounce for performance
     let timeoutId: NodeJS.Timeout;
     const debouncedResize = () => {
       clearTimeout(timeoutId);
@@ -452,26 +586,24 @@ export default function FinancialPlanningPage() {
     };
 
     window.addEventListener("resize", debouncedResize);
-
-    // Cleanup
     return () => {
       clearTimeout(timeoutId);
       window.removeEventListener("resize", debouncedResize);
     };
   }, []);
 
-  // Setup intersection observer for section highlighting
+  // Optimized intersection observer
   useEffect(() => {
     if (!isLoaded) return;
 
-    const observerOptions = {
+    const observerOptions: IntersectionObserverInit = {
       root: null,
       rootMargin: "0px",
-      threshold: isMobile ? 0.1 : 0.3, // Lower threshold for mobile
+      threshold: isMobile ? 0.1 : 0.3,
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
+      entries.forEach((entry: IntersectionObserverEntry) => {
         if (entry.isIntersecting) {
           setActiveSection(entry.target.id);
         }
@@ -483,143 +615,79 @@ export default function FinancialPlanningPage() {
       observerOptions
     );
 
-    // Observe all section elements
-    t.sections.forEach((section) => {
+    t.sections.forEach((section: Section) => {
       const element = document.getElementById(section.id);
       if (element) observer.observe(element);
     });
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, [t.sections, isLoaded, isMobile]);
 
-  // Smooth scroll to section when clicking on TOC links
-  const scrollToSection = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
-      e.preventDefault();
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-        setActiveSection(sectionId);
-      }
-    },
-    []
+  // Smooth scroll handler
+  const scrollToSection = useCallback((sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+      setActiveSection(sectionId);
+    }
+  }, []);
+
+  // Memoized quick nav items
+  const quickNavItems: QuickNavItem[] = useMemo(
+    () =>
+      t.sections.map((section: Section) => ({
+        id: section.id,
+        title:
+          section.title.length > 15
+            ? section.title.substring(0, 15) + "..."
+            : section.title,
+        isActive: activeSection === section.id,
+      })),
+    [t.sections, activeSection]
   );
 
-  // Mobile view
   if (isMobile) {
     return (
       <div className="w-full overflow-x-hidden pb-16">
-        {/* Page Title */}
+        {/* Hero Banner */}
         <div className="bg-gradient-to-r from-primary to-blue-700 text-white py-10 px-4 mt-16">
           <h1 className="text-2xl font-bold text-center">{t.pageTitle}</h1>
-          <p className="text-center mt-2 text-blue-100">{t.pageSubtitle}</p>
+          <p className="text-center mt-2 text-white">{t.pageSubtitle}</p>
           <div className="h-1 w-16 bg-white mx-auto mt-3 rounded-full"></div>
         </div>
 
         {/* Quick Navigation */}
         <div className="sticky top-0 z-10 bg-white shadow-md px-4 py-3 overflow-x-auto">
           <div className="flex space-x-2 whitespace-nowrap">
-            {t.sections.map((section) => (
-              <a
-                key={section.id}
-                href={`#${section.id}`}
-                onClick={(e) => scrollToSection(e, section.id)}
+            {quickNavItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
                 className={`px-3 py-1 text-sm rounded-full transition-colors ${
-                  activeSection === section.id
+                  item.isActive
                     ? "bg-primary/10 text-primary font-medium"
                     : "text-gray-600 bg-gray-100"
                 }`}
               >
-                {section.title.length > 15
-                  ? section.title.substring(0, 15) + "..."
-                  : section.title}
-              </a>
+                {item.title}
+              </button>
             ))}
           </div>
         </div>
 
-        {/* Financial Planning Content */}
+        {/* Content */}
         <section className="pt-6 px-4 bg-white">
           <div className="space-y-8">
             {t.sections.map((section, index) => (
-              <motion.div
+              <SectionCard
                 key={section.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                className={`p-5 rounded-xl ${section.bgColor} border border-gray-100 shadow-sm`}
-                id={section.id}
-              >
-                <div className="flex items-center mb-4">
-                  <div className="mr-3 p-2 bg-white rounded-full shadow-sm">
-                    {React.cloneElement(section.icon, {
-                      className: "w-5 h-5 text-primary",
-                    })}
-                  </div>
-                  <h2 className="text-lg font-bold text-primary">
-                    {section.title}
-                  </h2>
-                </div>
-
-                {section.highlights && (
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {section.highlights.map((highlight, i) => (
-                      <span
-                        key={i}
-                        className="bg-white px-3 py-1 rounded-full text-xs font-medium text-primary border border-primary/20"
-                      >
-                        {highlight}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                <div className="space-y-3">
-                  {section.content.map((paragraph) => (
-                    <p
-                      key={paragraph}
-                      className="text-dark-gray text-sm leading-relaxed"
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-
-                {section.steps && (
-                  <div className="mt-4 space-y-3">
-                    {section.steps.map((step, i) => (
-                      <div
-                        key={i}
-                        className="bg-white p-3 rounded-lg shadow-sm"
-                      >
-                        <div className="flex items-start">
-                          <div className="flex-shrink-0 mr-3">
-                            <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center">
-                              <span className="text-primary font-bold text-xs">
-                                {i + 1}
-                              </span>
-                            </div>
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-primary text-sm">
-                              {step.title}
-                            </h3>
-                            <p className="text-xs text-gray-600 mt-1">
-                              {step.description}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </motion.div>
+                section={section}
+                index={index}
+                t={t}
+                isMobile={true}
+              />
             ))}
           </div>
-
           <div className="mt-6 text-xs text-gray-500 italic">{t.source}</div>
         </section>
       </div>
@@ -632,7 +700,6 @@ export default function FinancialPlanningPage() {
       {/* Hero Banner */}
       <div className="relative bg-gradient-to-r from-primary/90 to-blue-700/90 h-60 mt-12">
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-
         <div className="container mx-auto px-6 h-full flex items-center justify-center">
           <div className="text-center">
             <motion.h1
@@ -647,7 +714,7 @@ export default function FinancialPlanningPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="text-xl text-blue-100 mt-4 max-w-2xl mx-auto"
+              className="text-xl text-white mt-4 max-w-2xl mx-auto"
             >
               {t.pageSubtitle}
             </motion.p>
@@ -656,126 +723,32 @@ export default function FinancialPlanningPage() {
         </div>
       </div>
 
-      {/* Main Content with Table of Contents */}
+      {/* Main Content */}
       <div className="bg-white py-16">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row">
-            {/* Sidebar - Table of Contents */}
+            {/* Table of Contents */}
             <div className="lg:w-1/4 mb-8 lg:mb-0">
-              <div className="sticky top-24 bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-bold mb-4 text-primary">
-                  {t.tableOfContents}
-                </h3>
-                <ul className="space-y-1">
-                  {t.sections.map((section) => (
-                    <li key={section.id}>
-                      <a
-                        href={`#${section.id}`}
-                        onClick={(e) => scrollToSection(e, section.id)}
-                        className={`flex items-center py-2 px-3 rounded-lg transition-colors ${
-                          activeSection === section.id
-                            ? "bg-primary/10 text-dark-gray font-medium"
-                            : "text-dark-gray hover:bg-gray-100"
-                        }`}
-                        aria-current={
-                          activeSection === section.id ? "page" : undefined
-                        }
-                      >
-                        <span className="w-4 h-4 mr-2 flex-shrink-0">
-                          {React.cloneElement(section.icon, {
-                            className: "w-4 h-4 text-dark-gray",
-                          })}
-                        </span>
-                        <span>{section.title}</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <TableOfContents
+                sections={t.sections}
+                activeSection={activeSection}
+                onSectionClick={scrollToSection}
+              />
             </div>
 
-            {/* Main Content */}
+            {/* Content */}
             <div className="lg:w-3/4 lg:pl-12">
               <div className="space-y-16">
                 {t.sections.map((section, index) => (
-                  <motion.div
+                  <SectionCard
                     key={section.id}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.05 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    className={`scroll-mt-24 p-8 rounded-2xl ${section.bgColor} border border-gray-100 shadow-sm`}
-                    id={section.id}
-                  >
-                    <div className="flex items-center mb-6">
-                      <div className="mr-4 p-3 bg-white rounded-full shadow-sm">
-                        {React.cloneElement(section.icon, {
-                          className: "w-6 h-6 text-primary",
-                        })}
-                      </div>
-                      <h2 className="text-3xl font-bold text-primary">
-                        {section.title}
-                      </h2>
-                    </div>
-
-                    {section.highlights && (
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {section.highlights.map((highlight, i) => (
-                          <span
-                            key={i}
-                            className="bg-white px-4 py-1.5 rounded-full text-sm font-medium text-primary border border-primary/20 shadow-sm"
-                          >
-                            {highlight}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className={section.steps ? "lg:w-2/3" : "w-full"}>
-                      <div className="space-y-4">
-                        {section.content.map((paragraph) => (
-                          <p
-                            key={paragraph}
-                            className="text-dark-gray leading-relaxed"
-                          >
-                            {paragraph}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-
-                    {section.steps && (
-                      <div className="mt-8 grid md:grid-cols-2 gap-4">
-                        {section.steps.map((step, i) => (
-                          <div
-                            key={i}
-                            className="bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow"
-                          >
-                            <div className="flex items-start">
-                              <div className="flex-shrink-0 mr-4">
-                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                  <span className="text-primary font-bold">
-                                    {i + 1}
-                                  </span>
-                                </div>
-                              </div>
-                              <div>
-                                <h3 className="font-semibold text-primary">
-                                  {step.title}
-                                </h3>
-                                <p className="text-sm text-gray-600 mt-1">
-                                  {step.description}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </motion.div>
+                    section={section}
+                    index={index}
+                    t={t}
+                    isMobile={false}
+                  />
                 ))}
               </div>
-
               <div className="mt-10 text-sm text-gray-500 italic">
                 {t.source}
               </div>
