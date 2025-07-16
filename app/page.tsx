@@ -79,7 +79,7 @@ interface ContactButtonProps {
   style: CSSProperties;
   onMouseEnter: (e: MouseEvent<HTMLAnchorElement>) => void;
   onMouseLeave: (e: MouseEvent<HTMLAnchorElement>) => void;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface ServiceCardProps {

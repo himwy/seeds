@@ -352,14 +352,6 @@ export default function AboutPage() {
     []
   );
 
-  const itemVariants = useMemo(
-    () => ({
-      hidden: { y: 20, opacity: 0 },
-      show: { y: 0, opacity: 1 },
-    }),
-    []
-  );
-
   if (isMobile) {
     return (
       <div className="w-full overflow-x-hidden">

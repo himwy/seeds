@@ -540,7 +540,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
 }) => (
   <div className="sticky top-24 bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
     <h3 className="text-lg font-bold mb-4 text-primary">
-      {translations.en.tableOfContents}
+      Contents
     </h3>
     <ul className="space-y-1">
       {sections.map((section: Section) => {
