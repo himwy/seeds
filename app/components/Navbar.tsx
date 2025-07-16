@@ -29,7 +29,7 @@ export default function Navbar() {
   const menuItems = [
     {
       title: t.navbar.about,
-      path: "/about",
+      path: "#", // Changed to non-clickable
       icon: <FaInfoCircle className="w-5 h-5" />,
       submenu: [
         {
@@ -44,7 +44,7 @@ export default function Navbar() {
     },
     {
       title: t.navbar.concepts,
-      path: "/concepts",
+      path: "#", // Changed to non-clickable
       icon: <FaLightbulb className="w-5 h-5" />,
       submenu: [
         {
@@ -67,7 +67,7 @@ export default function Navbar() {
     },
     {
       title: t.navbar.caseStudies,
-      path: "/case-studies",
+      path: "#", // Changed to non-clickable
       icon: <FaBriefcase className="w-5 h-5" />,
       submenu: [
         {
@@ -229,15 +229,21 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center space-x-6">
             {menuItems.map((item) => (
               <div key={item.title} className="relative group">
-                <Link
-                  href={item.path}
-                  className="flex items-center text-dark-gray hover:text-primary transition-colors py-2"
-                >
-                  <span className="mr-1">{item.title}</span>
-                  {item.submenu && item.submenu.length > 0 && (
+                {item.submenu && item.submenu.length > 0 ? (
+                  // Items with dropdown - make parent non-clickable
+                  <div className="flex items-center text-dark-gray hover:text-primary transition-colors py-2 cursor-pointer">
+                    <span className="mr-1">{item.title}</span>
                     <FaAngleDown className="w-3 h-3" />
-                  )}
-                </Link>
+                  </div>
+                ) : (
+                  // Regular items without dropdown - keep clickable
+                  <Link
+                    href={item.path}
+                    className="flex items-center text-dark-gray hover:text-primary transition-colors py-2"
+                  >
+                    <span className="mr-1">{item.title}</span>
+                  </Link>
+                )}
 
                 {item.submenu && item.submenu.length > 0 && (
                   <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
@@ -293,6 +299,7 @@ export default function Navbar() {
                     className="border-b border-gray-200 py-3"
                   >
                     {item.submenu && item.submenu.length > 0 ? (
+                      // Items with dropdown
                       <>
                         <button
                           className="flex justify-between items-center w-full text-left text-dark-gray hover:text-primary transition-colors"
@@ -330,6 +337,7 @@ export default function Navbar() {
                         )}
                       </>
                     ) : (
+                      // Regular clickable items without dropdown
                       <Link
                         href={item.path}
                         className="flex items-center text-dark-gray hover:text-primary transition-colors py-1"

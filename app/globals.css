@@ -8,7 +8,7 @@
   --secondary: #2980b9;
   --accent: #f39c12;
   --light-gray: #f8f9fa;
-  --dark-gray: #343a40;
+  --dark-gray: #343a40; /* Restored to original value */
   --vh: 1vh;
 }
 
@@ -104,4 +104,44 @@ section {
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
+}
+
+/* Add higher contrast version of text-dark-gray for PC displays */
+.text-dark-gray {
+  color: #121212 !important; /* Very dark color that will be visible on all displays */
+}
+
+/* Make sure text-gray-700 is also visible */
+.text-gray-700 {
+  color: #121212 !important;
+}
+
+/* Fix for company title, headings, and other specific elements */
+h1, h2, h3, h4, h5, h6,
+.text-primary,
+.font-bold,
+.font-medium,
+.text-secondary,
+.text-xs,
+.text-sm,
+.text-base,
+.text-lg,
+.text-xl {
+  color: #121212 !important;
+}
+
+/* Only exempt elements that should have special colors */
+.text-white,
+.bg-primary *,
+.bg-secondary *,
+.bg-accent * {
+  color: white !important;
+}
+
+/* Icon elements */
+svg {
+  color: #121212 !important;
+}
+.text-primary svg {
+  color: var(--primary) !important;
 }

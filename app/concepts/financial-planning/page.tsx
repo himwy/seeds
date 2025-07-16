@@ -674,7 +674,7 @@ export default function FinancialPlanningPage() {
                         onClick={(e) => scrollToSection(e, section.id)}
                         className={`flex items-center py-2 px-3 rounded-lg transition-colors ${
                           activeSection === section.id
-                            ? "bg-primary/10 text-primary font-medium"
+                            ? "bg-primary/10 text-dark-gray font-medium"
                             : "text-dark-gray hover:bg-gray-100"
                         }`}
                         aria-current={
@@ -683,7 +683,7 @@ export default function FinancialPlanningPage() {
                       >
                         <span className="w-4 h-4 mr-2 flex-shrink-0">
                           {React.cloneElement(section.icon, {
-                            className: "w-4 h-4",
+                            className: "w-4 h-4 text-dark-gray",
                           })}
                         </span>
                         <span>{section.title}</span>
