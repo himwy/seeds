@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { useLanguage } from "../../components/LanguageContext";
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -579,9 +578,9 @@ export default function FinancialPlanningPage() {
                 )}
 
                 <div className="space-y-3">
-                  {section.content.map((paragraph, i) => (
+                  {section.content.map((paragraph) => (
                     <p
-                      key={i}
+                      key={paragraph}
                       className="text-dark-gray text-sm leading-relaxed"
                     >
                       {paragraph}
@@ -734,8 +733,8 @@ export default function FinancialPlanningPage() {
 
                     <div className={section.steps ? "lg:w-2/3" : "w-full"}>
                       <div className="space-y-4">
-                        {section.content.map((paragraph, i) => (
-                          <p key={i} className="text-dark-gray leading-relaxed">
+                        {section.content.map((paragraph) => (
+                          <p key={paragraph} className="text-dark-gray leading-relaxed">
                             {paragraph}
                           </p>
                         ))}
