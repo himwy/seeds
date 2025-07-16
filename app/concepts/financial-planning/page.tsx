@@ -512,7 +512,7 @@ export default function FinancialPlanningPage() {
     return (
       <div className="w-full overflow-x-hidden pb-16">
         {/* Page Title */}
-        <div className="bg-gradient-to-r from-primary to-blue-700 text-white py-10 px-4">
+        <div className="bg-gradient-to-r from-primary to-blue-700 text-white py-10 px-4 mt-16">
           <h1 className="text-2xl font-bold text-center">{t.pageTitle}</h1>
           <p className="text-center mt-2 text-blue-100">{t.pageSubtitle}</p>
           <div className="h-1 w-16 bg-white mx-auto mt-3 rounded-full"></div>
