@@ -644,11 +644,7 @@ export default function FinancialPlanningPage() {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`px-3 py-1 text-sm rounded-full transition-colors ${
-                  item.isActive
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "text-gray-600 bg-gray-100"
-                }`}
+                className="px-3 py-1 text-sm text-gray-600 transition-colors"
               >
                 {item.title}
               </button>
