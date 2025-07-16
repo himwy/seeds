@@ -504,29 +504,26 @@ const SectionCard: React.FC<SectionCardProps> = ({
 
       {section.steps && (
         <div className="mt-8 grid md:grid-cols-2 gap-4">
-          {section.steps.map((step: SectionStep, i: number) => {
-            const StepIcon = processStepIcons[i];
-            return (
-              <div
-                key={i}
-                className="bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-start">
-                  <div className="flex-shrink-0 mr-4">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <span className="text-primary font-bold">{i + 1}</span>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-primary">{step.title}</h3>
-                    <p className="text-sm text-black mt-1">
-                      {step.description}
-                    </p>
+          {section.steps.map((step: SectionStep, i: number) => (
+            <div
+              key={i}
+              className="bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-start">
+                <div className="flex-shrink-0 mr-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span className="text-primary font-bold">{i + 1}</span>
                   </div>
                 </div>
+                <div>
+                  <h3 className="font-semibold text-primary">{step.title}</h3>
+                  <p className="text-sm text-black mt-1">
+                    {step.description}
+                  </p>
+                </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       )}
     </motion.div>
