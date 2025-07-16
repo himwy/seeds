@@ -19,9 +19,6 @@ import {
   FaHome,
   FaGraduationCap,
   FaHeartbeat,
-  FaMoneyBillWave,
-  FaChartPie,
-  FaRegClock,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 
@@ -101,16 +98,6 @@ const sectionBgColors: Record<string, string> = {
   "how-to-use": "bg-cyan-50",
   "first-step": "bg-lime-50",
 };
-
-// Process steps icons
-const processStepIcons: IconType[] = [
-  FaHandshake,
-  FaClipboardList,
-  FaChartPie,
-  FaRegLightbulb,
-  FaMoneyBillWave,
-  FaRegClock,
-];
 
 // Optimized translations
 const translations = {
@@ -450,7 +437,6 @@ const translations = {
 const SectionCard: React.FC<SectionCardProps> = ({
   section,
   index,
-  t,
   isMobile,
 }) => {
   const sectionConfig = sectionIcons[section.id];
@@ -517,9 +503,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
                 </div>
                 <div>
                   <h3 className="font-semibold text-primary">{step.title}</h3>
-                  <p className="text-sm text-black mt-1">
-                    {step.description}
-                  </p>
+                  <p className="text-sm text-black mt-1">{step.description}</p>
                 </div>
               </div>
             </div>
@@ -536,9 +520,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
   onSectionClick,
 }) => (
   <div className="sticky top-24 bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
-    <h3 className="text-lg font-bold mb-4 text-primary">
-      Contents
-    </h3>
+    <h3 className="text-lg font-bold mb-4 text-primary">Contents</h3>
     <ul className="space-y-1">
       {sections.map((section: Section) => {
         const IconComponent = sectionIcons[section.id]?.icon || FaChartLine;
