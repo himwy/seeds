@@ -82,20 +82,12 @@ export default function Navbar() {
     },
     {
       title: t.navbar.career,
-      path: "/career-development",
+      path: "/careers",
       icon: <FaGraduationCap className="w-5 h-5" />,
       submenu: [
         {
-          title: t.navbar.careerItems.careerPaths,
-          path: "/career-development/career-paths",
-        },
-        {
-          title: t.navbar.careerItems.trainingPrograms,
-          path: "/career-development/training-programs",
-        },
-        {
           title: t.navbar.careerItems.jobOpportunities,
-          path: "/career-development/job-opportunities",
+          path: "/careers",
         },
       ],
     },
