@@ -33,10 +33,11 @@ interface ReasonCard {
 }
 
 // Define specific types for translations
-interface Reason extends Omit<ReasonCard, 'icon'> {
+interface Reason {
   id: string;
   title: string;
   description: string;
+  icon?: React.ReactNode;
 }
 
 interface VideoSectionType {
@@ -318,7 +319,7 @@ const HeroSection = ({ t }: { t: TranslationType }) => (
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-xl md:text-2xl text-white/90 mb-6 md:mb-8"
+          className="text-xl md:text-2xl text-white mb-6 md:mb-8"
         >
           {t.pageSubtitle}
         </motion.p>
@@ -349,7 +350,7 @@ const HeroSection = ({ t }: { t: TranslationType }) => (
 
 // TalentSection has been removed as requested
 
-const ReasonCard = ({ reason, index }: { reason: ReasonCard; index: number }) => {
+const ReasonCard = ({ reason, index }: { reason: Reason; index: number }) => {
   const icons = [
     <FaChartLine key="chart" className="text-teal-600" size={24} />,
     <FaRegHandshake key="handshake" className="text-teal-600" size={24} />,
@@ -396,7 +397,7 @@ const WealthManagementSection = ({ t }: { t: TranslationType }) => (
       </motion.div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-        {t.isWealthManagementForYou.reasons.map((reason, index: number) => (
+        {t.isWealthManagementForYou.reasons.map((reason, index) => (
           <ReasonCard key={reason.id} reason={{...reason, icon: null}} index={index} />
         ))}
       </div>

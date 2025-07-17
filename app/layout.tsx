@@ -21,6 +21,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Seeds Financial Group" }],
   creator: "Seeds Financial Group",
   publisher: "Seeds Financial Group",
+
   formatDetection: {
     email: false,
     address: false,
