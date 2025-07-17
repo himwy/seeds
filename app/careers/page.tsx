@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useLanguage } from "../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import { 
   FaPlay, 
   FaUserTie, 
@@ -33,8 +32,57 @@ interface ReasonCard {
   icon: React.ReactNode;
 }
 
+// Define specific types for translations
+interface Reason extends Omit<ReasonCard, 'icon'> {
+  id: string;
+  title: string;
+  description: string;
+}
+
+interface VideoSectionType {
+  title: string;
+  internTitle: string;
+  description: string;
+  watchNowButton: string;
+}
+
+interface JobOpeningsType {
+  title: string;
+  viewDetails: string;
+  readMore: string;
+  showLess: string;
+  positions: JobPosition[];
+}
+
+interface CTASectionType {
+  title: string;
+  subtitle: string;
+  buttonText: string;
+}
+
+interface WealthManagementType {
+  title: string;
+  description: string;
+  reasons: Reason[];
+}
+
+interface TranslationType {
+  pageTitle: string;
+  pageSubtitle: string;
+  viewPositionsButton: string;
+  isWealthManagementForYou: WealthManagementType;
+  videoSection: VideoSectionType;
+  jobOpenings: JobOpeningsType;
+  ctaSection: CTASectionType;
+}
+
+interface TranslationsType {
+  en: TranslationType;
+  "zh-HK": TranslationType;
+}
+
 // Translations
-const translations = {
+const translations: TranslationsType = {
   en: {
     pageTitle: "Careers",
     pageSubtitle: "Build your career with us",
@@ -246,7 +294,7 @@ const translations = {
 };
 
 // Components
-const HeroSection = ({ t }: { t: any }) => (
+const HeroSection = ({ t }: { t: TranslationType }) => (
   <div className="relative min-h-[60vh] md:min-h-[70vh] flex items-center bg-gradient-to-r from-teal-600 to-emerald-500 overflow-hidden">
     {/* Background patterns */}
     <div className="absolute inset-0 opacity-10">
@@ -333,7 +381,7 @@ const ReasonCard = ({ reason, index }: { reason: ReasonCard; index: number }) =>
   );
 };
 
-const WealthManagementSection = ({ t }: { t: any }) => (
+const WealthManagementSection = ({ t }: { t: TranslationType }) => (
   <section className="py-16 md:py-24 bg-white">
     <div className="container mx-auto px-4 md:px-6">
       <motion.div
@@ -348,15 +396,15 @@ const WealthManagementSection = ({ t }: { t: any }) => (
       </motion.div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-        {t.isWealthManagementForYou.reasons.map((reason: ReasonCard, index: number) => (
-          <ReasonCard key={reason.id} reason={reason} index={index} />
+        {t.isWealthManagementForYou.reasons.map((reason, index: number) => (
+          <ReasonCard key={reason.id} reason={{...reason, icon: null}} index={index} />
         ))}
       </div>
     </div>
   </section>
 );
 
-const VideoSection = ({ t }: { t: any }) => {
+const VideoSection = ({ t }: { t: TranslationType }) => {
   return (
     <section className="py-12 md:py-24 bg-teal-50">
       <div className="container mx-auto px-4 md:px-6">
@@ -410,7 +458,7 @@ const VideoSection = ({ t }: { t: any }) => {
   );
 };
 
-const JobCard = ({ job, language, t }: { job: JobPosition; language: string; t: any }) => {
+const JobCard = ({ job, language, t }: { job: JobPosition; language: string; t: TranslationType }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   
   return (
@@ -463,7 +511,7 @@ const JobCard = ({ job, language, t }: { job: JobPosition; language: string; t: 
   );
 };
 
-const JobOpeningsSection = ({ t, language }: { t: any; language: string }) => (
+const JobOpeningsSection = ({ t, language }: { t: TranslationType; language: string }) => (
   <section id="openings" className="py-12 md:py-24 bg-white">
     <div className="container mx-auto px-4 md:px-6">
       <motion.div
@@ -485,7 +533,7 @@ const JobOpeningsSection = ({ t, language }: { t: any; language: string }) => (
   </section>
 );
 
-const CTASection = ({ t }: { t: any }) => (
+const CTASection = ({ t }: { t: TranslationType }) => (
   <section className="py-12 md:py-20 bg-gradient-to-r from-teal-600 to-emerald-500 text-white">
     <div className="container mx-auto px-4 md:px-6 text-center">
       <motion.h2
