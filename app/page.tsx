@@ -382,7 +382,7 @@ export default function Home() {
       <div className="w-full overflow-x-hidden">
         {/* Mobile Hero Section - Desktop Style */}
         <section
-          className="relative min-h-[85vh] flex items-center w-full overflow-hidden bg-black"
+          className="relative min-h-[90vh] flex items-center w-full overflow-hidden bg-black"
           style={{
             backgroundImage:
               "linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/Home.jpg')",
@@ -390,7 +390,7 @@ export default function Home() {
             backgroundPosition: "center center",
           }}
         >
-          <div className="container mx-auto px-6 text-center py-12 z-10 relative">
+          <div className="container mx-auto px-6 text-center py-8 z-10 relative">
             <div className="max-w-lg mx-auto fade-in-up">
               <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4">
                 {t.hero.title}
