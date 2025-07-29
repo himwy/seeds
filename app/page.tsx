@@ -327,6 +327,32 @@ export default function Home() {
     };
   }, []);
 
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate");
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with animation classes
+    const animatedElements = document.querySelectorAll(
+      ".fade-in-up, .fade-in, .slide-in-left, .slide-in-right"
+    );
+    animatedElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      animatedElements.forEach((el) => observer.unobserve(el));
+    };
+  }, [isMobile]); // Re-run when mobile state changes
+
   // Memoized contact button handlers
   const contactButtonHandlers = useMemo(
     () => ({
@@ -356,7 +382,7 @@ export default function Home() {
       <div className="w-full overflow-x-hidden">
         {/* Mobile Hero Section */}
         <section className="bg-primary text-white pt-3 pb-6 px-6 w-full">
-          <div className="text-center mb-4">
+          <div className="text-center mb-4 fade-in-up">
             <h1 className="text-3xl font-bold mb-3">{t.hero.title}</h1>
             <p className="text-lg mb-5">{t.hero.description}</p>
             <div className="flex flex-col gap-3">
@@ -376,9 +402,9 @@ export default function Home() {
               </ContactButton>
             </div>
           </div>
-          <div className="relative h-52 rounded-lg overflow-hidden mt-5 shadow-md">
+          <div className="relative h-52 rounded-lg overflow-hidden mt-8 shadow-md fade-in">
             <Image
-              src="/assets/Lee_Garden 5.jpg"
+              src="/assets/Home.jpg"
               alt="Seeds Financial Group Office"
               fill
               className="object-cover rounded-lg"
@@ -390,7 +416,7 @@ export default function Home() {
 
         {/* Mobile About Section */}
         <section className="py-10 px-6 bg-white w-full">
-          <div className="flex flex-col items-center text-center mb-6">
+          <div className="flex flex-col items-center text-center mb-6 fade-in-up">
             <div className="mb-4">
               <Image
                 src="/assets/Seeds_Icon_Trans.png"
@@ -404,9 +430,13 @@ export default function Home() {
               {t.about.title}
             </h2>
           </div>
-          <div>
-            <p className="text-dark-gray text-sm mb-3">{t.about.description1}</p>
-            <p className="text-dark-gray text-sm mb-4">{t.about.description2}</p>
+          <div className="fade-in-up">
+            <p className="text-dark-gray text-sm mb-3">
+              {t.about.description1}
+            </p>
+            <p className="text-dark-gray text-sm mb-4">
+              {t.about.description2}
+            </p>
             <div className="text-center">
               <Link
                 href="/about"
@@ -420,14 +450,14 @@ export default function Home() {
 
         {/* Mobile Services Section */}
         <section className="py-10 px-6 bg-light-gray w-full">
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 fade-in-up">
             <h2 className="text-2xl font-bold mb-4 text-primary">
               {t.services.title}
             </h2>
             <p className="text-black">{t.services.description}</p>
           </div>
 
-          <div className="overflow-x-auto pb-4 -mx-6 px-6">
+          <div className="overflow-x-auto pb-4 -mx-6 px-6 fade-in">
             <div className="flex gap-4 min-w-max">
               {serviceData.map((service) => (
                 <ServiceCard key={service.id} service={service} t={t} />
@@ -438,14 +468,16 @@ export default function Home() {
 
         {/* Mobile Contact Section */}
         <section className="py-10 px-6 bg-white w-full">
-          <h2 className="text-2xl font-bold mb-4 text-primary text-center">
-            {t.contact.title}
-          </h2>
-          <p className="text-dark-gray mb-6 text-center">
-            {t.contact.description}
-          </p>
+          <div className="fade-in-up">
+            <h2 className="text-2xl font-bold mb-4 text-primary text-center">
+              {t.contact.title}
+            </h2>
+            <p className="text-dark-gray mb-6 text-center">
+              {t.contact.description}
+            </p>
+          </div>
 
-          <div className="flex flex-col gap-3 mb-8">
+          <div className="flex flex-col gap-3 mb-8 fade-in-up">
             <Link href="/contact" className="btn-primary text-center w-full">
               {t.contact.contactButton}
             </Link>
@@ -457,7 +489,7 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="bg-light-gray p-6 rounded-lg">
+          <div className="bg-light-gray p-6 rounded-lg fade-in-up">
             <h3 className="text-xl font-bold mb-4 text-primary">
               {t.contact.serviceHours}
             </h3>
@@ -503,13 +535,13 @@ export default function Home() {
         className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden bg-black"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/Lee_Garden 5.jpg')",
+            "linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/Home.jpg')",
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "center top",
         }}
       >
         <div className="container mx-auto px-6 text-center md:text-left py-12 z-10 relative">
-          <div className="max-w-2xl mx-auto md:mx-0">
+          <div className="max-w-2xl mx-auto md:mx-0 fade-in-up">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
               {t.hero.title}
             </h1>
@@ -539,13 +571,13 @@ export default function Home() {
       {/* About Section */}
       <section className="py-12 md:py-20 bg-light-gray w-full">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 fade-in-up">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
               {t.about.title}
             </h2>
           </div>
           <div className="flex justify-center">
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-3xl mx-auto fade-in-up">
               <p className="text-dark-gray mb-4 md:mb-6 text-center">
                 {t.about.description1}
               </p>
@@ -565,7 +597,7 @@ export default function Home() {
       {/* Services Section */}
       <section className="py-12 md:py-20 w-full">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-10 md:mb-16">
+          <div className="text-center mb-10 md:mb-16 fade-in-up">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
               {t.services.title}
             </h2>
@@ -575,12 +607,14 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {serviceData.map((service) => {
+            {serviceData.map((service, index) => {
               const IconComponent = service.icon;
               return (
                 <div
                   key={service.id}
-                  className="bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                  className={`bg-white p-6 md:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow fade-in-up service-card-${
+                    index + 1
+                  }`}
                 >
                   <div className="bg-primary/10 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 md:mb-6 mx-auto sm:mx-0">
                     <IconComponent className="text-primary text-xl md:text-2xl" />
@@ -602,7 +636,7 @@ export default function Home() {
       <section className="py-12 md:py-16 bg-light-gray w-full">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-1/2 slide-in-left">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
                 {t.contact.title}
               </h2>
@@ -624,7 +658,7 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="w-full md:w-1/2 mt-8 md:mt-0">
+            <div className="w-full md:w-1/2 mt-8 md:mt-0 slide-in-right">
               <div className="bg-white p-6 md:p-8 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4 text-primary">
                   {t.contact.serviceHours}
