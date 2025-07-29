@@ -29,48 +29,6 @@ interface ServiceTranslations {
   life: { title: string; description: string };
 }
 
-interface ServicesSection {
-  title: string;
-  description: string;
-  criticalIllness: { title: string; description: string };
-  education: { title: string; description: string };
-  annuity: { title: string; description: string };
-  medical: { title: string; description: string };
-  travel: { title: string; description: string };
-  life: { title: string; description: string };
-}
-
-interface TranslationData {
-  hero: {
-    title: string;
-    description: string;
-    exploreButton: string;
-    contactButton: string;
-  };
-  about: {
-    title: string;
-    description1: string;
-    description2: string;
-    learnMoreButton: string;
-  };
-  services: ServicesSection;
-  contact: {
-    title: string;
-    description: string;
-    contactButton: string;
-    callButton: string;
-    serviceHours: string;
-    mondayToFriday: string;
-    mondayToFridayHours: string;
-    saturday: string;
-    saturdayHours: string;
-    evenings: string;
-    eveningHours: string;
-    address: string;
-    addressValue: string;
-  };
-}
-
 interface ContactButtonProps {
   href: string;
   className: string;
