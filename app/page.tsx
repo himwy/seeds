@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "./components/LanguageContext";
 import {
@@ -80,11 +79,6 @@ interface ContactButtonProps {
   onMouseEnter: (e: MouseEvent<HTMLAnchorElement>) => void;
   onMouseLeave: (e: MouseEvent<HTMLAnchorElement>) => void;
   [key: string]: unknown;
-}
-
-interface ServiceCardProps {
-  service: ServiceData;
-  t: TranslationData;
 }
 
 // Service data for better maintainability
@@ -282,24 +276,6 @@ const ContactButton: React.FC<ContactButtonProps> = ({
     {children}
   </Link>
 );
-
-// Service card component for reusability
-const ServiceCard: React.FC<ServiceCardProps> = ({ service, t }) => {
-  const IconComponent = service.icon;
-  return (
-    <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
-      <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-        <IconComponent className="text-primary text-xl" />
-      </div>
-      <h3 className="text-lg font-bold mb-2 text-primary">
-        {t.services[service.key].title}
-      </h3>
-      <p className="text-dark-gray text-sm line-clamp-4">
-        {t.services[service.key].description}
-      </p>
-    </div>
-  );
-};
 
 export default function Home() {
   const { language } = useLanguage();
