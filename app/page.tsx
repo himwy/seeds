@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "./components/LanguageContext";
 import {
@@ -310,6 +311,14 @@ export default function Home() {
     color: "white",
   };
 
+  // Scroll to services section function
+  const scrollToServices = () => {
+    const servicesSection = document.getElementById('services-section');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Mobile view
   if (isMobile) {
     return (
@@ -324,7 +333,7 @@ export default function Home() {
             backgroundPosition: "center center",
           }}
         >
-          <div className="container mx-auto px-8 text-center py-8 z-10 relative">
+          <div className="container mx-auto px-10 text-center py-8 z-10 relative">
             <div className="max-w-lg mx-auto fade-in-up">
               <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4">
                 {t.hero.title}
@@ -333,12 +342,12 @@ export default function Home() {
                 {t.hero.description}
               </p>
               <div className="flex flex-col gap-3 max-w-sm mx-auto">
-                <Link
-                  href="/services"
+                <button
+                  onClick={scrollToServices}
                   className="btn-primary text-center py-3 px-6 rounded-md font-semibold"
                 >
                   {t.hero.exploreButton}
-                </Link>
+                </button>
                 <ContactButton
                   href="/contact"
                   className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center transition-all duration-300"
@@ -354,8 +363,18 @@ export default function Home() {
 
         {/* Mobile About Section - Desktop Style */}
         <section className="py-16 bg-light-gray w-full">
-          <div className="container mx-auto px-8">
+          <div className="container mx-auto px-10">
             <div className="text-center mb-8 fade-in-up">
+              <div className="flex justify-center mb-4">
+                <Image
+                  src="/assets/Seeds_Icon_Trans.png"
+                  alt="Seeds Financial Group"
+                  width={60}
+                  height={60}
+                  className="rounded-lg"
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
               <h2 className="text-2xl font-bold mb-4 text-primary">
                 {t.about.title}
               </h2>
@@ -367,13 +386,19 @@ export default function Home() {
               <p className="text-dark-gray mb-6 leading-relaxed">
                 {t.about.description2}
               </p>
+              <Link
+                href="/about"
+                className="btn-primary inline-block px-6 py-3 rounded-md font-semibold"
+              >
+                {t.about.learnMoreButton}
+              </Link>
             </div>
           </div>
         </section>
 
         {/* Mobile Services Section - Desktop Style Grid */}
-        <section className="py-16 w-full">
-          <div className="container mx-auto px-8">
+        <section id="services-section" className="py-16 w-full">
+          <div className="container mx-auto px-10">
             <div className="text-center mb-12 fade-in-up">
               <h2 className="text-2xl font-bold mb-4 text-primary">
                 {t.services.title}
@@ -411,7 +436,7 @@ export default function Home() {
 
         {/* Mobile Contact Section - Desktop Style */}
         <section className="py-16 bg-light-gray w-full">
-          <div className="container mx-auto px-8">
+          <div className="container mx-auto px-10">
             <div className="text-center mb-8 fade-in-up">
               <h2 className="text-2xl font-bold mb-4 text-primary">
                 {t.contact.title}
@@ -505,12 +530,12 @@ export default function Home() {
               {t.hero.description}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Link
-                href="/services"
+              <button
+                onClick={scrollToServices}
                 className="btn-primary text-center w-full sm:w-auto"
               >
                 {t.hero.exploreButton}
-              </Link>
+              </button>
               <ContactButton
                 href="/contact"
                 className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full sm:w-auto transition-all duration-300"
@@ -528,6 +553,16 @@ export default function Home() {
       <section className="py-12 md:py-20 bg-light-gray w-full">
         <div className="container mx-auto px-8">
           <div className="text-center mb-8 fade-in-up">
+            <div className="flex justify-center mb-4">
+              <Image
+                src="/assets/Seeds_Icon_Trans.png"
+                alt="Seeds Financial Group"
+                width={80}
+                height={80}
+                className="rounded-lg"
+                style={{ objectFit: "contain" }}
+              />
+            </div>
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
               {t.about.title}
             </h2>
@@ -540,13 +575,18 @@ export default function Home() {
               <p className="text-dark-gray mb-6 text-center">
                 {t.about.description2}
               </p>
+              <div className="text-center">
+                <Link href="/about" className="btn-primary inline-block">
+                  {t.about.learnMoreButton}
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-12 md:py-20 w-full">
+      <section id="services-section" className="py-12 md:py-20 w-full">
         <div className="container mx-auto px-8">
           <div className="text-center mb-10 md:mb-16 fade-in-up">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
