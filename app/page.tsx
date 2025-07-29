@@ -316,15 +316,15 @@ export default function Home() {
       <div className="w-full overflow-x-hidden">
         {/* Mobile Hero Section - Desktop Style */}
         <section
-          className="relative min-h-[90vh] flex items-center w-full overflow-hidden bg-black"
+          className="relative min-h-[80vh] flex items-center w-full overflow-hidden bg-black"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/Home.jpg')",
+              "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Home.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center center",
           }}
         >
-          <div className="container mx-auto px-6 text-center py-8 z-10 relative">
+          <div className="container mx-auto px-8 text-center py-8 z-10 relative">
             <div className="max-w-lg mx-auto fade-in-up">
               <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4">
                 {t.hero.title}
@@ -354,7 +354,7 @@ export default function Home() {
 
         {/* Mobile About Section - Desktop Style */}
         <section className="py-16 bg-light-gray w-full">
-          <div className="container mx-auto px-6">
+          <div className="container mx-auto px-8">
             <div className="text-center mb-8 fade-in-up">
               <h2 className="text-2xl font-bold mb-4 text-primary">
                 {t.about.title}
@@ -367,19 +367,13 @@ export default function Home() {
               <p className="text-dark-gray mb-6 leading-relaxed">
                 {t.about.description2}
               </p>
-              <Link
-                href="/about"
-                className="btn-primary inline-block px-6 py-3 rounded-md font-semibold"
-              >
-                {t.about.learnMoreButton}
-              </Link>
             </div>
           </div>
         </section>
 
         {/* Mobile Services Section - Desktop Style Grid */}
         <section className="py-16 w-full">
-          <div className="container mx-auto px-6">
+          <div className="container mx-auto px-8">
             <div className="text-center mb-12 fade-in-up">
               <h2 className="text-2xl font-bold mb-4 text-primary">
                 {t.services.title}
@@ -417,7 +411,7 @@ export default function Home() {
 
         {/* Mobile Contact Section - Desktop Style */}
         <section className="py-16 bg-light-gray w-full">
-          <div className="container mx-auto px-6">
+          <div className="container mx-auto px-8">
             <div className="text-center mb-8 fade-in-up">
               <h2 className="text-2xl font-bold mb-4 text-primary">
                 {t.contact.title}
@@ -494,15 +488,15 @@ export default function Home() {
     <div className="overflow-x-hidden w-full">
       {/* Hero Section */}
       <section
-        className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden bg-black"
+        className="relative min-h-[80vh] md:min-h-[75vh] flex items-center w-full overflow-hidden bg-black"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/Home.jpg')",
+            "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Home.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center top",
         }}
       >
-        <div className="container mx-auto px-6 text-center md:text-left py-12 z-10 relative">
+        <div className="container mx-auto px-8 text-center md:text-left py-12 z-10 relative">
           <div className="max-w-2xl mx-auto md:mx-0 fade-in-up">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
               {t.hero.title}
@@ -532,7 +526,7 @@ export default function Home() {
 
       {/* About Section */}
       <section className="py-12 md:py-20 bg-light-gray w-full">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-8">
           <div className="text-center mb-8 fade-in-up">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
               {t.about.title}
@@ -546,11 +540,6 @@ export default function Home() {
               <p className="text-dark-gray mb-6 text-center">
                 {t.about.description2}
               </p>
-              <div className="text-center">
-                <Link href="/about" className="btn-primary inline-block">
-                  {t.about.learnMoreButton}
-                </Link>
-              </div>
             </div>
           </div>
         </div>
@@ -558,7 +547,7 @@ export default function Home() {
 
       {/* Services Section */}
       <section className="py-12 md:py-20 w-full">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-8">
           <div className="text-center mb-10 md:mb-16 fade-in-up">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
               {t.services.title}
@@ -596,7 +585,7 @@ export default function Home() {
 
       {/* Contact Section */}
       <section className="py-12 md:py-16 bg-light-gray w-full">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-8">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="w-full md:w-1/2 slide-in-left">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
