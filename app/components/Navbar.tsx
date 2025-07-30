@@ -294,17 +294,17 @@ export default function Navbar() {
                       // Items with dropdown
                       <>
                         <button
-                          className="flex justify-between items-center w-full text-left text-dark-gray hover:text-primary transition-colors"
+                          className="flex justify-between items-center w-full text-left text-gray-800 hover:text-black transition-colors"
                           onClick={() => toggleMobileSubmenu(item.title)}
                         >
                           <div className="flex items-center">
-                            <span className="mr-2 text-primary">
+                            <span className="mr-2 text-gray-700">
                               {item.icon}
                             </span>
                             <span className="font-medium">{item.title}</span>
                           </div>
                           <FaAngleDown
-                            className={`w-4 h-4 transition-transform duration-200 text-primary ${
+                            className={`w-4 h-4 transition-transform duration-200 text-gray-700 ${
                               expandedMobileItems.includes(item.title)
                                 ? "rotate-180"
                                 : ""
@@ -313,15 +313,15 @@ export default function Navbar() {
                         </button>
 
                         {expandedMobileItems.includes(item.title) && (
-                          <div className="ml-7 mt-3 space-y-3 pl-2 border-l-2 border-primary">
+                          <div className="ml-7 mt-3 space-y-3 pl-2 border-l-2 border-gray-400">
                             {item.submenu.map((subItem) => (
                               <Link
                                 key={subItem.title}
                                 href={subItem.path}
-                                className="flex items-center py-2 text-gray-700 hover:text-primary transition-colors"
+                                className="flex items-center py-2 text-gray-700 hover:text-black transition-colors"
                                 onClick={() => setIsMenuOpen(false)}
                               >
-                                <FaAngleRight className="w-3 h-3 mr-2 text-primary" />
+                                <FaAngleRight className="w-3 h-3 mr-2 text-gray-600" />
                                 {subItem.title}
                               </Link>
                             ))}
@@ -332,10 +332,10 @@ export default function Navbar() {
                       // Regular clickable items without dropdown
                       <Link
                         href={item.path}
-                        className="flex items-center text-dark-gray hover:text-primary transition-colors py-1"
+                        className="flex items-center text-gray-800 hover:text-black transition-colors py-1"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        <span className="mr-2 text-primary">{item.icon}</span>
+                        <span className="mr-2 text-gray-700">{item.icon}</span>
                         <span className="font-medium">{item.title}</span>
                       </Link>
                     )}

@@ -392,60 +392,64 @@ export default function Home() {
     return (
       <div className="w-full overflow-x-hidden">
         {/* Mobile Hero Section */}
-        <section className="bg-primary text-white pt-3 pb-6 px-6 w-full">
-          <div className="text-center mb-4 fade-in-up">
-            <h1 className="text-3xl font-bold mb-3">{t.hero.title}</h1>
-            <p className="text-lg mb-5">{t.hero.description}</p>
-            <div className="flex flex-col gap-3">
-              <button
-                onClick={scrollToServices}
-                className="bg-accent text-dark-gray font-bold py-3 px-6 rounded-md w-full"
-              >
-                {t.hero.exploreButton}
-              </button>
-              <ContactButton
-                href="/contact"
-                className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full transition-all duration-300"
-                style={contactButtonStyle}
-                {...contactButtonHandlers}
-              >
-                {t.hero.contactButton}
-              </ContactButton>
+        <section 
+          className="relative min-h-screen flex items-center justify-center text-white pt-16 w-full"
+          style={{
+            backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Home.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="container mx-auto px-6 text-center">
+            <div className="max-w-lg mx-auto">
+              <h1 className="text-4xl font-bold mb-6 text-white leading-tight fade-in-up">
+                {t.hero.title}
+              </h1>
+              <p className="text-lg mb-8 text-gray-200 fade-in-up" style={{ animationDelay: '0.2s' }}>
+                {t.hero.description}
+              </p>
+              <div className="flex flex-col gap-4 fade-in-up" style={{ animationDelay: '0.4s' }}>
+                <button
+                  onClick={scrollToServices}
+                  className="bg-white text-gray-900 font-bold py-4 px-8 rounded-lg w-full hover:bg-gray-100 transition-all duration-300 shadow-lg"
+                >
+                  {t.hero.exploreButton}
+                </button>
+                <ContactButton
+                  href="/contact"
+                  className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-center w-full transition-all duration-300 hover:bg-white hover:text-gray-900"
+                  style={contactButtonStyle}
+                  {...contactButtonHandlers}
+                >
+                  {t.hero.contactButton}
+                </ContactButton>
+              </div>
             </div>
-          </div>
-          <div className="relative h-52 rounded-lg overflow-hidden mt-8 shadow-md fade-in">
-            <Image
-              src="/assets/Home.jpg"
-              alt="Seeds Financial Group Office"
-              fill
-              className="object-cover rounded-lg"
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
           </div>
         </section>
 
         {/* Mobile About Section */}
-        <section className="py-10 px-8 bg-white w-full">
-          <div className="flex flex-col items-center text-center mb-6 fade-in-up">
-            <div className="mb-4">
+        <section className="py-12 px-6 bg-white w-full">
+          <div className="flex flex-col items-center text-center mb-8 fade-in-up">
+            <div className="mb-6">
               <Image
                 src="/assets/Seeds_Icon_Trans.png"
                 alt="Seeds Financial Group Logo"
-                width={130}
-                height={130}
-                className="mb-2"
+                width={120}
+                height={120}
+                className="mb-4"
               />
             </div>
-            <h2 className="text-2xl font-bold mb-3 text-primary">
+            <h2 className="text-3xl font-bold mb-4 text-gray-800">
               {t.about.title}
             </h2>
           </div>
-          <div className="fade-in-up px-2">
-            <p className="text-dark-gray text-sm mb-3">
+          <div className="fade-in-up max-w-md mx-auto">
+            <p className="text-gray-600 text-base mb-4 leading-relaxed">
               {t.about.description1}
             </p>
-            <p className="text-dark-gray text-sm mb-4">
+            <p className="text-gray-600 text-base mb-6 leading-relaxed">
               {t.about.description2}
             </p>
             <div className="text-center">

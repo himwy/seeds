@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import { useLanguage } from "../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -858,50 +857,61 @@ export default function CareersPage() {
     return (
       <div className="w-full overflow-x-hidden">
         {/* Mobile Hero Section */}
-        <section className="bg-primary text-white pt-3 pb-6 px-6 w-full">
-          <div className="text-center mb-4">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-3xl font-bold mb-3"
-            >
-              {t.pageTitle}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-lg mb-5"
-            >
-              {t.pageSubtitle}
-            </motion.p>
-          </div>
-          <div className="relative h-52 rounded-lg overflow-hidden mt-8 shadow-md">
-            <Image
-              src="/assets/Recruitment.jpg"
-              alt="Join Our Team"
-              fill
-              className="object-cover rounded-lg"
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-              style={{ objectPosition: "45% 25%" }}
-            />
+        <section 
+          className="relative min-h-screen flex items-center justify-center text-white pt-16 w-full"
+          style={{
+            backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Recruitment.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "45% 25%",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="container mx-auto px-6 text-center">
+            <div className="max-w-lg mx-auto">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="text-4xl font-bold mb-6 text-white leading-tight"
+              >
+                {t.pageTitle}
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-lg mb-8 text-gray-200 leading-relaxed"
+              >
+                {t.pageSubtitle}
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="flex justify-center"
+              >
+                <Link href="#openings">
+                  <span className="bg-white text-gray-900 font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg inline-block">
+                    {t.viewPositionsButton}
+                  </span>
+                </Link>
+              </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Mobile Wealth Management Section */}
-        <section className="py-10 px-6 bg-white w-full">
+        <section className="py-12 px-6 bg-white w-full">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6">
               {t.isWealthManagementForYou.title}
             </h2>
-            <p className="text-sm text-gray-600 px-2">
+            <p className="text-base text-gray-600 leading-relaxed max-w-md mx-auto">
               {t.isWealthManagementForYou.description}
             </p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-6 max-w-lg mx-auto">
             {t.isWealthManagementForYou.reasons.map((reason, index) => (
               <motion.div
                 key={reason.id}
@@ -909,17 +919,17 @@ export default function CareersPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white p-4 rounded-lg shadow-sm border border-teal-100"
+                className="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
               >
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-teal-50 rounded-lg shrink-0">
-                    <FaChartLine className="text-teal-600" size={18} />
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-teal-50 rounded-xl shrink-0">
+                    <FaChartLine className="text-teal-600" size={20} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-gray-800 mb-1">
+                    <h3 className="text-lg font-bold text-gray-800 mb-2">
                       {reason.title}
                     </h3>
-                    <p className="text-xs text-gray-600">
+                    <p className="text-sm text-gray-600 leading-relaxed">
                       {reason.description}
                     </p>
                   </div>
@@ -930,21 +940,48 @@ export default function CareersPage() {
         </section>
 
         {/* Mobile Fun Video Section */}
-        <section className="py-10 px-6 bg-light-gray w-full">
-          <FunVideoSection t={t} />
+        <section className="py-12 px-6 bg-gray-50 w-full">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              {t.workplaceCulture.title}
+            </h2>
+            <p className="text-base text-gray-600 max-w-md mx-auto">
+              {t.workplaceCulture.description}
+            </p>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="max-w-lg mx-auto"
+          >
+            <div className="relative aspect-video bg-black rounded-xl overflow-hidden shadow-xl">
+              <video
+                className="w-full h-full object-cover"
+                controls
+                preload="metadata"
+                poster="/assets/Seeds_Icon_Trans.png"
+              >
+                <source src="/assets/Fun.MP4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </motion.div>
         </section>
 
         {/* Mobile Video Section */}
-        <section className="py-10 px-6 bg-teal-50 w-full">
+        <section className="py-12 px-6 bg-teal-50 w-full">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
               {t.videoSection.title}
             </h2>
           </div>
           
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-lg mx-auto">
             {/* Mobile Video Player */}
-            <div className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden shadow-lg">
+            <div className="relative aspect-video bg-gray-200 rounded-xl overflow-hidden shadow-lg">
               <motion.div
                 key={`mobile-video-${currentVideoIndex}`}
                 initial={{ opacity: 0, scale: 1.05 }}
@@ -952,27 +989,27 @@ export default function CareersPage() {
                 transition={{ duration: 0.5 }}
                 className="absolute inset-0 bg-gray-800 flex items-center justify-center"
               >
-                <span className="text-white text-xs">
+                <span className="text-white text-sm">
                   {videos[currentVideoIndex]?.thumbnail}
                 </span>
               </motion.div>
 
               {/* Play button overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-12 h-12 rounded-full bg-teal-600/90 text-white flex items-center justify-center cursor-pointer hover:bg-teal-600 transition-colors">
-                  <FaPlay className="ml-0.5" size={16} />
+                <div className="w-16 h-16 rounded-full bg-teal-600/90 text-white flex items-center justify-center cursor-pointer hover:bg-teal-600 transition-colors">
+                  <FaPlay className="ml-1" size={18} />
                 </div>
               </div>
             </div>
 
             {/* Mobile Video Info */}
-            <div className="text-center px-2">
+            <div className="text-center">
               <motion.h3
                 key={`mobile-title-${currentVideoIndex}`}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="text-lg font-bold text-teal-600 mb-2"
+                className="text-xl font-bold text-teal-600 mb-3"
               >
                 {videos[currentVideoIndex]?.title}
               </motion.h3>
@@ -981,18 +1018,18 @@ export default function CareersPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-sm text-gray-600 mb-4"
+                className="text-base text-gray-600 mb-6 leading-relaxed"
               >
                 {videos[currentVideoIndex]?.description}
               </motion.p>
 
               {/* Mobile Video indicators */}
-              <div className="flex gap-2 justify-center mb-4">
+              <div className="flex gap-2 justify-center mb-6">
                 {videos.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentVideoIndex(index)}
-                    className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                    className={`w-3 h-3 rounded-full transition-colors ${
                       index === currentVideoIndex ? 'bg-teal-600' : 'bg-gray-300'
                     }`}
                   />
@@ -1000,19 +1037,19 @@ export default function CareersPage() {
               </div>
 
               {/* Mobile Navigation */}
-              <div className="flex gap-3 justify-center">
+              <div className="flex gap-4 justify-center">
                 <button
                   onClick={prevVideo}
-                  className="w-8 h-8 bg-white hover:bg-gray-50 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:scale-110 border"
+                  className="w-12 h-12 bg-white hover:bg-gray-50 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 border"
                 >
-                  <FaArrowRight className="rotate-180 text-gray-700 hover:text-teal-600" size={14} />
+                  <FaArrowRight className="rotate-180 text-gray-700 hover:text-teal-600" size={16} />
                 </button>
                 <button
                   onClick={nextVideo}
-                  className="w-8 h-8 bg-white hover:bg-gray-50 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:scale-110 border group"
+                  className="w-12 h-12 bg-white hover:bg-gray-50 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 border group"
                 >
                   <motion.div
-                    animate={{ x: [0, 2, 0] }}
+                    animate={{ x: [0, 3, 0] }}
                     transition={{ 
                       duration: 1.5, 
                       repeat: Infinity, 
@@ -1020,7 +1057,7 @@ export default function CareersPage() {
                       ease: "easeInOut"
                     }}
                   >
-                    <FaArrowRight className="text-gray-700 group-hover:text-teal-600" size={14} />
+                    <FaArrowRight className="text-gray-700 group-hover:text-teal-600" size={16} />
                   </motion.div>
                 </button>
               </div>
@@ -1029,14 +1066,14 @@ export default function CareersPage() {
         </section>
 
         {/* Mobile Job Openings */}
-        <section className="py-10 px-6 bg-white w-full">
+        <section className="py-12 px-6 bg-white w-full">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
               {t.jobOpenings.title}
             </h2>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 max-w-lg mx-auto">
             {t.jobOpenings.positions.map((job) => (
               <motion.div
                 key={job.id}
@@ -1044,27 +1081,27 @@ export default function CareersPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-lg shadow-md border border-teal-100 p-4"
+                className="bg-white rounded-xl shadow-lg border border-gray-100 p-6"
               >
-                <h3 className="text-lg font-bold text-teal-600 mb-1">
+                <h3 className="text-xl font-bold text-teal-600 mb-2">
                   {language === "zh-HK" ? job.chineseTitle : job.title}
                 </h3>
-                <p className="text-sm text-gray-600 mb-3">
+                <p className="text-base text-gray-600 mb-4">
                   {job.subtitle}
                 </p>
 
-                <div className="space-y-2 mb-4">
+                <div className="space-y-3 mb-6">
                   {job.description.slice(0, 2).map((paragraph, idx) => (
-                    <p key={idx} className="text-xs text-gray-700 leading-relaxed">
+                    <p key={idx} className="text-sm text-gray-700 leading-relaxed">
                       {paragraph}
                     </p>
                   ))}
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                   <a
                     href="#apply"
-                    className="text-center text-white px-4 py-2 rounded-md text-sm font-semibold transition-all duration-300 shadow-sm"
+                    className="text-center text-white px-6 py-3 rounded-lg text-base font-semibold transition-all duration-300 shadow-lg"
                     style={{ backgroundColor: 'var(--primary)' }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.backgroundColor = 'var(--secondary)';
@@ -1077,7 +1114,7 @@ export default function CareersPage() {
                   </a>
                   <a
                     href={`#job-details-${job.id}`}
-                    className="text-center text-teal-600 text-sm hover:underline"
+                    className="text-center text-teal-600 text-base hover:underline"
                   >
                     {t.jobOpenings.viewDetails}
                   </a>
