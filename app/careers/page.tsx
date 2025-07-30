@@ -358,7 +358,7 @@ const HeroSection = ({ t }: { t: TranslationType }) => (
       backgroundImage:
         "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Recruitment.jpg')",
       backgroundSize: "cover",
-      backgroundPosition: "center",
+      backgroundPosition: "center 20%",
     }}
   >
     <div className="container mx-auto px-6 text-center py-12 z-10 relative">
@@ -862,7 +862,7 @@ export default function CareersPage() {
           style={{
             backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Recruitment.jpg')",
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundPosition: "center 20%",
             backgroundRepeat: "no-repeat",
           }}
         >
