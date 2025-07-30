@@ -403,10 +403,10 @@ export default function Home() {
         >
           <div className="container mx-auto px-6 text-center">
             <div className="max-w-lg mx-auto">
-              <h1 className="text-4xl font-bold mb-6 text-white leading-tight fade-in-up">
+              <h1 className="text-4xl font-bold mb-6 text-white leading-tight fade-in-up" style={{ color: 'white' }}>
                 {t.hero.title}
               </h1>
-              <p className="text-lg mb-8 text-gray-200 fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <p className="text-lg mb-8 text-white fade-in-up" style={{ animationDelay: '0.2s', color: 'white' }}>
                 {t.hero.description}
               </p>
               <div className="flex flex-col gap-4 fade-in-up" style={{ animationDelay: '0.4s' }}>

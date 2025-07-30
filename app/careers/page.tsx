@@ -873,6 +873,7 @@ export default function CareersPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 className="text-4xl font-bold mb-6 text-white leading-tight"
+                style={{ color: 'white' }}
               >
                 {t.pageTitle}
               </motion.h1>
@@ -880,7 +881,8 @@ export default function CareersPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-lg mb-8 text-gray-200 leading-relaxed"
+                className="text-lg mb-8 text-white leading-relaxed"
+                style={{ color: 'white' }}
               >
                 {t.pageSubtitle}
               </motion.p>
