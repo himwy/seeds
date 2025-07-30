@@ -356,9 +356,9 @@ const HeroSection = ({ t }: { t: TranslationType }) => (
     className="relative min-h-[60vh] md:min-h-[70vh] flex items-center overflow-hidden bg-black"
     style={{
       backgroundImage:
-        "linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/Recruitment.jpg')",
-      backgroundSize: "110%",
-      backgroundPosition: "45% 25%",
+        "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Recruitment.jpg')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
     }}
   >
     <div className="container mx-auto px-6 text-center py-12 z-10 relative">
@@ -860,9 +860,9 @@ export default function CareersPage() {
         <section 
           className="relative min-h-screen flex items-center justify-center text-white pt-16 w-full"
           style={{
-            backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Recruitment.jpg')",
+            backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Recruitment.jpg')",
             backgroundSize: "cover",
-            backgroundPosition: "45% 25%",
+            backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
           }}
         >

@@ -395,7 +395,7 @@ export default function Home() {
         <section 
           className="relative min-h-screen flex items-center justify-center text-white pt-16 w-full"
           style={{
-            backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Home.jpg')",
+            backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Home.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
