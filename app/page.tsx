@@ -30,6 +30,48 @@ interface ServiceTranslations {
   life: { title: string; description: string };
 }
 
+interface ServicesSection {
+  title: string;
+  description: string;
+  criticalIllness: { title: string; description: string };
+  education: { title: string; description: string };
+  annuity: { title: string; description: string };
+  medical: { title: string; description: string };
+  travel: { title: string; description: string };
+  life: { title: string; description: string };
+}
+
+interface TranslationData {
+  hero: {
+    title: string;
+    description: string;
+    exploreButton: string;
+    contactButton: string;
+  };
+  about: {
+    title: string;
+    description1: string;
+    description2: string;
+    learnMoreButton: string;
+  };
+  services: ServicesSection;
+  contact: {
+    title: string;
+    description: string;
+    contactButton: string;
+    callButton: string;
+    serviceHours: string;
+    mondayToFriday: string;
+    mondayToFridayHours: string;
+    saturday: string;
+    saturdayHours: string;
+    evenings: string;
+    eveningHours: string;
+    address: string;
+    addressValue: string;
+  };
+}
+
 interface ContactButtonProps {
   href: string;
   className: string;
@@ -38,6 +80,11 @@ interface ContactButtonProps {
   onMouseEnter: (e: MouseEvent<HTMLAnchorElement>) => void;
   onMouseLeave: (e: MouseEvent<HTMLAnchorElement>) => void;
   [key: string]: unknown;
+}
+
+interface ServiceCardProps {
+  service: ServiceData;
+  t: TranslationData;
 }
 
 // Service data for better maintainability
@@ -85,7 +132,7 @@ const translations = {
       contactButton: "Contact Us",
     },
     about: {
-      title: "About Seeds Financial Group",
+      title: "Seeds Financial Group",
       description1:
         "Seeds Financial Group is in partnership with one of the world's largest financial groups provides advisory services using a wide range of risk management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
       description2:
@@ -93,7 +140,7 @@ const translations = {
       learnMoreButton: "Learn More About Us",
     },
     services: {
-      title: "Our Financial Services",
+      title: "Financial Services",
       description:
         "We offer a comprehensive range of financial services to help you protect what matters most and plan for a secure future.",
       criticalIllness: {
@@ -153,7 +200,7 @@ const translations = {
       contactButton: "聯絡我們",
     },
     about: {
-      title: "關於 Seeds Financial Group",
+      title: "Seeds Financial Group",
       description1:
         "Seeds Financial Group 與全球最大的金融集團之一合作，提供廣泛的風險管理、策略和資產配置計劃的顧問服務，使我們的客戶能夠實現其財務目標和未來需求。",
       description2:
@@ -161,7 +208,7 @@ const translations = {
       learnMoreButton: "了解更多關於我們",
     },
     services: {
-      title: "我們的金融服務",
+      title: "金融服務",
       description:
         "我們提供全面的金融服務，幫助您保護最重要的事物並規劃安全的未來。",
       criticalIllness: {
@@ -235,6 +282,24 @@ const ContactButton: React.FC<ContactButtonProps> = ({
     {children}
   </Link>
 );
+
+// Service card component for reusability
+const ServiceCard: React.FC<ServiceCardProps> = ({ service, t }) => {
+  const IconComponent = service.icon;
+  return (
+    <div className="bg-white p-5 rounded-lg shadow-sm min-w-[260px] max-w-[260px]">
+      <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+        <IconComponent className="text-primary text-xl" />
+      </div>
+      <h3 className="text-lg font-bold mb-2 text-primary">
+        {t.services[service.key].title}
+      </h3>
+      <p className="text-dark-gray text-sm line-clamp-4">
+        {t.services[service.key].description}
+      </p>
+    </div>
+  );
+};
 
 export default function Home() {
   const { language } = useLanguage();
@@ -315,7 +380,10 @@ export default function Home() {
   const scrollToServices = () => {
     const servicesSection = document.getElementById('services-section');
     if (servicesSection) {
-      servicesSection.scrollIntoView({ behavior: 'smooth' });
+      servicesSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
   };
 
@@ -323,72 +391,67 @@ export default function Home() {
   if (isMobile) {
     return (
       <div className="w-full overflow-x-hidden">
-        {/* Mobile Hero Section - Desktop Style */}
-        <section
-          className="relative min-h-[80vh] flex items-center w-full overflow-hidden bg-black"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Home.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center center",
-          }}
-        >
-          <div className="container mx-auto px-10 text-center py-8 z-10 relative">
-            <div className="max-w-lg mx-auto fade-in-up">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-                {t.hero.title}
-              </h1>
-              <p className="text-base text-white mb-6 leading-relaxed">
-                {t.hero.description}
-              </p>
-              <div className="flex flex-col gap-3 max-w-sm mx-auto">
-                <button
-                  onClick={scrollToServices}
-                  className="btn-primary text-center py-3 px-6 rounded-md font-semibold"
-                >
-                  {t.hero.exploreButton}
-                </button>
-                <ContactButton
-                  href="/contact"
-                  className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center transition-all duration-300"
-                  style={contactButtonStyle}
-                  {...contactButtonHandlers}
-                >
-                  {t.hero.contactButton}
-                </ContactButton>
-              </div>
+        {/* Mobile Hero Section */}
+        <section className="bg-primary text-white pt-3 pb-6 px-6 w-full">
+          <div className="text-center mb-4 fade-in-up">
+            <h1 className="text-3xl font-bold mb-3">{t.hero.title}</h1>
+            <p className="text-lg mb-5">{t.hero.description}</p>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={scrollToServices}
+                className="bg-accent text-dark-gray font-bold py-3 px-6 rounded-md w-full"
+              >
+                {t.hero.exploreButton}
+              </button>
+              <ContactButton
+                href="/contact"
+                className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full transition-all duration-300"
+                style={contactButtonStyle}
+                {...contactButtonHandlers}
+              >
+                {t.hero.contactButton}
+              </ContactButton>
             </div>
+          </div>
+          <div className="relative h-52 rounded-lg overflow-hidden mt-8 shadow-md fade-in">
+            <Image
+              src="/assets/Home.jpg"
+              alt="Seeds Financial Group Office"
+              fill
+              className="object-cover rounded-lg"
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
           </div>
         </section>
 
-        {/* Mobile About Section - Desktop Style */}
-        <section className="py-16 bg-light-gray w-full">
-          <div className="container mx-auto px-10">
-            <div className="text-center mb-8 fade-in-up">
-              <div className="flex justify-center mb-4">
-                <Image
-                  src="/assets/Seeds_Icon_Trans.png"
-                  alt="Seeds Financial Group"
-                  width={60}
-                  height={60}
-                  className="rounded-lg"
-                  style={{ objectFit: "contain" }}
-                />
-              </div>
-              <h2 className="text-2xl font-bold mb-4 text-primary">
-                {t.about.title}
-              </h2>
+        {/* Mobile About Section */}
+        <section className="py-10 px-8 bg-white w-full">
+          <div className="flex flex-col items-center text-center mb-6 fade-in-up">
+            <div className="mb-4">
+              <Image
+                src="/assets/Seeds_Icon_Trans.png"
+                alt="Seeds Financial Group Logo"
+                width={130}
+                height={130}
+                className="mb-2"
+              />
             </div>
-            <div className="max-w-2xl mx-auto text-center fade-in-up">
-              <p className="text-dark-gray mb-4 leading-relaxed">
-                {t.about.description1}
-              </p>
-              <p className="text-dark-gray mb-6 leading-relaxed">
-                {t.about.description2}
-              </p>
+            <h2 className="text-2xl font-bold mb-3 text-primary">
+              {t.about.title}
+            </h2>
+          </div>
+          <div className="fade-in-up px-2">
+            <p className="text-dark-gray text-sm mb-3">
+              {t.about.description1}
+            </p>
+            <p className="text-dark-gray text-sm mb-4">
+              {t.about.description2}
+            </p>
+            <div className="text-center">
               <Link
                 href="/about"
-                className="btn-primary inline-block px-6 py-3 rounded-md font-semibold"
+                className="btn-primary inline-block text-sm text-white"
               >
                 {t.about.learnMoreButton}
               </Link>
@@ -396,111 +459,78 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Mobile Services Section - Desktop Style Grid */}
-        <section id="services-section" className="py-16 w-full">
-          <div className="container mx-auto px-10">
-            <div className="text-center mb-12 fade-in-up">
-              <h2 className="text-2xl font-bold mb-4 text-primary">
-                {t.services.title}
-              </h2>
-              <p className="text-dark-gray max-w-2xl mx-auto leading-relaxed">
-                {t.services.description}
-              </p>
-            </div>
+        {/* Mobile Services Section */}
+        <section id="services-section" className="py-10 px-6 bg-light-gray w-full">
+          <div className="text-center mb-8 fade-in-up">
+            <h2 className="text-2xl font-bold mb-4 text-primary">
+              {t.services.title}
+            </h2>
+            <p className="text-black">{t.services.description}</p>
+          </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {serviceData.map((service, index) => {
-                const IconComponent = service.icon;
-                return (
-                  <div
-                    key={service.id}
-                    className={`bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow fade-in-up service-card-${
-                      index + 1
-                    }`}
-                  >
-                    <div className="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                      <IconComponent className="text-primary text-xl" />
-                    </div>
-                    <h3 className="text-lg font-bold mb-3 text-primary">
-                      {t.services[service.key].title}
-                    </h3>
-                    <p className="text-dark-gray text-sm leading-relaxed">
-                      {t.services[service.key].description}
-                    </p>
-                  </div>
-                );
-              })}
+          <div className="overflow-x-auto pb-4 -mx-6 px-6 fade-in">
+            <div className="flex gap-4 min-w-max">
+              {serviceData.map((service) => (
+                <ServiceCard key={service.id} service={service} t={t} />
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Mobile Contact Section - Desktop Style */}
-        <section className="py-16 bg-light-gray w-full">
-          <div className="container mx-auto px-10">
-            <div className="text-center mb-8 fade-in-up">
-              <h2 className="text-2xl font-bold mb-4 text-primary">
-                {t.contact.title}
-              </h2>
-              <p className="text-dark-gray mb-6 max-w-xl mx-auto leading-relaxed">
-                {t.contact.description}
+        {/* Mobile Contact Section */}
+        <section className="py-10 px-6 bg-white w-full">
+          <div className="fade-in-up">
+            <h2 className="text-2xl font-bold mb-4 text-primary text-center">
+              {t.contact.title}
+            </h2>
+            <p className="text-dark-gray mb-6 text-center">
+              {t.contact.description}
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3 mb-8 fade-in-up">
+            <Link href="/contact" className="btn-primary text-center w-full">
+              {t.contact.contactButton}
+            </Link>
+            <a
+              href="tel:85255304114"
+              className="bg-transparent border-2 border-primary text-primary text-center py-3 px-6 rounded-md font-semibold w-full"
+            >
+              {t.contact.callButton}
+            </a>
+          </div>
+
+          <div className="bg-light-gray p-6 rounded-lg fade-in-up">
+            <h3 className="text-xl font-bold mb-4 text-primary">
+              {t.contact.serviceHours}
+            </h3>
+            <ul className="space-y-4">
+              <li className="flex flex-col">
+                <span className="font-medium">{t.contact.mondayToFriday}</span>
+                <span className="font-black text-black">
+                  {t.contact.mondayToFridayHours}
+                </span>
+              </li>
+              <li className="flex flex-col">
+                <span className="font-medium">{t.contact.saturday}</span>
+                <span className="font-black text-black">
+                  {t.contact.saturdayHours}
+                </span>
+              </li>
+              <li className="flex flex-col">
+                <span className="font-medium">{t.contact.evenings}</span>
+                <span className="font-black text-black">
+                  {t.contact.eveningHours}
+                </span>
+              </li>
+            </ul>
+            <div className="mt-6 pt-6 border-t">
+              <p className="text-black">
+                <strong>{t.contact.address}</strong>
+                <span className="block mt-1 font-black text-black">
+                  {t.contact.addressValue}
+                </span>
               </p>
-            </div>
-
-            <div className="max-w-md mx-auto mb-8 fade-in-up">
-              <div className="flex flex-col gap-3">
-                <Link
-                  href="/contact"
-                  className="btn-primary text-center py-3 px-6 rounded-md font-semibold"
-                >
-                  {t.contact.contactButton}
-                </Link>
-                <a
-                  href="tel:85255304114"
-                  className="bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 px-6 py-3 rounded-md font-semibold text-center"
-                >
-                  {t.contact.callButton}
-                </a>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto fade-in-up">
-              <h3 className="text-xl font-bold mb-4 text-primary text-center">
-                {t.contact.serviceHours}
-              </h3>
-              <ul className="space-y-3">
-                <li className="flex justify-between items-center border-b border-gray-100 pb-2">
-                  <span className="font-medium text-dark-gray">
-                    {t.contact.mondayToFriday}
-                  </span>
-                  <span className="text-black font-semibold">
-                    {t.contact.mondayToFridayHours}
-                  </span>
-                </li>
-                <li className="flex justify-between items-center border-b border-gray-100 pb-2">
-                  <span className="font-medium text-dark-gray">
-                    {t.contact.saturday}
-                  </span>
-                  <span className="text-black font-semibold">
-                    {t.contact.saturdayHours}
-                  </span>
-                </li>
-                <li className="flex justify-between items-center border-b border-gray-100 pb-2">
-                  <span className="font-medium text-dark-gray">
-                    {t.contact.evenings}
-                  </span>
-                  <span className="text-black font-semibold">
-                    {t.contact.eveningHours}
-                  </span>
-                </li>
-                <li className="pt-3">
-                  <p className="text-center">
-                    <strong className="text-primary">{t.contact.address}</strong>
-                    <span className="block mt-2 text-dark-gray text-sm leading-relaxed">
-                      {t.contact.addressValue}
-                    </span>
-                  </p>
-                </li>
-              </ul>
             </div>
           </div>
         </section>
@@ -513,15 +543,15 @@ export default function Home() {
     <div className="overflow-x-hidden w-full">
       {/* Hero Section */}
       <section
-        className="relative min-h-[80vh] md:min-h-[75vh] flex items-center w-full overflow-hidden bg-black"
+        className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden bg-black"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Home.jpg')",
+            "linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/Home.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center top",
         }}
       >
-        <div className="container mx-auto px-8 text-center md:text-left py-12 z-10 relative">
+        <div className="container mx-auto px-6 text-center md:text-left py-12 z-10 relative">
           <div className="max-w-2xl mx-auto md:mx-0 fade-in-up">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
               {t.hero.title}
@@ -551,7 +581,7 @@ export default function Home() {
 
       {/* About Section */}
       <section className="py-12 md:py-20 bg-light-gray w-full">
-        <div className="container mx-auto px-8">
+        <div className="container mx-auto px-6">
           <div className="text-center mb-8 fade-in-up">
             <div className="flex justify-center mb-4">
               <Image
@@ -587,7 +617,7 @@ export default function Home() {
 
       {/* Services Section */}
       <section id="services-section" className="py-12 md:py-20 w-full">
-        <div className="container mx-auto px-8">
+        <div className="container mx-auto px-6">
           <div className="text-center mb-10 md:mb-16 fade-in-up">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
               {t.services.title}
@@ -625,7 +655,7 @@ export default function Home() {
 
       {/* Contact Section */}
       <section className="py-12 md:py-16 bg-light-gray w-full">
-        <div className="container mx-auto px-8">
+        <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="w-full md:w-1/2 slide-in-left">
               <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
