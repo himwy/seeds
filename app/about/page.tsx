@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
-import Image from "next/image";
+import React, { useState, useEffect } from "react";
 import { useLanguage } from "../components/LanguageContext";
 import { motion } from "framer-motion";
 import {
@@ -30,49 +29,22 @@ interface ValueConfig {
   gradient: string;
 }
 
-interface MissionCardProps {
-  point: string;
-  index: number;
-}
-
-interface ValueItem {
-  title: string;
-  description: string;
-}
-
-interface ValueCardProps {
-  value: ValueItem;
-  index: number;
-  config: ValueConfig;
-}
-
-interface PhilosophyCircle {
-  title: string;
-  description: string;
-}
-
-interface PhilosophyCardProps {
-  circle: PhilosophyCircle;
-  index: number;
-  config: PhilosophyIcon;
-}
-
 // Philosophy icons configuration
 const philosophyIcons: PhilosophyIcon[] = [
-  { icon: FaBrain, color: "text-purple-600", bgColor: "bg-purple-100" },
-  { icon: FaUserTie, color: "text-blue-600", bgColor: "bg-blue-100" },
-  { icon: FaUsers, color: "text-green-600", bgColor: "bg-green-100" },
-  { icon: FaSmile, color: "text-yellow-500", bgColor: "bg-yellow-100" },
-  { icon: FaHeart, color: "text-red-500", bgColor: "bg-red-100" },
-  { icon: FaBalanceScale, color: "text-indigo-600", bgColor: "bg-indigo-100" },
-  { icon: FaBook, color: "text-teal-600", bgColor: "bg-teal-100" },
+  { icon: FaBrain, color: "text-gray-700", bgColor: "bg-gray-100" },
+  { icon: FaUserTie, color: "text-gray-700", bgColor: "bg-gray-100" },
+  { icon: FaUsers, color: "text-gray-700", bgColor: "bg-gray-100" },
+  { icon: FaSmile, color: "text-gray-700", bgColor: "bg-gray-100" },
+  { icon: FaHeart, color: "text-gray-700", bgColor: "bg-gray-100" },
+  { icon: FaBalanceScale, color: "text-gray-700", bgColor: "bg-gray-100" },
+  { icon: FaBook, color: "text-gray-700", bgColor: "bg-gray-100" },
 ];
 
 // Values configuration
 const valuesConfig: ValueConfig[] = [
-  { icon: FaUsers, color: "blue", gradient: "from-blue-50 to-white" },
-  { icon: FaChartLine, color: "green", gradient: "from-green-50 to-white" },
-  { icon: FaHandshake, color: "purple", gradient: "from-purple-50 to-white" },
+  { icon: FaUsers, color: "gray", gradient: "from-gray-50 to-white" },
+  { icon: FaChartLine, color: "gray", gradient: "from-gray-50 to-white" },
+  { icon: FaHandshake, color: "gray", gradient: "from-gray-50 to-white" },
 ];
 
 // Optimized translations object
@@ -241,79 +213,6 @@ const translations = {
   },
 };
 
-// Reusable components
-const MissionCard: React.FC<MissionCardProps> = ({ point, index }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay: index * 0.1 }}
-    viewport={{ once: true }}
-    className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-  >
-    <div className="flex items-start">
-      <div className="flex-shrink-0 mr-4">
-        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-          <span className="text-primary font-bold">{index + 1}</span>
-        </div>
-      </div>
-      <p className="text-dark-gray text-lg pt-1">{point}</p>
-    </div>
-  </motion.div>
-);
-
-const ValueCard: React.FC<ValueCardProps> = ({ value, index, config }) => {
-  const IconComponent = config.icon;
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: index === 0 ? -30 : index === 1 ? 0 : 30 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className={`bg-gradient-to-br ${config.gradient} p-6 rounded-xl shadow-sm border-t-4 border-${config.color}-400`}
-    >
-      <div
-        className={`mb-4 w-16 h-16 mx-auto bg-${config.color}-100 rounded-full flex items-center justify-center`}
-      >
-        <IconComponent className={`text-3xl text-${config.color}-500`} />
-      </div>
-      <h3 className="font-semibold text-primary text-xl mb-4 text-center">
-        {value.title}
-      </h3>
-      <p className="text-dark-gray text-center">{value.description}</p>
-    </motion.div>
-  );
-};
-
-const PhilosophyCard: React.FC<PhilosophyCardProps> = ({
-  circle,
-  index,
-  config,
-}) => {
-  const IconComponent = config.icon;
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow group"
-    >
-      <div className="flex flex-col items-center mb-4">
-        <div
-          className={`w-20 h-20 rounded-full ${config.bgColor} shadow-inner flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
-        >
-          <IconComponent className={`text-5xl ${config.color}`} />
-        </div>
-        <h3 className="font-semibold text-primary text-xl mb-2">
-          {circle.title}
-        </h3>
-        <div className="h-1 w-12 rounded-full bg-primary/30 group-hover:w-20 transition-all duration-300"></div>
-      </div>
-      <p className="text-dark-gray text-center">{circle.description}</p>
-    </motion.div>
-  );
-};
-
 export default function AboutPage() {
   const { language } = useLanguage();
   const t = translations[language];
@@ -337,143 +236,127 @@ export default function AboutPage() {
     };
   }, []);
 
-  // Memoized animation variants
-  const containerVariants = useMemo(
-    () => ({
-      hidden: { opacity: 0 },
-      show: {
-        opacity: 1,
-        transition: {
-          staggerChildren: 0.1,
-          delayChildren: 0.3,
-        },
-      },
-    }),
-    []
-  );
-
   if (isMobile) {
     return (
-      <div className="w-full overflow-x-hidden">
-        <section className="pt-20 pb-8 px-5 bg-white">
-          {/* Mobile Introduction */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
-          >
-            <div className="flex justify-center mb-6">
-              <Image
-                src="/assets/Seeds_Icon_Trans.png"
-                alt="Seeds Financial Group Logo"
-                width={80}
-                height={80}
-              />
-            </div>
-            <h1 className="text-2xl font-bold mb-4 text-primary text-center">
-              {t.introduction.title}
-            </h1>
-            <div className="bg-gray-50 p-5 rounded-lg shadow-sm">
-              <p className="text-dark-gray mb-4 text-sm leading-relaxed">
+      <div className="w-full overflow-x-hidden bg-white">
+        {/* Mobile Hero Section */}
+        <section
+          className="relative min-h-screen flex items-center justify-center text-white pt-16 w-full"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/About.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="container mx-auto px-6 text-center">
+            <div className="max-w-2xl mx-auto">
+              <h1 className="text-4xl font-bold mb-6 text-white leading-tight">
+                {t.introduction.title}
+              </h1>
+              <p className="text-white mb-4 text-lg leading-relaxed opacity-90">
                 {t.introduction.description1}
               </p>
-              <p className="text-dark-gray text-sm leading-relaxed">
+              <p className="text-white text-lg leading-relaxed opacity-90">
                 {t.introduction.description2}
               </p>
             </div>
-          </motion.div>
+          </div>
+        </section>
 
-          {/* Mobile Mission */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mb-8"
-          >
-            <h2 className="text-2xl font-bold mb-4 text-primary text-center">
-              {t.mission.title}
-            </h2>
-            <div className="space-y-4">
-              {t.mission.points.map((point, index) => (
-                <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0 mr-3">
-                      <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                        <span className="text-primary font-bold text-sm">
-                          {index + 1}
-                        </span>
-                      </div>
+        {/* Mobile Mission Section */}
+        <section className="py-12 px-6 bg-white w-full">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-900 text-center">
+            {t.mission.title}
+          </h2>
+          <div className="space-y-4">
+            {t.mission.points.map((point, index) => (
+              <div
+                key={index}
+                className="bg-white p-4 border-l-4 border-gray-800 shadow-sm"
+              >
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 mr-3">
+                    <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-semibold">
+                      {index + 1}
                     </div>
-                    <p className="text-dark-gray text-sm pt-1">{point}</p>
                   </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-5 bg-gray-100 p-4 rounded-lg shadow-sm border-l-4 border-primary">
-              <p className="italic text-dark-gray text-sm">{t.mission.quote}</p>
-            </div>
-          </motion.div>
-
-          {/* Mobile Values */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="mb-8"
-          >
-            <h2 className="text-2xl font-bold mb-4 text-primary text-center">
-              {t.values.title}
-            </h2>
-            <div className="space-y-4">
-              {t.values.items.map((value, index) => (
-                <div
-                  key={index}
-                  className={`bg-white p-4 rounded-lg shadow-sm border-t-4 border-${valuesConfig[index].color}-400`}
-                >
-                  <h3 className="font-semibold text-primary text-center mb-2">
-                    {value.title}
-                  </h3>
-                  <p className="text-dark-gray text-sm text-center">
-                    {value.description}
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    {point}
                   </p>
                 </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Mobile Philosophy */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            <h2 className="text-2xl font-bold mb-4 text-primary text-center">
-              {t.philosophy.title}
-            </h2>
-            <p className="text-dark-gray mb-6 text-sm text-center">
-              {t.philosophy.description}
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 bg-gray-100 p-4 border border-gray-300 rounded-lg">
+            <p className="italic text-gray-700 text-sm leading-relaxed">
+              &ldquo;{t.mission.quote}&rdquo;
             </p>
-            <div className="space-y-4">
-              {t.philosophy.circles.map((circle, index) => (
-                <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
-                  <div className="flex items-center mb-2">
-                    <div
-                      className={`mr-3 flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full ${philosophyIcons[index].bgColor}`}
-                    >
-                      {React.createElement(philosophyIcons[index].icon, {
-                        className: `text-2xl ${philosophyIcons[index].color}`,
-                      })}
-                    </div>
-                    <h3 className="font-semibold text-primary">
+          </div>
+        </section>
+
+        {/* Mobile Values Section */}
+        <section className="py-12 px-6 bg-gray-50 w-full">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-900 text-center">
+            {t.values.title}
+          </h2>
+          <div className="space-y-4">
+            {t.values.items.map((value, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 border border-gray-200 rounded-lg shadow-sm"
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-gray-100 border border-gray-300 rounded-lg flex items-center justify-center mr-4">
+                    {React.createElement(valuesConfig[index].icon, {
+                      className: "text-xl text-gray-700",
+                    })}
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-lg">
+                    {value.title}
+                  </h3>
+                </div>
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  {value.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Mobile Philosophy Section */}
+        <section className="py-12 px-6 bg-white w-full">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-900 text-center">
+            {t.philosophy.title}
+          </h2>
+          <p className="text-gray-700 mb-6 text-sm text-center leading-relaxed max-w-lg mx-auto">
+            {t.philosophy.description}
+          </p>
+          <div className="space-y-4">
+            {t.philosophy.circles.map((circle, index) => (
+              <div
+                key={index}
+                className="bg-white p-5 border border-gray-200 rounded-lg shadow-sm"
+              >
+                <div className="flex items-start mb-3">
+                  <div className="mr-3 flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg">
+                    {React.createElement(philosophyIcons[index].icon, {
+                      className: `text-lg ${philosophyIcons[index].color}`,
+                    })}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 text-base mb-2">
                       {circle.title}
                     </h3>
+                    <p className="text-gray-700 text-sm leading-relaxed">
+                      {circle.description}
+                    </p>
                   </div>
-                  <p className="text-dark-gray text-sm">{circle.description}</p>
                 </div>
-              ))}
-            </div>
-          </motion.div>
+              </div>
+            ))}
+          </div>
         </section>
       </div>
     );
@@ -481,138 +364,186 @@ export default function AboutPage() {
 
   // Desktop view
   return (
-    <div className="w-full overflow-x-hidden">
-      {/* Introduction Section */}
-      <section className="py-16 mt-16 bg-white">
+    <div className="w-full overflow-x-hidden bg-white">
+      {/* Hero Section with About.jpg */}
+      <section
+        className="relative min-h-screen flex items-center justify-center text-white w-full"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/About.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto text-center">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="mb-10"
             >
-              <div className="flex justify-center mb-8">
-                <Image
-                  src="/assets/Seeds_Icon_Trans.png"
-                  alt="Seeds Financial Group Logo"
-                  width={100}
-                  height={100}
-                />
-              </div>
-              <h1 className="text-3xl font-bold mb-6 text-primary text-center">
+              <h1 className="text-5xl md:text-6xl font-bold mb-8 text-white">
                 {t.introduction.title}
               </h1>
-              <div className="bg-gray-50 p-8 rounded-lg shadow-sm">
-                <p className="text-dark-gray mb-4 text-lg">
-                  {t.introduction.description1}
-                </p>
-                <p className="text-dark-gray text-lg">
-                  {t.introduction.description2}
-                </p>
-              </div>
+              <p className="text-white mb-6 text-xl leading-relaxed opacity-90 max-w-3xl mx-auto">
+                {t.introduction.description1}
+              </p>
+              <p className="text-white text-xl leading-relaxed opacity-90 max-w-3xl mx-auto">
+                {t.introduction.description2}
+              </p>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Mission Section */}
-      <section className="py-16 bg-light-gray">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
+              className="text-center mb-12"
             >
-              <h2 className="text-3xl font-bold mb-8 text-primary text-center">
+              <h2 className="text-3xl font-semibold mb-2 text-gray-900">
                 {t.mission.title}
               </h2>
-              <div className="grid gap-6">
-                {t.mission.points.map((point, index) => (
-                  <MissionCard key={index} point={point} index={index} />
-                ))}
-              </div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                viewport={{ once: true }}
-                className="bg-gray-100 p-6 mt-8 rounded-lg shadow-sm text-center border-l-4 border-primary"
-              >
-                <p className="italic text-lg text-dark-gray">
-                  {t.mission.quote}
-                </p>
-              </motion.div>
+              <div className="w-16 h-px bg-gray-800 mx-auto"></div>
+            </motion.div>
+            <div className="space-y-6 mb-8">
+              {t.mission.points.map((point, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-white p-6 border-l-4 border-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200"
+                >
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 mr-4">
+                      <div className="w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+                        {index + 1}
+                      </div>
+                    </div>
+                    <p className="text-gray-700 leading-relaxed">{point}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="border-l-4 border-gray-800 bg-gray-50 p-8 rounded-r-lg"
+            >
+              <p className="text-lg text-gray-700 leading-relaxed font-medium">
+                &ldquo;{t.mission.quote}&rdquo;
+              </p>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Values Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
+              className="text-center mb-12"
             >
-              <h2 className="text-3xl font-bold mb-8 text-primary text-center flex items-center justify-center">
-                <FaHandshake className="mr-3 text-blue-500" /> {t.values.title}
+              <h2 className="text-3xl font-semibold mb-2 text-gray-900 flex items-center justify-center">
+                <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center mr-4">
+                  <FaHandshake className="text-white text-lg" />
+                </div>
+                {t.values.title}
               </h2>
-              <div className="grid md:grid-cols-3 gap-8">
-                {t.values.items.map((value, index) => (
-                  <ValueCard
-                    key={index}
-                    value={value}
-                    index={index}
-                    config={valuesConfig[index]}
-                  />
-                ))}
-              </div>
+              <div className="w-16 h-px bg-gray-800 mx-auto"></div>
             </motion.div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {t.values.items.map((value, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-white p-8 border border-gray-200 hover:border-gray-400 transition-colors duration-200 rounded-lg shadow-sm"
+                >
+                  <div className="text-center">
+                    <div className="mb-6 inline-flex p-3 bg-gray-100 rounded-lg">
+                      {React.createElement(valuesConfig[index].icon, {
+                        className: "text-2xl text-gray-700",
+                      })}
+                    </div>
+                    <h3 className="font-semibold text-gray-900 text-xl mb-4">
+                      {value.title}
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      {value.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Philosophy Section */}
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
+              className="text-center mb-12"
             >
-              <h2 className="text-3xl font-bold mb-4 text-primary text-center flex items-center justify-center">
-                <FaBrain className="mr-3 text-indigo-500" />
+              <h2 className="text-3xl font-semibold mb-2 text-gray-900 text-center">
                 {t.philosophy.title}
               </h2>
-              <p className="text-dark-gray mb-12 text-center max-w-3xl mx-auto text-lg">
+              <div className="w-16 h-px bg-gray-800 mx-auto mb-6"></div>
+              <p className="text-gray-700 text-center max-w-3xl mx-auto text-lg leading-relaxed">
                 {t.philosophy.description}
               </p>
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-              >
-                {t.philosophy.circles.map((circle, index) => (
-                  <PhilosophyCard
-                    key={index}
-                    circle={circle}
-                    index={index}
-                    config={philosophyIcons[index]}
-                  />
-                ))}
-              </motion.div>
             </motion.div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {t.philosophy.circles.map((circle, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  viewport={{ once: true }}
+                  className="bg-white p-6 border border-gray-200 hover:border-gray-400 transition-colors duration-200 rounded-lg shadow-sm"
+                >
+                  <div className="text-center">
+                    <div className="mb-4 inline-flex p-3 bg-gray-100 rounded-lg">
+                      {React.createElement(philosophyIcons[index].icon, {
+                        className: `text-2xl ${philosophyIcons[index].color}`,
+                      })}
+                    </div>
+                    <h3 className="font-semibold text-gray-900 text-base mb-3">
+                      {circle.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      {circle.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

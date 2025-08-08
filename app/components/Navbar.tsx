@@ -272,41 +272,39 @@ export default function Navbar() {
         {isMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className="md:hidden fixed left-0 right-0 bg-white z-50 overflow-y-auto shadow-xl border-t border-gray-100"
+            className="md:hidden fixed left-0 right-0 bg-white z-50 overflow-y-auto shadow-lg"
             style={{
               width: "100%",
-              top: isScrolled ? "54px" : "62px",
+              top: isScrolled ? "54px" : "62px", // Reduced top position to eliminate gap
               height: `calc(100vh - ${isScrolled ? "54px" : "62px"})`,
               maxHeight: "100vh",
+              borderTopWidth: "0",
               animation: "slideInUp 0.3s ease-out forwards",
             }}
           >
-            <div className="px-6 py-6">
-              {/* Menu handle */}
-              <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-8"></div>
-              
-              <nav className="space-y-2">
+            <div className="px-4 py-2">
+              <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+              <nav className="flex flex-col">
                 {menuItems.map((item) => (
-                  <div key={item.title} className="group">
+                  <div
+                    key={item.title}
+                    className="border-b border-gray-200 py-3"
+                  >
                     {item.submenu && item.submenu.length > 0 ? (
                       // Items with dropdown
-                      <div className="bg-gray-50 rounded-xl overflow-hidden transition-all duration-200">
+                      <>
                         <button
-                          className="flex justify-between items-center w-full text-left p-4 hover:bg-gray-100 transition-colors"
+                          className="flex justify-between items-center w-full text-left text-dark-gray hover:text-primary transition-colors"
                           onClick={() => toggleMobileSubmenu(item.title)}
                         >
-                          <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center">
-                              <span className="text-gray-600 text-sm">
-                                {item.icon}
-                              </span>
-                            </div>
-                            <span className="font-semibold text-gray-900 text-lg">
-                              {item.title}
+                          <div className="flex items-center">
+                            <span className="mr-2 text-primary">
+                              {item.icon}
                             </span>
+                            <span className="font-medium">{item.title}</span>
                           </div>
                           <FaAngleDown
-                            className={`w-5 h-5 transition-transform duration-300 text-gray-500 ${
+                            className={`w-4 h-4 transition-transform duration-200 text-primary ${
                               expandedMobileItems.includes(item.title)
                                 ? "rotate-180"
                                 : ""
@@ -315,60 +313,35 @@ export default function Navbar() {
                         </button>
 
                         {expandedMobileItems.includes(item.title) && (
-                          <div className="border-t border-gray-200 bg-white">
+                          <div className="ml-7 mt-3 space-y-3 pl-2 border-l-2 border-primary">
                             {item.submenu.map((subItem) => (
                               <Link
                                 key={subItem.title}
                                 href={subItem.path}
-                                className="flex items-center px-6 py-4 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0"
+                                className="flex items-center py-2 text-gray-700 hover:text-primary transition-colors"
                                 onClick={() => setIsMenuOpen(false)}
                               >
-                                <div className="w-2 h-2 bg-gray-400 rounded-full mr-4"></div>
-                                <span className="text-gray-700 font-medium">
-                                  {subItem.title}
-                                </span>
-                                <FaAngleRight className="w-4 h-4 ml-auto text-gray-400" />
+                                <FaAngleRight className="w-3 h-3 mr-2 text-primary" />
+                                {subItem.title}
                               </Link>
                             ))}
                           </div>
                         )}
-                      </div>
+                      </>
                     ) : (
                       // Regular clickable items without dropdown
                       <Link
                         href={item.path}
-                        className="flex items-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group"
+                        className="flex items-center text-dark-gray hover:text-primary transition-colors py-1"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center mr-3">
-                          <span className="text-gray-600 text-sm">
-                            {item.icon}
-                          </span>
-                        </div>
-                        <span className="font-semibold text-gray-900 text-lg">
-                          {item.title}
-                        </span>
-                        <FaAngleRight className="w-4 h-4 ml-auto text-gray-400 group-hover:text-gray-600 transition-colors" />
+                        <span className="mr-2 text-primary">{item.icon}</span>
+                        <span className="font-medium">{item.title}</span>
                       </Link>
                     )}
                   </div>
                 ))}
               </nav>
-
-              {/* Language Switcher in Mobile Menu */}
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center">
-                      <span className="text-gray-600 text-sm">🌐</span>
-                    </div>
-                    <span className="font-semibold text-gray-900 text-lg">
-                      Language
-                    </span>
-                  </div>
-                  <LanguageSwitcher />
-                </div>
-              </div>
             </div>
           </div>
         )}

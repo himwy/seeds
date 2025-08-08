@@ -132,7 +132,7 @@ const translations = {
       contactButton: "Contact Us",
     },
     about: {
-      title: "Seeds Financial Group",
+      title: "About Seeds Financial Group",
       description1:
         "Seeds Financial Group is in partnership with one of the world's largest financial groups provides advisory services using a wide range of risk management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
       description2:
@@ -140,7 +140,7 @@ const translations = {
       learnMoreButton: "Learn More About Us",
     },
     services: {
-      title: "Financial Services",
+      title: "Our Financial Services",
       description:
         "We offer a comprehensive range of financial services to help you protect what matters most and plan for a secure future.",
       criticalIllness: {
@@ -200,7 +200,7 @@ const translations = {
       contactButton: "聯絡我們",
     },
     about: {
-      title: "Seeds Financial Group",
+      title: "關於 Seeds Financial Group",
       description1:
         "Seeds Financial Group 與全球最大的金融集團之一合作，提供廣泛的風險管理、策略和資產配置計劃的顧問服務，使我們的客戶能夠實現其財務目標和未來需求。",
       description2:
@@ -208,7 +208,7 @@ const translations = {
       learnMoreButton: "了解更多關於我們",
     },
     services: {
-      title: "金融服務",
+      title: "我們的金融服務",
       description:
         "我們提供全面的金融服務，幫助您保護最重要的事物並規劃安全的未來。",
       criticalIllness: {
@@ -376,80 +376,71 @@ export default function Home() {
     color: "white",
   };
 
-  // Scroll to services section function
-  const scrollToServices = () => {
-    const servicesSection = document.getElementById('services-section');
-    if (servicesSection) {
-      servicesSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  };
-
   // Mobile view
   if (isMobile) {
     return (
       <div className="w-full overflow-x-hidden">
         {/* Mobile Hero Section */}
-        <section 
-          className="relative min-h-screen flex items-center justify-center text-white pt-16 w-full"
-          style={{
-            backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Home.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          <div className="container mx-auto px-6 text-center">
-            <div className="max-w-lg mx-auto">
-              <h1 className="text-4xl font-bold mb-6 text-white leading-tight fade-in-up" style={{ color: 'white' }}>
-                {t.hero.title}
-              </h1>
-              <p className="text-lg mb-8 text-white fade-in-up" style={{ animationDelay: '0.2s', color: 'white' }}>
-                {t.hero.description}
-              </p>
-              <div className="flex flex-col gap-4 fade-in-up" style={{ animationDelay: '0.4s' }}>
-                <button
-                  onClick={scrollToServices}
-                  className="bg-white text-gray-900 font-bold py-4 px-8 rounded-lg w-full hover:bg-gray-100 transition-all duration-300 shadow-lg"
-                >
-                  {t.hero.exploreButton}
-                </button>
-                <ContactButton
-                  href="/contact"
-                  className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-center w-full transition-all duration-300 hover:bg-white hover:text-gray-900"
-                  style={contactButtonStyle}
-                  {...contactButtonHandlers}
-                >
-                  {t.hero.contactButton}
-                </ContactButton>
-              </div>
+        <section className="bg-primary text-white pt-3 pb-6 px-6 w-full">
+          <div className="text-center mb-4 fade-in-up">
+            <h1 className="text-3xl font-bold mb-3">{t.hero.title}</h1>
+            <p className="text-lg mb-5">{t.hero.description}</p>
+            <div className="flex flex-col gap-3">
+              <Link
+                href="/services"
+                className="bg-accent text-dark-gray font-bold py-3 px-6 rounded-md w-full"
+              >
+                {t.hero.exploreButton}
+              </Link>
+              <ContactButton
+                href="/contact"
+                className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full transition-all duration-300"
+                style={contactButtonStyle}
+                {...contactButtonHandlers}
+              >
+                {t.hero.contactButton}
+              </ContactButton>
             </div>
+          </div>
+          <div className="relative h-52 rounded-lg overflow-hidden mt-8 shadow-md fade-in">
+            <Image
+              src="/assets/Home.jpg"
+              alt="Seeds Financial Group Office"
+              fill
+              className="object-cover rounded-lg"
+              priority
+              quality={75}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+              sizes="(max-width: 768px) 90vw, 400px"
+            />
           </div>
         </section>
 
         {/* Mobile About Section */}
-        <section className="py-12 px-6 bg-white w-full">
-          <div className="flex flex-col items-center text-center mb-8 fade-in-up">
-            <div className="mb-6">
+        <section className="py-10 px-6 bg-white w-full">
+          <div className="flex flex-col items-center text-center mb-6 fade-in-up">
+            <div className="mb-4">
               <Image
                 src="/assets/Seeds_Icon_Trans.png"
                 alt="Seeds Financial Group Logo"
-                width={120}
-                height={120}
-                className="mb-4"
+                width={130}
+                height={130}
+                className="mb-2"
+                quality={90}
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
               />
             </div>
-            <h2 className="text-3xl font-bold mb-4 text-gray-800">
+            <h2 className="text-2xl font-bold mb-3 text-primary">
               {t.about.title}
             </h2>
           </div>
-          <div className="fade-in-up max-w-md mx-auto">
-            <p className="text-gray-600 text-base mb-4 leading-relaxed">
+          <div className="fade-in-up">
+            <p className="text-dark-gray text-sm mb-3">
               {t.about.description1}
             </p>
-            <p className="text-gray-600 text-base mb-6 leading-relaxed">
+            <p className="text-dark-gray text-sm mb-4">
               {t.about.description2}
             </p>
             <div className="text-center">
@@ -464,7 +455,7 @@ export default function Home() {
         </section>
 
         {/* Mobile Services Section */}
-        <section id="services-section" className="py-10 px-6 bg-light-gray w-full">
+        <section className="py-10 px-6 bg-light-gray w-full">
           <div className="text-center mb-8 fade-in-up">
             <h2 className="text-2xl font-bold mb-4 text-primary">
               {t.services.title}
@@ -546,15 +537,24 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden w-full">
       {/* Hero Section */}
-      <section
-        className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden bg-black"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/Home.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-        }}
-      >
+      <section className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/assets/Home.jpg"
+            alt="Seeds Financial Group Hero Background"
+            fill
+            className="object-cover"
+            priority
+            quality={75}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+            sizes="100vw"
+          />
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-75"></div>
+        </div>
+
         <div className="container mx-auto px-6 text-center md:text-left py-12 z-10 relative">
           <div className="max-w-2xl mx-auto md:mx-0 fade-in-up">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
@@ -564,12 +564,12 @@ export default function Home() {
               {t.hero.description}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <button
-                onClick={scrollToServices}
+              <Link
+                href="/services"
                 className="btn-primary text-center w-full sm:w-auto"
               >
                 {t.hero.exploreButton}
-              </button>
+              </Link>
               <ContactButton
                 href="/contact"
                 className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full sm:w-auto transition-all duration-300"
@@ -587,16 +587,6 @@ export default function Home() {
       <section className="py-12 md:py-20 bg-light-gray w-full">
         <div className="container mx-auto px-6">
           <div className="text-center mb-8 fade-in-up">
-            <div className="flex justify-center mb-4">
-              <Image
-                src="/assets/Seeds_Icon_Trans.png"
-                alt="Seeds Financial Group"
-                width={80}
-                height={80}
-                className="rounded-lg"
-                style={{ objectFit: "contain" }}
-              />
-            </div>
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
               {t.about.title}
             </h2>
@@ -620,7 +610,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services-section" className="py-12 md:py-20 w-full">
+      <section className="py-12 md:py-20 w-full">
         <div className="container mx-auto px-6">
           <div className="text-center mb-10 md:mb-16 fade-in-up">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
