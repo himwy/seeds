@@ -304,7 +304,7 @@ export default function AboutPage() {
           </div>
           <div className="mt-6 bg-blue-50 p-4 border border-blue-200 rounded-lg">
             <p className="italic text-gray-700 text-sm leading-relaxed">
-              "{t.mission.quote}"
+              &ldquo;{t.mission.quote}&rdquo;
             </p>
           </div>
         </section>
@@ -472,7 +472,7 @@ export default function AboutPage() {
                 <FaHandshake className="text-white text-lg" />
               </div>
               <p className="italic text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
-                "{t.mission.quote}"
+                &ldquo;{t.mission.quote}&rdquo;
               </p>
             </motion.div>
           </div>
