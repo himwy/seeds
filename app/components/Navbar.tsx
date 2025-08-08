@@ -286,7 +286,7 @@ export default function Navbar() {
               <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-8"></div>
               
               <nav className="space-y-2">
-                {menuItems.map((item, index) => (
+                {menuItems.map((item) => (
                   <div key={item.title} className="group">
                     {item.submenu && item.submenu.length > 0 ? (
                       // Items with dropdown
@@ -316,7 +316,7 @@ export default function Navbar() {
 
                         {expandedMobileItems.includes(item.title) && (
                           <div className="border-t border-gray-200 bg-white">
-                            {item.submenu.map((subItem, subIndex) => (
+                            {item.submenu.map((subItem) => (
                               <Link
                                 key={subItem.title}
                                 href={subItem.path}

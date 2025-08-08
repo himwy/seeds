@@ -98,7 +98,8 @@ interface TranslationsType {
 const translations: TranslationsType = {
   en: {
     pageTitle: "Careers",
-    pageSubtitle: "Join our dynamic team and build a rewarding career in wealth management",
+    pageSubtitle:
+      "Join our dynamic team and build a rewarding career in wealth management",
     viewPositionsButton: "View Open Positions",
 
     isWealthManagementForYou: {
@@ -153,7 +154,8 @@ const translations: TranslationsType = {
 
     workplaceCulture: {
       title: "Our Workplace Culture",
-      description: "Discover our dynamic work environment and see what makes Seeds Financial Group a great place to build your career.",
+      description:
+        "Discover our dynamic work environment and see what makes Seeds Financial Group a great place to build your career.",
     },
 
     videoSection: {
@@ -163,11 +165,14 @@ const translations: TranslationsType = {
         "Hear directly from our interns about their experience working at Seeds Financial Group.",
       watchNowButton: "Watch Now",
       teamStory1Title: "Team Member Story #1",
-      teamStory1Description: "Learn about our senior advisor's journey and experience at Seeds Financial Group.",
-      teamStory2Title: "Team Member Story #2", 
-      teamStory2Description: "Discover how our wealth managers build lasting relationships with clients.",
+      teamStory1Description:
+        "Learn about our senior advisor's journey and experience at Seeds Financial Group.",
+      teamStory2Title: "Team Member Story #2",
+      teamStory2Description:
+        "Discover how our wealth managers build lasting relationships with clients.",
       companyCultureTitle: "Company Culture",
-      companyCultureDescription: "Get an inside look at our collaborative work environment and values.",
+      companyCultureDescription:
+        "Get an inside look at our collaborative work environment and values.",
     },
 
     jobOpenings: {
@@ -280,16 +285,19 @@ const translations: TranslationsType = {
 
     workplaceCulture: {
       title: "我們的工作場所文化",
-      description: "了解我們充滿活力的工作環境，看看是什麼讓Seeds Financial Group成為建立職業生涯的絕佳場所。",
+      description:
+        "了解我們充滿活力的工作環境，看看是什麼讓Seeds Financial Group成為建立職業生涯的絕佳場所。",
     },
 
     videoSection: {
       title: "聽聽我們團隊的分享",
       internTitle: "實習生分享",
-      description: "直接聆聽我們的實習生分享他們在Seeds Financial Group工作的經驗。",
+      description:
+        "直接聆聽我們的實習生分享他們在Seeds Financial Group工作的經驗。",
       watchNowButton: "立即觀看",
       teamStory1Title: "團隊成員故事 #1",
-      teamStory1Description: "了解我們資深顧問在Seeds Financial Group的成長歷程和經驗。",
+      teamStory1Description:
+        "了解我們資深顧問在Seeds Financial Group的成長歷程和經驗。",
       teamStory2Title: "團隊成員故事 #2",
       teamStory2Description: "探索我們的財富管理師如何與客戶建立持久的關係。",
       companyCultureTitle: "公司文化",
@@ -352,7 +360,7 @@ const translations: TranslationsType = {
 
 // Components
 const HeroSection = ({ t }: { t: TranslationType }) => (
-  <div 
+  <div
     className="relative min-h-[60vh] md:min-h-[70vh] flex items-center overflow-hidden bg-black"
     style={{
       backgroundImage:
@@ -527,7 +535,7 @@ const VideoSection = ({ t }: { t: TranslationType }) => {
       thumbnail: "Team Video Thumbnail #1",
     },
     {
-      id: "team-2", 
+      id: "team-2",
       title: t.videoSection.teamStory2Title,
       description: t.videoSection.teamStory2Description,
       thumbnail: "Team Video Thumbnail #2",
@@ -569,7 +577,10 @@ const VideoSection = ({ t }: { t: TranslationType }) => {
             onClick={prevVideo}
             className="hidden md:flex absolute left-[-100px] top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white hover:bg-gray-50 rounded-full items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-10"
           >
-            <FaArrowRight className="rotate-180 text-gray-700 hover:text-teal-600" size={20} />
+            <FaArrowRight
+              className="rotate-180 text-gray-700 hover:text-teal-600"
+              size={20}
+            />
           </button>
 
           <motion.div
@@ -611,7 +622,7 @@ const VideoSection = ({ t }: { t: TranslationType }) => {
                   key={index}
                   onClick={() => setCurrentVideoIndex(index)}
                   className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentVideoIndex ? 'bg-teal-600' : 'bg-gray-300'
+                    index === currentVideoIndex ? "bg-teal-600" : "bg-gray-300"
                   }`}
                 />
               ))}
@@ -623,7 +634,10 @@ const VideoSection = ({ t }: { t: TranslationType }) => {
                 onClick={prevVideo}
                 className="w-10 h-10 bg-white hover:bg-gray-50 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 border"
               >
-                <FaArrowRight className="rotate-180 text-gray-700 hover:text-teal-600" size={18} />
+                <FaArrowRight
+                  className="rotate-180 text-gray-700 hover:text-teal-600"
+                  size={18}
+                />
               </button>
               <button
                 onClick={nextVideo}
@@ -631,14 +645,17 @@ const VideoSection = ({ t }: { t: TranslationType }) => {
               >
                 <motion.div
                   animate={{ x: [0, 3, 0] }}
-                  transition={{ 
-                    duration: 1.5, 
-                    repeat: Infinity, 
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
                     repeatType: "reverse",
-                    ease: "easeInOut"
+                    ease: "easeInOut",
                   }}
                 >
-                  <FaArrowRight className="text-gray-700 group-hover:text-teal-600" size={18} />
+                  <FaArrowRight
+                    className="text-gray-700 group-hover:text-teal-600"
+                    size={18}
+                  />
                 </motion.div>
               </button>
             </div>
@@ -681,14 +698,17 @@ const VideoSection = ({ t }: { t: TranslationType }) => {
           >
             <motion.div
               animate={{ x: [0, 4, 0] }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity, 
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
                 repeatType: "reverse",
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
             >
-              <FaArrowRight className="text-gray-700 group-hover:text-teal-600" size={20} />
+              <FaArrowRight
+                className="text-gray-700 group-hover:text-teal-600"
+                size={20}
+              />
             </motion.div>
           </button>
         </div>
@@ -749,12 +769,12 @@ const JobCard = ({
           <a
             href="#apply"
             className="inline-block text-white px-4 md:px-6 py-2 md:py-3 rounded-md text-sm md:text-base font-semibold transition-all duration-300 shadow-sm hover:transform hover:-translate-y-0.5"
-            style={{ backgroundColor: 'var(--primary)' }}
+            style={{ backgroundColor: "var(--primary)" }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--secondary)';
+              e.currentTarget.style.backgroundColor = "var(--secondary)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--primary)';
+              e.currentTarget.style.backgroundColor = "var(--primary)";
             }}
           >
             {job.ctaText}
@@ -821,7 +841,7 @@ export default function CareersPage() {
       thumbnail: "Team Video Thumbnail #1",
     },
     {
-      id: "team-2", 
+      id: "team-2",
       title: t.videoSection.teamStory2Title,
       description: t.videoSection.teamStory2Description,
       thumbnail: "Team Video Thumbnail #2",
@@ -848,8 +868,8 @@ export default function CareersPage() {
     };
 
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Mobile view
@@ -857,10 +877,11 @@ export default function CareersPage() {
     return (
       <div className="w-full overflow-x-hidden">
         {/* Mobile Hero Section */}
-        <section 
+        <section
           className="relative min-h-screen flex items-center justify-center text-white pt-16 w-full"
           style={{
-            backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Recruitment.jpg')",
+            backgroundImage:
+              "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/Recruitment.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center 20%",
             backgroundRepeat: "no-repeat",
@@ -873,7 +894,7 @@ export default function CareersPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 className="text-4xl font-bold mb-6 text-white leading-tight"
-                style={{ color: 'white' }}
+                style={{ color: "white" }}
               >
                 {t.pageTitle}
               </motion.h1>
@@ -882,7 +903,7 @@ export default function CareersPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-lg mb-8 text-white leading-relaxed"
-                style={{ color: 'white' }}
+                style={{ color: "white" }}
               >
                 {t.pageSubtitle}
               </motion.p>
@@ -980,7 +1001,7 @@ export default function CareersPage() {
               {t.videoSection.title}
             </h2>
           </div>
-          
+
           <div className="space-y-8 max-w-lg mx-auto">
             {/* Mobile Video Player */}
             <div className="relative aspect-video bg-gray-200 rounded-xl overflow-hidden shadow-lg">
@@ -1032,7 +1053,9 @@ export default function CareersPage() {
                     key={index}
                     onClick={() => setCurrentVideoIndex(index)}
                     className={`w-3 h-3 rounded-full transition-colors ${
-                      index === currentVideoIndex ? 'bg-teal-600' : 'bg-gray-300'
+                      index === currentVideoIndex
+                        ? "bg-teal-600"
+                        : "bg-gray-300"
                     }`}
                   />
                 ))}
@@ -1044,7 +1067,10 @@ export default function CareersPage() {
                   onClick={prevVideo}
                   className="w-12 h-12 bg-white hover:bg-gray-50 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 border"
                 >
-                  <FaArrowRight className="rotate-180 text-gray-700 hover:text-teal-600" size={16} />
+                  <FaArrowRight
+                    className="rotate-180 text-gray-700 hover:text-teal-600"
+                    size={16}
+                  />
                 </button>
                 <button
                   onClick={nextVideo}
@@ -1052,14 +1078,17 @@ export default function CareersPage() {
                 >
                   <motion.div
                     animate={{ x: [0, 3, 0] }}
-                    transition={{ 
-                      duration: 1.5, 
-                      repeat: Infinity, 
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
                       repeatType: "reverse",
-                      ease: "easeInOut"
+                      ease: "easeInOut",
                     }}
                   >
-                    <FaArrowRight className="text-gray-700 group-hover:text-teal-600" size={16} />
+                    <FaArrowRight
+                      className="text-gray-700 group-hover:text-teal-600"
+                      size={16}
+                    />
                   </motion.div>
                 </button>
               </div>
@@ -1088,13 +1117,14 @@ export default function CareersPage() {
                 <h3 className="text-xl font-bold text-teal-600 mb-2">
                   {language === "zh-HK" ? job.chineseTitle : job.title}
                 </h3>
-                <p className="text-base text-gray-600 mb-4">
-                  {job.subtitle}
-                </p>
+                <p className="text-base text-gray-600 mb-4">{job.subtitle}</p>
 
                 <div className="space-y-3 mb-6">
                   {job.description.slice(0, 2).map((paragraph, idx) => (
-                    <p key={idx} className="text-sm text-gray-700 leading-relaxed">
+                    <p
+                      key={idx}
+                      className="text-sm text-gray-700 leading-relaxed"
+                    >
                       {paragraph}
                     </p>
                   ))}
@@ -1104,12 +1134,13 @@ export default function CareersPage() {
                   <a
                     href="#apply"
                     className="text-center text-white px-6 py-3 rounded-lg text-base font-semibold transition-all duration-300 shadow-lg"
-                    style={{ backgroundColor: 'var(--primary)' }}
+                    style={{ backgroundColor: "var(--primary)" }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'var(--secondary)';
+                      e.currentTarget.style.backgroundColor =
+                        "var(--secondary)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'var(--primary)';
+                      e.currentTarget.style.backgroundColor = "var(--primary)";
                     }}
                   >
                     {job.ctaText}
