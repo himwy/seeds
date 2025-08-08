@@ -380,40 +380,42 @@ export default function Home() {
   if (isMobile) {
     return (
       <div className="w-full overflow-x-hidden">
-        {/* Mobile Hero Section */}
-        <section className="bg-primary text-white pt-3 pb-6 px-6 w-full">
-          <div className="text-center mb-4 fade-in-up">
-            <h1 className="text-3xl font-bold mb-3">{t.hero.title}</h1>
-            <p className="text-lg mb-5">{t.hero.description}</p>
-            <div className="flex flex-col gap-3">
-              <Link
-                href="/services"
-                className="bg-accent text-dark-gray font-bold py-3 px-6 rounded-md w-full"
-              >
-                {t.hero.exploreButton}
-              </Link>
-              <ContactButton
-                href="/contact"
-                className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full transition-all duration-300"
-                style={contactButtonStyle}
-                {...contactButtonHandlers}
-              >
-                {t.hero.contactButton}
-              </ContactButton>
+        {/* Mobile Hero Section - Centralized Design */}
+        <section
+          className="relative min-h-screen flex items-center justify-center text-white w-full"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Home.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="container mx-auto px-6 text-center">
+            <div className="max-w-2xl mx-auto fade-in-up">
+              <h1 className="text-4xl font-bold mb-6 text-white leading-tight">
+                {t.hero.title}
+              </h1>
+              <p className="text-white mb-8 text-lg leading-relaxed opacity-90">
+                {t.hero.description}
+              </p>
+              <div className="flex flex-col gap-4 max-w-md mx-auto">
+                <Link
+                  href="/services"
+                  className="bg-accent text-dark-gray font-bold py-3 px-6 rounded-md w-full text-center"
+                >
+                  {t.hero.exploreButton}
+                </Link>
+                <ContactButton
+                  href="/contact"
+                  className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full transition-all duration-300"
+                  style={contactButtonStyle}
+                  {...contactButtonHandlers}
+                >
+                  {t.hero.contactButton}
+                </ContactButton>
+              </div>
             </div>
-          </div>
-          <div className="relative h-52 rounded-lg overflow-hidden mt-8 shadow-md fade-in">
-            <Image
-              src="/assets/Home.jpg"
-              alt="Seeds Financial Group Office"
-              fill
-              className="object-cover rounded-lg"
-              priority
-              quality={75}
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-              sizes="(max-width: 768px) 90vw, 400px"
-            />
           </div>
         </section>
 
