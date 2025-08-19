@@ -382,16 +382,16 @@ export default function Home() {
       <div className="w-full overflow-x-hidden">
         {/* Mobile Hero Section - Centralized Design */}
         <section
-          className="relative min-h-screen flex items-center justify-center text-white w-full"
+          className="relative min-h-screen flex items-center justify-center text-white w-full overflow-hidden"
           style={{
             backgroundImage:
               "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Home.jpg')",
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundPosition: "center 20%",
             backgroundRepeat: "no-repeat",
           }}
         >
-          <div className="container mx-auto px-6 text-center">
+          <div className="container mx-auto px-6 text-center z-10 relative">
             <div className="max-w-2xl mx-auto fade-in-up">
               <h1 className="text-4xl font-bold mb-6 text-white leading-tight">
                 {t.hero.title}
@@ -400,12 +400,18 @@ export default function Home() {
                 {t.hero.description}
               </p>
               <div className="flex flex-col gap-4 max-w-md mx-auto">
-                <Link
-                  href="/services"
-                  className="bg-accent text-dark-gray font-bold py-3 px-6 rounded-md w-full text-center"
+                <button
+                  onClick={() => {
+                    const servicesSection =
+                      document.getElementById("services-section");
+                    if (servicesSection) {
+                      servicesSection.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
+                  className="bg-white text-primary font-bold py-3 px-6 rounded-md w-full text-center hover:bg-gray-100 transition-colors"
                 >
                   {t.hero.exploreButton}
-                </Link>
+                </button>
                 <ContactButton
                   href="/contact"
                   className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full transition-all duration-300"
@@ -457,7 +463,10 @@ export default function Home() {
         </section>
 
         {/* Mobile Services Section */}
-        <section className="py-10 px-6 bg-light-gray w-full">
+        <section
+          id="services-section"
+          className="py-10 px-6 bg-light-gray w-full"
+        >
           <div className="text-center mb-8 fade-in-up">
             <h2 className="text-2xl font-bold mb-4 text-primary">
               {t.services.title}
@@ -539,24 +548,16 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden w-full">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/assets/Home.jpg"
-            alt="Seeds Financial Group Hero Background"
-            fill
-            className="object-cover"
-            priority
-            quality={75}
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-            sizes="100vw"
-          />
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-75"></div>
-        </div>
-
+      <section
+        className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Home.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center 20%",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div className="container mx-auto px-6 text-center md:text-left py-12 z-10 relative">
           <div className="max-w-2xl mx-auto md:mx-0 fade-in-up">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
@@ -566,12 +567,19 @@ export default function Home() {
               {t.hero.description}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Link
-                href="/services"
+              <button
+                onClick={() => {
+                  const servicesSection = document.getElementById(
+                    "services-section-desktop"
+                  );
+                  if (servicesSection) {
+                    servicesSection.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
                 className="btn-primary text-center w-full sm:w-auto"
               >
                 {t.hero.exploreButton}
-              </Link>
+              </button>
               <ContactButton
                 href="/contact"
                 className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-semibold text-center w-full sm:w-auto transition-all duration-300"
@@ -612,7 +620,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="py-12 md:py-20 w-full">
+      <section id="services-section-desktop" className="py-12 md:py-20 w-full">
         <div className="container mx-auto px-6">
           <div className="text-center mb-10 md:mb-16 fade-in-up">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">

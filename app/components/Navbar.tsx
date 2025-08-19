@@ -52,16 +52,8 @@ export default function Navbar() {
           path: "/concepts/financial-planning",
         },
         {
-          title: t.navbar.conceptsItems.investmentStrategy,
-          path: "/concepts/investment-strategy",
-        },
-        {
-          title: t.navbar.conceptsItems.riskManagement,
-          path: "/concepts/risk-management",
-        },
-        {
-          title: t.navbar.conceptsItems.retirementPlanning,
-          path: "/concepts/retirement-planning",
+          title: t.navbar.conceptsItems.seedsStory,
+          path: "/concepts/seeds-story",
         },
       ],
     },
@@ -71,12 +63,12 @@ export default function Navbar() {
       icon: <FaBriefcase className="w-5 h-5" />,
       submenu: [
         {
-          title: t.navbar.caseStudiesItems.successStories,
-          path: "/case-studies/success-stories",
+          title: t.navbar.caseStudiesItems.clientStories,
+          path: "/case-studies/client-stories",
         },
         {
-          title: t.navbar.caseStudiesItems.clientTestimonials,
-          path: "/case-studies/testimonials",
+          title: t.navbar.caseStudiesItems.academicCases,
+          path: "/case-studies/academic",
         },
       ],
     },

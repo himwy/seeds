@@ -520,9 +520,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
   onSectionClick,
 }) => (
   <div className="sticky top-24 bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
-    <h3 className="text-lg font-bold mb-4 text-primary">
-      Contents
-    </h3>
+    <h3 className="text-lg font-bold mb-4 text-primary">Contents</h3>
     <ul className="space-y-1">
       {sections.map((section: Section) => {
         const IconComponent = sectionIcons[section.id]?.icon || FaChartLine;
@@ -631,11 +629,28 @@ export default function FinancialPlanningPage() {
     return (
       <div className="w-full overflow-x-hidden pb-16">
         {/* Hero Banner */}
-        <div className="bg-gradient-to-r from-primary to-blue-700 text-white py-10 px-4 mt-16">
-          <h1 className="text-2xl font-bold text-center text-white">{t.pageTitle}</h1>
-          <p className="text-center mt-2 text-white">{t.pageSubtitle}</p>
-          <div className="h-1 w-16 bg-white mx-auto mt-3 rounded-full"></div>
-        </div>
+        <section
+          className="relative min-h-[60vh] flex items-center justify-center text-white w-full overflow-hidden mt-16"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Financial.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center 60%",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="container mx-auto px-6 text-center z-10 relative">
+            <div className="max-w-3xl mx-auto">
+              <h1 className="text-3xl font-bold text-white leading-tight mb-4">
+                {t.pageTitle}
+              </h1>
+              <p className="text-white text-lg leading-relaxed opacity-90 mb-6">
+                {t.pageSubtitle}
+              </p>
+              <div className="h-1 w-16 bg-white mx-auto rounded-full"></div>
+            </div>
+          </div>
+        </section>
 
         {/* Quick Navigation */}
         <div className="sticky top-0 z-10 bg-white shadow-md px-4 py-3 overflow-x-auto">
@@ -675,15 +690,23 @@ export default function FinancialPlanningPage() {
   return (
     <div className="w-full overflow-x-hidden">
       {/* Hero Banner */}
-      <div className="relative bg-gradient-to-r from-primary/90 to-blue-700/90 h-60 mt-12">
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-        <div className="container mx-auto px-6 h-full flex items-center justify-center">
-          <div className="text-center">
+      <section
+        className="relative min-h-[70vh] flex items-center justify-center text-white w-full overflow-hidden mt-12"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Financial.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center 60%",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="container mx-auto px-6 text-center z-10 relative">
+          <div className="max-w-4xl mx-auto">
             <motion.h1
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="text-4xl md:text-5xl font-bold text-white"
+              className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6"
             >
               {t.pageTitle}
             </motion.h1>
@@ -691,14 +714,14 @@ export default function FinancialPlanningPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="text-xl text-white mt-4 max-w-2xl mx-auto"
+              className="text-xl text-white leading-relaxed opacity-90 max-w-3xl mx-auto mb-8"
             >
               {t.pageSubtitle}
             </motion.p>
-            <div className="h-1 w-20 bg-white mx-auto mt-6 rounded-full"></div>
+            <div className="h-1 w-20 bg-white mx-auto rounded-full"></div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Main Content */}
       <div className="bg-white py-16">

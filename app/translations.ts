@@ -10,14 +10,12 @@ export const translations = {
       concepts: "Concepts",
       conceptsItems: {
         financialPlanning: "Financial Planning",
-        investmentStrategy: "Investment Strategy",
-        riskManagement: "Risk Management",
-        retirementPlanning: "Retirement Planning",
+        seedsStory: "The Story of 'Seeds'",
       },
       caseStudies: "Case Studies",
       caseStudiesItems: {
-        successStories: "Success Stories",
-        clientTestimonials: "Client Testimonials",
+        clientStories: "Client Stories",
+        academicCases: "Academic Case Studies",
       },
       career: "Career",
       careerItems: {
@@ -73,14 +71,12 @@ export const translations = {
       concepts: "概念",
       conceptsItems: {
         financialPlanning: "財務規劃",
-        investmentStrategy: "投資策略",
-        riskManagement: "風險管理",
-        retirementPlanning: "退休規劃",
+        seedsStory: "白籽的故事",
       },
       caseStudies: "案例研究",
       caseStudiesItems: {
-        successStories: "成功案例",
-        clientTestimonials: "客戶見證",
+        clientStories: "客戶故事",
+        academicCases: "學術案例研究",
       },
       career: "職業發展",
       careerItems: {
