@@ -552,6 +552,20 @@ export default function FinancialPlanningPage() {
   const [activeSection, setActiveSection] = useState("what-is");
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // Preload hero background image for faster loading
+  useEffect(() => {
+    const preloadHeroImage = () => {
+      const img = document.createElement("img");
+      img.src = "/assets/Financial.jpg";
+      img.onload = () => {
+        // Image preloaded successfully
+      };
+    };
+
+    // Preload immediately
+    preloadHeroImage();
+  }, []);
+
   // Optimized mobile detection
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -637,6 +651,7 @@ export default function FinancialPlanningPage() {
             backgroundSize: "cover",
             backgroundPosition: "center 60%",
             backgroundRepeat: "no-repeat",
+            backgroundAttachment: "fixed",
           }}
         >
           <div className="container mx-auto px-6 text-center z-10 relative">
@@ -698,6 +713,7 @@ export default function FinancialPlanningPage() {
           backgroundSize: "cover",
           backgroundPosition: "center 60%",
           backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
         }}
       >
         <div className="container mx-auto px-6 text-center z-10 relative">

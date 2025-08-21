@@ -3,7 +3,15 @@
 import React, { useState, useEffect } from "react";
 import { useLanguage } from "../../components/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronLeft, FaChevronRight, FaSeedling } from "react-icons/fa";
+import {
+  FaChevronLeft,
+  FaChevronRight,
+  FaSeedling,
+  FaExpand,
+  FaTimes,
+  FaSearchPlus,
+  FaSearchMinus,
+} from "react-icons/fa";
 import Image from "next/image";
 
 // Types
@@ -217,6 +225,8 @@ export default function SeedsStoryPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [fullscreenZoom, setFullscreenZoom] = useState(1);
 
   // Create episodes with images
   const episodes: Episode[] = t.episodes.map((ep) => ({
@@ -237,32 +247,45 @@ export default function SeedsStoryPage() {
     setImageLoading(true);
   }, [currentEpisode, currentSlide]);
 
-  // Preload adjacent images for better performance
+  // Enhanced preload function for better performance
   useEffect(() => {
     const preloadImages = () => {
       const currentEp = episodes[currentEpisode];
       if (!currentEp) return;
 
-      // Preload next slide in current episode
+      // Preload current episode images more aggressively
+      const imagesToPreload = [];
+
+      // Always preload next and previous slide in current episode
       if (currentSlide < currentEp.images.length - 1) {
-        const nextImage = document.createElement("img");
-        nextImage.src = currentEp.images[currentSlide + 1];
+        imagesToPreload.push(currentEp.images[currentSlide + 1]);
+      }
+      if (currentSlide > 0) {
+        imagesToPreload.push(currentEp.images[currentSlide - 1]);
       }
 
-      // Preload previous slide in current episode
-      if (currentSlide > 0) {
-        const prevImage = document.createElement("img");
-        prevImage.src = currentEp.images[currentSlide - 1];
+      // Preload remaining images in current episode (limit to avoid overwhelming)
+      for (let i = 0; i < Math.min(currentEp.images.length, 5); i++) {
+        if (i !== currentSlide) {
+          imagesToPreload.push(currentEp.images[i]);
+        }
       }
 
       // Preload first image of next episode
-      if (
-        currentEpisode < episodes.length - 1 &&
-        currentSlide === currentEp.images.length - 1
-      ) {
-        const nextEpImage = document.createElement("img");
-        nextEpImage.src = episodes[currentEpisode + 1].images[0];
+      if (currentEpisode < episodes.length - 1) {
+        const nextEp = episodes[currentEpisode + 1];
+        if (nextEp && nextEp.images && nextEp.images.length > 0) {
+          imagesToPreload.push(nextEp.images[0]);
+        }
       }
+
+      // Create image objects to trigger preloading with staggered timing
+      imagesToPreload.forEach((src, index) => {
+        setTimeout(() => {
+          const img = document.createElement("img");
+          img.src = src;
+        }, index * 50); // Stagger preloading to avoid overwhelming the browser
+      });
     };
 
     const timer = setTimeout(preloadImages, 100);
@@ -299,6 +322,34 @@ export default function SeedsStoryPage() {
 
   const handleImageLoad = () => {
     setImageLoading(false);
+  };
+
+  const openFullscreen = () => {
+    setIsFullscreen(true);
+    setFullscreenZoom(1);
+  };
+
+  const closeFullscreen = () => {
+    setIsFullscreen(false);
+    setFullscreenZoom(1);
+  };
+
+  const zoomIn = () => {
+    setFullscreenZoom((prev) => Math.min(prev + 0.5, 3));
+  };
+
+  const zoomOut = () => {
+    setFullscreenZoom((prev) => Math.max(prev - 0.5, 0.5));
+  };
+
+  const handleFullscreenKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      closeFullscreen();
+    } else if (e.key === "+" || e.key === "=") {
+      zoomIn();
+    } else if (e.key === "-") {
+      zoomOut();
+    }
   };
 
   const currentEp = episodes[currentEpisode];
@@ -380,6 +431,8 @@ export default function SeedsStoryPage() {
                       priority
                       onLoad={handleImageLoad}
                       onError={() => setImageLoading(false)}
+                      sizes="100vw"
+                      quality={85}
                     />
                   </motion.div>
                 </AnimatePresence>
@@ -402,6 +455,15 @@ export default function SeedsStoryPage() {
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full shadow-lg disabled:opacity-30 disabled:cursor-not-allowed hover:bg-opacity-100 hover:shadow-xl transition-all border border-gray-200"
                 >
                   <FaChevronRight className="w-4 h-4" />
+                </button>
+
+                {/* Fullscreen Button - Mobile */}
+                <button
+                  onClick={openFullscreen}
+                  className="absolute top-4 right-4 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full shadow-lg hover:bg-opacity-100 hover:shadow-xl transition-all border border-gray-200"
+                  title="View in fullscreen"
+                >
+                  <FaExpand className="w-4 h-4" />
                 </button>
 
                 {/* Slide Indicators */}
@@ -516,6 +578,8 @@ export default function SeedsStoryPage() {
                       priority
                       onLoad={handleImageLoad}
                       onError={() => setImageLoading(false)}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                      quality={85}
                     />
                   </motion.div>
                 </AnimatePresence>
@@ -538,6 +602,15 @@ export default function SeedsStoryPage() {
                   className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-95 text-gray-800 p-5 rounded-full shadow-2xl disabled:opacity-30 disabled:cursor-not-allowed hover:bg-opacity-100 hover:shadow-3xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:scale-110"
                 >
                   <FaChevronRight className="w-6 h-6" />
+                </button>
+
+                {/* Fullscreen Button */}
+                <button
+                  onClick={openFullscreen}
+                  className="absolute top-6 right-6 bg-white bg-opacity-95 text-gray-800 p-4 rounded-full shadow-2xl hover:bg-opacity-100 hover:shadow-3xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:scale-110"
+                  title="View in fullscreen"
+                >
+                  <FaExpand className="w-5 h-5" />
                 </button>
 
                 {/* Slide Indicators */}
@@ -590,6 +663,105 @@ export default function SeedsStoryPage() {
           </div>
         </div>
       </section>
+
+      {/* Fullscreen Modal */}
+      <AnimatePresence>
+        {isFullscreen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black bg-opacity-95 flex items-center justify-center"
+            onKeyDown={handleFullscreenKeyPress}
+            tabIndex={0}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeFullscreen}
+              className="absolute top-6 right-6 bg-white bg-opacity-20 text-white p-3 rounded-full hover:bg-opacity-30 transition-all z-10"
+              title="Close fullscreen (ESC)"
+            >
+              <FaTimes className="w-6 h-6" />
+            </button>
+
+            {/* Zoom Controls */}
+            <div className="absolute top-6 left-6 flex gap-2 z-10">
+              <button
+                onClick={zoomOut}
+                disabled={fullscreenZoom <= 0.5}
+                className="bg-white bg-opacity-20 text-white p-3 rounded-full hover:bg-opacity-30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Zoom out (-)"
+              >
+                <FaSearchMinus className="w-5 h-5" />
+              </button>
+              <button
+                onClick={zoomIn}
+                disabled={fullscreenZoom >= 3}
+                className="bg-white bg-opacity-20 text-white p-3 rounded-full hover:bg-opacity-30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Zoom in (+)"
+              >
+                <FaSearchPlus className="w-5 h-5" />
+              </button>
+              <div className="bg-white bg-opacity-20 text-white px-3 py-2 rounded-full">
+                <span className="text-sm font-medium">
+                  {Math.round(fullscreenZoom * 100)}%
+                </span>
+              </div>
+            </div>
+
+            {/* Navigation Arrows in Fullscreen */}
+            <button
+              onClick={prevSlide}
+              disabled={currentEpisode === 0 && currentSlide === 0}
+              className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 text-white p-4 rounded-full hover:bg-opacity-30 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-10"
+            >
+              <FaChevronLeft className="w-6 h-6" />
+            </button>
+
+            <button
+              onClick={nextSlide}
+              disabled={
+                currentEpisode === episodes.length - 1 &&
+                currentSlide === currentEp.images.length - 1
+              }
+              className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 text-white p-4 rounded-full hover:bg-opacity-30 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-10"
+            >
+              <FaChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Fullscreen Image */}
+            <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+              <motion.div
+                animate={{ scale: fullscreenZoom }}
+                transition={{ duration: 0.2 }}
+                className="relative max-w-full max-h-full"
+              >
+                <Image
+                  src={currentEp.images[currentSlide]}
+                  alt={`${currentEp.title} - Slide ${currentSlide + 1}`}
+                  width={1200}
+                  height={800}
+                  className="max-w-full max-h-full object-contain"
+                  priority
+                  sizes="100vw"
+                />
+              </motion.div>
+            </div>
+
+            {/* Fullscreen Image Info */}
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center text-white bg-black bg-opacity-50 px-4 py-2 rounded-lg">
+              <p className="text-sm font-medium">
+                {currentEp.title} -{" "}
+                {language === "en"
+                  ? `Slide ${currentSlide + 1} of ${currentEp.images.length}`
+                  : `第 ${currentSlide + 1} 張 / 共 ${
+                      currentEp.images.length
+                    } 張`}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
