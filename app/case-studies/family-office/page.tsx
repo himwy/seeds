@@ -7,7 +7,7 @@ import { FaGolfBall, FaHeartbeat, FaDna } from "react-icons/fa";
 import Image from "next/image";
 
 export default function AcademicCaseStudies() {
-  const { } = useLanguage();
+  const {} = useLanguage();
   const [activeCase, setActiveCase] = useState(1);
 
   const caseStudies = [

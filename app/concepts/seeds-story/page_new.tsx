@@ -228,7 +228,7 @@ export default function SeedsStoryPage() {
   const [isMobile, setIsMobile] = useState(false);
 
   // Create episodes with images
-  const episodes: Episode[] = t.episodes.map((ep: EpisodeData) => ({
+  const episodes: Episode[] = t.episodes.map((ep) => ({
     ...ep,
     images: generateEpisodeImages(ep.id),
   }));

@@ -3,7 +3,12 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaGraduationCap, FaUsers, FaChartLine, FaHandshake } from "react-icons/fa";
+import {
+  FaGraduationCap,
+  FaUsers,
+  FaChartLine,
+  FaHandshake,
+} from "react-icons/fa";
 import { useLanguage } from "../components/LanguageContext";
 
 const translations = {
@@ -12,31 +17,45 @@ const translations = {
     subtitle: "Real client experiences and academic research insights",
     clientStories: {
       title: "Client Stories",
-      description: "Real testimonials, feedback, and success stories from our valued clients showcasing actual results and experiences.",
-      features: ["Client Testimonials", "Success Stories", "Real Results", "Client Feedback"]
+      description:
+        "Real testimonials, feedback, and success stories from our valued clients showcasing actual results and experiences.",
+      features: [
+        "Client Testimonials",
+        "Success Stories",
+        "Real Results",
+        "Client Feedback",
+      ],
     },
     academicCases: {
       title: "Academic Case Studies",
-      description: "Educational case studies, theoretical frameworks, and industry examples about family office structures and strategies.",
-      features: ["Educational Cases", "Industry Examples", "Best Practices", "Theoretical Insights"]
+      description:
+        "Educational case studies, theoretical frameworks, and industry examples about family office structures and strategies.",
+      features: [
+        "Educational Cases",
+        "Industry Examples",
+        "Best Practices",
+        "Theoretical Insights",
+      ],
     },
-    learnMore: "Learn More"
+    learnMore: "Learn More",
   },
   "zh-HK": {
     title: "案例研究",
     subtitle: "真實客戶經驗和學術研究見解",
     clientStories: {
       title: "客戶故事",
-      description: "來自我們尊貴客戶的真實證言、反饋和成功故事，展示實際結果和經驗。",
-      features: ["客戶證言", "成功故事", "真實結果", "客戶反饋"]
+      description:
+        "來自我們尊貴客戶的真實證言、反饋和成功故事，展示實際結果和經驗。",
+      features: ["客戶證言", "成功故事", "真實結果", "客戶反饋"],
     },
     academicCases: {
       title: "學術案例研究",
-      description: "關於家族辦公室結構和策略的教育案例研究、理論框架和行業案例。",
-      features: ["教育案例", "行業案例", "最佳實踐", "理論見解"]
+      description:
+        "關於家族辦公室結構和策略的教育案例研究、理論框架和行業案例。",
+      features: ["教育案例", "行業案例", "最佳實踐", "理論見解"],
     },
-    learnMore: "了解更多"
-  }
+    learnMore: "了解更多",
+  },
 };
 
 export default function CaseStudiesPage() {
@@ -67,7 +86,6 @@ export default function CaseStudiesPage() {
       <section className="py-20">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            
             {/* Client Stories */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -88,21 +106,34 @@ export default function CaseStudiesPage() {
                       {t.clientStories.description}
                     </p>
                   </div>
-                  
+
                   <div className="space-y-3 mb-8">
                     {t.clientStories.features.map((feature, index) => (
-                      <div key={index} className="flex items-center text-gray-700">
+                      <div
+                        key={index}
+                        className="flex items-center text-gray-700"
+                      >
                         <FaHandshake className="text-green-500 mr-3 flex-shrink-0" />
                         <span>{feature}</span>
                       </div>
                     ))}
                   </div>
-                  
+
                   <div className="text-center">
                     <span className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full font-semibold group-hover:from-green-600 group-hover:to-emerald-700 transition-all duration-300">
                       {t.learnMore}
-                      <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      <svg
+                        className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </span>
                   </div>
@@ -130,28 +161,40 @@ export default function CaseStudiesPage() {
                       {t.academicCases.description}
                     </p>
                   </div>
-                  
+
                   <div className="space-y-3 mb-8">
                     {t.academicCases.features.map((feature, index) => (
-                      <div key={index} className="flex items-center text-gray-700">
+                      <div
+                        key={index}
+                        className="flex items-center text-gray-700"
+                      >
                         <FaChartLine className="text-blue-500 mr-3 flex-shrink-0" />
                         <span>{feature}</span>
                       </div>
                     ))}
                   </div>
-                  
+
                   <div className="text-center">
                     <span className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full font-semibold group-hover:from-blue-600 group-hover:to-indigo-700 transition-all duration-300">
                       {t.learnMore}
-                      <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      <svg
+                        className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </span>
                   </div>
                 </div>
               </Link>
             </motion.div>
-
           </div>
         </div>
       </section>

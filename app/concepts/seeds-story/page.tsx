@@ -219,7 +219,7 @@ export default function SeedsStoryPage() {
   const [imageLoading, setImageLoading] = useState(true);
 
   // Create episodes with images
-  const episodes: Episode[] = t.episodes.map((ep: EpisodeData) => ({
+  const episodes: Episode[] = t.episodes.map((ep) => ({
     ...ep,
     images: generateEpisodeImages(ep.id),
   }));
@@ -245,19 +245,22 @@ export default function SeedsStoryPage() {
 
       // Preload next slide in current episode
       if (currentSlide < currentEp.images.length - 1) {
-        const nextImage = document.createElement('img');
+        const nextImage = document.createElement("img");
         nextImage.src = currentEp.images[currentSlide + 1];
       }
 
       // Preload previous slide in current episode
       if (currentSlide > 0) {
-        const prevImage = document.createElement('img');
+        const prevImage = document.createElement("img");
         prevImage.src = currentEp.images[currentSlide - 1];
       }
 
       // Preload first image of next episode
-      if (currentEpisode < episodes.length - 1 && currentSlide === currentEp.images.length - 1) {
-        const nextEpImage = document.createElement('img');
+      if (
+        currentEpisode < episodes.length - 1 &&
+        currentSlide === currentEp.images.length - 1
+      ) {
+        const nextEpImage = document.createElement("img");
         nextEpImage.src = episodes[currentEpisode + 1].images[0];
       }
     };
@@ -325,10 +328,9 @@ export default function SeedsStoryPage() {
         <section className="py-10 bg-gradient-to-r from-gray-50 to-white border-b">
           <div className="container mx-auto px-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              {language === "en" 
-                ? `${t.controls.episode} ${currentEpisode + 1}` 
-                : `第 ${currentEpisode + 1} 集`
-              }
+              {language === "en"
+                ? `${t.controls.episode} ${currentEpisode + 1}`
+                : `第 ${currentEpisode + 1} 集`}
             </h2>
             <div className="flex flex-wrap justify-center gap-3">
               {episodes.map((_, index) => (
@@ -360,7 +362,7 @@ export default function SeedsStoryPage() {
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
                   </div>
                 )}
-                
+
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`${currentEpisode}-${currentSlide}`}
@@ -461,10 +463,9 @@ export default function SeedsStoryPage() {
       <section className="py-16 bg-gradient-to-r from-gray-50 to-white border-b">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-            {language === "en" 
-              ? `${t.controls.episode} ${currentEpisode + 1}` 
-              : `第 ${currentEpisode + 1} 集`
-            }
+            {language === "en"
+              ? `${t.controls.episode} ${currentEpisode + 1}`
+              : `第 ${currentEpisode + 1} 集`}
           </h2>
           <div className="flex justify-center gap-4">
             {episodes.map((_, index) => (
@@ -497,7 +498,7 @@ export default function SeedsStoryPage() {
                     <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
                   </div>
                 )}
-                
+
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`${currentEpisode}-${currentSlide}`}
@@ -565,7 +566,9 @@ export default function SeedsStoryPage() {
               </div>
               <div className="text-gray-700 leading-relaxed space-y-4 text-base">
                 {currentEp.content.split("\n\n").map((paragraph, index) => (
-                  <p key={index} className="leading-7">{paragraph}</p>
+                  <p key={index} className="leading-7">
+                    {paragraph}
+                  </p>
                 ))}
               </div>
 
@@ -573,10 +576,13 @@ export default function SeedsStoryPage() {
               <div className="mt-6 text-center">
                 <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-50 rounded-full shadow-inner border border-gray-200">
                   <span className="text-sm font-medium text-gray-600">
-                    {language === "en" 
-                      ? `Slide ${currentSlide + 1} of ${currentEp.images.length}` 
-                      : `第 ${currentSlide + 1} 張 / 共 ${currentEp.images.length} 張`
-                    }
+                    {language === "en"
+                      ? `Slide ${currentSlide + 1} of ${
+                          currentEp.images.length
+                        }`
+                      : `第 ${currentSlide + 1} 張 / 共 ${
+                          currentEp.images.length
+                        } 張`}
                   </span>
                 </div>
               </div>
