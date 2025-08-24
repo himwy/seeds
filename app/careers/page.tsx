@@ -13,6 +13,17 @@ import {
   FaUserFriends,
   FaChartLine,
   FaArrowRight,
+  FaGlobe,
+  FaRocket,
+  FaBalanceScale,
+  FaStar,
+  FaUsers,
+  FaMapMarkerAlt,
+  FaFileAlt,
+  FaLanguage,
+  FaHeart,
+  FaEnvelope,
+  FaBriefcase,
 } from "react-icons/fa";
 
 // Types
@@ -23,6 +34,11 @@ interface JobPosition {
   subtitle: string;
   description: string[];
   ctaText: string;
+  responsibilities?: string[];
+  benefits?: string[];
+  requirements?: string[];
+  notes?: string[];
+  email?: string;
 }
 
 interface ReasonCard {
@@ -87,6 +103,23 @@ interface TranslationType {
   videoSection: VideoSectionType;
   jobOpenings: JobOpeningsType;
   ctaSection: CTASectionType;
+  title: string;
+  subtitle: string;
+  heroDescription: string;
+  keyResponsibilities: string;
+  whatWeProvide: string;
+  requirements: string;
+  additionalNotes: string;
+  applyNow: string;
+  applyDescription: string;
+  applicationNote: string;
+  whyJoinUs: string;
+  whyJoinDescription: string;
+  benefits: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
 }
 
 interface TranslationsType {
@@ -194,29 +227,76 @@ const translations: TranslationsType = {
             "We are always happy to work with smart people who are ambitious and passionate.",
           ],
           ctaText: "Apply Now",
+          responsibilities: [
+            "Develop and implement customized financial and investment strategies for HK and Mainland exclusive clients",
+            "Monitor and manage client portfolios, regularly assessing and adjusting investment allocations to meet financial goals",
+            "Maintain close communication with existing clients, understanding their needs, and providing expert guidance",
+            "Stay informed about market trends and economic indicators, offering forward-looking investment insights and risk management strategies",
+          ],
+          benefits: [
+            "Local and overseas conventions",
+            "Fast-tracked career progressions",
+            "Ongoing professional development and training opportunities",
+            "Flexibility to help you enjoy a work-life balance",
+            "Attractive package, performance-based bonus and commission",
+          ],
+          requirements: [
+            "A degree holder",
+            "Fluent in reading and writing Cantonese and Mandarin. (English is a plus)",
+            "Looking for a challenging career",
+            "Have great interpersonal skills",
+            "Have a great understanding of financial markets",
+            "A valid working visa",
+            "Passionate about life and building a brighter future",
+          ],
+          notes: [
+            "Candidates who are transitioning and looking for a career change from a different industry are welcome",
+            "Applicants with less experience will be considered for manager/executive positions",
+            "Our company is an Equal Employment Opportunity employer that adheres to policies that are based on merit and business needs",
+            "Candidates without an appropriate visa to work in Hong Kong will not be entertained",
+          ],
+          email: "hr@actiondoitnow.com",
         },
         {
           id: "wealth-intern",
-          title: "Wealth Management Intern",
+          title: "Wealth Management Intern (Hong Kong, Macau and China Region)",
           chineseTitle:
-            "見習財務策劃經理 (歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
+            "見習財富策劃經理(歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
           subtitle: "Internship opportunity for finance enthusiasts",
           description: [
             "Are you passionate about finance and eager to kickstart your career in wealth management? We're looking for motivated and talented interns to join our dynamic team.",
-            "As a Wealth Management Intern, you'll gain hands-on experience in financial analysis, asset allocation, and client advisory services. You'll work closely with seasoned professionals, learning the ins and outs of portfolio management, risk assessment, and strategic planning. This is an excellent opportunity to develop your skills, grow your network, and make a meaningful impact on our clients' financial futures.",
+            "As a Wealth Management Intern, you'll gain hands-on experience in financial analysis, asset allocation, and client advisory services. You'll work closely with seasoned professionals, learning the ins and outs of portfolio management, risk assessment, and strategic planning.",
           ],
           ctaText: "Apply Now",
-        },
-        {
-          id: "wealth-director",
-          title: "Wealth Management Director",
-          chineseTitle: "財富策劃總監 (歡迎應屆畢業生/TTPS/IANG)",
-          subtitle: "Leadership role for experienced professionals",
-          description: [
-            "Seed Financial Group is seeking an accomplished and visionary Wealth Management Director to lead our team and drive the growth of our financial solutions across the Asia-Pacific region. With over a decade of experience serving the diverse needs of our clients, we are looking for a dynamic leader to take our wealth management division to new heights.",
-            "As the Wealth Management Director, you will oversee high-net-worth client portfolios, develop strategic business initiatives, and mentor a team of talented professionals. Collaborating closely with senior leadership, you will play a key role in shaping the future of our services, expanding our market presence, and delivering exceptional results. This is an opportunity to leverage your expertise, lead with impact, and make a lasting difference in the financial well-being of our clients.",
+          responsibilities: [
+            "Assist in the analysis and management of client portfolios",
+            "Support the development of customized financial strategies",
+            "Conduct market research and financial data analysis",
+            "Collaborate with our team on client presentations",
+            "Learn best practices in risk management and investment planning",
           ],
-          ctaText: "Apply Now",
+          benefits: [
+            "Comprehensive and continuous training, allowing you to grasp the skill and knowledge",
+            "Mentorship from experienced wealth management professionals",
+            "Real-world experience in financial planning and advisory",
+            "Opportunities to contribute to impactful client projects",
+            "Potential for full-time employment upon successful completion of the internship",
+            "Performance/ commission bonus, life and medical insurance",
+          ],
+          requirements: [
+            "A degree holder, or currently pursuing a degree in Finance, Economics, Business, or a related field",
+            "A keen interest in financial markets and investment strategies",
+            "Eagerness to learn and adapt in a fast-paced environment",
+            "Strong analytical and problem-solving skills",
+          ],
+          notes: [
+            "We aim to develop young people to be a Future Leader",
+            "Apply now if you are looking for a challenging career, are passionate about life, have great interpersonal skills and are looking to build your future",
+            "Our company is an Equal Employment Opportunity employer that adheres to policies that are based on merit and business needs when it comes to hiring, recruitment, compensation, benefits, terminations and all other terms of conditions of employment",
+            "Please accept our utmost appreciation for your interest and while we may contact you to request further information, please note that only applicants under consideration will be invited for a follow-up interview",
+            "Candidates without an appropriate visa to work in Hong Kong will not be entertained",
+          ],
+          email: "hr@actiondoitnow.com",
         },
       ],
     },
@@ -227,6 +307,60 @@ const translations: TranslationsType = {
         "Take the first step towards a rewarding career in wealth management",
       buttonText: "Apply Now",
     },
+    title: "Join Our Team",
+    subtitle: "Build Your Career in Wealth Management",
+    heroDescription:
+      "Seeds Financial Group in partnership with one of the world's largest financial groups provides advisory services using a wide range of risk management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
+    keyResponsibilities: "Key Responsibilities",
+    whatWeProvide: "Our Company Will Provide",
+    requirements: "You Must Be",
+    additionalNotes: "Additional Information",
+    applyNow: "Apply Now",
+    applyDescription:
+      "Interested applicants may send their resumes directly to:",
+    applicationNote:
+      "Please accept our utmost appreciation for your interest and while we may contact you to request further information, please note that only applicants under consideration will be invited for a follow-up interview.",
+    whyJoinUs: "Why Join Seeds Financial Group?",
+    whyJoinDescription:
+      "Be part of a dynamic team that's shaping the future of wealth management in Asia",
+    benefits: [
+      {
+        icon: "globe",
+        title: "Global Opportunities",
+        description:
+          "Local and overseas conventions to expand your network and expertise",
+      },
+      {
+        icon: "rocket",
+        title: "Fast-Track Career",
+        description:
+          "Accelerated career progression based on performance and merit",
+      },
+      {
+        icon: "graduation",
+        title: "Professional Development",
+        description:
+          "Ongoing training and development opportunities to enhance your skills",
+      },
+      {
+        icon: "balance",
+        title: "Work-Life Balance",
+        description:
+          "Flexible arrangements to help you maintain a healthy work-life balance",
+      },
+      {
+        icon: "star",
+        title: "Attractive Compensation",
+        description:
+          "Competitive package with performance-based bonuses and commissions",
+      },
+      {
+        icon: "users",
+        title: "Diverse Team",
+        description:
+          "Equal opportunity employer welcoming career changers from different industries",
+      },
+    ],
   },
   "zh-HK": {
     pageTitle: "職業發展",
@@ -323,29 +457,76 @@ const translations: TranslationsType = {
             "我們始終樂於與聰明、有抱負和充滿熱情的人合作。",
           ],
           ctaText: "立即申請",
+          responsibilities: [
+            "為香港和內地專屬客戶制定和實施定制的財務和投資策略",
+            "監控和管理客戶投資組合，定期評估和調整投資配置以實現財務目標",
+            "與現有客戶保持密切溝通，了解他們的需求，並提供專業指導",
+            "及時了解市場趨勢和經濟指標，提供前瞻性的投資見解和風險管理策略",
+          ],
+          benefits: [
+            "本地和海外會議",
+            "快速職業發展軌道",
+            "持續的專業發展和培訓機會",
+            "靈活性幫助您享受工作與生活的平衡",
+            "有吸引力的薪酬、績效獎金和佣金",
+          ],
+          requirements: [
+            "學位持有者",
+            "流利的粵語和普通話讀寫能力（英語是加分項）",
+            "尋求具挑戰性的職業",
+            "具有出色的人際交往技能",
+            "對金融市場有很好的理解",
+            "有效的工作簽證",
+            "對生活充滿熱情，致力於建設更美好的未來",
+          ],
+          notes: [
+            "歡迎正在轉型並尋求從不同行業轉換職業的候選人",
+            "經驗較少的申請者將被考慮擔任經理/行政職位",
+            "我們公司是平等就業機會雇主，在招聘、薪酬、福利、終止和所有其他就業條款方面堅持基於績效和業務需要的政策",
+            "沒有在香港工作適當簽證的候選人將不予考慮",
+          ],
+          email: "hr@actiondoitnow.com",
         },
         {
           id: "wealth-intern",
-          title: "財富管理實習生",
+          title: "財富管理實習生 (香港、澳門及中國地區)",
           chineseTitle:
-            "見習財務策劃經理 (歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
+            "見習財富策劃經理(歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
           subtitle: "為金融愛好者提供的實習機會",
           description: [
             "您對金融充滿熱情並渴望開始財富管理職業生涯嗎？我們正在尋找積極進取、才華橫溢的實習生加入我們充滿活力的團隊。",
-            "作為財富管理實習生，您將在財務分析、資產配置和客戶諮詢服務方面獲得實踐經驗。您將與經驗豐富的專業人士密切合作，學習投資組合管理、風險評估和戰略規劃的來龍去脈。這是發展技能、擴大人脈並對客戶財務未來產生有意義影響的絕佳機會。",
+            "作為財富管理實習生，您將在財務分析、資產配置和客戶諮詢服務方面獲得實踐經驗。您將與經驗豐富的專業人士密切合作，學習投資組合管理、風險評估和戰略規劃的來龍去脈。",
           ],
           ctaText: "立即申請",
-        },
-        {
-          id: "wealth-director",
-          title: "財富管理總監",
-          chineseTitle: "財富策劃總監 (歡迎應屆畢業生/TTPS/IANG)",
-          subtitle: "適合經驗豐富專業人士的領導職位",
-          description: [
-            "Seeds Financial Group正在尋找一位成就斐然、具有遠見卓識的財富管理總監，領導我們的團隊並推動我們的金融解決方案在亞太地區的增長。憑藉超過十年為客戶多樣化需求服務的經驗，我們正在尋找一位充滿活力的領導者，將我們的財富管理部門提升到新的高度。",
-            "作為財富管理總監，您將監督高淨值客戶投資組合，制定戰略業務計劃，並指導一支才華橫溢的專業團隊。通過與高級領導層密切合作，您將在塑造我們服務的未來、擴大市場份額和提供卓越成果方面發揮關鍵作用。這是一個發揮您的專業知識、有影響力地領導並對客戶的財務福祉產生持久影響的機會。",
+          responsibilities: [
+            "協助分析和管理客戶投資組合",
+            "支持定制財務策略的開發",
+            "進行市場研究和財務數據分析",
+            "與我們的團隊合作進行客戶演示",
+            "學習風險管理和投資規劃的最佳實踐",
           ],
-          ctaText: "立即申請",
+          benefits: [
+            "全面和持續的培訓，讓您掌握技能和知識",
+            "經驗豐富的財富管理專業人士的指導",
+            "財務規劃和諮詢的實際經驗",
+            "有機會參與有影響力的客戶項目",
+            "實習成功完成後有可能轉為全職",
+            "績效/佣金獎金，壽險和醫療保險",
+          ],
+          requirements: [
+            "學位持有者，或目前正在攻讀金融、經濟、商業或相關領域的學位",
+            "對金融市場和投資策略有濃厚興趣",
+            "渴望在快節奏的環境中學習和適應",
+            "較強的分析和解決問題的能力",
+          ],
+          notes: [
+            "我們旨在培養年輕人成為未來的領袖",
+            "如果您正在尋找具有挑戰性的職業，對生活充滿熱情，具有出色的人際交往能力並希望建立自己的未來，請立即申請",
+            "我們公司是平等就業機會雇主，在招聘、薪酬、福利、終止和所有其他就業條款方面堅持基於績效和業務需要的政策",
+            "請接受我們對您的興趣的最大感謝，雖然我們可能會聯繫您以要求進一步信息，但請注意，只有被考慮的申請者才會被邀請參加後續面試",
+            "沒有在香港工作適當簽證的候選人將不予考慮",
+          ],
+          email: "hr@actiondoitnow.com",
         },
       ],
     },
@@ -355,6 +536,52 @@ const translations: TranslationsType = {
       subtitle: "邁出第一步，開始充實的財富管理職業生涯",
       buttonText: "立即申請",
     },
+    title: "加入我們的團隊",
+    subtitle: "在財富管理領域建立您的職業生涯",
+    heroDescription:
+      "Seeds Financial Group與世界最大的金融集團之一合作，提供廣泛的風險管理、策略和資產配置計劃的諮詢服務，幫助我們的客戶實現他們的財務目標和未來需求。",
+    keyResponsibilities: "主要職責",
+    whatWeProvide: "我們公司將提供",
+    requirements: "您必須是",
+    additionalNotes: "附加信息",
+    applyNow: "立即申請",
+    applyDescription: "有興趣的申請者可將簡歷直接發送至：",
+    applicationNote:
+      "請接受我們對您的興趣的最大感謝，雖然我們可能會聯繫您以要求進一步信息，但請注意，只有被考慮的申請者才會被邀請參加後續面試。",
+    whyJoinUs: "為什麼加入Seeds Financial Group？",
+    whyJoinDescription: "成為塑造亞洲財富管理未來的動態團隊的一員",
+    benefits: [
+      {
+        icon: "globe",
+        title: "全球機會",
+        description: "本地和海外會議，擴展您的網絡和專業知識",
+      },
+      {
+        icon: "rocket",
+        title: "快速職業發展",
+        description: "基於績效和成績的加速職業發展",
+      },
+      {
+        icon: "graduation",
+        title: "專業發展",
+        description: "持續的培訓和發展機會，提升您的技能",
+      },
+      {
+        icon: "balance",
+        title: "工作生活平衡",
+        description: "靈活安排，幫助您保持健康的工作生活平衡",
+      },
+      {
+        icon: "star",
+        title: "有吸引力的薪酬",
+        description: "具競爭力的薪酬包，包括績效獎金和佣金",
+      },
+      {
+        icon: "users",
+        title: "多元化團隊",
+        description: "平等機會雇主，歡迎來自不同行業的職業轉換者",
+      },
+    ],
   },
 };
 
@@ -767,7 +994,7 @@ const JobCard = ({
 
         <div className="mt-4 md:mt-6 flex flex-wrap items-center gap-3 md:gap-4">
           <a
-            href="#apply"
+            href={`mailto:${job.email}`}
             className="inline-block text-white px-4 md:px-6 py-2 md:py-3 rounded-md text-sm md:text-base font-semibold transition-all duration-300 shadow-sm hover:transform hover:-translate-y-0.5"
             style={{ backgroundColor: "var(--primary)" }}
             onMouseEnter={(e) => {
@@ -779,12 +1006,11 @@ const JobCard = ({
           >
             {job.ctaText}
           </a>
-          <a
-            href={`#job-details-${job.id}`}
-            className="inline-block text-teal-600 text-sm md:text-base hover:underline"
-          >
-            {t.jobOpenings.viewDetails}
-          </a>
+          <Link href={`/careers/${job.id}`}>
+            <span className="inline-block text-teal-600 text-sm md:text-base hover:underline cursor-pointer">
+              {t.jobOpenings.viewDetails}
+            </span>
+          </Link>
         </div>
       </div>
     </motion.div>
@@ -820,6 +1046,15 @@ const JobOpeningsSection = ({
     </div>
   </section>
 );
+
+const iconMap = {
+  globe: FaGlobe,
+  rocket: FaRocket,
+  graduation: FaGraduationCap,
+  balance: FaBalanceScale,
+  star: FaStar,
+  users: FaUsers,
+};
 
 export default function CareersPage() {
   const { language } = useLanguage();
@@ -1132,7 +1367,7 @@ export default function CareersPage() {
 
                 <div className="flex flex-col gap-3">
                   <a
-                    href="#apply"
+                    href={`mailto:${job.email}`}
                     className="text-center text-white px-6 py-3 rounded-lg text-base font-semibold transition-all duration-300 shadow-lg"
                     style={{ backgroundColor: "var(--primary)" }}
                     onMouseEnter={(e) => {
@@ -1145,12 +1380,11 @@ export default function CareersPage() {
                   >
                     {job.ctaText}
                   </a>
-                  <a
-                    href={`#job-details-${job.id}`}
-                    className="text-center text-teal-600 text-base hover:underline"
-                  >
-                    {t.jobOpenings.viewDetails}
-                  </a>
+                  <Link href={`/careers/${job.id}`}>
+                    <span className="text-center text-teal-600 text-base hover:underline cursor-pointer">
+                      {t.jobOpenings.viewDetails}
+                    </span>
+                  </Link>
                 </div>
               </motion.div>
             ))}
@@ -1177,6 +1411,49 @@ export default function CareersPage() {
 
       {/* Job Openings */}
       <JobOpeningsSection t={t} language={language} />
+
+      {/* Why Join Us Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-800 mb-6">
+              {t.whyJoinUs}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {t.whyJoinDescription}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {t.benefits.map((benefit, index) => {
+              const IconComponent =
+                iconMap[benefit.icon as keyof typeof iconMap];
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
+                  className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow"
+                >
+                  <IconComponent className="text-4xl text-blue-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-gray-800 mb-3">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {benefit.description}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

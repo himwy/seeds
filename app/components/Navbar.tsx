@@ -81,43 +81,24 @@ export default function Navbar() {
           title: t.navbar.careerItems.jobOpportunities,
           path: "/careers",
         },
-      ],
-    },
-    {
-      title: t.navbar.iiqe,
-      path: "/iiqe",
-      icon: <IoIosSchool className="w-5 h-5" />,
-      submenu: [
         {
-          title: t.navbar.iiqeItems.examPreparation,
-          path: "/iiqe/exam-preparation",
-        },
-        {
-          title: t.navbar.iiqeItems.studyMaterials,
-          path: "/iiqe/study-materials",
-        },
-        {
-          title: t.navbar.iiqeItems.practiceTests,
-          path: "/iiqe/practice-tests",
+          title: "IIQE",
+          path: "/careers/iiqe",
         },
       ],
     },
     {
       title: t.navbar.events,
-      path: "/events",
+      path: "#", // Changed to non-clickable
       icon: <FaCalendarAlt className="w-5 h-5" />,
       submenu: [
         {
-          title: t.navbar.eventsItems.upcomingEvents,
-          path: "/events/upcoming",
+          title: "Recent Events",
+          path: "/events/recent",
         },
         {
-          title: t.navbar.eventsItems.pastEvents,
+          title: "Past Events",
           path: "/events/past",
-        },
-        {
-          title: t.navbar.eventsItems.webinars,
-          path: "/events/webinars",
         },
       ],
     },
