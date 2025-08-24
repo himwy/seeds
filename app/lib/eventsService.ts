@@ -137,7 +137,7 @@ export class EventsService {
   // Update event
   static async updateEvent(id: string, eventData: Partial<Event>): Promise<Event> {
     try {
-      const updateData: any = { ...eventData };
+      const updateData: Record<string, unknown> = { ...eventData };
       if (updateData.images) {
         updateData.images = JSON.stringify(updateData.images);
       }
@@ -203,16 +203,17 @@ export class EventsService {
           ).toString();
           
           return previewUrl;
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error(`Error uploading file ${file.name}:`, error);
           
           // Provide more specific error messages
-          if (error.code === 404) {
+          const errorObj = error as { code?: number; message?: string };
+          if (errorObj.code === 404) {
             throw new Error(`Storage bucket not found. Please verify bucket ID: ${STORAGE_BUCKET_ID}`);
-          } else if (error.code === 401) {
+          } else if (errorObj.code === 401) {
             throw new Error('Unauthorized to upload files. Please check storage permissions.');
           } else {
-            throw new Error(`Failed to upload ${file.name}: ${error.message}`);
+            throw new Error(`Failed to upload ${file.name}: ${errorObj.message || 'Unknown error'}`);
           }
         }
       });

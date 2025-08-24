@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useLanguage } from "../components/LanguageContext";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   FaHandshake,
   FaChartLine,
@@ -54,16 +55,16 @@ const translations = {
     introduction: {
       title: "About Us",
       description1:
-        "Seeds Financial Group in partnership with one of the world's largest financial groups provides advisory services using a wide range of risk management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
+        "Seeds Financial Group is a premier wealth and assets management company that partners with leading global financial institutions. We specialize in comprehensive financial planning, risk management strategies, and sophisticated asset allocation solutions designed to preserve and grow our clients' wealth across generations.",
       description2:
-        'No matter what age a person is, as long as he/she has enthusiasm, we believe that he/she is a "seed" full of hope for growth. We will try our best to provide them opportunities and nurture them carefully to turn them into a strong tree.',
+        'We believe every individual, regardless of age, carries the potential for financial growth - like a "seed" full of promise. Our mission is to nurture this potential through expert guidance, turning aspirations into lasting financial success.',
     },
     mission: {
       title: "Mission",
       points: [
-        "Uplift every family we served, from poverty to enough, from enough to wealth, from wealth to create!",
-        "Arouse the sense and importance of risk management, the retirement planning and financial freedom for customer.",
-        "Provide upward mobility opportunities for all.",
+        "Elevate families from financial uncertainty to sustainable wealth creation and legacy building.",
+        "Provide comprehensive wealth management solutions that protect, grow, and transfer assets efficiently.",
+        "Empower clients with the knowledge and strategies needed to achieve true financial independence.",
       ],
       quote:
         "Remember, the only we truly start living, when we start doing whatever we can, to help and better other people's lives.",
@@ -215,338 +216,175 @@ const translations = {
 
 export default function AboutPage() {
   const { language } = useLanguage();
-  const t = translations[language];
-  const [isMobile, setIsMobile] = useState(false);
+  const t =
+    translations[language as keyof typeof translations] || translations.en;
 
-  // Optimized mobile detection
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
-
-    let resizeTimeout: NodeJS.Timeout;
-    const debouncedResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(handleResize, 100);
-    };
-
-    window.addEventListener("resize", debouncedResize);
-    return () => {
-      clearTimeout(resizeTimeout);
-      window.removeEventListener("resize", debouncedResize);
-    };
-  }, []);
-
-  if (isMobile) {
-    return (
-      <div className="w-full overflow-x-hidden bg-white">
-        {/* Mobile Hero Section */}
-        <section
-          className="relative min-h-screen flex items-center justify-center text-white pt-16 w-full"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/About.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          <div className="container mx-auto px-6 text-center">
-            <div className="max-w-2xl mx-auto">
-              <h1 className="text-4xl font-bold mb-6 text-white leading-tight">
-                {t.introduction.title}
-              </h1>
-              <p className="text-white mb-4 text-lg leading-relaxed opacity-90">
-                {t.introduction.description1}
-              </p>
-              <p className="text-white text-lg leading-relaxed opacity-90">
-                {t.introduction.description2}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Mobile Mission Section */}
-        <section className="py-12 px-6 bg-white w-full">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-900 text-center">
-            {t.mission.title}
-          </h2>
-          <div className="space-y-4">
-            {t.mission.points.map((point, index) => (
-              <div
-                key={index}
-                className="bg-white p-4 border-l-4 border-gray-800 shadow-sm"
-              >
-                <div className="flex items-start">
-                  <div className="flex-shrink-0 mr-3">
-                    <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-semibold">
-                      {index + 1}
-                    </div>
-                  </div>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    {point}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-6 bg-gray-100 p-4 border border-gray-300 rounded-lg">
-            <p className="italic text-gray-700 text-sm leading-relaxed">
-              &ldquo;{t.mission.quote}&rdquo;
-            </p>
-          </div>
-        </section>
-
-        {/* Mobile Values Section */}
-        <section className="py-12 px-6 bg-gray-50 w-full">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-900 text-center">
-            {t.values.title}
-          </h2>
-          <div className="space-y-4">
-            {t.values.items.map((value, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 border border-gray-200 rounded-lg shadow-sm"
-              >
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-gray-100 border border-gray-300 rounded-lg flex items-center justify-center mr-4">
-                    {React.createElement(valuesConfig[index].icon, {
-                      className: "text-xl text-gray-700",
-                    })}
-                  </div>
-                  <h3 className="font-semibold text-gray-900 text-lg">
-                    {value.title}
-                  </h3>
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  {value.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Mobile Philosophy Section */}
-        <section className="py-12 px-6 bg-white w-full">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900 text-center">
-            {t.philosophy.title}
-          </h2>
-          <p className="text-gray-700 mb-6 text-sm text-center leading-relaxed max-w-lg mx-auto">
-            {t.philosophy.description}
-          </p>
-          <div className="space-y-4">
-            {t.philosophy.circles.map((circle, index) => (
-              <div
-                key={index}
-                className="bg-white p-5 border border-gray-200 rounded-lg shadow-sm"
-              >
-                <div className="flex items-start mb-3">
-                  <div className="mr-3 flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg">
-                    {React.createElement(philosophyIcons[index].icon, {
-                      className: `text-lg ${philosophyIcons[index].color}`,
-                    })}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 text-base mb-2">
-                      {circle.title}
-                    </h3>
-                    <p className="text-gray-700 text-sm leading-relaxed">
-                      {circle.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  // Desktop view
   return (
-    <div className="w-full overflow-x-hidden bg-white">
-      {/* Hero Section with About.jpg */}
-      <section
-        className="relative min-h-screen flex items-center justify-center text-white w-full"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/About.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
+    <div className="min-h-screen bg-white pt-16">
+      {/* Clean Professional Header */}
+      <section className="py-16 bg-white border-b border-gray-200">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h1 className="text-5xl md:text-6xl font-bold mb-8 text-white">
-                {t.introduction.title}
-              </h1>
-              <p className="text-white mb-6 text-xl leading-relaxed opacity-90 max-w-3xl mx-auto">
-                {t.introduction.description1}
-              </p>
-              <p className="text-white text-xl leading-relaxed opacity-90 max-w-3xl mx-auto">
-                {t.introduction.description2}
-              </p>
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <h1 className="text-4xl font-bold text-gray-800 mb-4 font-serif">
+              {t.introduction.title}
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {t.introduction.description1}
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* Mission Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl font-semibold mb-2 text-gray-900">
-                {t.mission.title}
-              </h2>
-              <div className="w-16 h-px bg-gray-800 mx-auto"></div>
-            </motion.div>
-            <div className="space-y-6 mb-8">
-              {t.mission.points.map((point, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white p-6 border-l-4 border-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200"
-                >
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0 mr-4">
-                      <div className="w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center text-sm font-semibold">
-                        {index + 1}
+      <div className="container mx-auto px-6 py-12">
+        <div className="max-w-5xl mx-auto space-y-16">
+          {/* Company Overview */}
+          <motion.section
+            initial={{ opacity: 0, y: -50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="bg-gray-50 rounded-lg p-8"
+          >
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div className="relative h-80">
+                <Image
+                  src="/assets/About 2.jpg"
+                  alt="Seeds Financial Group"
+                  fill
+                  className="object-cover rounded-lg"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                  {t.mission.title}
+                </h2>
+                <div className="space-y-4">
+                  {t.mission.points.map((point: string, index: number) => (
+                    <div key={index} className="flex items-start">
+                      <div className="flex-shrink-0 mr-3">
+                        <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                          {index + 1}
+                        </div>
                       </div>
+                      <p className="text-gray-700 leading-relaxed">{point}</p>
                     </div>
-                    <p className="text-gray-700 leading-relaxed">{point}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="border-l-4 border-gray-800 bg-gray-50 p-8 rounded-r-lg"
-            >
-              <p className="text-lg text-gray-700 leading-relaxed font-medium">
-                &ldquo;{t.mission.quote}&rdquo;
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl font-semibold mb-2 text-gray-900 flex items-center justify-center">
-                <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center mr-4">
-                  <FaHandshake className="text-white text-lg" />
+                  ))}
                 </div>
-                {t.values.title}
-              </h2>
-              <div className="w-16 h-px bg-gray-800 mx-auto"></div>
-            </motion.div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {t.values.items.map((value, index) => (
-                <motion.div
+                <div className="mt-6 p-4 bg-white rounded border-l-4 border-gray-800">
+                  <p className="italic text-gray-700">&ldquo;{t.mission.quote}&rdquo;</p>
+                </div>
+              </div>
+            </div>
+          </motion.section>
+
+          {/* Values Section */}
+          <motion.section
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+              {t.values.title}
+            </h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {t.values.items.map((value: { title: string; description: string }, index: number) => (
+                <div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white p-8 border border-gray-200 hover:border-gray-400 transition-colors duration-200 rounded-lg shadow-sm"
+                  className="bg-gray-50 p-6 rounded-lg border border-gray-200"
                 >
                   <div className="text-center">
-                    <div className="mb-6 inline-flex p-3 bg-gray-100 rounded-lg">
+                    <div className="mb-4 inline-flex p-3 bg-white rounded-lg shadow-sm">
                       {React.createElement(valuesConfig[index].icon, {
                         className: "text-2xl text-gray-700",
                       })}
                     </div>
-                    <h3 className="font-semibold text-gray-900 text-xl mb-4">
+                    <h3 className="text-lg font-bold text-gray-800 mb-3">
                       {value.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-gray-700 leading-relaxed text-sm">
                       {value.description}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
+          </motion.section>
 
-      {/* Philosophy Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl font-semibold mb-2 text-gray-900 text-center">
-                {t.philosophy.title}
-              </h2>
-              <div className="w-16 h-px bg-gray-800 mx-auto mb-6"></div>
-              <p className="text-gray-700 text-center max-w-3xl mx-auto text-lg leading-relaxed">
-                {t.philosophy.description}
-              </p>
-            </motion.div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {t.philosophy.circles.map((circle, index) => (
-                <motion.div
+          {/* Philosophy Section */}
+          <motion.section
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            viewport={{ once: true }}
+            className="bg-gray-50 rounded-lg p-8"
+          >
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                  {t.philosophy.title}
+                </h2>
+                <p className="text-gray-700 leading-relaxed mb-6">
+                  {t.philosophy.description}
+                </p>
+              </div>
+              <div className="relative h-80">
+                <Image
+                  src="/assets/About 3.jpg"
+                  alt="Seeds Financial Group Philosophy"
+                  fill
+                  className="object-cover rounded-lg"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+            </div>
+
+            {/* Philosophy Principles */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
+              {t.philosophy.circles.map((circle: { title: string; description: string }, index: number) => (
+                <div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  viewport={{ once: true }}
-                  className="bg-white p-6 border border-gray-200 hover:border-gray-400 transition-colors duration-200 rounded-lg shadow-sm"
+                  className="bg-white p-4 rounded-lg border border-gray-200 text-center"
                 >
-                  <div className="text-center">
-                    <div className="mb-4 inline-flex p-3 bg-gray-100 rounded-lg">
-                      {React.createElement(philosophyIcons[index].icon, {
-                        className: `text-2xl ${philosophyIcons[index].color}`,
-                      })}
-                    </div>
-                    <h3 className="font-semibold text-gray-900 text-base mb-3">
-                      {circle.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      {circle.description}
-                    </p>
+                  <div className="mb-3 inline-flex p-2 bg-gray-100 rounded-lg">
+                    {React.createElement(philosophyIcons[index].icon, {
+                      className: `text-xl ${philosophyIcons[index].color}`,
+                    })}
                   </div>
-                </motion.div>
+                  <h3 className="font-bold text-gray-800 text-sm mb-2">
+                    {circle.title}
+                  </h3>
+                  <p className="text-gray-700 text-xs leading-relaxed">
+                    {circle.description}
+                  </p>
+                </div>
               ))}
             </div>
-          </div>
+          </motion.section>
+
+          {/* Company Vision */}
+          <motion.section
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center bg-white p-8 rounded-lg border border-gray-200"
+          >
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              Our Vision
+            </h2>
+            <p className="text-lg text-gray-700 leading-relaxed italic">
+              {t.introduction.description2}
+            </p>
+          </motion.section>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

@@ -84,19 +84,19 @@ const sectionIcons: Record<string, SectionIcon> = {
   "first-step": { icon: FaHandshake, badge: null },
 };
 
-// Background colors for sections
+// Background colors for sections - Professional gray scheme like team page
 const sectionBgColors: Record<string, string> = {
-  "what-is": "bg-blue-50",
-  benefits: "bg-green-50",
-  process: "bg-purple-50",
-  "who-needs": "bg-yellow-50",
-  "risk-management": "bg-red-50",
-  "why-hire": "bg-indigo-50",
-  "cfp-difference": "bg-orange-50",
-  "why-choose-cfp": "bg-teal-50",
-  "cfp-guarantee": "bg-pink-50",
-  "how-to-use": "bg-cyan-50",
-  "first-step": "bg-lime-50",
+  "what-is": "bg-gray-50",
+  benefits: "bg-white",
+  process: "bg-gray-50",
+  "who-needs": "bg-white",
+  "risk-management": "bg-gray-50",
+  "why-hire": "bg-white",
+  "cfp-difference": "bg-gray-50",
+  "why-choose-cfp": "bg-white",
+  "cfp-guarantee": "bg-gray-50",
+  "how-to-use": "bg-white",
+  "first-step": "bg-gray-50",
 };
 
 // Optimized translations
@@ -443,11 +443,32 @@ const SectionCard: React.FC<SectionCardProps> = ({
   const bgColor = sectionBgColors[section.id];
   const IconComponent = sectionConfig?.icon || FaChartLine;
 
+  // Different animation patterns for first two cards
+  const getAnimationProps = () => {
+    if (index === 0) {
+      return {
+        initial: { opacity: 0, y: -50 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.8, delay: 0.2 },
+      };
+    } else if (index === 1) {
+      return {
+        initial: { opacity: 0, y: 50 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.8, delay: 0.4 },
+      };
+    } else {
+      return {
+        initial: { opacity: 0, y: 30 },
+        whileInView: { opacity: 1, y: 0 },
+        transition: { duration: 0.6, delay: index * 0.1 },
+      };
+    }
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.05 }}
+      {...getAnimationProps()}
       viewport={{ once: true, margin: "-100px" }}
       className={`scroll-mt-24 p-${
         isMobile ? "5" : "8"
@@ -641,28 +662,23 @@ export default function FinancialPlanningPage() {
 
   if (isMobile) {
     return (
-      <div className="w-full overflow-x-hidden pb-16">
-        {/* Hero Banner */}
-        <section
-          className="relative min-h-[60vh] flex items-center justify-center text-white w-full overflow-hidden mt-16"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Financial.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center 60%",
-            backgroundRepeat: "no-repeat",
-            backgroundAttachment: "fixed",
-          }}
-        >
-          <div className="container mx-auto px-6 text-center z-10 relative">
+      <div
+        className="w-full overflow-x-hidden pb-16"
+        style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
+      >
+        {/* Hero Section - Clean like team page, NO background image */}
+        <section className="relative bg-gray-50 py-20 pt-32">
+          <div className="container mx-auto px-8 text-center">
             <div className="max-w-3xl mx-auto">
-              <h1 className="text-3xl font-bold text-white leading-tight mb-4">
+              <h1 className="text-4xl font-bold text-gray-900 mb-6">
                 {t.pageTitle}
               </h1>
-              <p className="text-white text-lg leading-relaxed opacity-90 mb-6">
+
+              <div className="w-24 h-1 bg-gray-900 mx-auto mb-8"></div>
+
+              <p className="text-lg text-gray-700 leading-relaxed mb-12">
                 {t.pageSubtitle}
               </p>
-              <div className="h-1 w-16 bg-white mx-auto rounded-full"></div>
             </div>
           </div>
         </section>
@@ -703,39 +719,29 @@ export default function FinancialPlanningPage() {
 
   // Desktop view
   return (
-    <div className="w-full overflow-x-hidden">
-      {/* Hero Banner */}
-      <section
-        className="relative min-h-[70vh] flex items-center justify-center text-white w-full overflow-hidden mt-12"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Financial.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center 60%",
-          backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed",
-        }}
-      >
-        <div className="container mx-auto px-6 text-center z-10 relative">
-          <div className="max-w-4xl mx-auto">
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6"
-            >
+    <div
+      className="w-full overflow-x-hidden"
+      style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
+    >
+      {/* Hero Section - Clean like team page, NO background image */}
+      <section className="relative bg-gray-50 py-20 pt-32">
+        <div className="container mx-auto px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-5xl mx-auto"
+          >
+            <h1 className="text-6xl font-bold text-gray-900 mb-6">
               {t.pageTitle}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="text-xl text-white leading-relaxed opacity-90 max-w-3xl mx-auto mb-8"
-            >
+            </h1>
+
+            <div className="w-32 h-1 bg-gray-900 mx-auto mb-8"></div>
+
+            <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-12">
               {t.pageSubtitle}
-            </motion.p>
-            <div className="h-1 w-20 bg-white mx-auto rounded-full"></div>
-          </div>
+            </p>
+          </motion.div>
         </div>
       </section>
 

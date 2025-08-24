@@ -2,9 +2,33 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { FaGolfBall, FaHeartbeat, FaDna } from "react-icons/fa";
+import { FaGolfBall, FaHeartbeat, FaDna, FaArrowLeft } from "react-icons/fa";
+import Link from "next/link";
+import { useLanguage } from "../../components/LanguageContext";
+
+const translations = {
+  en: {
+    title: "Academic Case Studies",
+    subtitle:
+      "In-depth analysis and insights from our wealth management expertise",
+    backToStories: "← Back to Case Studies",
+    readMore: "Read More",
+    keyInsights: "Key Insights",
+  },
+  "zh-HK": {
+    title: "學術案例研究",
+    subtitle: "來自我們財富管理專業知識的深入分析和見解",
+    backToStories: "← 返回案例研究",
+    readMore: "閱讀更多",
+    keyInsights: "重要見解",
+  },
+};
 
 export default function AcademicCaseStudies() {
+  const { language } = useLanguage();
+  const t =
+    translations[language as keyof typeof translations] || translations.en;
+
   const caseStudies = [
     {
       id: 1,
@@ -88,67 +112,71 @@ export default function AcademicCaseStudies() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Academic Case Studies
-          </h1>
-          <div className="w-24 h-1 bg-slate-600 mx-auto mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Professional insights and educational analysis through real-world
-            financial scenarios
-          </p>
-        </motion.div>
+    <div className="min-h-screen bg-white pt-16">
+      {/* Clean Professional Header */}
+      <section className="py-16 bg-white border-b border-gray-200">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Link
+              href="/case-studies"
+              className="inline-flex items-center text-gray-600 hover:text-gray-800 mb-6 transition-colors"
+            >
+              <FaArrowLeft className="mr-2" />
+              {t.backToStories}
+            </Link>
 
-        {/* All Case Studies on One Page */}
-        <div className="space-y-16">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-gray-800 mb-4 font-serif">
+                {t.title}
+              </h1>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                {t.subtitle}
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <div className="container mx-auto px-6 py-12">
+        <div className="max-w-5xl mx-auto space-y-16">
           {caseStudies.map((study, studyIndex) => (
             <motion.div
               key={study.id}
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: studyIndex * 0.2 }}
-              className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: studyIndex * 0.1 }}
+              viewport={{ once: true }}
+              className="bg-gray-50 rounded-lg p-8 border border-gray-200"
             >
               {/* Case Study Header */}
-              <div className="bg-slate-800 text-white p-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                    <div className="text-white">{study.icon}</div>
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-semibold text-white">
-                      {study.title}
-                    </h2>
-                    <p className="text-slate-300">{study.subtitle}</p>
-                  </div>
+              <div className="flex items-center gap-4 mb-8 pb-6 border-b border-gray-300">
+                <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
+                  <div className="text-gray-700">{study.icon}</div>
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    {study.title}
+                  </h2>
+                  <p className="text-gray-600">{study.subtitle}</p>
                 </div>
               </div>
 
               {/* Case Study Content */}
-              <div className="p-6">
+              <div className="space-y-8">
                 {study.sections.map((section, index) => (
-                  <motion.div
+                  <div
                     key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.6,
-                      delay: studyIndex * 0.2 + index * 0.1,
-                    }}
                     className={`${
                       index !== study.sections.length - 1
-                        ? "mb-8 pb-8 border-b border-gray-100"
-                        : "mb-0"
+                        ? "pb-6 border-b border-gray-200"
+                        : ""
                     }`}
                   >
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                    <h3 className="text-xl font-bold text-gray-800 mb-4">
                       {section.title}
                     </h3>
 
@@ -158,40 +186,18 @@ export default function AcademicCaseStudies() {
                         .map((paragraph, pIndex) => (
                           <p
                             key={pIndex}
-                            className="text-gray-600 leading-relaxed"
+                            className="text-gray-700 leading-relaxed"
                           >
                             {paragraph}
                           </p>
                         ))}
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </motion.div>
           ))}
         </div>
-
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.0 }}
-          className="mt-16 text-center"
-        >
-          <div className="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              Learn More About Our Services
-            </h2>
-            <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-              These case studies demonstrate our expertise in financial planning
-              and risk management. Contact our team to discuss your specific
-              requirements.
-            </p>
-            <button className="bg-slate-700 text-white px-8 py-3 rounded-md font-medium hover:bg-slate-800 transition-colors duration-300 shadow-sm">
-              Contact Our Team
-            </button>
-          </div>
-        </motion.div>
       </div>
     </div>
   );

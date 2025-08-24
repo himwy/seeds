@@ -8,10 +8,8 @@ import { useRouter } from "next/navigation";
 import { 
   FaArrowLeft, 
   FaUpload, 
-  FaTrash, 
   FaImages, 
   FaCalendarAlt, 
-  FaTag,
   FaCheck,
   FaExclamationTriangle,
   FaSave,

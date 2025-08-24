@@ -4,7 +4,7 @@ import React from "react";
 import { useLanguage } from "../../components/LanguageContext";
 import Link from "next/link";
 import Image from "next/image";
-import { FaArrowLeft, FaEnvelope, FaPhone } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 
 const translations = {
   en: {

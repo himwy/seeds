@@ -357,41 +357,40 @@ export default function SeedsStoryPage() {
   if (isMobile) {
     return (
       <div className="w-full overflow-x-hidden pb-16">
-        {/* Enhanced Header */}
-        <section className="relative bg-gradient-to-br from-emerald-50 via-blue-50 to-indigo-50 py-20 mt-16">
+        {/* Clean Professional Header */}
+        <section className="relative bg-white py-16 mt-16 border-b border-gray-200">
           <div className="container mx-auto px-6 text-center">
             <div className="max-w-3xl mx-auto">
-              <div className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent mb-6">
-                <FaSeedling className="text-5xl mx-auto mb-4" />
+              <div className="mb-6">
+                <FaSeedling className="text-4xl text-gray-700 mx-auto mb-4" />
               </div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent leading-tight mb-6">
+              <h1 className="text-3xl font-bold text-gray-800 leading-tight mb-4 font-serif">
                 {t.pageTitle}
               </h1>
-              <p className="text-gray-600 text-lg leading-relaxed mb-8">
+              <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 {t.pageSubtitle}
               </p>
-              <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-blue-500 mx-auto rounded-full"></div>
             </div>
           </div>
         </section>
 
         {/* Episode Navigation */}
-        <section className="py-10 bg-gradient-to-r from-gray-50 to-white border-b">
+        <section className="py-8 bg-gray-50 border-b border-gray-200">
           <div className="container mx-auto px-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center font-serif">
               {language === "en"
                 ? `${t.controls.episode} ${currentEpisode + 1}`
                 : `第 ${currentEpisode + 1} 集`}
             </h2>
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex flex-wrap justify-center gap-2">
               {episodes.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToEpisode(index)}
-                  className={`px-5 py-3 rounded-full text-sm font-semibold transition-all shadow-md ${
+                  className={`px-4 py-2 rounded text-sm font-medium transition-all ${
                     index === currentEpisode
-                      ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-lg transform scale-105"
-                      : "bg-white text-gray-700 hover:bg-gray-50 hover:shadow-lg border border-gray-200"
+                      ? "bg-gray-800 text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
                   }`}
                 >
                   {index + 1}
@@ -503,41 +502,40 @@ export default function SeedsStoryPage() {
   // Desktop Version
   return (
     <div className="w-full overflow-x-hidden pb-16">
-      {/* Enhanced Header */}
-      <section className="relative bg-gradient-to-br from-emerald-50 via-blue-50 to-indigo-50 py-24 mt-16">
+      {/* Clean Professional Header */}
+      <section className="relative bg-white py-20 mt-16 border-b border-gray-200">
         <div className="container mx-auto px-6 text-center">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent mb-8">
-              <FaSeedling className="text-6xl mx-auto mb-6" />
+            <div className="mb-8">
+              <FaSeedling className="text-5xl text-gray-700 mx-auto mb-6" />
             </div>
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent leading-tight mb-8">
+            <h1 className="text-4xl font-bold text-gray-800 leading-tight mb-6 font-serif">
               {t.pageTitle}
             </h1>
-            <p className="text-gray-600 text-xl leading-relaxed mb-10">
+            <p className="text-gray-600 text-xl leading-relaxed mb-8">
               {t.pageSubtitle}
             </p>
-            <div className="h-1 w-24 bg-gradient-to-r from-green-500 to-blue-500 mx-auto rounded-full"></div>
           </div>
         </div>
       </section>
 
       {/* Episode Navigation */}
-      <section className="py-16 bg-gradient-to-r from-gray-50 to-white border-b">
+      <section className="py-12 bg-gray-50 border-b border-gray-200">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center font-serif">
             {language === "en"
               ? `${t.controls.episode} ${currentEpisode + 1}`
               : `第 ${currentEpisode + 1} 集`}
           </h2>
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-3">
             {episodes.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToEpisode(index)}
-                className={`px-7 py-4 rounded-full text-base font-semibold transition-all shadow-md ${
+                className={`px-6 py-3 rounded text-base font-medium transition-all ${
                   index === currentEpisode
-                    ? "bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-xl transform scale-110"
-                    : "bg-white text-gray-700 hover:bg-gray-50 hover:shadow-lg border border-gray-200 hover:transform hover:scale-105"
+                    ? "bg-gray-800 text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
                 }`}
               >
                 {index + 1}
@@ -548,16 +546,16 @@ export default function SeedsStoryPage() {
       </section>
 
       {/* Content Grid */}
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
+      <section className="py-12 bg-white">
         <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-5 gap-12 items-start">
+          <div className="grid lg:grid-cols-5 gap-8 items-start">
             {/* Image Display - Takes up 3 columns */}
-            <div className="lg:col-span-3 bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
-              <div className="relative aspect-[16/10] bg-gradient-to-br from-gray-50 to-gray-100">
+            <div className="lg:col-span-3 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+              <div className="relative aspect-[16/10] bg-gray-50">
                 {/* Loading Spinner */}
                 {imageLoading && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 z-10">
-                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-700"></div>
                   </div>
                 )}
 
@@ -588,9 +586,9 @@ export default function SeedsStoryPage() {
                 <button
                   onClick={prevSlide}
                   disabled={currentEpisode === 0 && currentSlide === 0}
-                  className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-95 text-gray-800 p-5 rounded-full shadow-2xl disabled:opacity-30 disabled:cursor-not-allowed hover:bg-opacity-100 hover:shadow-3xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:scale-110"
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white text-gray-800 p-3 rounded-full shadow-lg disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition-all border border-gray-200 hover:shadow-xl"
                 >
-                  <FaChevronLeft className="w-6 h-6" />
+                  <FaChevronLeft className="w-4 h-4" />
                 </button>
 
                 <button
@@ -599,30 +597,30 @@ export default function SeedsStoryPage() {
                     currentEpisode === episodes.length - 1 &&
                     currentSlide === currentEp.images.length - 1
                   }
-                  className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-95 text-gray-800 p-5 rounded-full shadow-2xl disabled:opacity-30 disabled:cursor-not-allowed hover:bg-opacity-100 hover:shadow-3xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:scale-110"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white text-gray-800 p-3 rounded-full shadow-lg disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition-all border border-gray-200 hover:shadow-xl"
                 >
-                  <FaChevronRight className="w-6 h-6" />
+                  <FaChevronRight className="w-4 h-4" />
                 </button>
 
                 {/* Fullscreen Button */}
                 <button
                   onClick={openFullscreen}
-                  className="absolute top-6 right-6 bg-white bg-opacity-95 text-gray-800 p-4 rounded-full shadow-2xl hover:bg-opacity-100 hover:shadow-3xl transition-all border-2 border-gray-200 hover:border-gray-300 hover:scale-110"
+                  className="absolute top-4 right-4 bg-white text-gray-800 p-3 rounded-full shadow-lg hover:bg-gray-50 transition-all border border-gray-200 hover:shadow-xl"
                   title="View in fullscreen"
                 >
-                  <FaExpand className="w-5 h-5" />
+                  <FaExpand className="w-4 h-4" />
                 </button>
 
                 {/* Slide Indicators */}
-                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3">
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
                   {currentEp.images.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => goToSlide(index)}
-                      className={`w-4 h-4 rounded-full transition-all border-2 hover:scale-110 ${
+                      className={`w-3 h-3 rounded-full transition-all hover:scale-110 ${
                         index === currentSlide
-                          ? "bg-blue-500 border-blue-500 shadow-lg shadow-blue-500/50"
-                          : "bg-white bg-opacity-60 border-white border-opacity-80 hover:bg-opacity-80"
+                          ? "bg-gray-800"
+                          : "bg-gray-400 hover:bg-gray-600"
                       }`}
                     />
                   ))}
@@ -631,9 +629,9 @@ export default function SeedsStoryPage() {
             </div>
 
             {/* Episode Content - Takes up 2 columns */}
-            <div className="lg:col-span-2 bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl p-8 border border-gray-100">
-              <div className="text-center pb-6 border-b border-gray-200 mb-6">
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-3">
+            <div className="lg:col-span-2 bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+              <div className="text-center pb-4 border-b border-gray-200 mb-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-2 font-serif">
                   {currentEp.title}
                 </h2>
               </div>
@@ -645,9 +643,9 @@ export default function SeedsStoryPage() {
                 ))}
               </div>
 
-              {/* Enhanced slide counter */}
+              {/* Slide counter */}
               <div className="mt-6 text-center">
-                <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-50 rounded-full shadow-inner border border-gray-200">
+                <div className="inline-flex items-center px-4 py-2 bg-gray-100 rounded-lg border border-gray-200">
                   <span className="text-sm font-medium text-gray-600">
                     {language === "en"
                       ? `Slide ${currentSlide + 1} of ${
@@ -678,10 +676,10 @@ export default function SeedsStoryPage() {
             {/* Close Button */}
             <button
               onClick={closeFullscreen}
-              className="absolute top-6 right-6 bg-white bg-opacity-20 text-white p-3 rounded-full hover:bg-opacity-30 transition-all z-10"
+              className="absolute top-6 right-6 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all z-10 shadow-lg"
               title="Close fullscreen (ESC)"
             >
-              <FaTimes className="w-6 h-6" />
+              <FaTimes className="w-5 h-5" />
             </button>
 
             {/* Zoom Controls */}
@@ -689,20 +687,20 @@ export default function SeedsStoryPage() {
               <button
                 onClick={zoomOut}
                 disabled={fullscreenZoom <= 0.5}
-                className="bg-white bg-opacity-20 text-white p-3 rounded-full hover:bg-opacity-30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                 title="Zoom out (-)"
               >
-                <FaSearchMinus className="w-5 h-5" />
+                <FaSearchMinus className="w-4 h-4" />
               </button>
               <button
                 onClick={zoomIn}
                 disabled={fullscreenZoom >= 3}
-                className="bg-white bg-opacity-20 text-white p-3 rounded-full hover:bg-opacity-30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                 title="Zoom in (+)"
               >
-                <FaSearchPlus className="w-5 h-5" />
+                <FaSearchPlus className="w-4 h-4" />
               </button>
-              <div className="bg-white bg-opacity-20 text-white px-3 py-2 rounded-full">
+              <div className="bg-white bg-opacity-90 text-gray-800 px-3 py-2 rounded-full shadow-lg">
                 <span className="text-sm font-medium">
                   {Math.round(fullscreenZoom * 100)}%
                 </span>
@@ -713,9 +711,9 @@ export default function SeedsStoryPage() {
             <button
               onClick={prevSlide}
               disabled={currentEpisode === 0 && currentSlide === 0}
-              className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 text-white p-4 rounded-full hover:bg-opacity-30 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-10"
+              className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-4 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-10 shadow-lg"
             >
-              <FaChevronLeft className="w-6 h-6" />
+              <FaChevronLeft className="w-5 h-5" />
             </button>
 
             <button
@@ -724,9 +722,9 @@ export default function SeedsStoryPage() {
                 currentEpisode === episodes.length - 1 &&
                 currentSlide === currentEp.images.length - 1
               }
-              className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 text-white p-4 rounded-full hover:bg-opacity-30 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-10"
+              className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-4 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-10 shadow-lg"
             >
-              <FaChevronRight className="w-6 h-6" />
+              <FaChevronRight className="w-5 h-5" />
             </button>
 
             {/* Fullscreen Image */}
@@ -748,8 +746,8 @@ export default function SeedsStoryPage() {
               </motion.div>
             </div>
 
-            {/* Fullscreen Image Info */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center text-white bg-black bg-opacity-50 px-4 py-2 rounded-lg">
+            {/* Fullscreen Image Info - Fixed visibility */}
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center bg-white bg-opacity-90 text-gray-800 px-6 py-3 rounded-lg shadow-lg">
               <p className="text-sm font-medium">
                 {currentEp.title} -{" "}
                 {language === "en"

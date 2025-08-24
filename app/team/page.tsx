@@ -1,17 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useLanguage } from "../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  FaEnvelope,
-  FaPhone,
-  FaArrowRight,
   FaUsers,
   FaAward,
-  FaHandshake,
 } from "react-icons/fa";
 
 const translations = {
@@ -315,9 +311,15 @@ export default function TeamPage() {
                 <motion.div
                   key={member.id}
                   initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
+                  animate={index < 2 ? { opacity: 1, y: 0 } : undefined}
+                  whileInView={index >= 2 ? { opacity: 1, y: 0 } : undefined}
+                  transition={{
+                    duration: 0.6,
+                    delay: index < 2 ? index * 0.2 + 0.5 : 0,
+                  }}
+                  viewport={
+                    index >= 2 ? { once: true, amount: 0.3 } : undefined
+                  }
                   className="group"
                 >
                   <div className="bg-gray-50 rounded-lg border border-gray-200 shadow-lg overflow-hidden">

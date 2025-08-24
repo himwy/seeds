@@ -12,7 +12,6 @@ import {
   FaCalendarAlt,
   FaEnvelope,
 } from "react-icons/fa";
-import { IoIosSchool } from "react-icons/io";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "./LanguageContext";
 import { translations } from "../translations";
@@ -93,11 +92,11 @@ export default function Navbar() {
       icon: <FaCalendarAlt className="w-5 h-5" />,
       submenu: [
         {
-          title: "Recent Events",
+          title: t.navbar.eventsItems?.recentEvents || "Recent Events",
           path: "/events/recent",
         },
         {
-          title: "Past Events",
+          title: t.navbar.eventsItems?.pastEvents || "Past Events",
           path: "/events/past",
         },
       ],

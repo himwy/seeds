@@ -50,6 +50,21 @@ body {
   position: relative;
 }
 
+/* Scrollbar hiding utilities */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scrolling for events */
+.overflow-x-auto {
+  scroll-behavior: smooth;
+}
+
 .section-padding {
   padding: 5rem 0;
 }

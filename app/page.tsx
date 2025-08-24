@@ -10,9 +10,12 @@ import {
   FaMedkit,
   FaPlane,
   FaHeart,
+  FaCalendarAlt,
+  FaArrowRight,
 } from "react-icons/fa";
 import { useEffect, useState, useMemo } from "react";
 import { ReactNode, CSSProperties, MouseEvent } from "react";
+import { EventsService, Event } from "./lib/eventsService";
 
 // Types
 interface ServiceData {
@@ -134,9 +137,9 @@ const translations = {
     about: {
       title: "About Seeds Financial Group",
       description1:
-        "Seeds Financial Group is in partnership with one of the world's largest financial groups provides advisory services using a wide range of risk management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
+        "Seeds Financial Group is a premier wealth and assets management company that partners with leading global financial institutions. We specialize in comprehensive financial planning, sophisticated investment strategies, and risk management solutions designed to preserve and grow our clients' wealth across generations.",
       description2:
-        "No matter what age a person is, as long as he/she has enthusiasm, we believe that he/she is a 'seed' full of hope for growth. We will try our best to provide them opportunities and nurture them carefully to turn them into a strong tree.",
+        "We believe every individual, regardless of age, carries the potential for financial growth - like a 'seed' full of promise. Our mission is to nurture this potential through expert guidance, turning aspirations into lasting financial success.",
       learnMoreButton: "Learn More About Us",
     },
     services: {
@@ -305,6 +308,57 @@ export default function Home() {
   const { language } = useLanguage();
   const t = translations[language];
   const [isMobile, setIsMobile] = useState(false);
+  const [recentEvents, setRecentEvents] = useState<Event[]>([]);
+  const [currentEventIndex, setCurrentEventIndex] = useState(0);
+
+  // Load recent events
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        const events = await EventsService.getEventsByCategory("recent");
+        setRecentEvents(events.slice(0, 6)); // Show max 6 events for better auto-scroll
+      } catch (error) {
+        console.error("Error loading events:", error);
+      }
+    };
+    loadEvents();
+  }, []);
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (recentEvents.length <= 3) return; // Only auto-scroll if more than 3 events
+
+    const interval = setInterval(() => {
+      setCurrentEventIndex((prevIndex) => {
+        const totalGroups = Math.ceil(recentEvents.length / 3);
+        const currentGroup = Math.floor(prevIndex / 3);
+        const nextGroup =
+          currentGroup >= totalGroups - 1 ? 0 : currentGroup + 1;
+        return nextGroup * 3;
+      });
+    }, 4000); // Change every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [recentEvents.length]);
+
+  // Navigation functions for events
+  const nextEventGroup = () => {
+    setCurrentEventIndex((prevIndex) => {
+      const totalGroups = Math.ceil(recentEvents.length / 3);
+      const currentGroup = Math.floor(prevIndex / 3);
+      const nextGroup = currentGroup >= totalGroups - 1 ? 0 : currentGroup + 1;
+      return nextGroup * 3;
+    });
+  };
+
+  const prevEventGroup = () => {
+    setCurrentEventIndex((prevIndex) => {
+      const totalGroups = Math.ceil(recentEvents.length / 3);
+      const currentGroup = Math.floor(prevIndex / 3);
+      const prevGroup = currentGroup <= 0 ? totalGroups - 1 : currentGroup - 1;
+      return prevGroup * 3;
+    });
+  };
 
   // Optimized mobile detection with debounce
   useEffect(() => {
@@ -483,6 +537,102 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Mobile Recent Events Section */}
+        {recentEvents.length > 0 && (
+          <section className="py-10 relative overflow-hidden md:hidden">
+            {/* Elegant mobile background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20"></div>
+
+            <div className="relative z-10 px-6">
+              <div className="text-center mb-8 fade-in-up">
+                <h2 className="text-2xl font-bold mb-4 text-white">
+                  {language === "en" ? "Recent Events" : "最近活動"}
+                </h2>
+                <p className="text-gray-300">
+                  {language === "en"
+                    ? "Our latest professional moments"
+                    : "我們最近的專業時刻"}
+                </p>
+              </div>
+
+              {/* Mobile horizontal scroll */}
+              <div
+                className="overflow-x-auto scrollbar-hide pb-4 -mx-6 px-6"
+                style={{
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                  WebkitOverflowScrolling: "touch",
+                }}
+              >
+                <div className="flex gap-4 min-w-max">
+                  {recentEvents.map((event) => (
+                    <Link
+                      key={event.$id}
+                      href={`/events/${event.$id}`}
+                      className="group flex-none w-72"
+                    >
+                      <div className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-xl border border-white/20">
+                        {event.images && event.images.length > 0 && (
+                          <div className="relative h-40 overflow-hidden">
+                            <Image
+                              src={event.images[0]}
+                              alt={
+                                language === "en"
+                                  ? event.name
+                                  : event.chineseName
+                              }
+                              fill
+                              className="object-cover group-hover:scale-110 transition-transform duration-500"
+                              sizes="288px"
+                            />
+                            {/* Darker mobile overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+                            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                              <h3 className="font-semibold mb-1 text-sm leading-tight">
+                                {language === "en"
+                                  ? event.name
+                                  : event.chineseName}
+                              </h3>
+                              <div className="flex items-center text-gray-300 text-xs">
+                                <FaCalendarAlt className="mr-1 text-white/70" />
+                                {new Date(event.date).toLocaleDateString()}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile indicators - simplified */}
+              {recentEvents.length > 1 && (
+                <div className="flex justify-center mt-6 gap-1">
+                  {recentEvents.slice(0, 5).map((_, index) => (
+                    <div
+                      key={index}
+                      className="w-1.5 h-1.5 rounded-full bg-white/40"
+                    />
+                  ))}
+                </div>
+              )}
+
+              <div className="text-center mt-8">
+                <Link
+                  href="/events/recent"
+                  className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-sm text-white rounded-full hover:bg-white/20 transition-colors text-sm border border-white/30"
+                >
+                  {language === "en" ? "View All Events" : "查看所有活動"}
+                  <FaArrowRight className="ml-2" />
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Mobile Contact Section */}
         <section className="py-10 px-6 bg-white w-full">
           <div className="fade-in-up">
@@ -552,7 +702,7 @@ export default function Home() {
         className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Home.jpg')",
+            "linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/assets/Home.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center 20%",
           backgroundRepeat: "no-repeat",
@@ -654,6 +804,176 @@ export default function Home() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* Recent Events Section */}
+      <section className="py-12 md:py-20 bg-white w-full hidden md:block">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-10 md:mb-16 fade-in-up">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
+              {language === "en" ? "Recent Events" : "最近活動"}
+            </h2>
+            <p className="text-dark-gray max-w-3xl mx-auto">
+              {language === "en"
+                ? "Stay updated with our latest activities and professional milestones."
+                : "了解我們最近的活動和專業里程碑。"}
+            </p>
+          </div>
+
+          {recentEvents.length > 0 ? (
+            <>
+              {/* Navigation controlled carousel showing 3 events */}
+              <div className="relative">
+                {/* Navigation buttons */}
+                {recentEvents.length > 3 && (
+                  <>
+                    <button
+                      onClick={prevEventGroup}
+                      className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-colors duration-200"
+                      aria-label="Previous events"
+                    >
+                      <svg
+                        className="w-5 h-5 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 19l-7-7 7-7"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={nextEventGroup}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-colors duration-200"
+                      aria-label="Next events"
+                    >
+                      <svg
+                        className="w-5 h-5 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </button>
+                  </>
+                )}
+
+                <div className="overflow-hidden">
+                  <div
+                    className="flex transition-transform duration-500 ease-in-out"
+                    style={{
+                      transform: `translateX(-${
+                        Math.floor(currentEventIndex / 3) * 1200
+                      }px)`,
+                    }}
+                  >
+                    {recentEvents.map((event) => (
+                      <Link
+                        key={event.$id}
+                        href={`/events/${event.$id}`}
+                        className="group flex-none w-80 lg:w-96 mx-3"
+                      >
+                        <div className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200 h-full">
+                          {event.images && event.images.length > 0 && (
+                            <div className="relative h-48 md:h-64 overflow-hidden">
+                              <Image
+                                src={event.images[0]}
+                                alt={
+                                  language === "en"
+                                    ? event.name
+                                    : event.chineseName
+                                }
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 320px, 384px"
+                              />
+                              {/* Light overlay so text is readable */}
+                              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-all duration-300"></div>
+
+                              {/* Content overlay */}
+                              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white">
+                                <h3 className="text-lg md:text-xl font-bold mb-2 text-white drop-shadow-lg">
+                                  {language === "en"
+                                    ? event.name
+                                    : event.chineseName}
+                                </h3>
+                                <div className="flex items-center text-white text-sm drop-shadow-lg">
+                                  <FaCalendarAlt className="mr-2" />
+                                  <span>
+                                    {new Date(event.date).toLocaleDateString(
+                                      language === "en" ? "en-US" : "zh-TW",
+                                      {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                      }
+                                    )}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Clean indicators for event groups */}
+              {recentEvents.length > 3 && (
+                <div className="flex justify-center items-center mt-8 gap-2">
+                  {Array.from(
+                    { length: Math.ceil(recentEvents.length / 3) },
+                    (_, groupIndex) => (
+                      <button
+                        key={groupIndex}
+                        onClick={() => setCurrentEventIndex(groupIndex * 3)}
+                        className={`transition-all duration-300 ${
+                          Math.floor(currentEventIndex / 3) === groupIndex
+                            ? "w-8 h-2 bg-primary rounded-full"
+                            : "w-2 h-2 bg-gray-300 rounded-full hover:bg-gray-400"
+                        }`}
+                        aria-label={`Go to event group ${groupIndex + 1}`}
+                      />
+                    )
+                  )}
+                </div>
+              )}
+
+              {/* Call-to-action button with primary button style */}
+              <div className="text-center mt-12">
+                <Link
+                  href="/events/recent"
+                  className="btn-primary inline-flex items-center"
+                >
+                  <span className="mr-3">
+                    {language === "en" ? "View All Events" : "查看所有活動"}
+                  </span>
+                  <FaArrowRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-dark-gray">
+                {language === "en"
+                  ? "No recent events available."
+                  : "暫無最近活動。"}
+              </p>
+            </div>
+          )}
         </div>
       </section>
 

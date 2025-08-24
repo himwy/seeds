@@ -31,12 +31,12 @@ export const translations = {
       },
       events: "Events",
       eventsItems: {
-        upcomingEvents: "Upcoming Events",
+        recentEvents: "Recent Events",
         pastEvents: "Past Events",
         webinars: "Webinars",
       },
       contact: "Contact",
-      companyTagline: "Risk and Asset Management",
+      companyTagline: "Wealth and Asset Management",
     },
     footer: {
       companyInfo:
@@ -92,12 +92,12 @@ export const translations = {
       },
       events: "活動",
       eventsItems: {
-        upcomingEvents: "即將舉行的活動",
+        recentEvents: "最近活動",
         pastEvents: "過往活動",
         webinars: "網絡研討會",
       },
       contact: "聯絡我們",
-      companyTagline: "風險和資產管理",
+      companyTagline: "財富和資產管理",
     },
     footer: {
       companyInfo:
