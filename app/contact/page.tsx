@@ -8,9 +8,8 @@ import {
   FiMail,
   FiMapPin,
   FiClock,
-  FiExternalLink,
 } from "react-icons/fi";
-import Image from "next/image";
+// Image not used in this file
 
 export default function ContactPage() {
   const { language } = useLanguage();

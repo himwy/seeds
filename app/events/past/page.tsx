@@ -8,7 +8,7 @@ import {
   FaCalendarAlt,
   FaImages,
   FaEye,
-  FaArrowRight,
+  // FaArrowRight,
   FaFilter,
   FaHistory,
 } from "react-icons/fa";

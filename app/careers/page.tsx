@@ -4,13 +4,14 @@ import React from "react";
 import { useLanguage } from "../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
+// import Image from "next/image";
 import Image from "next/image";
 import {
-  FaBriefcase,
+  // FaBriefcase,
   FaUsers,
-  FaArrowRight,
-  FaGraduationCap,
-  FaChartLine,
+  // FaArrowRight,
+  // FaGraduationCap,
+  // FaChartLine,
   FaStar,
   FaHandshake,
   FaDollarSign,
@@ -18,8 +19,8 @@ import {
   FaLightbulb,
   FaHeart,
   FaRocket,
-  FaEye,
-  FaPaperPlane,
+  // FaEye,
+  // FaPaperPlane,
 } from "react-icons/fa";
 
 export default function CareersPage() {

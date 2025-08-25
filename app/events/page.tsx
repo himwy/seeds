@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useLanguage } from "../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
+// Image intentionally not used here
 import {
   FaCalendarAlt,
   FaImages,
@@ -312,6 +312,8 @@ export default function EventsPage() {
             <div className="text-center py-12">
               <FaCalendarAlt className="text-6xl text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500 text-lg">{t.noRecentEvents}</p>
+              {/* show error message if exists to avoid unused variable warning */}
+              {error ? <p className="text-red-500 text-sm mt-2">{error}</p> : null}
             </div>
           )}
         </div>

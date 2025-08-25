@@ -3,14 +3,14 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaBars, FaTimes, FaAngleDown, FaAngleRight } from "react-icons/fa";
+import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 import {
   FaInfoCircle,
   FaLightbulb,
   FaBriefcase,
   FaGraduationCap,
   FaCalendarAlt,
-  FaEnvelope,
+  // FaEnvelope,
 } from "react-icons/fa";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "./LanguageContext";

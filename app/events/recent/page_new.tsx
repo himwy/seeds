@@ -7,7 +7,6 @@ import Link from "next/link";
 import {
   FaCalendarAlt,
   FaImages,
-  FaEye,
   FaArrowRight,
   FaFilter,
 } from "react-icons/fa";

@@ -8,7 +8,7 @@ import {
   FaCalendarAlt,
   FaImages,
   FaEye,
-  FaArrowRight,
+  // FaArrowRight,
   FaFilter,
 } from "react-icons/fa";
 import { EventsService, Event } from "../../lib/eventsService";

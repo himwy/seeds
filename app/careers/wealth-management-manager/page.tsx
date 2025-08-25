@@ -14,7 +14,7 @@ import {
   FaMapMarkerAlt,
   FaClock,
   FaEnvelope,
-  FaPaperPlane,
+  // FaPaperPlane,
 } from "react-icons/fa";
 
 const translations = {

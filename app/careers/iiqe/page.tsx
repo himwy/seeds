@@ -10,7 +10,7 @@ import {
   FaExternalLinkAlt,
   FaFileAlt,
   FaCheckCircle,
-  FaUsers,
+  // FaUsers,
   FaEnvelope,
 } from "react-icons/fa";
 

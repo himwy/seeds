@@ -30,7 +30,7 @@ export default function AdminPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState<Record<string, any> | null>(null);
+  // removed unused `user` state (was only being set, not used)
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -81,14 +81,35 @@ export default function AdminPage() {
     e.preventDefault();
     setMessage(null);
     try {
+      // If a session is already active, account.get() will succeed.
+      // Detect and handle to avoid "Creation of a session is prohibited when a session is active".
+      let existingUser: { email?: string } | null = null;
+      try {
+        existingUser = await account.get();
+      } catch {
+        // no active session
+        existingUser = null;
+      }
+
+      if (existingUser) {
+        // If the active session belongs to the requested email, reuse it.
+        if (existingUser.email === email) {
+          // proceed to role check below using existingUser
+        } else {
+          // Active session belongs to another user: clear it so we can create a new one.
+          await account.deleteSession("current");
+          existingUser = null;
+        }
+      }
+
       // Use SDK method if available (newer Appwrite SDKs).
-      if (typeof (account as any).createEmailSession === "function") {
-        await (account as any).createEmailSession(email, password);
-      } else {
+      const acc = account as unknown as { createEmailSession?: (email: string, password: string) => Promise<unknown> };
+      if (!existingUser) {
+        if (typeof acc.createEmailSession === "function") {
+          await acc.createEmailSession(email, password);
+        } else {
         // Fallback: call Appwrite REST endpoint for email/password sessions.
-        const endpoint =
-          process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT ||
-          "https://cloud.appwrite.io/v1";
+        const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1";
         const project = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "";
         const res = await fetch(`${endpoint}/account/sessions/email`, {
           method: "POST",
@@ -103,13 +124,14 @@ export default function AdminPage() {
           const err = await res.json().catch(() => ({}));
           throw new Error(err?.message || `Login failed (${res.status})`);
         }
+        }
       }
-      const userData = await account.get();
-      setUser(userData);
-      // Check for admin role (assume userData.labels contains 'admin')
+      const userData = existingUser ?? (await account.get());
+      // Narrow the shape before accessing optional properties
+      const ud = userData as { labels?: string[]; email?: string };
       const isAdmin =
-        userData.labels?.includes("admin") ||
-        userData.email === "admin@seeds.com";
+        (Array.isArray(ud.labels) && ud.labels.includes("admin")) ||
+        ud.email === "admin@seeds.com";
       if (!isAdmin) {
         setMessage({
           type: "error",
@@ -125,10 +147,11 @@ export default function AdminPage() {
       });
       setEmail("");
       setPassword("");
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const e = err as { message?: string };
       setMessage({
         type: "error",
-        text: err?.message || "Login failed. Access denied.",
+        text: e?.message || "Login failed. Access denied.",
       });
     }
   };
@@ -437,7 +460,7 @@ export default function AdminPage() {
       style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
     >
       {/* Mobile-First Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-50 pt-20">
+  <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             {/* Mobile Menu Button */}
@@ -482,23 +505,7 @@ export default function AdminPage() {
         </div>
       </div>
 
-      <div className="flex items-center space-x-4">
-        <button
-          onClick={() => setShowForm(true)}
-          className="bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center shadow-lg"
-          style={{ color: "white" }}
-        >
-          <FaPlus className="mr-2 text-white" />
-          <span className="text-white">Add Event</span>
-        </button>
-        <button
-          onClick={() => setIsLoggedIn(false)}
-          className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center shadow-lg"
-        >
-          <FaSignOutAlt className="mr-2" />
-          Logout
-        </button>
-      </div>
+  {/* Duplicate toolbar removed; top-right header controls are retained */}
 
       {/* Status Messages */}
       <AnimatePresence>
@@ -529,99 +536,7 @@ export default function AdminPage() {
         )}
       </AnimatePresence>
 
-      {/* Main Content */}
-      <div className="px-4 sm:px-6 lg:px-8 py-6">
-        {/* Events Grid */}
-        {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map((event) => (
-              <motion.div
-                key={event.$id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
-              >
-                {/* Event Image */}
-                <div className="relative h-48 bg-gray-100">
-                  {event.images && event.images.length > 0 ? (
-                    <Image
-                      src={event.images[0]}
-                      alt={event.name}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center h-full">
-                      <FaImage className="w-12 h-12 text-gray-400" />
-                    </div>
-                  )}
-                  <div className="absolute top-2 right-2">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        event.category === "recent"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-blue-100 text-blue-800"
-                      }`}
-                    >
-                      {event.category === "recent" ? "Recent" : "Past"}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Event Content */}
-                <div className="p-4">
-                  <h3 className="font-bold text-gray-900 mb-1 line-clamp-2">
-                    {event.name}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-2 line-clamp-1">
-                    {event.chineseName}
-                  </p>
-                  <p className="text-sm text-gray-500 mb-4">
-                    {new Date(event.date).toLocaleDateString()}
-                  </p>
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        setEditingEvent(event);
-                        setFormData({
-                          name: event.name,
-                          chineseName: event.chineseName,
-                          date: event.date,
-                          category: event.category,
-                        });
-                        setShowForm(true);
-                      }}
-                      className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
-                    >
-                      <FaEdit className="w-3 h-3" />
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => openImageManager(event)}
-                      className="flex-1 bg-gray-900 hover:bg-gray-800 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
-                    >
-                      <FaImages className="w-3 h-3" />
-                      Images
-                    </button>
-                    <button
-                      onClick={() => handleDelete(event.$id!)}
-                      className="bg-red-100 hover:bg-red-200 text-red-700 py-2 px-3 rounded-lg text-sm font-medium transition-colors"
-                    >
-                      <FaTrash className="w-3 h-3" />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </div>
+  {/* Main Content removed - using the polished gallery below to avoid duplicate UIs */}
 
       {/* Event Form Modal */}
       {showForm && (
