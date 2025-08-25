@@ -32,11 +32,11 @@ export default function Navbar() {
       icon: <FaInfoCircle className="w-5 h-5" />,
       submenu: [
         {
-          title: t.navbar.aboutItems?.aboutCompany || "About the Company",
+          title: t.navbar.aboutItems.aboutCompany,
           path: "/about",
         },
         {
-          title: t.navbar.aboutItems?.ourTeam || "Our Team",
+          title: t.navbar.aboutItems.ourTeam,
           path: "/team",
         },
       ],
@@ -58,18 +58,8 @@ export default function Navbar() {
     },
     {
       title: t.navbar.caseStudies,
-      path: "#", // Changed to non-clickable
+      path: "/case-studies/client-stories",
       icon: <FaBriefcase className="w-5 h-5" />,
-      submenu: [
-        {
-          title: t.navbar.caseStudiesItems.clientStories,
-          path: "/case-studies/client-stories",
-        },
-        {
-          title: t.navbar.caseStudiesItems.academicCases,
-          path: "/case-studies/academic",
-        },
-      ],
     },
     {
       title: t.navbar.career,
@@ -81,7 +71,7 @@ export default function Navbar() {
           path: "/careers",
         },
         {
-          title: "IIQE",
+          title: t.navbar.iiqe,
           path: "/careers/iiqe",
         },
       ],
@@ -92,20 +82,14 @@ export default function Navbar() {
       icon: <FaCalendarAlt className="w-5 h-5" />,
       submenu: [
         {
-          title: t.navbar.eventsItems?.recentEvents || "Recent Events",
+          title: t.navbar.eventsItems.recentEvents,
           path: "/events/recent",
         },
         {
-          title: t.navbar.eventsItems?.pastEvents || "Past Events",
+          title: t.navbar.eventsItems.pastEvents,
           path: "/events/past",
         },
       ],
-    },
-    {
-      title: t.navbar.contact,
-      path: "/contact",
-      icon: <FaEnvelope className="w-5 h-5" />,
-      submenu: [],
     },
   ];
 
@@ -231,104 +215,261 @@ export default function Navbar() {
           <div className="md:hidden flex items-center">
             <LanguageSwitcher />
             <button
-              className="text-dark-gray hover:text-primary focus:outline-none ml-2 p-1 transition-colors"
+              className="text-dark-gray hover:text-primary focus:outline-none ml-2 p-2 rounded-lg hover:bg-gray-50 transition-all duration-300 relative"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
-              {isMenuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+              <div className="relative w-6 h-6 flex items-center justify-center">
+                <span
+                  className={`absolute w-5 h-0.5 bg-current transition-all duration-300 ${
+                    isMenuOpen ? "rotate-45 translate-y-0" : "translate-y-1.5"
+                  }`}
+                />
+                <span
+                  className={`absolute w-5 h-0.5 bg-current transition-all duration-300 ${
+                    isMenuOpen ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+                <span
+                  className={`absolute w-5 h-0.5 bg-current transition-all duration-300 ${
+                    isMenuOpen ? "-rotate-45 translate-y-0" : "-translate-y-1.5"
+                  }`}
+                />
+              </div>
             </button>
           </div>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div
-            ref={mobileMenuRef}
-            className="md:hidden fixed left-0 right-0 bg-white z-50 overflow-y-auto shadow-lg"
-            style={{
-              width: "100%",
-              top: isScrolled ? "54px" : "62px", // Reduced top position to eliminate gap
-              height: `calc(100vh - ${isScrolled ? "54px" : "62px"})`,
-              maxHeight: "100vh",
-              borderTopWidth: "0",
-              animation: "slideInUp 0.3s ease-out forwards",
-            }}
-          >
-            <div className="px-4 py-2">
-              <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
-              <nav className="flex flex-col">
-                {menuItems.map((item) => (
-                  <div
-                    key={item.title}
-                    className="border-b border-gray-200 py-3"
-                  >
-                    {item.submenu && item.submenu.length > 0 ? (
-                      // Items with dropdown
-                      <>
-                        <button
-                          className="flex justify-between items-center w-full text-left text-dark-gray hover:text-primary transition-colors"
-                          onClick={() => toggleMobileSubmenu(item.title)}
+          <>
+            {/* Professional backdrop overlay */}
+            <div
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
+              onClick={() => setIsMenuOpen(false)}
+              style={{
+                animation: "fadeIn 0.3s ease-out forwards",
+              }}
+            />
+
+            {/* Professional mobile menu */}
+            <div
+              ref={mobileMenuRef}
+              className="md:hidden fixed left-3 right-3 bg-white z-50 rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
+              style={{
+                top: isScrolled ? "68px" : "76px",
+                maxHeight: `calc(100vh - ${isScrolled ? "88px" : "96px"})`,
+                animation:
+                  "slideInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+              }}
+            >
+              {/* Elegant header */}
+              <div className="px-6 py-4 border-b border-gray-100">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {t.navbar.menu}
+                  </h3>
+                  <div className="w-8 h-1 bg-gray-300 rounded-full"></div>
+                </div>
+              </div>
+
+              {/* Professional navigation */}
+              <div
+                className="overflow-y-auto"
+                style={{ maxHeight: "calc(100vh - 200px)" }}
+              >
+                <nav className="px-2 py-4">
+                  {menuItems.map((item, index) => (
+                    <div
+                      key={item.title}
+                      className="mb-1"
+                      style={{
+                        animation: `slideInLeft 0.4s ease-out ${
+                          index * 0.05
+                        }s both`,
+                      }}
+                    >
+                      {item.submenu && item.submenu.length > 0 ? (
+                        // Items with dropdown - sophisticated design
+                        <>
+                          <button
+                            className="group flex justify-between items-center w-full text-left px-4 py-3 rounded-xl hover:bg-gray-50 transition-all duration-300 hover:shadow-sm"
+                            onClick={() => toggleMobileSubmenu(item.title)}
+                          >
+                            <div className="flex items-center">
+                              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-gray-100 to-gray-50 group-hover:from-blue-50 group-hover:to-indigo-50 transition-all duration-300 mr-3">
+                                <span className="text-gray-600 group-hover:text-blue-600 transition-colors duration-300">
+                                  {item.icon}
+                                </span>
+                              </div>
+                              <div>
+                                <span className="font-medium text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
+                                  {item.title}
+                                </span>
+                                <div className="text-xs text-gray-500 mt-0.5">
+                                  {item.submenu.length}{" "}
+                                  {item.submenu.length === 1
+                                    ? t.navbar.item
+                                    : t.navbar.itemsCount}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex items-center">
+                              <FaAngleDown
+                                className={`w-4 h-4 transition-all duration-300 text-gray-400 ${
+                                  expandedMobileItems.includes(item.title)
+                                    ? "rotate-180 text-blue-600"
+                                    : "group-hover:text-gray-600"
+                                }`}
+                              />
+                            </div>
+                          </button>
+
+                          {expandedMobileItems.includes(item.title) && (
+                            <div
+                              className="ml-4 mt-2 mb-2 space-y-1 pl-4 border-l-2 border-gradient-to-b from-blue-500 to-indigo-500 rounded-l"
+                              style={{
+                                animation: "expandDown 0.3s ease-out forwards",
+                                borderImage:
+                                  "linear-gradient(to bottom, #3b82f6, #6366f1) 1",
+                              }}
+                            >
+                              {item.submenu.map((subItem, subIndex) => (
+                                <Link
+                                  key={subItem.title}
+                                  href={subItem.path}
+                                  className="group flex items-center py-2.5 px-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300"
+                                  onClick={() => setIsMenuOpen(false)}
+                                  style={{
+                                    animation: `slideInSubitem 0.3s ease-out ${
+                                      subIndex * 0.05
+                                    }s both`,
+                                  }}
+                                >
+                                  <div className="w-2 h-2 rounded-full bg-gray-300 group-hover:bg-blue-500 transition-colors duration-300 mr-3"></div>
+                                  <span className="font-medium">
+                                    {subItem.title}
+                                  </span>
+                                  <FaAngleRight className="w-3 h-3 ml-auto text-gray-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all duration-300" />
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        // Regular clickable items - elegant design
+                        <Link
+                          href={item.path}
+                          className="group flex items-center px-4 py-3 text-gray-800 hover:text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 rounded-xl transition-all duration-300 hover:shadow-sm"
+                          onClick={() => setIsMenuOpen(false)}
                         >
-                          <div className="flex items-center">
-                            <span className="mr-2 text-primary">
+                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-gray-100 to-gray-50 group-hover:from-blue-50 group-hover:to-indigo-50 transition-all duration-300 mr-3">
+                            <span className="text-gray-600 group-hover:text-blue-600 transition-colors duration-300">
                               {item.icon}
                             </span>
-                            <span className="font-medium">{item.title}</span>
                           </div>
-                          <FaAngleDown
-                            className={`w-4 h-4 transition-transform duration-200 text-primary ${
-                              expandedMobileItems.includes(item.title)
-                                ? "rotate-180"
-                                : ""
-                            }`}
-                          />
-                        </button>
+                          <span className="font-medium flex-1">
+                            {item.title}
+                          </span>
+                          <FaAngleRight className="w-4 h-4 text-gray-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all duration-300" />
+                        </Link>
+                      )}
+                    </div>
+                  ))}
+                </nav>
+              </div>
 
-                        {expandedMobileItems.includes(item.title) && (
-                          <div className="ml-7 mt-3 space-y-3 pl-2 border-l-2 border-primary">
-                            {item.submenu.map((subItem) => (
-                              <Link
-                                key={subItem.title}
-                                href={subItem.path}
-                                className="flex items-center py-2 text-gray-700 hover:text-primary transition-colors"
-                                onClick={() => setIsMenuOpen(false)}
-                              >
-                                <FaAngleRight className="w-3 h-3 mr-2 text-primary" />
-                                {subItem.title}
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </>
-                    ) : (
-                      // Regular clickable items without dropdown
-                      <Link
-                        href={item.path}
-                        className="flex items-center text-dark-gray hover:text-primary transition-colors py-1"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        <span className="mr-2 text-primary">{item.icon}</span>
-                        <span className="font-medium">{item.title}</span>
-                      </Link>
-                    )}
-                  </div>
-                ))}
-              </nav>
+              {/* Professional footer */}
+              <div className="px-6 py-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl">
+                <div className="text-center">
+                  <p className="text-xs text-gray-500">Seeds Financial Group</p>
+                </div>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
 
       <style jsx global>{`
-        @keyframes slideInUp {
+        @keyframes fadeIn {
           from {
-            transform: translateY(10%);
             opacity: 0;
           }
           to {
-            transform: translateY(0);
             opacity: 1;
           }
+        }
+
+        @keyframes slideInUp {
+          from {
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+          }
+        }
+
+        @keyframes slideInLeft {
+          from {
+            transform: translateX(-20px);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes expandDown {
+          from {
+            max-height: 0;
+            opacity: 0;
+          }
+          to {
+            max-height: 300px;
+            opacity: 1;
+          }
+        }
+
+        @keyframes slideInSubitem {
+          from {
+            transform: translateX(-15px);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        /* Professional gradient border */
+        .border-gradient-to-b {
+          border-image: linear-gradient(to bottom, #3b82f6, #6366f1) 1;
+        }
+
+        /* Smooth scroll */
+        .overflow-y-auto {
+          scrollbar-width: thin;
+          scrollbar-color: #cbd5e1 transparent;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+          background-color: #cbd5e1;
+          border-radius: 2px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+          background-color: #94a3b8;
         }
       `}</style>
     </header>

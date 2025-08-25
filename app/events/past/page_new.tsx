@@ -10,50 +10,52 @@ import {
   FaEye,
   FaArrowRight,
   FaFilter,
+  FaHistory,
 } from "react-icons/fa";
 import { EventsService, Event } from "../../lib/eventsService";
 
 const translations = {
   en: {
-    pageTitle: "Recent Events",
-    heroSubtitle: "Celebrating Our Journey",
+    pageTitle: "Past Events",
+    heroSubtitle: "Our Legacy & Memories",
     heroDescription:
-      "Explore our latest milestones, achievements, and memorable moments that shape our company's legacy.",
+      "Journey through our cherished memories and unforgettable moments that have shaped our company's rich history.",
     viewGallery: "View Gallery",
-    noEvents: "No recent events yet",
+    noEvents: "No past events yet",
     loading: "Loading events...",
     error: "Unable to load events",
     photosCount: "photos",
-    eventsTitle: "Recent Events",
+    eventsTitle: "Past Events",
     sortBy: "Sort by",
     sortNewest: "Newest First",
     sortOldest: "Oldest First",
     stayTuned: "Stay tuned for exciting new events!",
     tryAgain: "Try Again",
     exploreEvent: "Explore Event",
-    recentActivity: "Recent Activity",
+    recentActivity: "Past Activity",
   },
   "zh-HK": {
-    pageTitle: "最近活動",
-    heroSubtitle: "慶祝我們的旅程",
-    heroDescription: "探索我們最新的里程碑、成就和塑造公司傳承的難忘時刻。",
+    pageTitle: "過往活動",
+    heroSubtitle: "我們的傳承與回憶",
+    heroDescription:
+      "穿越我們珍貴的回憶和難忘的時刻，這些塑造了我們公司豐富的歷史。",
     viewGallery: "查看相冊",
-    noEvents: "暫無最近活動",
+    noEvents: "暫無過往活動",
     loading: "載入活動中...",
     error: "無法載入活動",
     photosCount: "張相片",
-    eventsTitle: "最近活動",
+    eventsTitle: "過往活動",
     sortBy: "排序方式",
     sortNewest: "最新優先",
     sortOldest: "最舊優先",
     stayTuned: "敬請期待精彩的新活動！",
     tryAgain: "重試",
     exploreEvent: "探索活動",
-    recentActivity: "最近活動",
+    recentActivity: "過往活動",
   },
 };
 
-export default function RecentEventsPage() {
+export default function PastEventsPage() {
   const { language } = useLanguage();
   const t = translations[language];
 
@@ -70,7 +72,7 @@ export default function RecentEventsPage() {
     try {
       setLoading(true);
       setError(null);
-      const eventsData = await EventsService.getEventsByCategory("recent");
+      const eventsData = await EventsService.getEventsByCategory("past");
       setEvents(eventsData);
     } catch (err) {
       setError(t.error);
@@ -147,7 +149,7 @@ export default function RecentEventsPage() {
           ) : events.length === 0 ? (
             <div className="text-center py-24">
               <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-8">
-                <FaCalendarAlt className="text-3xl text-gray-600" />
+                <FaHistory className="text-3xl text-gray-600" />
               </div>
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
                 {t.noEvents}

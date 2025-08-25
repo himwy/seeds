@@ -19,14 +19,19 @@ const translations = {
   en: {
     title: "Critical Illness Insurance Claim Resolution",
     subtitle: "How AIA's Customer-Centric Approach Made the Difference",
-    backToStories: "Back to Client Stories",
+    backToStories: "Back to Case Studies",
     overview: "Case Overview",
     challenge: "The Challenge",
     solution: "Our Approach",
     outcome: "The Outcome",
     keyLearnings: "Key Learnings",
+    caseDetails: "Case Details",
+    client: "Client",
+    industry: "Industry",
+    duration: "Duration",
+    services: "Services",
 
-    caseDetails: {
+    caseDetailsInfo: {
       client: "Cervical Cancer Patient",
       industry: "Healthcare & Insurance",
       duration: "6 months",
@@ -84,19 +89,27 @@ const translations = {
       "Corporate philosophy directly impacts customer experience and satisfaction",
       "Serving and protecting customers should be the priority over policy technicalities",
     ],
+
+    caseConclusion:
+      "This case demonstrates how corporate philosophy and customer-centric approaches can make a significant difference in critical moments. When conflicting medical reports created uncertainty, two insurance companies with different philosophies responded very differently, showcasing the importance of putting customer protection first.",
   },
 
   "zh-HK": {
     title: "危疾保險理賠解決方案",
     subtitle: "友邦保險以客戶為中心的方法如何發揮作用",
-    backToStories: "返回客戶故事",
+    backToStories: "返回案例研究",
     overview: "案例概覽",
     challenge: "挑戰",
     solution: "我們的方法",
     outcome: "結果",
     keyLearnings: "重要學習",
+    caseDetails: "案例詳情",
+    client: "客戶",
+    industry: "行業",
+    duration: "持續時間",
+    services: "服務",
 
-    caseDetails: {
+    caseDetailsInfo: {
       client: "子宮頸癌患者",
       industry: "醫療保健與保險",
       duration: "6個月",
@@ -154,6 +167,9 @@ const translations = {
       "企業理念直接影響客戶體驗和滿意度",
       "服務和保護客戶應該優先於保單技術細節",
     ],
+
+    caseConclusion:
+      "這個案例展示了企業理念和以客戶為中心的方法如何在關鍵時刻產生重大差異。當相互矛盾的醫療報告造成不確定性時，兩家具有不同理念的保險公司的反應截然不同，突顯了將客戶保護放在首位的重要性。",
   },
 };
 
@@ -208,14 +224,7 @@ export default function CervicalCancerClaimPage() {
                 {t.overview}
               </h2>
               <div className="prose max-w-none text-gray-600">
-                <p className="text-lg leading-relaxed">
-                  This case demonstrates how corporate philosophy and
-                  customer-centric approaches can make a significant difference
-                  in critical moments. When conflicting medical reports created
-                  uncertainty, two insurance companies with different
-                  philosophies responded very differently, showcasing the
-                  importance of putting customer protection first.
-                </p>
+                <p className="text-lg leading-relaxed">{t.caseConclusion}</p>
               </div>
             </motion.section>
 
@@ -310,31 +319,31 @@ export default function CervicalCancerClaimPage() {
               className="bg-white rounded-lg shadow-lg p-6 sticky top-8 border border-gray-200"
             >
               <h3 className="text-lg font-bold text-gray-800 mb-4 font-serif">
-                Case Details
+                {t.caseDetails}
               </h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-500">Client</p>
+                  <p className="text-sm text-gray-500">{t.client}</p>
                   <p className="font-semibold text-gray-800">
-                    {t.caseDetails.client}
+                    {t.caseDetailsInfo.client}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Industry</p>
+                  <p className="text-sm text-gray-500">{t.industry}</p>
                   <p className="font-semibold text-gray-800">
-                    {t.caseDetails.industry}
+                    {t.caseDetailsInfo.industry}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Duration</p>
+                  <p className="text-sm text-gray-500">{t.duration}</p>
                   <p className="font-semibold text-gray-800">
-                    {t.caseDetails.duration}
+                    {t.caseDetailsInfo.duration}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Services</p>
+                  <p className="text-sm text-gray-500">{t.services}</p>
                   <p className="font-semibold text-gray-800">
-                    {t.caseDetails.services}
+                    {t.caseDetailsInfo.services}
                   </p>
                 </div>
               </div>

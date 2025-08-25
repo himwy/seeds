@@ -5,10 +5,7 @@ import { useLanguage } from "../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  FaUsers,
-  FaAward,
-} from "react-icons/fa";
+import { FaUsers, FaAward } from "react-icons/fa";
 
 const translations = {
   en: {

@@ -17,19 +17,20 @@ import {
   FaImages,
   FaSignOutAlt,
   FaCloudUploadAlt,
+  FaBars,
+  // FaEye,
+  // FaChevronDown,
 } from "react-icons/fa";
 import { EventsService, Event } from "../lib/eventsService";
 import Image from "next/image";
-
-const ADMIN_CREDENTIALS = {
-  username: "admin",
-  password: "seeds123",
-};
+import { motion, AnimatePresence } from "framer-motion";
+import { account } from "../lib/appwrite";
 
 export default function AdminPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState<Record<string, any> | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -40,6 +41,8 @@ export default function AdminPage() {
     type: "success" | "error";
     text: string;
   } | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  // const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -52,7 +55,6 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      // Validate configuration first
       const validation = EventsService.validateConfiguration();
       if (!validation.isValid) {
         setMessage({
@@ -63,7 +65,6 @@ export default function AdminPage() {
         });
         return;
       }
-
       loadEvents();
     }
   }, [isLoggedIn]);
@@ -75,23 +76,59 @@ export default function AdminPage() {
     }
   }, [message]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  // Appwrite login and role check
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      username === ADMIN_CREDENTIALS.username &&
-      password === ADMIN_CREDENTIALS.password
-    ) {
+    setMessage(null);
+    try {
+      // Use SDK method if available (newer Appwrite SDKs).
+      if (typeof (account as any).createEmailSession === "function") {
+        await (account as any).createEmailSession(email, password);
+      } else {
+        // Fallback: call Appwrite REST endpoint for email/password sessions.
+        const endpoint =
+          process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT ||
+          "https://cloud.appwrite.io/v1";
+        const project = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "";
+        const res = await fetch(`${endpoint}/account/sessions/email`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Appwrite-Project": project,
+          },
+          body: JSON.stringify({ email, password }),
+          credentials: "include",
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err?.message || `Login failed (${res.status})`);
+        }
+      }
+      const userData = await account.get();
+      setUser(userData);
+      // Check for admin role (assume userData.labels contains 'admin')
+      const isAdmin =
+        userData.labels?.includes("admin") ||
+        userData.email === "admin@seeds.com";
+      if (!isAdmin) {
+        setMessage({
+          type: "error",
+          text: "You do not have admin permissions.",
+        });
+        await account.deleteSession("current");
+        return;
+      }
       setIsLoggedIn(true);
-      setUsername("");
-      setPassword("");
       setMessage({
         type: "success",
         text: "Successfully logged in to admin panel",
       });
-    } else {
+      setEmail("");
+      setPassword("");
+    } catch (err: any) {
       setMessage({
         type: "error",
-        text: "Invalid username or password. Access denied.",
+        text: err?.message || "Login failed. Access denied.",
       });
     }
   };
@@ -139,18 +176,21 @@ export default function AdminPage() {
 
   const removeImageFromEvent = async (imageUrl: string) => {
     if (!editingEvent) return;
-
     try {
       setLoading(true);
+      // Extract file ID from Appwrite preview URL (assumes /buckets/{bucketId}/files/{fileId}/...)
+      const match = imageUrl.match(/\/files\/(.*?)\//);
+      const fileId = match ? match[1] : null;
+      if (fileId) {
+        await EventsService.deleteImageFile(fileId);
+      }
       const updatedImages = currentEventImages.filter(
         (img) => img !== imageUrl
       );
-
       await EventsService.updateEvent(editingEvent.$id!, {
         ...editingEvent,
         images: updatedImages,
       });
-
       setCurrentEventImages(updatedImages);
       setMessage({ type: "success", text: "Image removed successfully" });
       await loadEvents(); // Refresh events list
@@ -256,7 +296,7 @@ export default function AdminPage() {
       )
     ) {
       try {
-        await EventsService.deleteEvent(eventId);
+        await EventsService.deleteEventWithImages(eventId);
         setMessage({ type: "success", text: "Event deleted successfully" });
         loadEvents();
       } catch (err) {
@@ -282,174 +322,306 @@ export default function AdminPage() {
     setEditingEvent(null);
   };
 
-  // Sophisticated Login Interface
+  // Professional Login Screen
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4 pt-24">
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 w-full max-w-md overflow-hidden">
-          {/* Elegant Header */}
-          <div className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-6">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
-                <FaLock className="text-2xl text-white" />
-              </div>
-              <h1 className="text-2xl font-bold mb-2">Administrator Portal</h1>
-              <p className="text-blue-100 text-sm font-medium">
-                Seeds Financial Group
-              </p>
-            </div>
+      <div
+        className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4"
+        style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+        >
+          {/* Header */}
+          <div className="bg-gray-900 px-8 py-6 text-center">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <FaLock className="w-8 h-8 text-gray-900" />
+            </motion.div>
+            <h1 className="text-2xl font-bold text-white mb-2">Admin Portal</h1>
+            <p className="text-gray-300">Seeds Financial Group</p>
           </div>
-
           {/* Login Form */}
           <div className="p-8">
             <div className="text-center mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                Secure Access Required
+              <h2 className="text-xl font-bold text-gray-900 mb-2">
+                Secure Access
               </h2>
               <p className="text-gray-600 text-sm">
-                Enter your credentials to manage events and content
+                Enter credentials to access the management system
               </p>
             </div>
-
-            {message && (
-              <div
-                className={`mb-6 p-4 rounded-xl text-sm font-medium ${
-                  message.type === "error"
-                    ? "bg-red-50 text-red-700 border border-red-200"
-                    : "bg-green-50 text-green-700 border border-green-200"
-                }`}
-              >
-                <div className="flex items-center">
-                  {message.type === "error" ? (
-                    <FaExclamationTriangle className="mr-3 text-lg" />
-                  ) : (
-                    <FaCheck className="mr-3 text-lg" />
-                  )}
-                  {message.text}
-                </div>
-              </div>
-            )}
-
+            <AnimatePresence>
+              {message && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className={`mb-6 p-4 rounded-lg text-sm font-medium ${
+                    message.type === "error"
+                      ? "bg-red-50 text-red-700 border border-red-200"
+                      : "bg-green-50 text-green-700 border border-green-200"
+                  }`}
+                >
+                  <div className="flex items-center">
+                    {message.type === "error" ? (
+                      <FaExclamationTriangle className="mr-3 text-lg" />
+                    ) : (
+                      <FaCheck className="mr-3 text-lg" />
+                    )}
+                    {message.text}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
             <form onSubmit={handleLogin} className="space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  Username
+                  Email
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                    <FaUser className="text-gray-400" />
-                  </div>
+                  <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <input
-                    type="text"
-                    placeholder="Enter username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors bg-white text-gray-900"
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all bg-white text-gray-900"
                     required
                   />
                 </div>
               </div>
-
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
                   Password
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                    <FaLock className="text-gray-400" />
-                  </div>
+                  <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <input
                     type="password"
                     placeholder="Enter password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors bg-white text-gray-900 placeholder-gray-500"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all bg-white text-gray-900"
                     required
                   />
                 </div>
               </div>
-
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center"
+                className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center"
               >
                 <FaUser className="mr-2" />
-                Access Admin Panel
+                Access Dashboard
               </button>
             </form>
-
             <div className="mt-6 text-center text-xs text-gray-500">
-              Authorized personnel only. All access is logged and monitored.
+              Authorized personnel only • All access monitored
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     );
   }
 
-  // Sophisticated Admin Dashboard
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 pt-20">
-      {/* Elegant Header - Fixed to avoid navbar blocking */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-gray-200/50 shadow-lg sticky top-16 z-40">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+    <div
+      className="min-h-screen bg-gray-50"
+      style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
+    >
+      {/* Mobile-First Header */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-50 pt-20">
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-4">
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="lg:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              <FaBars className="w-5 h-5 text-gray-600" />
+            </button>
+
+            {/* Header Content */}
             <div className="flex items-center">
-              <div className="bg-gradient-to-r from-primary to-secondary p-3 rounded-xl mr-4">
-                <FaCog className="text-2xl text-white" />
+              <div className="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center mr-3">
+                <FaCog className="w-5 h-5 text-white" />
               </div>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-800">
-                  Events Management
+              <div className="hidden sm:block">
+                <h1 className="text-xl font-bold text-gray-900">
+                  Admin Portal
                 </h1>
-                <p className="text-gray-600 font-medium">
-                  Seeds Financial Group Admin Portal
-                </p>
+                <p className="text-sm text-gray-600">Events Management</p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-4">
+            {/* Action Buttons */}
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowForm(true)}
-                className="bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center shadow-lg"
-                style={{ color: "white" }}
+                className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
               >
-                <FaPlus className="mr-2 text-white" />
-                <span className="text-white">Add Event</span>
+                <FaPlus className="w-4 h-4" />
+                <span className="hidden sm:inline">Add Event</span>
               </button>
               <button
                 onClick={() => setIsLoggedIn(false)}
-                className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center shadow-lg"
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
               >
-                <FaSignOutAlt className="mr-2" />
-                Logout
+                <FaSignOutAlt className="w-4 h-4" />
+                <span className="hidden sm:inline">Logout</span>
               </button>
             </div>
           </div>
         </div>
       </div>
 
+      <div className="flex items-center space-x-4">
+        <button
+          onClick={() => setShowForm(true)}
+          className="bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center shadow-lg"
+          style={{ color: "white" }}
+        >
+          <FaPlus className="mr-2 text-white" />
+          <span className="text-white">Add Event</span>
+        </button>
+        <button
+          onClick={() => setIsLoggedIn(false)}
+          className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center shadow-lg"
+        >
+          <FaSignOutAlt className="mr-2" />
+          Logout
+        </button>
+      </div>
+
       {/* Status Messages */}
-      {message && (
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 mt-6">
-          <div
-            className={`p-4 rounded-xl shadow-lg ${
-              message.type === "error"
-                ? "bg-red-50 text-red-700 border border-red-200"
-                : "bg-green-50 text-green-700 border border-green-200"
-            }`}
+      <AnimatePresence>
+        {message && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="px-4 sm:px-6 lg:px-8 pt-4"
           >
-            <div className="flex items-center">
-              {message.type === "error" ? (
-                <FaExclamationTriangle className="mr-3 text-lg" />
-              ) : (
-                <FaCheck className="mr-3 text-lg" />
-              )}
-              <span className="font-medium">{message.text}</span>
+            <div
+              className={`p-4 rounded-lg shadow-sm ${
+                message?.type === "error"
+                  ? "bg-red-50 text-red-700 border border-red-200"
+                  : "bg-green-50 text-green-700 border border-green-200"
+              }`}
+            >
+              <div className="flex items-center">
+                {message?.type === "error" ? (
+                  <FaExclamationTriangle className="mr-3 text-lg flex-shrink-0" />
+                ) : (
+                  <FaCheck className="mr-3 text-lg flex-shrink-0" />
+                )}
+                <span className="font-medium">{message?.text ?? ""}</span>
+              </div>
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main Content */}
+      <div className="px-4 sm:px-6 lg:px-8 py-6">
+        {/* Events Grid */}
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {events.map((event) => (
+              <motion.div
+                key={event.$id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+              >
+                {/* Event Image */}
+                <div className="relative h-48 bg-gray-100">
+                  {event.images && event.images.length > 0 ? (
+                    <Image
+                      src={event.images[0]}
+                      alt={event.name}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <FaImage className="w-12 h-12 text-gray-400" />
+                    </div>
+                  )}
+                  <div className="absolute top-2 right-2">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        event.category === "recent"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-blue-100 text-blue-800"
+                      }`}
+                    >
+                      {event.category === "recent" ? "Recent" : "Past"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Event Content */}
+                <div className="p-4">
+                  <h3 className="font-bold text-gray-900 mb-1 line-clamp-2">
+                    {event.name}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-2 line-clamp-1">
+                    {event.chineseName}
+                  </p>
+                  <p className="text-sm text-gray-500 mb-4">
+                    {new Date(event.date).toLocaleDateString()}
+                  </p>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        setEditingEvent(event);
+                        setFormData({
+                          name: event.name,
+                          chineseName: event.chineseName,
+                          date: event.date,
+                          category: event.category,
+                        });
+                        setShowForm(true);
+                      }}
+                      className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                    >
+                      <FaEdit className="w-3 h-3" />
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => openImageManager(event)}
+                      className="flex-1 bg-gray-900 hover:bg-gray-800 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                    >
+                      <FaImages className="w-3 h-3" />
+                      Images
+                    </button>
+                    <button
+                      onClick={() => handleDelete(event.$id!)}
+                      className="bg-red-100 hover:bg-red-200 text-red-700 py-2 px-3 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      <FaTrash className="w-3 h-3" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Event Form Modal */}
       {showForm && (
@@ -603,13 +775,13 @@ export default function AdminPage() {
               )}
 
               {/* Existing Photos */}
-              {editingEvent && editingEvent.images.length > 0 && (
+              {(editingEvent?.images?.length ?? 0) > 0 && (
                 <div>
                   <label className="block text-sm font-semibold text-gray-800 mb-4">
-                    Current Photos ({editingEvent.images.length})
+                    Current Photos ({editingEvent?.images?.length ?? 0})
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {editingEvent.images.map((url, index) => (
+                    {(editingEvent?.images ?? []).map((url, index) => (
                       <img
                         key={index}
                         src={url}
@@ -792,7 +964,7 @@ export default function AdminPage() {
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="text-2xl font-bold">Manage Album</h3>
-                  <p className="text-blue-100">{editingEvent.name}</p>
+                  <p className="text-blue-100">{editingEvent?.name ?? ""}</p>
                 </div>
                 <button
                   onClick={() => setShowImageManager(false)}

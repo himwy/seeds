@@ -16,7 +16,7 @@ const translations = {
   en: {
     title: "Ms Wendy Lee's Words",
     subtitle: "In Memory of Joshua - A Client Who Changed Everything",
-    backToStories: "Back to Client Stories",
+    backToStories: "Back to Case Studies",
     videoTitle: "Joshua's Wife Shares Her Thoughts",
     videoDescription:
       "Hope this can bring a positive message to everyone about insurance and hope all the financial planners will be proud of what they do.",

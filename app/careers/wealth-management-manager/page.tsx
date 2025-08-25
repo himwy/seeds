@@ -26,23 +26,22 @@ const translations = {
     keyResponsibilities: "Key Responsibilities",
     requirements: "Requirements",
     whatWeOffer: "What We Offer",
-    readyToApply: "Ready to Apply?",
-    applyDescription: "Send us your resume and cover letter to start your journey with us.",
-    applyNow: "Apply Now",
-    askQuestions: "Ask Questions",
+    contactUs: "Contact Us",
+    emailDescription: "For applications and inquiries, please email:",
+    emailAddress: "hr@actiondoitnow.com",
     backToCareers: "Back to Careers",
-    
+
     description: [
       "Seeds Financial Group partners with one of the world's largest financial groups to provide advisory services using comprehensive risk management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
       "With wealth management continuing to be a fast-growing industry in Hong Kong and China, we are looking for ambitious individuals to join our dynamic team.",
-      "Candidates who are transitioning and looking for a career change from different industries are welcome. Applicants with less experience will be considered for manager/executive positions."
+      "Candidates who are transitioning and looking for a career change from different industries are welcome. Applicants with less experience will be considered for manager/executive positions.",
     ],
-    
+
     responsibilities: [
       "Your responsibilities include but are not limited to providing wealth planning advice, risk management, investment planning, estate planning and retirement planning for Hong Kong and Mainland exclusive clients",
-      "You will also be responsible for nurturing existing clients and developing new business"
+      "You will also be responsible for nurturing existing clients and developing new business",
     ],
-    
+
     qualifications: [
       "Degree holder",
       "Fluent in Cantonese and Mandarin (English is a plus)",
@@ -50,27 +49,27 @@ const translations = {
       "Great interpersonal skills",
       "Valid working visa",
       "Passionate about life and building a brighter future",
-      "Candidates transitioning from different industries welcome"
+      "Candidates transitioning from different industries welcome",
     ],
-    
+
     benefits: [
       {
         title: "Excellent Training",
-        description: "Local and overseas conventions."
+        description: "Local and overseas conventions.",
       },
       {
         title: "Fast Career Progression",
-        description: "Flexibility to help you enjoy work-life balance."
+        description: "Flexibility to help you enjoy work-life balance.",
       },
       {
         title: "Attractive Package",
-        description: "Performance bonuses and commission. Five-day work week."
+        description: "Performance bonuses and commission. Five-day work week.",
       },
       {
         title: "Professional Development",
-        description: "Work with one of the world's largest financial groups."
-      }
-    ]
+        description: "Work with one of the world's largest financial groups.",
+      },
+    ],
   },
   "zh-HK": {
     pageTitle: "財富策劃經理",
@@ -80,23 +79,22 @@ const translations = {
     keyResponsibilities: "主要職責",
     requirements: "職位要求",
     whatWeOffer: "我們提供",
-    readyToApply: "準備申請？",
-    applyDescription: "請將您的履歷和求職信發送給我們，開始您的職業旅程。",
-    applyNow: "立即申請",
-    askQuestions: "提出問題",
+    contactUs: "聯絡我們",
+    emailDescription: "申請和查詢，請發送電子郵件至：",
+    emailAddress: "hr@actiondoitnow.com",
     backToCareers: "返回職業發展",
-    
+
     description: [
       "Seeds Financial Group 與世界上最大的金融集團之一合作，使用廣泛的風險管理、戰略和資產配置計劃提供諮詢服務，使我們的客戶能夠實現其財務目標和未來需求。",
       "隨著財富管理在香港和中國繼續成為一個快速發展的行業，我們目前正在尋找一位雄心勃勃的人加入我們充滿活力的團隊。",
-      "歡迎正在過渡並尋求不同行業職業轉變的候選人。經驗較少的申請人將被考慮擔任經理/行政職位。"
+      "歡迎正在過渡並尋求不同行業職業轉變的候選人。經驗較少的申請人將被考慮擔任經理/行政職位。",
     ],
-    
+
     responsibilities: [
       "您的職責包括但不限於為香港及內地獨家客戶提供財富規劃建議、風險管理、投資規劃、遺產規劃和退休計劃",
-      "您還將負責培養現有客戶以及開發新業務"
+      "您還將負責培養現有客戶以及開發新業務",
     ],
-    
+
     qualifications: [
       "學位持有者",
       "能流利地閱讀和書寫廣東話和普通話（英語是加分項）",
@@ -104,28 +102,28 @@ const translations = {
       "有很好的人際交往能力",
       "有效的工作簽證",
       "對生活充滿熱情，建設更光明的未來",
-      "歡迎正在過渡並尋求不同行業職業轉變的候選人"
+      "歡迎正在過渡並尋求不同行業職業轉變的候選人",
     ],
-    
+
     benefits: [
       {
         title: "出色的培訓",
-        description: "本地和海外會議。"
+        description: "本地和海外會議。",
       },
       {
         title: "快速的職業發展",
-        description: "幫助您享受工作與生活平衡的靈活性。"
+        description: "幫助您享受工作與生活平衡的靈活性。",
       },
       {
         title: "有吸引力的套餐",
-        description: "績效獎金和佣金。每週工作五天。"
+        description: "績效獎金和佣金。每週工作五天。",
       },
       {
         title: "專業發展",
-        description: "與世界上最大的金融集團之一合作。"
-      }
-    ]
-  }
+        description: "與世界上最大的金融集團之一合作。",
+      },
+    ],
+  },
 };
 
 export default function WealthManagementManagerPage() {
@@ -136,23 +134,23 @@ export default function WealthManagementManagerPage() {
     {
       icon: FaLightbulb,
       title: t.benefits[0].title,
-      description: t.benefits[0].description
+      description: t.benefits[0].description,
     },
     {
       icon: FaUsers,
       title: t.benefits[1].title,
-      description: t.benefits[1].description
+      description: t.benefits[1].description,
     },
     {
       icon: FaChartLine,
       title: t.benefits[2].title,
-      description: t.benefits[2].description
+      description: t.benefits[2].description,
     },
     {
       icon: FaGraduationCap,
       title: t.benefits[3].title,
-      description: t.benefits[3].description
-    }
+      description: t.benefits[3].description,
+    },
   ];
 
   return (
@@ -174,22 +172,22 @@ export default function WealthManagementManagerPage() {
             >
               <FaArrowLeft /> {t.backToCareers}
             </Link>
-            
+
             <div className="max-w-4xl">
               <div className="mb-6">
                 <span className="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
                   MANAGEMENT POSITION
                 </span>
               </div>
-              
+
               <h1 className="text-5xl font-bold text-gray-900 mb-4">
                 {t.pageTitle}
               </h1>
-              
+
               <p className="text-lg text-gray-500 mb-6 font-medium">
                 {t.pageSubtitle}
               </p>
-              
+
               <div className="flex flex-wrap gap-6 text-gray-600">
                 <div className="flex items-center gap-2">
                   <FaMapMarkerAlt className="text-blue-600" />
@@ -219,7 +217,9 @@ export default function WealthManagementManagerPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">{t.aboutRole}</h2>
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                  {t.aboutRole}
+                </h2>
                 <div className="prose prose-lg text-gray-600 space-y-6">
                   {t.description.map((paragraph, index) => (
                     <p key={index}>{paragraph}</p>
@@ -233,7 +233,9 @@ export default function WealthManagementManagerPage() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="mt-12"
               >
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.keyResponsibilities}</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                  {t.keyResponsibilities}
+                </h3>
                 <ul className="space-y-3">
                   {t.responsibilities.map((responsibility, index) => (
                     <li key={index} className="flex items-start gap-3">
@@ -250,7 +252,9 @@ export default function WealthManagementManagerPage() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="mt-12"
               >
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.requirements}</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                  {t.requirements}
+                </h3>
                 <ul className="space-y-3">
                   {t.qualifications.map((requirement, index) => (
                     <li key={index} className="flex items-start gap-3">
@@ -270,33 +274,26 @@ export default function WealthManagementManagerPage() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="sticky top-8"
               >
-                {/* Apply Card */}
+                {/* Contact Card */}
                 <div className="bg-gray-50 rounded-xl p-8 mb-8 border border-gray-200">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.readyToApply}</h3>
-                  <p className="text-gray-600 mb-6">
-                    {t.applyDescription}
-                  </p>
-                  <div className="space-y-4">
-                    <a
-                      href="mailto:hr@actiondoitnow.com"
-                      className="w-full px-6 py-3 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2"
-                    >
-                      <FaPaperPlane className="text-white" />
-                      {t.applyNow}
-                    </a>
-                    <a
-                      href="mailto:hr@actiondoitnow.com"
-                      className="w-full px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-gray-400 transition-all duration-300 flex items-center justify-center gap-2"
-                    >
-                      <FaEnvelope className="text-gray-700" />
-                      {t.askQuestions}
-                    </a>
-                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">
+                    {t.contactUs}
+                  </h3>
+                  <p className="text-gray-600 mb-4">{t.emailDescription}</p>
+                  <a
+                    href="mailto:hr@actiondoitnow.com"
+                    className="inline-flex items-center gap-2 text-gray-900 font-semibold hover:text-gray-700 transition-colors"
+                  >
+                    <FaEnvelope />
+                    {t.emailAddress}
+                  </a>
                 </div>
 
                 {/* What We Offer */}
                 <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">{t.whatWeOffer}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">
+                    {t.whatWeOffer}
+                  </h3>
                   <div className="space-y-6">
                     {benefits.map((benefit, index) => (
                       <div key={index} className="flex gap-4">
@@ -306,8 +303,12 @@ export default function WealthManagementManagerPage() {
                           </div>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-1">{benefit.title}</h4>
-                          <p className="text-sm text-gray-600">{benefit.description}</p>
+                          <h4 className="font-semibold text-gray-900 mb-1">
+                            {benefit.title}
+                          </h4>
+                          <p className="text-sm text-gray-600">
+                            {benefit.description}
+                          </p>
                         </div>
                       </div>
                     ))}

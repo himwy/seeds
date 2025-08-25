@@ -247,6 +247,20 @@ export default function SeedsStoryPage() {
     setImageLoading(true);
   }, [currentEpisode, currentSlide]);
 
+  // Handle body overflow when fullscreen changes
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // Cleanup function
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isFullscreen]);
+
   // Enhanced preload function for better performance
   useEffect(() => {
     const preloadImages = () => {
@@ -325,11 +339,13 @@ export default function SeedsStoryPage() {
   };
 
   const openFullscreen = () => {
+    console.log("Opening fullscreen"); // Debug log
     setIsFullscreen(true);
     setFullscreenZoom(1);
   };
 
   const closeFullscreen = () => {
+    console.log("Closing fullscreen"); // Debug log
     setIsFullscreen(false);
     setFullscreenZoom(1);
   };
@@ -401,11 +417,11 @@ export default function SeedsStoryPage() {
         </section>
 
         {/* Image Display */}
-        <section className="py-8">
-          <div className="container mx-auto px-6">
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-              {/* Image Slideshow */}
-              <div className="relative aspect-[16/10] bg-gray-100">
+        <section className="py-2">
+          <div className="container mx-auto px-2">
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+              {/* Image Slideshow - Much bigger on mobile */}
+              <div className="relative aspect-[4/3] bg-gray-100">
                 {/* Loading Spinner */}
                 {imageLoading && (
                   <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
@@ -426,7 +442,7 @@ export default function SeedsStoryPage() {
                       src={currentEp.images[currentSlide]}
                       alt={`${currentEp.title} - Slide ${currentSlide + 1}`}
                       fill
-                      className="object-contain p-4"
+                      className="object-contain p-2"
                       priority
                       onLoad={handleImageLoad}
                       onError={() => setImageLoading(false)}
@@ -440,7 +456,7 @@ export default function SeedsStoryPage() {
                 <button
                   onClick={prevSlide}
                   disabled={currentEpisode === 0 && currentSlide === 0}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full shadow-lg disabled:opacity-30 disabled:cursor-not-allowed hover:bg-opacity-100 hover:shadow-xl transition-all border border-gray-200"
+                  className="absolute left-1 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full shadow-lg disabled:opacity-30 disabled:cursor-not-allowed hover:bg-opacity-100 hover:shadow-xl transition-all border border-gray-200"
                 >
                   <FaChevronLeft className="w-4 h-4" />
                 </button>
@@ -451,18 +467,9 @@ export default function SeedsStoryPage() {
                     currentEpisode === episodes.length - 1 &&
                     currentSlide === currentEp.images.length - 1
                   }
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full shadow-lg disabled:opacity-30 disabled:cursor-not-allowed hover:bg-opacity-100 hover:shadow-xl transition-all border border-gray-200"
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full shadow-lg disabled:opacity-30 disabled:cursor-not-allowed hover:bg-opacity-100 hover:shadow-xl transition-all border border-gray-200"
                 >
                   <FaChevronRight className="w-4 h-4" />
-                </button>
-
-                {/* Fullscreen Button - Mobile */}
-                <button
-                  onClick={openFullscreen}
-                  className="absolute top-4 right-4 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full shadow-lg hover:bg-opacity-100 hover:shadow-xl transition-all border border-gray-200"
-                  title="View in fullscreen"
-                >
-                  <FaExpand className="w-4 h-4" />
                 </button>
 
                 {/* Slide Indicators */}
@@ -550,7 +557,32 @@ export default function SeedsStoryPage() {
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-5 gap-8 items-start">
             {/* Image Display - Takes up 3 columns */}
-            <div className="lg:col-span-3 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+            <div className="lg:col-span-3 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 relative">
+              {/* Fullscreen Button - Desktop - Outside overflow container */}
+              <div className="absolute top-2 right-2 z-50">
+                <button
+                  onPointerDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Pointer down on fullscreen button (desktop)");
+                    openFullscreen();
+                  }}
+                  className="bg-white text-gray-800 p-3 rounded-full shadow-xl border border-gray-300 hover:bg-gray-50 transition-all"
+                  style={{
+                    pointerEvents: "auto",
+                    position: "relative",
+                    zIndex: 999,
+                    minWidth: "48px",
+                    minHeight: "48px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <FaExpand className="w-5 h-5" />
+                </button>
+              </div>
+
               <div className="relative aspect-[16/10] bg-gray-50">
                 {/* Loading Spinner */}
                 {imageLoading && (
@@ -600,15 +632,6 @@ export default function SeedsStoryPage() {
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white text-gray-800 p-3 rounded-full shadow-lg disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition-all border border-gray-200 hover:shadow-xl"
                 >
                   <FaChevronRight className="w-4 h-4" />
-                </button>
-
-                {/* Fullscreen Button */}
-                <button
-                  onClick={openFullscreen}
-                  className="absolute top-4 right-4 bg-white text-gray-800 p-3 rounded-full shadow-lg hover:bg-gray-50 transition-all border border-gray-200 hover:shadow-xl"
-                  title="View in fullscreen"
-                >
-                  <FaExpand className="w-4 h-4" />
                 </button>
 
                 {/* Slide Indicators */}
@@ -669,33 +692,58 @@ export default function SeedsStoryPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black bg-opacity-95 flex items-center justify-center"
+            className="fixed inset-0 z-[60] bg-black flex items-center justify-center touch-manipulation"
             onKeyDown={handleFullscreenKeyPress}
             tabIndex={0}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                closeFullscreen();
+              }
+            }}
+            onTouchStart={(e) => e.stopPropagation()}
+            style={{
+              WebkitOverflowScrolling: "touch",
+              overscrollBehavior: "none",
+            }}
           >
             {/* Close Button */}
             <button
               onClick={closeFullscreen}
-              className="absolute top-6 right-6 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all z-10 shadow-lg"
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                closeFullscreen();
+              }}
+              className="absolute top-4 sm:top-6 right-4 sm:right-6 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all z-[70] shadow-lg touch-manipulation"
               title="Close fullscreen (ESC)"
             >
               <FaTimes className="w-5 h-5" />
             </button>
 
             {/* Zoom Controls */}
-            <div className="absolute top-6 left-6 flex gap-2 z-10">
+            <div className="absolute top-4 sm:top-6 left-4 sm:left-6 flex gap-2 z-[70]">
               <button
                 onClick={zoomOut}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  zoomOut();
+                }}
                 disabled={fullscreenZoom <= 0.5}
-                className="bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                className="bg-white bg-opacity-90 text-gray-800 p-2 sm:p-3 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg touch-manipulation"
                 title="Zoom out (-)"
               >
-                <FaSearchMinus className="w-4 h-4" />
+                <FaSearchMinus className="w-3 h-3 sm:w-4 sm:h-4" />
               </button>
               <button
                 onClick={zoomIn}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  zoomIn();
+                }}
                 disabled={fullscreenZoom >= 3}
-                className="bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                className="bg-white bg-opacity-90 text-gray-800 p-2 sm:p-3 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg touch-manipulation"
                 title="Zoom in (+)"
               >
                 <FaSearchPlus className="w-4 h-4" />
@@ -707,28 +755,154 @@ export default function SeedsStoryPage() {
               </div>
             </div>
 
-            {/* Navigation Arrows in Fullscreen */}
+            {/* Navigation Arrows - Mobile/Small screens only */}
             <button
               onClick={prevSlide}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!(currentEpisode === 0 && currentSlide === 0)) {
+                  prevSlide();
+                }
+              }}
               disabled={currentEpisode === 0 && currentSlide === 0}
-              className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-4 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-10 shadow-lg"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-[70] shadow-lg touch-manipulation md:hidden"
             >
-              <FaChevronLeft className="w-5 h-5" />
+              <FaChevronLeft className="w-4 h-4" />
             </button>
 
             <button
               onClick={nextSlide}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (
+                  !(
+                    currentEpisode === episodes.length - 1 &&
+                    currentSlide === currentEp.images.length - 1
+                  )
+                ) {
+                  nextSlide();
+                }
+              }}
               disabled={
                 currentEpisode === episodes.length - 1 &&
                 currentSlide === currentEp.images.length - 1
               }
-              className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-4 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-10 shadow-lg"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-[70] shadow-lg touch-manipulation md:hidden"
             >
-              <FaChevronRight className="w-5 h-5" />
+              <FaChevronRight className="w-4 h-4" />
             </button>
 
-            {/* Fullscreen Image */}
-            <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+            {/* Desktop Layout: Image Left, Text Right */}
+            <div className="hidden md:flex w-full h-full">
+              {/* Image Section - Left Side */}
+              <div className="w-2/3 h-full flex items-center justify-center overflow-hidden relative">
+                <motion.div
+                  animate={{ scale: fullscreenZoom }}
+                  transition={{ duration: 0.2 }}
+                  className="relative max-w-full max-h-full"
+                >
+                  <Image
+                    src={currentEp.images[currentSlide]}
+                    alt={`${currentEp.title} - Slide ${currentSlide + 1}`}
+                    width={1200}
+                    height={800}
+                    className="max-w-full max-h-full object-contain"
+                    priority
+                    sizes="66vw"
+                  />
+                </motion.div>
+
+                {/* Navigation arrows on image */}
+                <button
+                  onClick={prevSlide}
+                  disabled={currentEpisode === 0 && currentSlide === 0}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-[70] shadow-lg"
+                >
+                  <FaChevronLeft className="w-5 h-5" />
+                </button>
+
+                <button
+                  onClick={nextSlide}
+                  disabled={
+                    currentEpisode === episodes.length - 1 &&
+                    currentSlide === currentEp.images.length - 1
+                  }
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 text-gray-800 p-3 rounded-full hover:bg-opacity-100 transition-all disabled:opacity-30 disabled:cursor-not-allowed z-[70] shadow-lg"
+                >
+                  <FaChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Text Section - Right Side */}
+              <div className="w-1/3 h-full bg-white overflow-y-auto p-8">
+                <div className="max-w-full">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4 font-serif">
+                    {currentEp.title}
+                  </h2>
+
+                  <div className="text-gray-700 leading-relaxed space-y-4 text-base mb-6">
+                    {currentEp.content.split("\n\n").map((paragraph, index) => (
+                      <p key={index} className="leading-7">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+
+                  {/* Episode Navigation */}
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                      {language === "en" ? "Episodes" : "集數"}
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {episodes.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => goToEpisode(index)}
+                          className={`px-3 py-2 rounded text-sm font-medium transition-all ${
+                            index === currentEpisode
+                              ? "bg-gray-800 text-white"
+                              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                          }`}
+                        >
+                          {index + 1}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Slide Navigation */}
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                      {language === "en"
+                        ? `Slides (${currentSlide + 1}/${
+                            currentEp.images.length
+                          })`
+                        : `圖片 (${currentSlide + 1}/${
+                            currentEp.images.length
+                          })`}
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {currentEp.images.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => goToSlide(index)}
+                          className={`w-8 h-8 rounded transition-all ${
+                            index === currentSlide
+                              ? "bg-gray-800"
+                              : "bg-gray-300 hover:bg-gray-400"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile Layout: Image Only */}
+            <div className="md:hidden relative w-full h-full flex items-center justify-center overflow-hidden">
               <motion.div
                 animate={{ scale: fullscreenZoom }}
                 transition={{ duration: 0.2 }}
@@ -746,9 +920,9 @@ export default function SeedsStoryPage() {
               </motion.div>
             </div>
 
-            {/* Fullscreen Image Info - Fixed visibility */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center bg-white bg-opacity-90 text-gray-800 px-6 py-3 rounded-lg shadow-lg">
-              <p className="text-sm font-medium">
+            {/* Mobile Image Info */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center bg-white bg-opacity-90 text-gray-800 px-3 py-2 rounded-lg shadow-lg z-[70] md:hidden">
+              <p className="text-xs font-medium">
                 {currentEp.title} -{" "}
                 {language === "en"
                   ? `Slide ${currentSlide + 1} of ${currentEp.images.length}`

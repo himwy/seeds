@@ -12,6 +12,9 @@ import {
   FaHeart,
   FaCalendarAlt,
   FaArrowRight,
+  FaClock,
+  FaMapMarkerAlt,
+  FaImages,
 } from "react-icons/fa";
 import { useEffect, useState, useMemo } from "react";
 import { ReactNode, CSSProperties, MouseEvent } from "react";
@@ -192,7 +195,7 @@ const translations = {
       eveningHours: "By appointment",
       address: "Address:",
       addressValue:
-        "Caroline Centre, Lee Gardens Two, 28, Yun Ping Road, Causeway Bay, Hong Kong",
+        "17/F, Caroline Centre, Lee Gardens Two, 28, Yun Ping Road, Causeway Bay, Hong Kong",
     },
   },
   "zh-HK": {
@@ -259,7 +262,7 @@ const translations = {
       evenings: "晚間：",
       eveningHours: "預約制",
       address: "地址：",
-      addressValue: "香港銅鑼灣恩平道28號利園二期嘉蘭中心",
+      addressValue: "香港銅鑼灣恩平道28號利園二期嘉蘭中心17樓",
     },
   },
 };
@@ -430,16 +433,16 @@ export default function Home() {
     color: "white",
   };
 
-  // Mobile view
+  // Mobile view - Fixed to match desktop design exactly
   if (isMobile) {
     return (
       <div className="w-full overflow-x-hidden">
-        {/* Mobile Hero Section - Centralized Design */}
+        {/* Mobile Hero Section - Match Desktop */}
         <section
           className="relative min-h-screen flex items-center justify-center text-white w-full overflow-hidden"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Home.jpg')",
+              "linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/assets/Home.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center 20%",
             backgroundRepeat: "no-repeat",
@@ -450,7 +453,7 @@ export default function Home() {
               <h1 className="text-4xl font-bold mb-6 text-white leading-tight">
                 {t.hero.title}
               </h1>
-              <p className="text-white mb-8 text-lg leading-relaxed opacity-90">
+              <p className="text-white mb-8 text-lg leading-relaxed">
                 {t.hero.description}
               </p>
               <div className="flex flex-col gap-4 max-w-md mx-auto">
@@ -462,7 +465,7 @@ export default function Home() {
                       servicesSection.scrollIntoView({ behavior: "smooth" });
                     }
                   }}
-                  className="bg-white text-primary font-bold py-3 px-6 rounded-md w-full text-center hover:bg-gray-100 transition-colors"
+                  className="btn-primary text-center w-full"
                 >
                   {t.hero.exploreButton}
                 </button>
@@ -479,8 +482,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Mobile About Section */}
-        <section className="py-10 px-6 bg-white w-full">
+        {/* Mobile About Section - Match Desktop */}
+        <section className="py-16 px-6 bg-light-gray w-full">
           <div className="flex flex-col items-center text-center mb-6 fade-in-up">
             <div className="mb-4">
               <Image
@@ -516,20 +519,27 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Mobile Services Section */}
+        {/* Mobile Services Section - Professional Design */}
         <section
           id="services-section"
-          className="py-10 px-6 bg-light-gray w-full"
+          className="py-16 px-6 bg-gradient-to-br from-gray-50 via-white to-gray-100 w-full"
         >
-          <div className="text-center mb-8 fade-in-up">
-            <h2 className="text-2xl font-bold mb-4 text-primary">
+          <div className="text-center mb-12 fade-in-up">
+            <div className="mb-4">
+              <span className="inline-block px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium tracking-wide">
+                Our Services
+              </span>
+            </div>
+            <h2 className="text-3xl font-bold mb-4 text-gray-900">
               {t.services.title}
             </h2>
-            <p className="text-black">{t.services.description}</p>
+            <p className="text-gray-600 max-w-md mx-auto leading-relaxed">
+              {t.services.description}
+            </p>
           </div>
 
           <div className="overflow-x-auto pb-4 -mx-6 px-6 fade-in">
-            <div className="flex gap-4 min-w-max">
+            <div className="flex gap-6 min-w-max">
               {serviceData.map((service) => (
                 <ServiceCard key={service.id} service={service} t={t} />
               ))}
@@ -537,44 +547,33 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Mobile Recent Events Section */}
+        {/* Mobile Recent Events Section - Match Desktop */}
         {recentEvents.length > 0 && (
-          <section className="py-10 relative overflow-hidden md:hidden">
-            {/* Elegant mobile background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20"></div>
-
+          <section className="py-16 relative overflow-hidden bg-light-gray md:hidden">
             <div className="relative z-10 px-6">
-              <div className="text-center mb-8 fade-in-up">
-                <h2 className="text-2xl font-bold mb-4 text-white">
+              <div className="text-center mb-12 fade-in-up">
+                <h2 className="text-3xl font-bold mb-4 text-primary">
                   {language === "en" ? "Recent Events" : "最近活動"}
                 </h2>
-                <p className="text-gray-300">
+                <p className="text-dark-gray max-w-2xl mx-auto">
                   {language === "en"
-                    ? "Our latest professional moments"
-                    : "我們最近的專業時刻"}
+                    ? "Stay updated with our latest professional activities and corporate milestones"
+                    : "了解我們最新的專業活動和企業里程碑"}
                 </p>
               </div>
 
               {/* Mobile horizontal scroll */}
-              <div
-                className="overflow-x-auto scrollbar-hide pb-4 -mx-6 px-6"
-                style={{
-                  scrollbarWidth: "none",
-                  msOverflowStyle: "none",
-                  WebkitOverflowScrolling: "touch",
-                }}
-              >
-                <div className="flex gap-4 min-w-max">
+              <div className="overflow-x-auto scrollbar-hide pb-4 -mx-6 px-6">
+                <div className="flex gap-6 min-w-max">
                   {recentEvents.map((event) => (
                     <Link
                       key={event.$id}
                       href={`/events/${event.$id}`}
-                      className="group flex-none w-72"
+                      className="group flex-none w-80"
                     >
-                      <div className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-xl border border-white/20">
+                      <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300">
                         {event.images && event.images.length > 0 && (
-                          <div className="relative h-40 overflow-hidden">
+                          <div className="relative h-48 overflow-hidden">
                             <Image
                               src={event.images[0]}
                               alt={
@@ -583,110 +582,150 @@ export default function Home() {
                                   : event.chineseName
                               }
                               fill
-                              className="object-cover group-hover:scale-110 transition-transform duration-500"
-                              sizes="288px"
+                              className="object-cover group-hover:scale-105 transition-transform duration-300"
+                              sizes="320px"
                             />
-                            {/* Darker mobile overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-
-                            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                              <h3 className="font-semibold mb-1 text-sm leading-tight">
-                                {language === "en"
-                                  ? event.name
-                                  : event.chineseName}
-                              </h3>
-                              <div className="flex items-center text-gray-300 text-xs">
-                                <FaCalendarAlt className="mr-1 text-white/70" />
-                                {new Date(event.date).toLocaleDateString()}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <div className="absolute bottom-4 left-4 right-4 text-white">
+                              <div className="flex items-center text-white/90 text-sm mb-2">
+                                <FaCalendarAlt className="mr-2 text-white" />
+                                <span>
+                                  {new Date(event.date).toLocaleDateString(
+                                    language === "en" ? "en-US" : "zh-TW",
+                                    {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "numeric",
+                                    }
+                                  )}
+                                </span>
                               </div>
                             </div>
                           </div>
                         )}
+
+                        <div className="p-6">
+                          <h3 className="text-lg font-bold mb-3 text-primary line-clamp-2">
+                            {language === "en" ? event.name : event.chineseName}
+                          </h3>
+                          {event.images && event.images.length > 1 && (
+                            <div className="flex items-center text-dark-gray text-sm">
+                              <FaImages className="mr-2" />
+                              <span>
+                                {event.images.length}{" "}
+                                {language === "en" ? "photos" : "張相片"}
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </Link>
                   ))}
                 </div>
               </div>
 
-              {/* Mobile indicators - simplified */}
-              {recentEvents.length > 1 && (
-                <div className="flex justify-center mt-6 gap-1">
-                  {recentEvents.slice(0, 5).map((_, index) => (
-                    <div
-                      key={index}
-                      className="w-1.5 h-1.5 rounded-full bg-white/40"
-                    />
-                  ))}
-                </div>
-              )}
-
               <div className="text-center mt-8">
                 <Link
                   href="/events/recent"
-                  className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-sm text-white rounded-full hover:bg-white/20 transition-colors text-sm border border-white/30"
+                  className="btn-primary inline-flex items-center group"
                 >
-                  {language === "en" ? "View All Events" : "查看所有活動"}
-                  <FaArrowRight className="ml-2" />
+                  <span className="mr-3">
+                    {language === "en" ? "View All Events" : "查看所有活動"}
+                  </span>
+                  <FaArrowRight className="text-white transform group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
               </div>
             </div>
           </section>
         )}
 
-        {/* Mobile Contact Section */}
-        <section className="py-10 px-6 bg-white w-full">
+        {/* Show events loading state if no events */}
+        {recentEvents.length === 0 && (
+          <section className="py-16 bg-light-gray md:hidden">
+            <div className="text-center px-6">
+              <h2 className="text-3xl font-bold mb-4 text-primary">
+                {language === "en" ? "Recent Events" : "最近活動"}
+              </h2>
+              <p className="text-dark-gray">
+                {language === "en" ? "Loading events..." : "載入活動中..."}
+              </p>
+            </div>
+          </section>
+        )}
+
+        {/* Mobile Contact Section - Professional Design */}
+        <section className="py-16 px-6 bg-gradient-to-br from-gray-50 via-white to-gray-100 w-full">
           <div className="fade-in-up">
-            <h2 className="text-2xl font-bold mb-4 text-primary text-center">
-              {t.contact.title}
-            </h2>
-            <p className="text-dark-gray mb-6 text-center">
-              {t.contact.description}
-            </p>
+            <div className="text-center mb-12">
+              <div className="mb-4">
+                <span className="inline-block px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium tracking-wide">
+                  Get in Touch
+                </span>
+              </div>
+              <h2 className="text-3xl font-bold mb-4 text-gray-900">
+                {t.contact.title}
+              </h2>
+              <p className="text-gray-600 max-w-md mx-auto leading-relaxed">
+                {t.contact.description}
+              </p>
+            </div>
           </div>
 
-          <div className="flex flex-col gap-3 mb-8 fade-in-up">
-            <Link href="/contact" className="btn-primary text-center w-full">
+          <div className="grid gap-6 mb-8 fade-in-up">
+            <Link
+              href="/contact"
+              className="bg-gray-900 text-white text-center py-4 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 shadow-lg"
+            >
               {t.contact.contactButton}
             </Link>
             <a
               href="tel:85255304114"
-              className="bg-transparent border-2 border-primary text-primary text-center py-3 px-6 rounded-md font-semibold w-full"
+              className="bg-transparent border-2 border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white transition-all duration-300 text-center py-4 px-6 rounded-lg font-semibold"
             >
               {t.contact.callButton}
             </a>
           </div>
 
-          <div className="bg-light-gray p-6 rounded-lg fade-in-up">
-            <h3 className="text-xl font-bold mb-4 text-primary">
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 fade-in-up">
+            <h3 className="text-xl font-bold mb-6 text-gray-900 flex items-center">
+              <FaClock className="mr-3 text-gray-600" />
               {t.contact.serviceHours}
             </h3>
-            <ul className="space-y-4">
-              <li className="flex flex-col">
-                <span className="font-medium">{t.contact.mondayToFriday}</span>
-                <span className="font-black text-black">
+            <div className="space-y-4">
+              <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+                <span className="font-medium text-gray-700">
+                  {t.contact.mondayToFriday}
+                </span>
+                <span className="text-gray-600">
                   {t.contact.mondayToFridayHours}
                 </span>
-              </li>
-              <li className="flex flex-col">
-                <span className="font-medium">{t.contact.saturday}</span>
-                <span className="font-black text-black">
-                  {t.contact.saturdayHours}
+              </div>
+              <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+                <span className="font-medium text-gray-700">
+                  {t.contact.saturday}
                 </span>
-              </li>
-              <li className="flex flex-col">
-                <span className="font-medium">{t.contact.evenings}</span>
-                <span className="font-black text-black">
-                  {t.contact.eveningHours}
+                <span className="text-gray-600">{t.contact.saturdayHours}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="font-medium text-gray-700">
+                  {t.contact.evenings}
                 </span>
-              </li>
-            </ul>
-            <div className="mt-6 pt-6 border-t">
-              <p className="text-black">
-                <strong>{t.contact.address}</strong>
-                <span className="block mt-1 font-black text-black">
-                  {t.contact.addressValue}
-                </span>
-              </p>
+                <span className="text-gray-600">{t.contact.eveningHours}</span>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <div className="flex items-start">
+                <FaMapMarkerAlt className="mt-1 mr-3 text-gray-600 flex-shrink-0" />
+                <div>
+                  <p className="font-medium text-gray-700 mb-1">
+                    {t.contact.address}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {t.contact.addressValue}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -909,7 +948,7 @@ export default function Home() {
                                     : event.chineseName}
                                 </h3>
                                 <div className="flex items-center text-white text-sm drop-shadow-lg">
-                                  <FaCalendarAlt className="mr-2" />
+                                  <FaCalendarAlt className="mr-2 text-white" />
                                   <span>
                                     {new Date(event.date).toLocaleDateString(
                                       language === "en" ? "en-US" : "zh-TW",
@@ -956,12 +995,12 @@ export default function Home() {
               <div className="text-center mt-12">
                 <Link
                   href="/events/recent"
-                  className="btn-primary inline-flex items-center"
+                  className="btn-primary inline-flex items-center group"
                 >
                   <span className="mr-3">
                     {language === "en" ? "View All Events" : "查看所有活動"}
                   </span>
-                  <FaArrowRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
+                  <FaArrowRight className="text-white transform group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
               </div>
             </>
@@ -997,7 +1036,7 @@ export default function Home() {
                 </Link>
                 <a
                   href="tel:85255304114"
-                  className="bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 px-6 py-3 rounded-md font-semibold text-center w-full sm:w-auto"
+                  className="bg-transparent border-2 border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white transition-all duration-300 px-6 py-3 rounded-md font-semibold text-center w-full sm:w-auto"
                 >
                   {t.contact.callButton}
                 </a>

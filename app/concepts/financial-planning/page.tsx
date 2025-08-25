@@ -443,55 +443,53 @@ const SectionCard: React.FC<SectionCardProps> = ({
   const bgColor = sectionBgColors[section.id];
   const IconComponent = sectionConfig?.icon || FaChartLine;
 
-  // Different animation patterns for first two cards
+  // Professional animation for all cards that works on scroll
   const getAnimationProps = () => {
-    if (index === 0) {
-      return {
-        initial: { opacity: 0, y: -50 },
-        whileInView: { opacity: 1, y: 0 },
-        transition: { duration: 0.8, delay: 0.2 },
-      };
-    } else if (index === 1) {
-      return {
-        initial: { opacity: 0, y: 50 },
-        whileInView: { opacity: 1, y: 0 },
-        transition: { duration: 0.8, delay: 0.4 },
-      };
-    } else {
-      return {
-        initial: { opacity: 0, y: 30 },
-        whileInView: { opacity: 1, y: 0 },
-        transition: { duration: 0.6, delay: index * 0.1 },
-      };
-    }
+    return {
+      initial: { opacity: 0, y: 20 },
+      whileInView: { opacity: 1, y: 0 },
+      transition: { duration: 0.6, delay: Math.min(index * 0.1, 0.3) },
+      viewport: { once: true, margin: "-50px" },
+    };
   };
 
   return (
     <motion.div
       {...getAnimationProps()}
-      viewport={{ once: true, margin: "-100px" }}
-      className={`scroll-mt-24 p-${
+      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+      className={`scroll-mt-24 p-${isMobile ? "4" : "6"} sm:p-${
         isMobile ? "5" : "8"
-      } rounded-2xl ${bgColor} shadow-sm`}
+      } rounded-2xl ${bgColor} shadow-sm hover:shadow-md w-full overflow-hidden transition-shadow duration-300`}
       id={section.id}
+      style={{
+        // Fallback visibility
+        opacity: 1,
+        minHeight: "200px",
+      }}
     >
-      <div className="flex items-center mb-6">
-        <div className="mr-4 p-3 bg-white rounded-full shadow-sm">
-          <IconComponent className="w-6 h-6 text-primary" />
-        </div>
+      <div className="flex items-center mb-4 sm:mb-6">
+        <motion.div
+          className="mr-3 sm:mr-4 p-2 sm:p-3 bg-white rounded-full shadow-sm flex-shrink-0"
+          whileHover={{ rotate: 5, scale: 1.1 }}
+          transition={{ duration: 0.2 }}
+        >
+          <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+        </motion.div>
         <h2
-          className={`text-${isMobile ? "2xl" : "3xl"} font-bold text-primary`}
+          className={`text-xl sm:text-2xl ${
+            isMobile ? "lg:text-2xl" : "lg:text-3xl"
+          } font-bold text-primary`}
         >
           {section.title}
         </h2>
       </div>
 
       {section.highlights && (
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
           {section.highlights.map((highlight: string, i: number) => (
             <span
               key={i}
-              className="bg-white px-4 py-1.5 rounded-full text-sm font-medium text-primary border border-primary/20 shadow-sm"
+              className="bg-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium text-primary border border-primary/20 shadow-sm"
             >
               {highlight}
             </span>
@@ -540,16 +538,26 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
   activeSection,
   onSectionClick,
 }) => (
-  <div className="sticky top-24 bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
+  <motion.div
+    className="sticky top-24 bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-100"
+    initial={{ opacity: 0, x: -20 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.6, delay: 0.2 }}
+  >
     <h3 className="text-lg font-bold mb-4 text-primary">Contents</h3>
     <ul className="space-y-1">
-      {sections.map((section: Section) => {
+      {sections.map((section: Section, index: number) => {
         const IconComponent = sectionIcons[section.id]?.icon || FaChartLine;
         return (
-          <li key={section.id}>
+          <motion.li
+            key={section.id}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
+          >
             <button
               onClick={() => onSectionClick(section.id)}
-              className={`flex items-center py-2 px-3 rounded-lg transition-colors w-full text-left ${
+              className={`flex items-center py-2 px-3 rounded-lg transition-colors w-full text-left hover:scale-[1.02] ${
                 activeSection === section.id
                   ? "bg-primary/10 text-dark-gray"
                   : "text-dark-gray hover:bg-gray-100"
@@ -559,11 +567,11 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
               <IconComponent className="w-4 h-4 mr-2 flex-shrink-0 text-dark-gray" />
               <span>{section.title}</span>
             </button>
-          </li>
+          </motion.li>
         );
       })}
     </ul>
-  </div>
+  </motion.div>
 );
 
 export default function FinancialPlanningPage() {
@@ -667,16 +675,16 @@ export default function FinancialPlanningPage() {
         style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
       >
         {/* Hero Section - Clean like team page, NO background image */}
-        <section className="relative bg-gray-50 py-20 pt-32">
-          <div className="container mx-auto px-8 text-center">
+        <section className="relative bg-gray-50 py-12 sm:py-16 pt-28 sm:pt-32">
+          <div className="container mx-auto px-4 sm:px-6 text-center">
             <div className="max-w-3xl mx-auto">
-              <h1 className="text-4xl font-bold text-gray-900 mb-6">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
                 {t.pageTitle}
               </h1>
 
-              <div className="w-24 h-1 bg-gray-900 mx-auto mb-8"></div>
+              <div className="w-16 sm:w-24 h-1 bg-gray-900 mx-auto mb-6 sm:mb-8"></div>
 
-              <p className="text-lg text-gray-700 leading-relaxed mb-12">
+              <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed mb-8 sm:mb-12 px-4">
                 {t.pageSubtitle}
               </p>
             </div>
@@ -699,8 +707,8 @@ export default function FinancialPlanningPage() {
         </div>
 
         {/* Content */}
-        <section className="pt-6 px-4 bg-white">
-          <div className="space-y-8">
+        <section className="pt-4 sm:pt-6 px-3 sm:px-4 bg-white">
+          <div className="space-y-6 sm:space-y-8">
             {t.sections.map((section, index) => (
               <SectionCard
                 key={section.id}
@@ -711,7 +719,9 @@ export default function FinancialPlanningPage() {
               />
             ))}
           </div>
-          <div className="mt-6 text-xs text-gray-500 italic">{t.source}</div>
+          <div className="mt-4 sm:mt-6 text-xs text-gray-500 italic px-2">
+            {t.source}
+          </div>
         </section>
       </div>
     );
@@ -724,21 +734,21 @@ export default function FinancialPlanningPage() {
       style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
     >
       {/* Hero Section - Clean like team page, NO background image */}
-      <section className="relative bg-gray-50 py-20 pt-32">
-        <div className="container mx-auto px-8 text-center">
+      <section className="relative bg-gray-50 py-12 sm:py-16 lg:py-20 pt-20 sm:pt-24 lg:pt-32">
+        <div className="container mx-auto px-6 sm:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.5 }}
             className="max-w-5xl mx-auto"
           >
-            <h1 className="text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
               {t.pageTitle}
             </h1>
 
-            <div className="w-32 h-1 bg-gray-900 mx-auto mb-8"></div>
+            <div className="w-20 sm:w-32 h-1 bg-gray-900 mx-auto mb-6 sm:mb-8"></div>
 
-            <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-12">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-8 sm:mb-12 px-4">
               {t.pageSubtitle}
             </p>
           </motion.div>
@@ -746,11 +756,11 @@ export default function FinancialPlanningPage() {
       </section>
 
       {/* Main Content */}
-      <div className="bg-white py-16">
-        <div className="container mx-auto px-6">
+      <div className="bg-white py-8 sm:py-12 lg:py-16">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col lg:flex-row">
             {/* Table of Contents */}
-            <div className="lg:w-1/4 mb-8 lg:mb-0">
+            <div className="lg:w-1/4 mb-6 sm:mb-8 lg:mb-0">
               <TableOfContents
                 sections={t.sections}
                 activeSection={activeSection}
@@ -759,8 +769,13 @@ export default function FinancialPlanningPage() {
             </div>
 
             {/* Content */}
-            <div className="lg:w-3/4 lg:pl-12">
-              <div className="space-y-16">
+            <motion.div
+              className="lg:w-3/4 lg:pl-12"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <div className="space-y-12">
                 {t.sections.map((section, index) => (
                   <SectionCard
                     key={section.id}
@@ -771,10 +786,10 @@ export default function FinancialPlanningPage() {
                   />
                 ))}
               </div>
-              <div className="mt-10 text-sm text-gray-500 italic">
+              <div className="mt-8 text-sm text-gray-500 italic">
                 {t.source}
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

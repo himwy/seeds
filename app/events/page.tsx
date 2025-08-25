@@ -23,62 +23,66 @@ const translations = {
     pageTitle: "Company Events",
     heroTitle: "Company Events & Celebrations",
     heroSubtitle: "Building Memories Together",
-    heroDescription: "Discover our vibrant company culture through memorable events, team celebrations, and milestone achievements that bring our team together.",
-    
+    heroDescription:
+      "Discover our vibrant company culture through memorable events, team celebrations, and milestone achievements that bring our team together.",
+
     recentEventsTitle: "Recent Events",
-    recentEventsDescription: "Stay up-to-date with our newest activities and celebrations",
-    
-    pastEventsTitle: "Memory Vault", 
-    pastEventsDescription: "Explore our cherished moments and memorable celebrations",
-    
+    recentEventsDescription:
+      "Stay up-to-date with our newest activities and celebrations",
+
+    pastEventsTitle: "Memory Vault",
+    pastEventsDescription:
+      "Explore our cherished moments and memorable celebrations",
+
     viewAll: "View All",
     viewGallery: "View Gallery",
     noRecentEvents: "No recent events to display",
     noPastEvents: "No past events archived",
     photosCount: "photos",
-    
+
     featuredEvents: "Featured Events",
     browseCategories: "Browse Categories",
-    
+
     loadMore: "Load More Events",
-    
+
     eventStats: {
       totalEvents: "Total Events",
-      happyMoments: "Happy Moments", 
+      happyMoments: "Happy Moments",
       teamMembers: "Team Members",
-      memories: "Memories Created"
-    }
+      memories: "Memories Created",
+    },
   },
   "zh-HK": {
     pageTitle: "公司活動",
     heroTitle: "公司活動與慶典",
     heroSubtitle: "共建美好回憶",
-    heroDescription: "通過難忘的活動、團隊慶祝和里程碑成就，發現我們充滿活力的公司文化，這些都將我們的團隊凝聚在一起。",
-    
+    heroDescription:
+      "通過難忘的活動、團隊慶祝和里程碑成就，發現我們充滿活力的公司文化，這些都將我們的團隊凝聚在一起。",
+
     recentEventsTitle: "最近活動",
     recentEventsDescription: "了解我們最新的公司動態",
-    
+
     pastEventsTitle: "回憶寶庫",
     pastEventsDescription: "探索我們珍貴的時刻和難忘的慶祝活動",
-    
+
     viewAll: "查看全部",
     viewGallery: "查看相冊",
     noRecentEvents: "暫無最近活動",
     noPastEvents: "沒有過往活動記錄",
     photosCount: "張相片",
-    
+
     featuredEvents: "精選活動",
     browseCategories: "瀏覽分類",
-    
+
     loadMore: "載入更多活動",
-    
+
     eventStats: {
       totalEvents: "總活動數",
       happyMoments: "快樂時光",
       teamMembers: "團隊成員",
-      memories: "創造回憶"
-    }
-  }
+      memories: "創造回憶",
+    },
+  },
 };
 
 export default function EventsPage() {
@@ -95,8 +99,8 @@ export default function EventsPage() {
       try {
         setLoading(true);
         const [recent, past] = await Promise.all([
-          EventsService.getEventsByCategory('recent'),
-          EventsService.getEventsByCategory('past')
+          EventsService.getEventsByCategory("recent"),
+          EventsService.getEventsByCategory("past"),
         ]);
         setRecentEvents(recent.slice(0, 3)); // Show only first 3
         setPastEvents(past.slice(0, 3)); // Show only first 3
@@ -115,23 +119,23 @@ export default function EventsPage() {
     {
       icon: FaCalendarAlt,
       number: `${recentEvents.length + pastEvents.length}+`,
-      label: t.eventStats.totalEvents
+      label: t.eventStats.totalEvents,
     },
     {
       icon: FaStar,
       number: "500+",
-      label: t.eventStats.happyMoments
+      label: t.eventStats.happyMoments,
     },
     {
       icon: FaUsers,
       number: "50+",
-      label: t.eventStats.teamMembers
+      label: t.eventStats.teamMembers,
     },
     {
       icon: FaGem,
       number: "1000+",
-      label: t.eventStats.memories
-    }
+      label: t.eventStats.memories,
+    },
   ];
 
   return (
@@ -220,9 +224,7 @@ export default function EventsPage() {
                 <div className="text-3xl font-bold text-gray-900 mb-2">
                   {stat.number}
                 </div>
-                <div className="text-gray-600 font-medium">
-                  {stat.label}
-                </div>
+                <div className="text-gray-600 font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -274,10 +276,10 @@ export default function EventsPage() {
                         </div>
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 mb-3">
-                        {language === 'zh-HK' ? event.chineseName : event.name}
+                        {language === "zh-HK" ? event.chineseName : event.name}
                       </h3>
                       <p className="text-gray-600 mb-4 line-clamp-2">
-                        {language === 'zh-HK' ? event.chineseName : event.name}
+                        {language === "zh-HK" ? event.chineseName : event.name}
                       </p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-gray-500 text-sm">
@@ -356,10 +358,10 @@ export default function EventsPage() {
                         </div>
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 mb-3">
-                        {language === 'zh-HK' ? event.chineseName : event.name}
+                        {language === "zh-HK" ? event.chineseName : event.name}
                       </h3>
                       <p className="text-gray-600 mb-4 line-clamp-2">
-                        {language === 'zh-HK' ? event.chineseName : event.name}
+                        {language === "zh-HK" ? event.chineseName : event.name}
                       </p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-gray-500 text-sm">

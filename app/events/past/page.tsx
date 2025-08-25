@@ -7,42 +7,49 @@ import Link from "next/link";
 import {
   FaCalendarAlt,
   FaImages,
-  FaHistory,
   FaEye,
-  FaClock,
-  FaStar,
-  FaGem,
-  FaArrowLeft,
+  FaArrowRight,
+  FaFilter,
+  FaHistory,
 } from "react-icons/fa";
 import { EventsService, Event } from "../../lib/eventsService";
 
 const translations = {
   en: {
     pageTitle: "Past Events",
-    pageSubtitle: "",
-    heroDescription:
-      "Journey through our cherished memories and unforgettable company moments.",
-
-    viewPhotos: "View Memories",
-    noEvents: "No past events archived",
-    loading: "Loading memories...",
-    error: "Failed to load memories",
+    heroSubtitle: "Our Legacy & Memories",
+    heroDescription: "Journey through our cherished memories and unforgettable moments that have shaped our company's rich history.",
+    viewGallery: "View Gallery",
+    noEvents: "No past events yet",
+    loading: "Loading events...",
+    error: "Unable to load events",
     photosCount: "photos",
-    classicEvent: "✨ CLASSIC",
-    memoryVault: "Memory Vault",
+    eventsTitle: "Past Events",
+    sortBy: "Sort by",
+    sortNewest: "Newest First",
+    sortOldest: "Oldest First",
+    stayTuned: "Stay tuned for exciting new events!",
+    tryAgain: "Try Again",
+    exploreEvent: "Explore Event",
+    recentActivity: "Past Activity",
   },
   "zh-HK": {
     pageTitle: "過往活動",
-    pageSubtitle: "",
-    heroDescription: "穿越我們珍貴的回憶和難忘的公司時刻。",
-
-    viewPhotos: "查看回憶",
-    noEvents: "沒有過往活動記錄",
-    loading: "載入回憶中...",
-    error: "載入回憶失敗",
+    heroSubtitle: "我們的傳承與回憶",
+    heroDescription: "穿越我們珍貴的回憶和難忘的時刻，這些塑造了我們公司豐富的歷史。",
+    viewGallery: "查看相冊",
+    noEvents: "暫無過往活動",
+    loading: "載入活動中...",
+    error: "無法載入活動",
     photosCount: "張相片",
-    classicEvent: "✨ 經典",
-    memoryVault: "回憶寶庫",
+    eventsTitle: "過往活動",
+    sortBy: "排序方式",
+    sortNewest: "最新優先",
+    sortOldest: "最舊優先",
+    stayTuned: "敬請期待精彩的新活動！",
+    tryAgain: "重試",
+    exploreEvent: "探索活動",
+    recentActivity: "過往活動",
   },
 };
 
@@ -53,6 +60,7 @@ export default function PastEventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<string>("newest");
 
   useEffect(() => {
     loadEvents();
@@ -81,175 +89,111 @@ export default function PastEventsPage() {
     });
   };
 
-  const getEventAge = (dateString: string) => {
-    const eventDate = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - eventDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays > 365) {
-      const years = Math.floor(diffDays / 365);
-      return `${years} year${years > 1 ? "s" : ""} ago`;
-    } else if (diffDays > 30) {
-      const months = Math.floor(diffDays / 30);
-      return `${months} month${months > 1 ? "s" : ""} ago`;
-    } else {
-      return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
-    }
-  };
+  const sortedEvents = events.sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
+  });
 
   return (
     <div
       className="min-h-screen bg-white"
       style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
     >
-      {/* Professional Hero Section */}
-      <section className="relative bg-gradient-to-br from-gray-50 via-white to-gray-100 py-24 pt-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/5 to-transparent"></div>
-        <div className="container mx-auto px-8 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="mb-6">
-                <Link
-                  href="/events"
-                  className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
-                >
-                  <FaArrowLeft /> Back to Events
-                </Link>
-                <span className="inline-block px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium tracking-wide">
-                  {t.pageSubtitle}
-                </span>
-              </div>
-              <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                {t.pageTitle}
-              </h1>
-              <p className="text-xl text-gray-600 leading-relaxed mb-8 max-w-lg">
-                {t.heroDescription}
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 text-gray-500">
-                  <FaCalendarAlt className="text-gray-700" />
-                  <span className="font-medium">{events.length} Memories</span>
-                </div>
-              </div>
-            </motion.div>
+      {/* Hero Section */}
+      <section className="relative bg-gray-50 py-20 pt-32">
+        <div className="container mx-auto px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-5xl mx-auto"
+          >
+            <h1 className="text-6xl font-bold text-gray-900 mb-6">
+              {t.pageTitle}
+            </h1>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="relative">
-                <div className="bg-gray-100 rounded-xl p-12 border-2 border-dashed border-gray-300">
-                  <FaHistory className="text-6xl text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-500 text-lg text-center">
-                    Memory vault collection
-                  </p>
-                  <p className="text-sm text-gray-400 mt-2 text-center">
-                    (Vintage memories will be displayed here)
-                  </p>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl"></div>
-              </div>
-            </motion.div>
-          </div>
+            <div className="w-32 h-1 bg-gray-900 mx-auto mb-8"></div>
+
+            <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-12">
+              {t.heroDescription}
+            </p>
+
+            <p className="text-lg text-gray-600 italic">{t.heroSubtitle}</p>
+          </motion.div>
         </div>
       </section>
 
-      {/* Memory Gallery */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-8">
+      {/* Events Content */}
+      <section className="py-16 px-8">
+        <div className="container mx-auto">
           {loading ? (
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+            <div className="flex flex-col items-center justify-center py-24">
+              <div className="w-16 h-16 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin"></div>
+              <p className="text-gray-600 mt-6 text-lg">{t.loading}</p>
             </div>
           ) : error ? (
-            <div className="text-center py-16">
-              <div className="text-xl font-semibold text-red-600 mb-4">
-                {error}
+            <div className="text-center py-24">
+              <div className="text-2xl font-medium text-red-600 mb-6">
+                {t.error}
               </div>
               <button
                 onClick={loadEvents}
-                className="px-6 py-3 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300"
+                className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200"
               >
-                Try Again
+                {t.tryAgain}
               </button>
             </div>
           ) : events.length === 0 ? (
-            <div className="text-center py-16">
-              <FaHistory className="text-6xl text-gray-300 mx-auto mb-6" />
-              <div className="text-2xl font-bold text-gray-600 mb-4">
-                {t.noEvents}
+            <div className="text-center py-24">
+              <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-8">
+                <FaHistory className="text-3xl text-gray-600" />
               </div>
-              <p className="text-gray-500">
-                Our memory vault is waiting to be filled!
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                {t.noEvents}
+              </h3>
+              <p className="text-gray-600 text-lg">
+                {t.stayTuned}
               </p>
             </div>
           ) : (
             <>
-              {/* Stats Section */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-xl p-8 mb-16 shadow-lg border border-gray-200"
-              >
-                <div className="text-center mb-6">
-                  <h2 className="text-3xl font-bold text-gray-900 flex items-center justify-center gap-3">
-                    <FaGem className="text-amber-500" />
-                    {t.memoryVault}
+              {/* Header with Sort */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
+                <div>
+                  <h2 className="text-4xl font-bold text-gray-900 mb-2">
+                    {t.eventsTitle}
                   </h2>
+                  <div className="w-20 h-1 bg-gray-900"></div>
                 </div>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                  <div>
-                    <div className="text-3xl font-bold text-gray-900 mb-2">
-                      {events.length}
-                    </div>
-                    <div className="text-gray-600 font-medium">Archived Events</div>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold text-gray-900 mb-2">
-                      {events.reduce(
-                        (total, event) => total + (event.images?.length || 0),
-                        0
-                      )}
-                    </div>
-                    <div className="text-gray-600 font-medium">Vintage Photos</div>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold text-gray-900 mb-2">
-                      {events.length > 0 ? new Set(events.map(event => new Date(event.date).getFullYear())).size : 0}
-                    </div>
-                    <div className="text-gray-600 font-medium">Years Covered</div>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold text-gray-900 mb-2">
-                      {events.length > 0 ? Math.max(...events.map(event => new Date().getFullYear() - new Date(event.date).getFullYear())) : 0}+
-                    </div>
-                    <div className="text-gray-600 font-medium">Years Old</div>
-                  </div>
+                
+                <div className="flex items-center gap-3">
+                  <FaFilter className="text-gray-600" />
+                  <span className="text-gray-600 font-medium">{t.sortBy}:</span>
+                  <select 
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
+                    className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900"
+                  >
+                    <option value="newest">{t.sortNewest}</option>
+                    <option value="oldest">{t.sortOldest}</option>
+                  </select>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Events Grid */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {events.map((event, index) => (
-                  <motion.div
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {sortedEvents.map((event, index) => (
+                  <motion.article
                     key={event.$id}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-300"
+                    className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
                   >
                     {/* Image Container */}
-                    <div className="relative h-64 bg-gray-100 overflow-hidden">
+                    <div className="relative h-64 overflow-hidden">
                       {event.images && event.images.length > 0 ? (
                         <>
                           <img
@@ -259,20 +203,22 @@ export default function PastEventsPage() {
                                 ? event.chineseName
                                 : event.name
                             }
-                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 filter sepia-0 hover:sepia-[0.1]"
+                            className="w-full h-full object-cover"
                           />
+
                           {/* Photo Count Badge */}
-                          <div className="absolute top-4 right-4 bg-gray-900 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
-                            <FaImages className="mr-1" />
+                          <div className="absolute top-4 right-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
+                            <FaImages className="text-xs" />
                             {event.images.length}
                           </div>
-                          {/* Classic Badge */}
-                          <div className="absolute top-4 left-4 bg-amber-500 text-white px-3 py-1 rounded-full text-xs font-medium">
-                            {t.classicEvent}
+
+                          {/* Date Badge */}
+                          <div className="absolute bottom-4 left-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-medium">
+                            {formatDate(event.date)}
                           </div>
                         </>
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center">
+                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
                           <FaImages className="text-4xl text-gray-400" />
                         </div>
                       )}
@@ -280,34 +226,25 @@ export default function PastEventsPage() {
 
                     {/* Content */}
                     <div className="p-6">
-                      <div className="mb-3">
-                        <span className="text-sm font-medium text-amber-600 bg-amber-100 px-3 py-1 rounded-full">
-                          {getEventAge(event.date)}
-                        </span>
-                      </div>
-
-                      <h3 className="text-xl font-bold text-gray-900 mb-3">
-                        {language === "zh-HK"
-                          ? event.chineseName
-                          : event.name}
+                      <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                        {language === "zh-HK" ? event.chineseName : event.name}
                       </h3>
 
-                      <div className="flex items-center text-gray-500 mb-4">
-                        <FaCalendarAlt className="mr-2 text-gray-700" />
-                        <span className="font-medium">
-                          {formatDate(event.date)}
-                        </span>
-                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center text-gray-600 text-sm">
+                          <FaCalendarAlt className="mr-2" />
+                          <span>{formatDate(event.date)}</span>
+                        </div>
 
-                      {/* Action Button */}
-                      <Link href={`/events/${event.$id}`}>
-                        <button className="w-full px-6 py-3 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2">
-                          <FaEye />
-                          {t.viewPhotos}
-                        </button>
-                      </Link>
+                        <Link href={`/events/${event.$id}`}>
+                          <button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors duration-200">
+                            <FaEye className="text-white" />
+                            <span>{t.viewGallery}</span>
+                          </button>
+                        </Link>
+                      </div>
                     </div>
-                  </motion.div>
+                  </motion.article>
                 ))}
               </div>
             </>

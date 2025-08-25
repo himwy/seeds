@@ -16,7 +16,7 @@ import Link from "next/link";
 
 const translations = {
   en: {
-    title: "Client Success Stories",
+    title: "Case Studies & Client Stories",
     subtitle:
       "Real experiences and transformative outcomes from our valued clients",
     learnMore: "Learn More",
@@ -58,10 +58,46 @@ const translations = {
         outcome:
           "Medical claim approved within 2 days, family focused on recovery instead of expenses",
       },
+      {
+        id: "special-health-disease",
+        title: "Special Health Disease Case - Lacrimal Gland Cancer",
+        category: "Rare Disease Claims",
+        client: "Lacrimal Gland Cancer Patient",
+        preview:
+          "A rare cancer affecting only 3 in 100,000 people. The client was fortunate to have his lacrimal gland cancer detected early ten years ago and recovered after treatment. Recently, Wendy discovered he never claimed his critical illness insurance, having forgotten due to lack of guidance from his previous agent.",
+        icon: "stethoscope",
+        readTime: "8 min read",
+        outcome:
+          "Successfully recovered HK$800,000+ claim after 10 years, funding his master's degree studies",
+      },
+      {
+        id: "executive-brain-tumor",
+        title: "When Adversity Strikes the Unprepared",
+        category: "Medical Emergency",
+        client: "Investment Banking Executive",
+        preview:
+          "A high-earning female executive in investment banking, earning HK$200,000 monthly, faced her biggest challenge when her husband was diagnosed with a brain tumor. Despite her professional success in handling financial crises, personal adversity revealed her vulnerable side.",
+        icon: "heartbeat",
+        readTime: "7 min read",
+        outcome:
+          "Received HK$1,000,000 in medical insurance claims, allowing focus on recovery rather than finances",
+      },
+      {
+        id: "family-office-services",
+        title: "Family Office - Understanding High-End Client Needs",
+        category: "Wealth Management",
+        client: "Ultra High Net Worth Families",
+        preview:
+          "What defines a high-end client? Family office services typically serve families with over USD $100 million in assets. When wealth accumulation reaches a certain level, high-end clients require comprehensive advisory services and wealth succession planning.",
+        icon: "building",
+        readTime: "6 min read",
+        outcome:
+          "Comprehensive wealth management and succession planning for ultra-high-net-worth families",
+      },
     ],
   },
   "zh-HK": {
-    title: "客戶成功故事",
+    title: "案例研究與客戶故事",
     subtitle: "來自我們尊貴客戶的真實經驗和轉變成果",
     learnMore: "了解更多",
 
@@ -99,6 +135,39 @@ const translations = {
         icon: "stethoscope",
         readTime: "7分鐘閱讀",
         outcome: "醫療理賠在2天內獲批，家人專注於康復而非費用",
+      },
+      {
+        id: "special-health-disease",
+        title: "特殊健康疾病案例",
+        category: "罕見疾病理賠",
+        client: "淚管癌患者",
+        preview:
+          "特殊健康疾病淚管癌，一種罕見的癌症，大概每十萬人才有三個人確診。喬布斯曾經講過，當醫生告訴他他患有胰臟癌的時候，他連胰臟在哪裏也不知道。是的，這個世界有太多疾病，太多可能性， 但偏偏有些人就是會患上這一些你連聽都沒有聽過的疾病。故事的主角很幸運，十年前他的淚管癌發現得早，經過治療後康復出院。",
+        icon: "stethoscope",
+        readTime: "8分鐘閱讀",
+        outcome: "成功追回十年後80多萬港元理賠，成為修讀碩士的資金",
+      },
+      {
+        id: "executive-brain-tumor",
+        title: "意外來臨的無助",
+        category: "醫療緊急情況",
+        client: "投資銀行女高管",
+        preview:
+          "月薪20萬的女強人在投行裡面呼風喚雨，擔當起多少金融才俊夢寐以求的職業，她同時是一名妻子，與丈夫幸福地過著平靜的都市生活。當一個金融業精英可不容易，清晰的頭腦固然是不可或缺，更重要的是臨危不懼、處變不驚的能力。",
+        icon: "heartbeat",
+        readTime: "7分鐘閱讀",
+        outcome: "獲得100萬港元醫療保險理賠，讓家庭專注於康復而非財務壓力",
+      },
+      {
+        id: "family-office-services",
+        title: "家族辦公室了解高端客戶的需要",
+        category: "財富管理",
+        client: "超高淨值家族",
+        preview:
+          "什麼是高端客戶？是指專業人士嗎？家族辦公室的服務對象一般擁有超過1億美元的家族資產。當財富的累積達到一定水平，高端客戶的理財需要龐大，他們需要專業的顧問意見以及相關的財富傳承方案安排。",
+        icon: "building",
+        readTime: "6分鐘閱讀",
+        outcome: "為超高淨值家族提供全面的財富管理和傳承規劃服務",
       },
     ],
   },
@@ -149,7 +218,7 @@ export default function ClientStoriesPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 overflow-hidden"
+                  className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 overflow-hidden flex flex-col h-full"
                 >
                   {/* Story Header */}
                   <div className="p-6 border-b border-gray-200">
@@ -167,9 +236,9 @@ export default function ClientStoriesPage() {
                     </p>
                   </div>
 
-                  {/* Story Content */}
-                  <div className="p-6">
-                    <p className="text-gray-600 leading-relaxed mb-6">
+                  {/* Story Content - Flex grow to fill available space */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <p className="text-gray-600 leading-relaxed mb-6 flex-grow">
                       {story.preview}
                     </p>
 
@@ -181,8 +250,8 @@ export default function ClientStoriesPage() {
                       <p className="text-gray-600 text-sm">{story.outcome}</p>
                     </div>
 
-                    {/* Read Time & Learn More */}
-                    <div className="flex items-center justify-between">
+                    {/* Read Time & Learn More - Fixed at bottom */}
+                    <div className="flex items-center justify-between mt-auto">
                       <span className="text-gray-500 text-sm">
                         {story.readTime}
                       </span>

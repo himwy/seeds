@@ -138,8 +138,7 @@ export default function Footer() {
               <li className="flex items-start">
                 <FaMapMarkerAlt className="mt-1 mr-2 text-primary flex-shrink-0" />
                 <span className="text-sm text-dark-gray">
-                  Caroline Centre, Lee Gardens Two, 28, Yun Ping Road, Causeway
-                  Bay, Hong Kong
+                  {t.footer.address}
                 </span>
               </li>
             </ul>

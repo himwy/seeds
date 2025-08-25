@@ -5,15 +5,15 @@ import { useLanguage } from "../../../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { 
-  FaArrowLeft, 
-  FaUpload, 
-  FaImages, 
-  FaCalendarAlt, 
+import {
+  FaArrowLeft,
+  FaUpload,
+  FaImages,
+  FaCalendarAlt,
   FaCheck,
   FaExclamationTriangle,
   FaSave,
-  FaTimes
+  FaTimes,
 } from "react-icons/fa";
 import { EventsService } from "../../../lib/eventsService";
 
@@ -40,13 +40,14 @@ const translations = {
     saving: "Creating event...",
     success: "Event created successfully!",
     error: "Error creating event",
-    validationError: "Please fill in all required fields and upload at least one photo",
+    validationError:
+      "Please fill in all required fields and upload at least one photo",
 
     removePhoto: "Remove photo",
     dragDrop: "Drag & drop photos here or click to browse",
     selectedPhotos: "Selected Photos",
     noPhotos: "No photos selected",
-    
+
     required: "Required field",
     optional: "Optional",
   },
@@ -78,7 +79,7 @@ const translations = {
     dragDrop: "拖放相片到此處或點擊瀏覽",
     selectedPhotos: "已選相片",
     noPhotos: "未選擇相片",
-    
+
     required: "必填欄位",
     optional: "可選",
   },
@@ -100,9 +101,14 @@ export default function CreateEventPage() {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -144,7 +150,7 @@ export default function CreateEventPage() {
     e.preventDefault();
 
     if (!formData.name || !formData.chineseName || selectedFiles.length === 0) {
-      setMessage({ type: 'error', text: t.validationError });
+      setMessage({ type: "error", text: t.validationError });
       return;
     }
 
@@ -166,15 +172,14 @@ export default function CreateEventPage() {
         images: imageUrls,
       });
 
-      setMessage({ type: 'success', text: t.success });
-      
+      setMessage({ type: "success", text: t.success });
+
       // Redirect after success
       setTimeout(() => {
         router.push("/admin");
       }, 2000);
-
     } catch (err) {
-      setMessage({ type: 'error', text: t.error });
+      setMessage({ type: "error", text: t.error });
       console.error("Error creating event:", err);
     } finally {
       setUploading(false);
@@ -189,7 +194,7 @@ export default function CreateEventPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center">
-              <Link 
+              <Link
                 href="/admin"
                 className="flex items-center text-blue-600 hover:text-blue-700 transition-colors mr-6"
               >
@@ -216,13 +221,13 @@ export default function CreateEventPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className={`mb-6 p-4 rounded-lg ${
-              message.type === 'error' 
-                ? 'bg-red-50 text-red-700 border border-red-200' 
-                : 'bg-green-50 text-green-700 border border-green-200'
+              message.type === "error"
+                ? "bg-red-50 text-red-700 border border-red-200"
+                : "bg-green-50 text-green-700 border border-green-200"
             }`}
           >
             <div className="flex items-center">
-              {message.type === 'error' ? (
+              {message.type === "error" ? (
                 <FaExclamationTriangle className="mr-2" />
               ) : (
                 <FaCheck className="mr-2" />
@@ -243,7 +248,9 @@ export default function CreateEventPage() {
           <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 rounded-t-lg">
             <div className="flex items-center">
               <FaImages className="text-blue-600 mr-3" />
-              <h2 className="text-lg font-semibold text-gray-900">Event Information</h2>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Event Information
+              </h2>
             </div>
           </div>
 

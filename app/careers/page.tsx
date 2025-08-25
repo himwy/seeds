@@ -30,152 +30,198 @@ export default function CareersPage() {
       pageTitle: "Careers",
       heroTitle: "Build Your Career in Wealth Management",
       heroSubtitle: "Join Our Team of Financial Professionals",
-      heroDescription: "Discover rewarding career opportunities at Seeds Financial Group. We're committed to developing the next generation of wealth management professionals through comprehensive training, mentorship, and growth opportunities.",
+      heroDescription:
+        "Discover rewarding career opportunities at Seeds Financial Group. We're committed to developing the next generation of wealth management professionals through comprehensive training, mentorship, and growth opportunities.",
       whyWealthTitle: "Why Choose Wealth Management?",
-      whyWealthDescription: "Before anything else, it's important to understand that Wealth Management is a specialized investment-advisory that offers advice and financial services to high-net-worth-individuals (HNWI), small business owners and families, making it one of most popular and distinctive fields within the financial sector. Here are 7 reasons that make wealth management an exciting career and why you should pursue it.",
+      whyWealthDescription:
+        "Before anything else, it's important to understand that Wealth Management is a specialized investment-advisory that offers advice and financial services to high-net-worth-individuals (HNWI), small business owners and families, making it one of most popular and distinctive fields within the financial sector. Here are 7 reasons that make wealth management an exciting career and why you should pursue it.",
       currentOpportunitiesTitle: "Current Opportunities",
-      currentOpportunitiesDescription: "Join our dynamic team and start your journey in wealth management with comprehensive training and mentorship.",
+      currentOpportunitiesDescription:
+        "Join our dynamic team and start your journey in wealth management with comprehensive training and mentorship.",
       viewDetails: "View Details",
-      apply: "Apply",
+      apply: "",
       hearFromInternsTitle: "Hear from Our Interns",
-      hearFromInternsDescription: "Discover what it's like to start your career with Seeds Financial Group.",
+      hearFromInternsDescription:
+        "Discover what it's like to start your career with Seeds Financial Group.",
       videoPlaceholder: "Intern testimonial video will be embedded here",
       videoNote: "(Video link to be provided)",
       reasons: [
         {
           title: "Making a Difference",
-          description: "Being a wealth manager provides you an opportunity to make life-changing impact on your client's life as you offer advice that fundamentally delivers a solution to help and empower them to meet their financial priorities, aspirations and goals, ultimately contributing to the economy in general. These alone can be extraordinarily fulfilling."
+          description:
+            "Being a wealth manager provides you an opportunity to make life-changing impact on your client's life as you offer advice that fundamentally delivers a solution to help and empower them to meet their financial priorities, aspirations and goals, ultimately contributing to the economy in general. These alone can be extraordinarily fulfilling.",
         },
         {
           title: "Self-Development",
-          description: "Being a wealth manager will push you to develop your communication, interpersonal, negotiation, problem-solving, team-work, leadership and entrepreneurial skills. These core competencies will get you very, very far in life."
+          description:
+            "Being a wealth manager will push you to develop your communication, interpersonal, negotiation, problem-solving, team-work, leadership and entrepreneurial skills. These core competencies will get you very, very far in life.",
         },
         {
           title: "Financial Creativity and Innovation",
-          description: "Getting access and exposure to variety of financial planning, investment, management products and services not only makes you financially smart yourself but also gives you a window of opportunity to innovate and create new solutions."
+          description:
+            "Getting access and exposure to variety of financial planning, investment, management products and services not only makes you financially smart yourself but also gives you a window of opportunity to innovate and create new solutions.",
         },
         {
           title: "A Career to be Proud Of",
-          description: "Similar to being a doctor, lawyers, bankers, etc. being wealth manager offers a opportunity for you to build a career and a status you can be proud of."
+          description:
+            "Similar to being a doctor, lawyers, bankers, etc. being wealth manager offers a opportunity for you to build a career and a status you can be proud of.",
         },
         {
           title: "Lifetime Professional and Social Relationship",
-          description: "Being a financial advisor and wealth manager to someone generates lifelong value and makes you a unique partner as you guide your client through ever-changing situations and financial needs."
+          description:
+            "Being a financial advisor and wealth manager to someone generates lifelong value and makes you a unique partner as you guide your client through ever-changing situations and financial needs.",
         },
         {
           title: "Earning Potentials",
-          description: "It's not surprising that every financial firm has made wealth management a priority and constantly hiring financial advisors. It's rapidly growing with high earning potential, bringing a win-win situation to every stakeholder."
+          description:
+            "It's not surprising that every financial firm has made wealth management a priority and constantly hiring financial advisors. It's rapidly growing with high earning potential, bringing a win-win situation to every stakeholder.",
         },
         {
           title: "Business Ownership",
-          description: "Having an entrepreneurial mindset and successfully creating your own client based creates a path for you to be your boss and a business owner."
-        }
+          description:
+            "Having an entrepreneurial mindset and successfully creating your own client based creates a path for you to be your boss and a business owner.",
+        },
       ],
       jobs: [
         {
           id: "wealth-management-intern",
           title: "Wealth Management Intern",
-          titleChinese: "見習財富策劃經理 (歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
-          description: "Are you passionate about finance and eager to kickstart your career in wealth management? We're looking for motivated and talented interns to join our dynamic team.",
-          details: "As a Wealth Management Intern, you'll gain hands-on experience in financial analysis, asset allocation, and client advisory services. You'll work closely with seasoned professionals, learning the ins and outs of portfolio management, risk assessment, and strategic planning.",
-          training: "This is an excellent opportunity to develop your skills, grow your network, and make a meaningful impact on our clients' financial futures.",
-          note: "Comprehensive and continuous training provided with mentorship from experienced professionals."
+          titleChinese:
+            "見習財富策劃經理 (歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
+          description:
+            "Are you passionate about finance and eager to kickstart your career in wealth management? We're looking for motivated and talented interns to join our dynamic team.",
+          details:
+            "As a Wealth Management Intern, you'll gain hands-on experience in financial analysis, asset allocation, and client advisory services. You'll work closely with seasoned professionals, learning the ins and outs of portfolio management, risk assessment, and strategic planning.",
+          training:
+            "This is an excellent opportunity to develop your skills, grow your network, and make a meaningful impact on our clients' financial futures.",
+          note: "Comprehensive and continuous training provided with mentorship from experienced professionals.",
         },
         {
           id: "wealth-management-manager",
           title: "Wealth Management Manager",
-          titleChinese: "財富策劃經理 (歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
-          description: "Seeds Financial Group in partnership with one of the world's largest financial groups provides advisory services using a wide range of risk management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
-          details: "We are committed to delivering exceptional service that adds real value to our clients' lives and we are constantly looking for driven and hardworking individuals to join our collaborative team.",
-          training: "Application is open for driven fresh graduates, career changers and individuals with related experience. Comprehensive training provided.",
-          note: "This position offers significant growth opportunities and the potential to build a substantial career in wealth management."
+          titleChinese:
+            "財富策劃經理 (歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
+          description:
+            "Seeds Financial Group in partnership with one of the world's largest financial groups provides advisory services using a wide range of risk management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
+          details:
+            "We are committed to delivering exceptional service that adds real value to our clients' lives and we are constantly looking for driven and hardworking individuals to join our collaborative team.",
+          training:
+            "Application is open for driven fresh graduates, career changers and individuals with related experience. Comprehensive training provided.",
+          note: "This position offers significant growth opportunities and the potential to build a substantial career in wealth management.",
         },
         {
           id: "wealth-management-director",
           title: "Wealth Management Director",
-          titleChinese: "財富策劃總監 (歡迎經驗人士/企業客戶經理/海外畢業回流/IANG/受養人簽證)",
-          description: "Are you an experienced professional looking to take your career to the next level? Join our leadership team as a Wealth Management Director.",
-          details: "Lead a team of wealth management professionals while directly managing high-net-worth client relationships. This role combines strategic leadership with hands-on client advisory services.",
-          training: "Advanced training in leadership, team management, and sophisticated wealth management strategies for high-net-worth individuals.",
-          note: "Ideal for experienced professionals seeking senior leadership opportunities with competitive compensation and equity participation."
-        }
-      ]
+          titleChinese:
+            "財富策劃總監 (歡迎經驗人士/企業客戶經理/海外畢業回流/IANG/受養人簽證)",
+          description:
+            "Are you an experienced professional looking to take your career to the next level? Join our leadership team as a Wealth Management Director.",
+          details:
+            "Lead a team of wealth management professionals while directly managing high-net-worth client relationships. This role combines strategic leadership with hands-on client advisory services.",
+          training:
+            "Advanced training in leadership, team management, and sophisticated wealth management strategies for high-net-worth individuals.",
+          note: "Ideal for experienced professionals seeking senior leadership opportunities with competitive compensation and equity participation.",
+        },
+      ],
     },
     "zh-HK": {
       pageTitle: "職業機會",
       heroTitle: "在財富管理領域建立您的職業生涯",
       heroSubtitle: "加入我們的金融專業團隊",
-      heroDescription: "探索seeds財富集團的精彩職業機會。我們致力於通過全面的培訓、指導和成長機會來培養下一代財富管理專業人士。",
+      heroDescription:
+        "探索Seeds Financial Group的精彩職業機會。我們致力於通過全面的培訓、指導和成長機會來培養下一代財富管理專業人士。",
       whyWealthTitle: "為什麼選擇財富管理？",
-      whyWealthDescription: "首先，重要的是要了解財富管理是一個專門的投資諮詢領域，為高淨值個人(HNWI)、小企業主和家庭提供建議和金融服務，使其成為金融領域最受歡迎和最具特色的領域之一。以下是財富管理成為令人興奮的職業以及您應該追求它的7個原因。",
+      whyWealthDescription:
+        "首先，重要的是要了解財富管理是一個專門的投資諮詢領域，為高淨值個人(HNWI)、小企業主和家庭提供建議和金融服務，使其成為金融領域最受歡迎和最具特色的領域之一。以下是財富管理成為令人興奮的職業以及您應該追求它的7個原因。",
       currentOpportunitiesTitle: "當前機會",
-      currentOpportunitiesDescription: "加入我們充滿活力的團隊，通過全面的培訓和指導開始您的財富管理之旅。",
+      currentOpportunitiesDescription:
+        "加入我們充滿活力的團隊，通過全面的培訓和指導開始您的財富管理之旅。",
       viewDetails: "查看詳情",
-      apply: "申請",
+      apply: "",
       hearFromInternsTitle: "聽聽我們實習生的心聲",
-      hearFromInternsDescription: "了解在seeds財富集團開始職業生涯的感受。",
+      hearFromInternsDescription:
+        "了解在Seeds Financial Group開始職業生涯的感受。",
       videoPlaceholder: "實習生推薦視頻將在此嵌入",
       videoNote: "（待提供視頻鏈接）",
       reasons: [
         {
           title: "創造影響",
-          description: "作為財富經理，您有機會對客戶的生活產生改變人生的影響，因為您提供的建議從根本上提供解決方案，幫助並賦權他們實現財務優先事項、願望和目標，最終為整體經濟做出貢獻。僅此一點就能帶來非凡的滿足感。"
+          description:
+            "作為財富經理，您有機會對客戶的生活產生改變人生的影響，因為您提供的建議從根本上提供解決方案，幫助並賦權他們實現財務優先事項、願望和目標，最終為整體經濟做出貢獻。僅此一點就能帶來非凡的滿足感。",
         },
         {
           title: "自我發展",
-          description: "作為財富經理將推動您發展溝通、人際關係、談判、解決問題、團隊合作、領導力和創業技能。這些核心能力將使您在人生中走得很遠。"
+          description:
+            "作為財富經理將推動您發展溝通、人際關係、談判、解決問題、團隊合作、領導力和創業技能。這些核心能力將使您在人生中走得很遠。",
         },
         {
           title: "金融創意和創新",
-          description: "接觸和了解各種財務規劃、投資、管理產品和服務，不僅讓您自己在財務上變得聰明，還為您提供創新和創造新解決方案的機會窗口。"
+          description:
+            "接觸和了解各種財務規劃、投資、管理產品和服務，不僅讓您自己在財務上變得聰明，還為您提供創新和創造新解決方案的機會窗口。",
         },
         {
           title: "值得驕傲的職業",
-          description: "類似於成為醫生、律師、銀行家等，成為財富經理為您提供了建立一個您可以為之驕傲的職業和地位的機會。"
+          description:
+            "類似於成為醫生、律師、銀行家等，成為財富經理為您提供了建立一個您可以為之驕傲的職業和地位的機會。",
         },
         {
           title: "終身專業和社會關係",
-          description: "成為某人的財務顧問和財富經理會產生終身價值，使您成為獨特的合作夥伴，因為您指導客戶度過不斷變化的情況和財務需求。"
+          description:
+            "成為某人的財務顧問和財富經理會產生終身價值，使您成為獨特的合作夥伴，因為您指導客戶度過不斷變化的情況和財務需求。",
         },
         {
           title: "收入潛力",
-          description: "毫不奇怪，每家金融公司都將財富管理作為優先事項並不斷招聘財務顧問。它正在快速增長，具有高收入潛力，為每個利益相關者帶來雙贏局面。"
+          description:
+            "毫不奇怪，每家金融公司都將財富管理作為優先事項並不斷招聘財務顧問。它正在快速增長，具有高收入潛力，為每個利益相關者帶來雙贏局面。",
         },
         {
           title: "企業所有權",
-          description: "具有創業心態並成功創建自己的客戶基礎，為您成為老闆和企業主開闢了道路。"
-        }
+          description:
+            "具有創業心態並成功創建自己的客戶基礎，為您成為老闆和企業主開闢了道路。",
+        },
       ],
       jobs: [
         {
           id: "wealth-management-intern",
           title: "見習財富策劃經理",
-          titleChinese: "Wealth Management Intern (歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
-          description: "您對金融充滿熱情並渴望在財富管理領域開啟職業生涯嗎？我們正在尋找積極主動且才華橫溢的實習生加入我們充滿活力的團隊。",
-          details: "作為財富管理實習生，您將獲得財務分析、資產配置和客戶諮詢服務的實踐經驗。您將與經驗豐富的專業人士密切合作，學習投資組合管理、風險評估和戰略規劃的來龍去脈。",
-          training: "這是發展技能、擴展網絡並對客戶財務未來產生有意義影響的絕佳機會。",
-          note: "提供全面和持續的培訓，並有經驗豐富的專業人士指導。"
+          titleChinese:
+            "Wealth Management Intern (歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
+          description:
+            "您對金融充滿熱情並渴望在財富管理領域開啟職業生涯嗎？我們正在尋找積極主動且才華橫溢的實習生加入我們充滿活力的團隊。",
+          details:
+            "作為財富管理實習生，您將獲得財務分析、資產配置和客戶諮詢服務的實踐經驗。您將與經驗豐富的專業人士密切合作，學習投資組合管理、風險評估和戰略規劃的來龍去脈。",
+          training:
+            "這是發展技能、擴展網絡並對客戶財務未來產生有意義影響的絕佳機會。",
+          note: "提供全面和持續的培訓，並有經驗豐富的專業人士指導。",
         },
         {
           id: "wealth-management-manager",
           title: "財富策劃經理",
-          titleChinese: "Wealth Management Manager (歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
-          description: "seeds財富集團與世界最大的金融集團之一合作，使用廣泛的風險管理、策略和資產配置計劃提供諮詢服務，使我們的客戶能夠實現他們的財務目標和未來需求。",
-          details: "我們致力於提供為客戶生活增加真正價值的卓越服務，我們不斷尋找有動力和勤奮的個人加入我們的協作團隊。",
-          training: "歡迎有動力的應屆畢業生、轉行人士和有相關經驗的個人申請。提供全面培訓。",
-          note: "此職位提供重大的成長機會和在財富管理領域建立重要職業的潛力。"
+          titleChinese:
+            "Wealth Management Manager (歡迎應屆畢業生/海外畢業回流/IANG/受養人簽證)",
+          description:
+            "Seeds Financial group與世界最大的金融集團之一合作，使用廣泛的風險管理、策略和資產配置計劃提供諮詢服務，使我們的客戶能夠實現他們的財務目標和未來需求。",
+          details:
+            "我們致力於提供為客戶生活增加真正價值的卓越服務，我們不斷尋找有動力和勤奮的個人加入我們的協作團隊。",
+          training:
+            "歡迎有動力的應屆畢業生、轉行人士和有相關經驗的個人申請。提供全面培訓。",
+          note: "此職位提供重大的成長機會和在財富管理領域建立重要職業的潛力。",
         },
         {
           id: "wealth-management-director",
           title: "財富策劃總監",
-          titleChinese: "Wealth Management Director (歡迎經驗人士/企業客戶經理/海外畢業回流/IANG/受養人簽證)",
-          description: "您是一位經驗豐富的專業人士，希望將職業生涯提升到新的水平嗎？以財富管理總監的身份加入我們的領導團隊。",
-          details: "領導財富管理專業團隊，同時直接管理高淨值客戶關係。此角色結合了戰略領導與實際客戶諮詢服務。",
-          training: "在領導力、團隊管理以及針對高淨值個人的複雜財富管理策略方面的高級培訓。",
-          note: "適合尋求高級領導機會並享有競爭性薪酬和股權參與的經驗豐富專業人士。"
-        }
-      ]
-    }
+          titleChinese:
+            "Wealth Management Director (歡迎經驗人士/企業客戶經理/海外畢業回流/IANG/受養人簽證)",
+          description:
+            "您是一位經驗豐富的專業人士，希望將職業生涯提升到新的水平嗎？以財富管理總監的身份加入我們的領導團隊。",
+          details:
+            "領導財富管理專業團隊，同時直接管理高淨值客戶關係。此角色結合了戰略領導與實際客戶諮詢服務。",
+          training:
+            "在領導力、團隊管理以及針對高淨值個人的複雜財富管理策略方面的高級培訓。",
+          note: "適合尋求高級領導機會並享有競爭性薪酬和股權參與的經驗豐富專業人士。",
+        },
+      ],
+    },
   };
 
   const t = translations[language];
@@ -187,7 +233,7 @@ export default function CareersPage() {
     { icon: FaStar, ...t.reasons[3] },
     { icon: FaHandshake, ...t.reasons[4] },
     { icon: FaDollarSign, ...t.reasons[5] },
-    { icon: FaUserTie, ...t.reasons[6] }
+    { icon: FaUserTie, ...t.reasons[6] },
   ];
 
   return (
@@ -221,9 +267,11 @@ export default function CareersPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => {
-                    document.getElementById('opportunities-section')?.scrollIntoView({ 
-                      behavior: 'smooth' 
-                    });
+                    document
+                      .getElementById("opportunities-section")
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                      });
                   }}
                   className="px-8 py-4 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2"
                 >
@@ -244,7 +292,8 @@ export default function CareersPage() {
                   alt="Career Opportunities"
                   width={600}
                   height={400}
-                  className="w-full h-[400px] object-cover"
+                  className="w-full h-[250px] md:h-[400px] object-cover object-center"
+                  style={{ objectPosition: "center 20%" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
               </div>
@@ -257,10 +306,9 @@ export default function CareersPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-8">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-8">
@@ -275,10 +323,9 @@ export default function CareersPage() {
             {reasonsWithIcons.map((reason, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
                 className="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition-all duration-300 border border-gray-100"
               >
                 <div className="mb-6">
@@ -298,14 +345,38 @@ export default function CareersPage() {
         </div>
       </section>
 
+      {/* Intern Video Section - Moved before opportunities */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-4xl mx-auto"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              {t.hearFromInternsTitle}
+            </h2>
+            <p className="text-lg text-gray-600 mb-8">
+              {t.hearFromInternsDescription}
+            </p>
+
+            <div className="bg-gray-100 rounded-xl p-12 border-2 border-dashed border-gray-300">
+              <FaUsers className="text-6xl text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500 text-lg">{t.videoPlaceholder}</p>
+              <p className="text-sm text-gray-400 mt-2">{t.videoNote}</p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Current Opportunities Section */}
       <section id="opportunities-section" className="py-20 bg-gray-50">
         <div className="container mx-auto px-8">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
@@ -320,9 +391,9 @@ export default function CareersPage() {
             {t.jobs.map((job, index) => (
               <motion.div
                 key={job.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-300"
               >
                 <div className="p-8">
@@ -357,48 +428,11 @@ export default function CareersPage() {
                     >
                       {t.viewDetails}
                     </Link>
-                    <a
-                      href="mailto:hr@actiondoitnow.com"
-                      className="px-6 py-4 border-2 border-gray-900 text-gray-900 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-300 flex items-center gap-2"
-                    >
-                      <FaPaperPlane className="text-sm" />
-                      {t.apply}
-                    </a>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Intern Video Section - Placeholder */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              {t.hearFromInternsTitle}
-            </h2>
-            <p className="text-lg text-gray-600 mb-8">
-              {t.hearFromInternsDescription}
-            </p>
-            
-            <div className="bg-gray-100 rounded-xl p-12 border-2 border-dashed border-gray-300">
-              <FaUsers className="text-6xl text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">
-                {t.videoPlaceholder}
-              </p>
-              <p className="text-sm text-gray-400 mt-2">
-                {t.videoNote}
-              </p>
-            </div>
-          </motion.div>
         </div>
       </section>
     </div>

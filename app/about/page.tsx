@@ -131,6 +131,9 @@ const translations = {
         },
       ],
     },
+    vision: {
+      title: "Our Vision",
+    },
   },
   "zh-HK": {
     pageTitle: "關於 Seeds Financial Group",
@@ -211,6 +214,9 @@ const translations = {
         },
       ],
     },
+    vision: {
+      title: "我們的願景",
+    },
   },
 };
 
@@ -220,14 +226,14 @@ export default function AboutPage() {
     translations[language as keyof typeof translations] || translations.en;
 
   return (
-    <div className="min-h-screen bg-white pt-16">
+    <div className="min-h-screen bg-white pt-16 overflow-x-hidden">
       {/* Clean Professional Header */}
       <section className="py-16 bg-white border-b border-gray-200">
         <div className="container mx-auto px-6">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             className="text-center"
           >
             <h1 className="text-4xl font-bold text-gray-800 mb-4 font-serif">
@@ -240,15 +246,15 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-6 py-12">
-        <div className="max-w-5xl mx-auto space-y-16">
+      <div className="container mx-auto px-4 sm:px-6 py-12 overflow-hidden">
+        <div className="max-w-5xl mx-auto space-y-16 w-full">
           {/* Company Overview */}
           <motion.section
-            initial={{ opacity: 0, y: -50 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="bg-gray-50 rounded-lg p-8"
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-50px" }}
+            className="bg-gray-50 rounded-lg p-6 sm:p-8 w-full overflow-hidden"
           >
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="relative h-80">
@@ -277,7 +283,9 @@ export default function AboutPage() {
                   ))}
                 </div>
                 <div className="mt-6 p-4 bg-white rounded border-l-4 border-gray-800">
-                  <p className="italic text-gray-700">&ldquo;{t.mission.quote}&rdquo;</p>
+                  <p className="italic text-gray-700">
+                    &ldquo;{t.mission.quote}&rdquo;
+                  </p>
                 </div>
               </div>
             </div>
@@ -285,45 +293,63 @@ export default function AboutPage() {
 
           {/* Values Section */}
           <motion.section
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-20px" }}
+            className="w-full overflow-hidden"
           >
             <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
               {t.values.title}
             </h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {t.values.items.map((value: { title: string; description: string }, index: number) => (
-                <div
-                  key={index}
-                  className="bg-gray-50 p-6 rounded-lg border border-gray-200"
-                >
-                  <div className="text-center">
-                    <div className="mb-4 inline-flex p-3 bg-white rounded-lg shadow-sm">
-                      {React.createElement(valuesConfig[index].icon, {
-                        className: "text-2xl text-gray-700",
-                      })}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+              {t.values.items.map(
+                (
+                  value: { title: string; description: string },
+                  index: number
+                ) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0.3, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.3,
+                      delay: Math.min(index * 0.05, 0.2),
+                    }}
+                    viewport={{ once: true, margin: "0px", amount: 0.3 }}
+                    className="w-full bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow duration-300"
+                    style={{
+                      // Fallback visibility to ensure cards always appear
+                      minHeight: "200px",
+                      opacity: 1, // Fallback opacity
+                    }}
+                  >
+                    <div className="text-center">
+                      <div className="mb-4 inline-flex p-3 bg-white rounded-lg shadow-sm">
+                        {React.createElement(valuesConfig[index].icon, {
+                          className: "text-2xl text-gray-700",
+                        })}
+                      </div>
+                      <h3 className="text-lg font-bold text-gray-800 mb-3">
+                        {value.title}
+                      </h3>
+                      <p className="text-gray-700 leading-relaxed text-sm">
+                        {value.description}
+                      </p>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-3">
-                      {value.title}
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed text-sm">
-                      {value.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                  </motion.div>
+                )
+              )}
             </div>
           </motion.section>
 
           {/* Philosophy Section */}
           <motion.section
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            viewport={{ once: true }}
-            className="bg-gray-50 rounded-lg p-8"
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-50px" }}
+            className="bg-gray-50 rounded-lg p-6 sm:p-8 w-full overflow-hidden"
           >
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
@@ -346,38 +372,54 @@ export default function AboutPage() {
             </div>
 
             {/* Philosophy Principles */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
-              {t.philosophy.circles.map((circle: { title: string; description: string }, index: number) => (
-                <div
-                  key={index}
-                  className="bg-white p-4 rounded-lg border border-gray-200 text-center"
-                >
-                  <div className="mb-3 inline-flex p-2 bg-gray-100 rounded-lg">
-                    {React.createElement(philosophyIcons[index].icon, {
-                      className: `text-xl ${philosophyIcons[index].color}`,
-                    })}
-                  </div>
-                  <h3 className="font-bold text-gray-800 text-sm mb-2">
-                    {circle.title}
-                  </h3>
-                  <p className="text-gray-700 text-xs leading-relaxed">
-                    {circle.description}
-                  </p>
-                </div>
-              ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8 w-full">
+              {t.philosophy.circles.map(
+                (
+                  circle: { title: string; description: string },
+                  index: number
+                ) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0.3, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.3,
+                      delay: Math.min(index * 0.02, 0.2),
+                    }}
+                    viewport={{ once: true, margin: "0px", amount: 0.3 }}
+                    className="w-full bg-white p-4 rounded-lg border border-gray-200 text-center hover:shadow-md transition-shadow duration-300"
+                    style={{
+                      minHeight: "160px",
+                      opacity: 1, // Fallback opacity
+                    }}
+                  >
+                    <div className="mb-3 inline-flex p-2 bg-gray-100 rounded-lg">
+                      {React.createElement(philosophyIcons[index].icon, {
+                        className: `text-xl ${philosophyIcons[index].color}`,
+                      })}
+                    </div>
+                    <h3 className="font-bold text-gray-800 text-sm mb-2">
+                      {circle.title}
+                    </h3>
+                    <p className="text-gray-700 text-xs leading-relaxed">
+                      {circle.description}
+                    </p>
+                  </motion.div>
+                )
+              )}
             </div>
           </motion.section>
 
           {/* Company Vision */}
           <motion.section
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center bg-white p-8 rounded-lg border border-gray-200"
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-50px" }}
+            className="text-center bg-white p-6 sm:p-8 rounded-lg border border-gray-200 w-full overflow-hidden"
           >
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
-              Our Vision
+              {t.vision.title}
             </h2>
             <p className="text-lg text-gray-700 leading-relaxed italic">
               {t.introduction.description2}

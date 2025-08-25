@@ -17,10 +17,12 @@ import {
 const translations = {
   en: {
     pageTitle: "IIQE - Insurance Intermediaries Qualifying Examination",
-    pageSubtitle: "Your pathway to becoming a licensed insurance professional in Hong Kong",
+    pageSubtitle:
+      "Your pathway to becoming a licensed insurance professional in Hong Kong",
     qualificationBadge: "PROFESSIONAL QUALIFICATION",
     examRequirementsTitle: "Examination Requirements",
-    requirement: 'Every individual licensee must have passed the relevant papers of the Insurance Intermediaries Qualifying Examination ("IIQE") conducted by the Vocational Training Council, the appointed examination body for the IIQE, unless otherwise exempted.',
+    requirement:
+      'Every individual licensee must have passed the relevant papers of the Insurance Intermediaries Qualifying Examination ("IIQE") conducted by the Vocational Training Council, the appointed examination body for the IIQE, unless otherwise exempted.',
     moreInfo: "Official Information:",
     officialLink: "IIQE Details",
     keyInfoTitle: "Key Information",
@@ -28,25 +30,26 @@ const translations = {
       "Mandatory qualification for insurance intermediaries in Hong Kong",
       "Conducted by the Vocational Training Council",
       "Required for individual licensees unless exempted",
-      "Essential step for career advancement in insurance"
+      "Essential step for career advancement in insurance",
     ],
     contactTitle: "Need Support?",
-    contactDescription: "Join Seeds Financial Group and get the guidance you need for your insurance career.",
+    contactDescription:
+      "Join Seeds Financial Group and get the guidance you need for your insurance career.",
     contactButton: "Contact Us",
     quickFactsTitle: "Quick Facts",
     quickFacts: [
       {
         title: "Professional Qualification",
-        description: "Recognized industry standard"
+        description: "Recognized industry standard",
       },
       {
-        title: "Examination Format", 
-        description: "Structured assessment papers"
+        title: "Examination Format",
+        description: "Structured assessment papers",
       },
       {
         title: "Career Advancement",
-        description: "Gateway to insurance profession"
-      }
+        description: "Gateway to insurance profession",
+      },
     ],
     backToCareers: "Back to Careers",
   },
@@ -55,7 +58,8 @@ const translations = {
     pageSubtitle: "成為香港持牌保險專業人士的途徑",
     qualificationBadge: "專業資格",
     examRequirementsTitle: "考試要求",
-    requirement: "除非獲得豁免，否則每個個人持牌人必須通過由職業訓練局（獲委任的保險中介人資格考試機構）舉辦的保險中介人資格考試 (IIQE) 的相關試卷。",
+    requirement:
+      "除非獲得豁免，否則每個個人持牌人必須通過由職業訓練局（獲委任的保險中介人資格考試機構）舉辦的保險中介人資格考試 (IIQE) 的相關試卷。",
     moreInfo: "官方資訊：",
     officialLink: "考試詳情",
     keyInfoTitle: "重要資訊",
@@ -63,7 +67,7 @@ const translations = {
       "香港保險中介人的強制性資格",
       "由職業訓練局主辦",
       "個人持牌人必須通過，除非獲得豁免",
-      "保險業職業發展的重要步驟"
+      "保險業職業發展的重要步驟",
     ],
     contactTitle: "需要支援？",
     contactDescription: "加入Seeds Financial Group，獲得保險事業所需的指導。",
@@ -72,16 +76,16 @@ const translations = {
     quickFacts: [
       {
         title: "專業資格",
-        description: "行業認可標準"
+        description: "行業認可標準",
       },
       {
         title: "考試形式",
-        description: "結構化評估試卷"
+        description: "結構化評估試卷",
       },
       {
         title: "職業發展",
-        description: "保險專業的入門途徑"
-      }
+        description: "保險專業的入門途徑",
+      },
     ],
     backToCareers: "返回職業發展",
   },
@@ -110,18 +114,16 @@ export default function IIQEPage() {
             >
               <FaArrowLeft /> {t.backToCareers}
             </Link>
-            
+
             <div className="max-w-4xl">
               <div className="mb-6">
                 <span className="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
                   {t.qualificationBadge}
                 </span>
               </div>
-              
-              <h1 className="text-5xl font-bold text-gray-900 mb-4">
-                IIQE
-              </h1>
-              
+
+              <h1 className="text-5xl font-bold text-gray-900 mb-4">IIQE</h1>
+
               <p className="text-lg text-gray-500 mb-6 font-medium">
                 {t.pageSubtitle}
               </p>
@@ -140,14 +142,16 @@ export default function IIQEPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">{t.examRequirementsTitle}</h2>
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                  {t.examRequirementsTitle}
+                </h2>
                 <div className="prose prose-lg text-gray-600 space-y-6">
-                  <p>
-                    {t.requirement}
-                  </p>
-                  
+                  <p>{t.requirement}</p>
+
                   <div className="flex items-center gap-4 pt-4">
-                    <span className="text-gray-700 font-medium">{t.moreInfo}</span>
+                    <span className="text-gray-700 font-medium">
+                      {t.moreInfo}
+                    </span>
                     <a
                       href="https://www.ia.org.hk/en/supervision/reg_ins_intermediaries/insurance_intermediaries_qualifying_examination.html"
                       target="_blank"
@@ -167,7 +171,9 @@ export default function IIQEPage() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="mt-12"
               >
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.keyInfoTitle}</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                  {t.keyInfoTitle}
+                </h3>
                 <ul className="space-y-3">
                   {t.keyInfoItems.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
@@ -189,10 +195,10 @@ export default function IIQEPage() {
               >
                 {/* Contact Card */}
                 <div className="bg-gray-50 rounded-xl p-8 mb-8 border border-gray-200">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.contactTitle}</h3>
-                  <p className="text-gray-600 mb-6">
-                    {t.contactDescription}
-                  </p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">
+                    {t.contactTitle}
+                  </h3>
+                  <p className="text-gray-600 mb-6">{t.contactDescription}</p>
                   <div className="space-y-4">
                     <a
                       href="mailto:hr@actiondoitnow.com"
@@ -206,20 +212,32 @@ export default function IIQEPage() {
 
                 {/* Quick Facts */}
                 <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">{t.quickFactsTitle}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">
+                    {t.quickFactsTitle}
+                  </h3>
                   <div className="space-y-6">
                     {t.quickFacts.map((fact, index) => (
                       <div key={index} className="flex gap-4">
                         <div className="flex-shrink-0">
                           <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                            {index === 0 && <FaGraduationCap className="text-blue-600" />}
-                            {index === 1 && <FaFileAlt className="text-blue-600" />}
-                            {index === 2 && <FaCheckCircle className="text-blue-600" />}
+                            {index === 0 && (
+                              <FaGraduationCap className="text-blue-600" />
+                            )}
+                            {index === 1 && (
+                              <FaFileAlt className="text-blue-600" />
+                            )}
+                            {index === 2 && (
+                              <FaCheckCircle className="text-blue-600" />
+                            )}
                           </div>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-1">{fact.title}</h4>
-                          <p className="text-sm text-gray-600">{fact.description}</p>
+                          <h4 className="font-semibold text-gray-900 mb-1">
+                            {fact.title}
+                          </h4>
+                          <p className="text-sm text-gray-600">
+                            {fact.description}
+                          </p>
                         </div>
                       </div>
                     ))}

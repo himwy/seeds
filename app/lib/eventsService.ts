@@ -226,6 +226,37 @@ export class EventsService {
     }
   }
 
+  // Delete image file from Appwrite storage
+  static async deleteImageFile(fileId: string): Promise<void> {
+    try {
+      await storage.deleteFile(STORAGE_BUCKET_ID, fileId);
+    } catch (error) {
+      console.error('Error deleting image file:', error);
+      // Don't throw, allow event/image update to continue
+    }
+  }
+
+  // Delete event and all associated images from Appwrite storage
+  static async deleteEventWithImages(eventId: string): Promise<void> {
+    try {
+      // Get event
+      const event = await this.getEvent(eventId);
+      // Delete all images
+      for (const imageUrl of event.images) {
+        const match = imageUrl.match(/\/files\/(.*?)\//);
+        const fileId = match ? match[1] : null;
+        if (fileId) {
+          await this.deleteImageFile(fileId);
+        }
+      }
+      // Delete event document
+      await this.deleteEvent(eventId);
+    } catch (error) {
+      console.error('Error deleting event and images:', error);
+      throw error;
+    }
+  }
+
   // Validate configuration
   static validateConfiguration(): { isValid: boolean; errors: string[] } {
     const errors: string[] = [];

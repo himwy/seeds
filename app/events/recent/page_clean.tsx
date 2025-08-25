@@ -24,7 +24,7 @@ const translations = {
     loading: "Loading events...",
     error: "Unable to load events",
     photosCount: "photos",
-    eventsTitle: "Recent Events",
+    eventsTitle: "Recent Highlights",
     sortBy: "Sort by",
     sortNewest: "Newest First",
     sortOldest: "Oldest First",
@@ -42,7 +42,7 @@ const translations = {
     loading: "載入活動中...",
     error: "無法載入活動",
     photosCount: "張相片",
-    eventsTitle: "最近活動",
+    eventsTitle: "最近亮點",
     sortBy: "排序方式",
     sortNewest: "最新優先",
     sortOldest: "最舊優先",
@@ -236,7 +236,7 @@ export default function RecentEventsPage() {
 
                         <Link href={`/events/${event.$id}`}>
                           <button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors duration-200">
-                            <FaEye className="text-white" />
+                            <FaEye />
                             <span>{t.viewGallery}</span>
                           </button>
                         </Link>

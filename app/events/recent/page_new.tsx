@@ -24,7 +24,7 @@ const translations = {
     loading: "Loading events...",
     error: "Unable to load events",
     photosCount: "photos",
-    eventsTitle: "Recent Events",
+    eventsTitle: "Recent Highlights",
     sortBy: "Sort by",
     sortNewest: "Newest First",
     sortOldest: "Oldest First",
@@ -42,7 +42,7 @@ const translations = {
     loading: "載入活動中...",
     error: "無法載入活動",
     photosCount: "張相片",
-    eventsTitle: "最近活動",
+    eventsTitle: "最近亮點",
     sortBy: "排序方式",
     sortNewest: "最新優先",
     sortOldest: "最舊優先",
@@ -96,82 +96,93 @@ export default function RecentEventsPage() {
   });
 
   return (
-    <div
-      className="min-h-screen bg-white"
-      style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
-    >
-      {/* Hero Section */}
-      <section className="relative bg-gray-50 py-20 pt-32">
-        <div className="container mx-auto px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-5xl mx-auto"
-          >
-            <h1 className="text-6xl font-bold text-gray-900 mb-6">
-              {t.pageTitle}
-            </h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+      {/* Sophisticated Hero Section */}
+      <section className="relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-purple-900/20"></div>
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl"></div>
+          </div>
+        </div>
 
-            <div className="w-32 h-1 bg-gray-900 mx-auto mb-8"></div>
-
-            <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-12">
-              {t.heroDescription}
-            </p>
-
-            <p className="text-lg text-gray-600 italic">{t.heroSubtitle}</p>
-          </motion.div>
+        <div className="relative px-4 py-24 sm:py-32">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center"
+            >
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-6">
+                {t.pageTitle}
+              </h1>
+              <p className="text-xl md:text-2xl text-slate-300 font-light mb-4 max-w-3xl mx-auto">
+                {t.heroSubtitle}
+              </p>
+              <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                {t.heroDescription}
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Events Content */}
-      <section className="py-16 px-8">
-        <div className="container mx-auto">
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-24">
-              <div className="w-16 h-16 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin"></div>
-              <p className="text-gray-600 mt-6 text-lg">{t.loading}</p>
+              <div className="relative">
+                <div className="w-16 h-16 border-4 border-slate-200 rounded-full animate-pulse"></div>
+                <div className="absolute top-0 left-0 w-16 h-16 border-4 border-slate-600 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+              <p className="text-slate-600 mt-6 text-lg">{t.loading}</p>
             </div>
           ) : error ? (
             <div className="text-center py-24">
-              <div className="text-2xl font-medium text-red-600 mb-6">
+              <div className="text-2xl font-light text-red-600 mb-6">
                 {t.error}
               </div>
               <button
                 onClick={loadEvents}
-                className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200"
+                className="px-8 py-4 bg-slate-900 text-white rounded-full font-medium hover:bg-slate-800 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 {t.tryAgain}
               </button>
             </div>
           ) : events.length === 0 ? (
             <div className="text-center py-24">
-              <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-8">
-                <FaCalendarAlt className="text-3xl text-gray-600" />
+              <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-8">
+                <FaCalendarAlt className="text-3xl text-slate-400" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              <h3 className="text-3xl font-light text-slate-700 mb-4">
                 {t.noEvents}
               </h3>
-              <p className="text-gray-600 text-lg">{t.stayTuned}</p>
+              <p className="text-slate-500 text-lg">{t.stayTuned}</p>
             </div>
           ) : (
             <>
               {/* Header with Sort */}
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
+              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-12">
                 <div>
-                  <h2 className="text-4xl font-bold text-gray-900 mb-2">
+                  <h2 className="text-3xl md:text-4xl font-light text-slate-800 mb-2">
                     {t.eventsTitle}
                   </h2>
-                  <div className="w-20 h-1 bg-gray-900"></div>
+                  <p className="text-slate-600">{t.recentActivity}</p>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <FaFilter className="text-gray-600" />
-                  <span className="text-gray-600 font-medium">{t.sortBy}:</span>
+                  <FaFilter className="text-slate-400" />
+                  <span className="text-slate-600 font-medium">
+                    {t.sortBy}:
+                  </span>
                   <select
                     value={sortOrder}
                     onChange={(e) => setSortOrder(e.target.value)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900"
+                    className="px-4 py-2 bg-white border border-slate-200 rounded-full text-slate-700 font-medium focus:ring-2 focus:ring-slate-300 focus:border-slate-300 shadow-sm"
                   >
                     <option value="newest">{t.sortNewest}</option>
                     <option value="oldest">{t.sortOldest}</option>
@@ -179,7 +190,7 @@ export default function RecentEventsPage() {
                 </div>
               </div>
 
-              {/* Events Grid */}
+              {/* Sophisticated Events Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {sortedEvents.map((event, index) => (
                   <motion.article
@@ -188,7 +199,7 @@ export default function RecentEventsPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
+                    className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
                   >
                     {/* Image Container */}
                     <div className="relative h-64 overflow-hidden">
@@ -201,43 +212,46 @@ export default function RecentEventsPage() {
                                 ? event.chineseName
                                 : event.name
                             }
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                           />
+                          {/* Gradient Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
 
                           {/* Photo Count Badge */}
-                          <div className="absolute top-4 right-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
+                          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-slate-800 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2">
                             <FaImages className="text-xs" />
                             {event.images.length}
                           </div>
 
                           {/* Date Badge */}
-                          <div className="absolute bottom-4 left-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-medium">
+                          <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm text-slate-800 px-3 py-1 rounded-full text-sm font-medium">
                             {formatDate(event.date)}
                           </div>
                         </>
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                          <FaImages className="text-4xl text-gray-400" />
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
+                          <FaImages className="text-4xl text-slate-400" />
                         </div>
                       )}
                     </div>
 
                     {/* Content */}
                     <div className="p-6">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                      <h3 className="text-xl font-semibold text-slate-800 mb-3 line-clamp-2 group-hover:text-slate-600 transition-colors">
                         {language === "zh-HK" ? event.chineseName : event.name}
                       </h3>
 
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center text-gray-600 text-sm">
+                        <div className="flex items-center text-slate-500 text-sm">
                           <FaCalendarAlt className="mr-2" />
                           <span>{formatDate(event.date)}</span>
                         </div>
 
+                        {/* Elegant Button */}
                         <Link href={`/events/${event.$id}`}>
-                          <button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors duration-200">
-                            <FaEye className="text-white" />
-                            <span>{t.viewGallery}</span>
+                          <button className="group/btn flex items-center gap-2 text-slate-600 hover:text-slate-800 font-medium transition-all duration-300">
+                            <span>{t.exploreEvent}</span>
+                            <FaArrowRight className="text-xs transform transition-transform group-hover/btn:translate-x-1" />
                           </button>
                         </Link>
                       </div>
