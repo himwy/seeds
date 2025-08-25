@@ -5,43 +5,84 @@ import { useLanguage } from "../../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
+  FaArrowLeft,
   FaGraduationCap,
   FaExternalLinkAlt,
-  FaArrowLeft,
+  FaFileAlt,
+  FaCheckCircle,
+  FaUsers,
+  FaEnvelope,
 } from "react-icons/fa";
 
 const translations = {
   en: {
     pageTitle: "IIQE - Insurance Intermediaries Qualifying Examination",
-    pageSubtitle:
-      "Your pathway to becoming a licensed insurance professional in Hong Kong",
-
-    requirement:
-      'Every individual licensee must have passed the relevant papers of the Insurance Intermediaries Qualifying Examination ("IIQE") conducted by the Vocational Training Council, the appointed examination body for the IIQE, unless otherwise exempted. For details, please make reference to Annex 1 to GL23: Guideline on "Fit and Proper" Criteria for Licensed Insurance Intermediaries under the Insurance Ordinance (Cap.41).',
-
-    moreInfo: "See more at:",
-    officialLink: "Official IIQE Information",
-
-    ctaTitle: "Ready to Start Your IIQE Journey?",
-    ctaDescription:
-      "Join Seeds Financial Group and get the support you need to succeed in your insurance career.",
-    ctaButton: "Contact Us",
+    pageSubtitle: "Your pathway to becoming a licensed insurance professional in Hong Kong",
+    qualificationBadge: "PROFESSIONAL QUALIFICATION",
+    examRequirementsTitle: "Examination Requirements",
+    requirement: 'Every individual licensee must have passed the relevant papers of the Insurance Intermediaries Qualifying Examination ("IIQE") conducted by the Vocational Training Council, the appointed examination body for the IIQE, unless otherwise exempted.',
+    moreInfo: "Official Information:",
+    officialLink: "IIQE Details",
+    keyInfoTitle: "Key Information",
+    keyInfoItems: [
+      "Mandatory qualification for insurance intermediaries in Hong Kong",
+      "Conducted by the Vocational Training Council",
+      "Required for individual licensees unless exempted",
+      "Essential step for career advancement in insurance"
+    ],
+    contactTitle: "Need Support?",
+    contactDescription: "Join Seeds Financial Group and get the guidance you need for your insurance career.",
+    contactButton: "Contact Us",
+    quickFactsTitle: "Quick Facts",
+    quickFacts: [
+      {
+        title: "Professional Qualification",
+        description: "Recognized industry standard"
+      },
+      {
+        title: "Examination Format", 
+        description: "Structured assessment papers"
+      },
+      {
+        title: "Career Advancement",
+        description: "Gateway to insurance profession"
+      }
+    ],
     backToCareers: "Back to Careers",
   },
   "zh-HK": {
     pageTitle: "保險中介人資格考試 (IIQE)",
     pageSubtitle: "成為香港持牌保險專業人士的途徑",
-
-    requirement:
-      "除非獲得豁免，否則每個個人持牌人必須通過由職業訓練局（獲委任的保險中介人資格考試機構）舉辦的保險中介人資格考試 (IIQE) 的相關試卷。詳情請參閱GL23附件1：《保險業條例》(第41章)下持牌保險中介人的「適當人選」準則指引。",
-
-    moreInfo: "詳情請見：",
-    officialLink: "官方保險中介人資格考試信息",
-
-    ctaTitle: "準備開始您的保險中介人資格考試之旅？",
-    ctaDescription:
-      "加入Seeds Financial Group，獲得在保險事業中成功所需的支持。",
-    ctaButton: "聯絡我們",
+    qualificationBadge: "專業資格",
+    examRequirementsTitle: "考試要求",
+    requirement: "除非獲得豁免，否則每個個人持牌人必須通過由職業訓練局（獲委任的保險中介人資格考試機構）舉辦的保險中介人資格考試 (IIQE) 的相關試卷。",
+    moreInfo: "官方資訊：",
+    officialLink: "考試詳情",
+    keyInfoTitle: "重要資訊",
+    keyInfoItems: [
+      "香港保險中介人的強制性資格",
+      "由職業訓練局主辦",
+      "個人持牌人必須通過，除非獲得豁免",
+      "保險業職業發展的重要步驟"
+    ],
+    contactTitle: "需要支援？",
+    contactDescription: "加入Seeds Financial Group，獲得保險事業所需的指導。",
+    contactButton: "聯絡我們",
+    quickFactsTitle: "快速了解",
+    quickFacts: [
+      {
+        title: "專業資格",
+        description: "行業認可標準"
+      },
+      {
+        title: "考試形式",
+        description: "結構化評估試卷"
+      },
+      {
+        title: "職業發展",
+        description: "保險專業的入門途徑"
+      }
+    ],
     backToCareers: "返回職業發展",
   },
 };
@@ -51,110 +92,142 @@ export default function IIQEPage() {
   const t = translations[language];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section
-        className="relative min-h-[60vh] flex items-center overflow-hidden bg-black"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/Financial.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="container mx-auto px-6 text-center py-12 z-10 relative">
-          <div className="max-w-4xl mx-auto">
-            {/* Back Button */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mb-8 text-left"
-            >
-              <Link href="/careers">
-                <span className="inline-flex items-center text-white hover:text-teal-300 font-medium">
-                  <FaArrowLeft className="mr-2" />
-                  {t.backToCareers}
-                </span>
-              </Link>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="flex items-center justify-center mb-6"
-            >
-              <FaGraduationCap className="text-4xl text-teal-400 mr-4" />
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white">
-                IIQE
-              </h1>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-xl md:text-2xl text-teal-300 mb-6"
-            >
-              {t.pageSubtitle}
-            </motion.h2>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
+    <div
+      className="min-h-screen bg-white"
+      style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
+    >
+      {/* Header */}
+      <section className="bg-gradient-to-r from-gray-50 to-gray-100 py-20 pt-32">
+        <div className="container mx-auto px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                {t.requirement}
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <span className="text-gray-600">{t.moreInfo}</span>
-                <a
-                  href="https://www.ia.org.hk/en/supervision/reg_ins_intermediaries/insurance_intermediaries_qualifying_examination.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
-                >
-                  <FaExternalLinkAlt className="mr-2" />
-                  {t.officialLink}
-                </a>
+            <Link
+              href="/careers"
+              className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8 transition-colors"
+            >
+              <FaArrowLeft /> {t.backToCareers}
+            </Link>
+            
+            <div className="max-w-4xl">
+              <div className="mb-6">
+                <span className="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                  {t.qualificationBadge}
+                </span>
               </div>
+              
+              <h1 className="text-5xl font-bold text-gray-900 mb-4">
+                IIQE
+              </h1>
+              
+              <p className="text-lg text-gray-500 mb-6 font-medium">
+                {t.pageSubtitle}
+              </p>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-teal-50 to-teal-100">
-        <div className="container mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
-              {t.ctaTitle}
-            </h2>
-            <p className="text-lg text-gray-600 mb-8">{t.ctaDescription}</p>
-            <Link href="/contact">
-              <span className="bg-teal-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-teal-700 transition-colors inline-block">
-                {t.ctaButton}
-              </span>
-            </Link>
-          </motion.div>
+      {/* Main Content */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-8">
+          <div className="grid lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-2">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">{t.examRequirementsTitle}</h2>
+                <div className="prose prose-lg text-gray-600 space-y-6">
+                  <p>
+                    {t.requirement}
+                  </p>
+                  
+                  <div className="flex items-center gap-4 pt-4">
+                    <span className="text-gray-700 font-medium">{t.moreInfo}</span>
+                    <a
+                      href="https://www.ia.org.hk/en/supervision/reg_ins_intermediaries/insurance_intermediaries_qualifying_examination.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all duration-300"
+                    >
+                      <FaExternalLinkAlt className="text-sm text-white" />
+                      {t.officialLink}
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="mt-12"
+              >
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.keyInfoTitle}</h3>
+                <ul className="space-y-3">
+                  {t.keyInfoItems.map((item, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-600">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </div>
+
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="sticky top-8"
+              >
+                {/* Contact Card */}
+                <div className="bg-gray-50 rounded-xl p-8 mb-8 border border-gray-200">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.contactTitle}</h3>
+                  <p className="text-gray-600 mb-6">
+                    {t.contactDescription}
+                  </p>
+                  <div className="space-y-4">
+                    <a
+                      href="mailto:hr@actiondoitnow.com"
+                      className="w-full px-6 py-3 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2"
+                    >
+                      <FaEnvelope className="text-white" />
+                      {t.contactButton}
+                    </a>
+                  </div>
+                </div>
+
+                {/* Quick Facts */}
+                <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">{t.quickFactsTitle}</h3>
+                  <div className="space-y-6">
+                    {t.quickFacts.map((fact, index) => (
+                      <div key={index} className="flex gap-4">
+                        <div className="flex-shrink-0">
+                          <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            {index === 0 && <FaGraduationCap className="text-blue-600" />}
+                            {index === 1 && <FaFileAlt className="text-blue-600" />}
+                            {index === 2 && <FaCheckCircle className="text-blue-600" />}
+                          </div>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-1">{fact.title}</h4>
+                          <p className="text-sm text-gray-600">{fact.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
