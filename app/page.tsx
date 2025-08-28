@@ -589,7 +589,7 @@ export default function Home() {
                             <div className="absolute bottom-4 left-4 right-4 text-white">
                               <div className="flex items-center text-white/90 text-sm mb-2">
                                 <FaCalendarAlt className="mr-2 text-white" />
-                                <span>
+                                <span className="text-white">
                                   {new Date(event.date).toLocaleDateString(
                                     language === "en" ? "en-US" : "zh-TW",
                                     {
@@ -949,7 +949,7 @@ export default function Home() {
                                 </h3>
                                 <div className="flex items-center text-white text-sm drop-shadow-lg">
                                   <FaCalendarAlt className="mr-2 text-white" />
-                                  <span>
+                                  <span className="text-white">
                                     {new Date(event.date).toLocaleDateString(
                                       language === "en" ? "en-US" : "zh-TW",
                                       {
