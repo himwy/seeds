@@ -192,11 +192,22 @@ export class EventsService {
             file
           );
           
-          // Generate public file URL
-          const fileUrl = storage.getFileView(
+          // Generate public file URL with proper parameters for better loading
+          // Use getFilePreview for optimized image display
+          const fileUrl = storage.getFilePreview(
             STORAGE_BUCKET_ID,
-            response.$id
+            response.$id,
+            800, // width
+            600, // height
+            ImageGravity.Center,
+            90 // quality
           ).toString();
+          
+          // Alternative: Use getFileView for direct file access
+          // const fileUrl = storage.getFileView(
+          //   STORAGE_BUCKET_ID,
+          //   response.$id
+          // ).toString();
           
           return fileUrl;
         } catch (error: unknown) {
@@ -273,5 +284,27 @@ export class EventsService {
       isValid: errors.length === 0,
       errors
     };
+  }
+
+  // Generate optimized image URL with fallback
+  static getImageUrl(fileId: string, width: number = 800, height: number = 600): string {
+    try {
+      if (!STORAGE_BUCKET_ID || !fileId) {
+        return '/placeholder-image.jpg'; // fallback image
+      }
+      
+      // Use getFilePreview for better optimization and caching
+      return storage.getFilePreview(
+        STORAGE_BUCKET_ID,
+        fileId,
+        width,
+        height,
+        ImageGravity.Center,
+        90 // quality
+      ).toString();
+    } catch (error) {
+      console.error('Error generating image URL:', error);
+      return '/placeholder-image.jpg'; // fallback image
+    }
   }
 }
