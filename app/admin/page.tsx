@@ -55,6 +55,10 @@ export default function AdminPage() {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
   useEffect(() => {
+    checkExistingSession();
+  }, []);
+
+  useEffect(() => {
     if (isLoggedIn) {
       const validation = EventsService.validateConfiguration();
       if (!validation.isValid) {
@@ -69,6 +73,44 @@ export default function AdminPage() {
       loadEvents();
     }
   }, [isLoggedIn]);
+
+  // Check for existing session on page load
+  const checkExistingSession = async () => {
+    try {
+      const userData = await account.get();
+      const ud = userData as { labels?: string[]; email?: string };
+      const isAdmin =
+        (Array.isArray(ud.labels) && ud.labels.includes("admin")) ||
+        ud.email === "admin@seeds.com";
+      
+      if (isAdmin) {
+        setIsLoggedIn(true);
+        setMessage({
+          type: "success",
+          text: "Welcome back! You're already logged in.",
+        });
+      }
+    } catch {
+      // No existing session or session expired
+      setIsLoggedIn(false);
+    }
+  };
+
+  // Handle logout with proper session cleanup
+  const handleLogout = async () => {
+    try {
+      await account.deleteSession("current");
+      setIsLoggedIn(false);
+      setMessage({
+        type: "success",
+        text: "Successfully logged out",
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Force logout even if session deletion fails
+      setIsLoggedIn(false);
+    }
+  };
 
   useEffect(() => {
     if (message) {
@@ -468,7 +510,7 @@ export default function AdminPage() {
               </div>
               <button
                 type="submit"
-                className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center shadow-lg"
               >
                 <FaUser className="mr-2" />
                 Access Dashboard
@@ -517,14 +559,14 @@ export default function AdminPage() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowForm(true)}
-                className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md"
               >
                 <FaPlus className="w-4 h-4" />
                 <span className="hidden sm:inline">Add Event</span>
               </button>
               <button
-                onClick={() => setIsLoggedIn(false)}
-                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+                onClick={() => handleLogout()}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md"
               >
                 <FaSignOutAlt className="w-4 h-4" />
                 <span className="hidden sm:inline">Logout</span>
@@ -742,14 +784,14 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-8 py-3 border-2 border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-semibold transition-colors"
+                  className="px-8 py-3 border-2 border-gray-400 bg-gray-100 hover:bg-gray-200 rounded-xl text-gray-800 font-semibold transition-colors shadow-md"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-8 py-3 bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center"
+                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center shadow-lg"
                 >
                   {loading ? (
                     <>
@@ -869,7 +911,7 @@ export default function AdminPage() {
                       <div className="flex space-x-2">
                         <button
                           onClick={() => openImageManager(event)}
-                          className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center justify-center"
+                          className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center justify-center shadow-md"
                           title="Manage Images"
                         >
                           <FaImages className="mr-2" />
@@ -877,7 +919,7 @@ export default function AdminPage() {
                         </button>
                         <button
                           onClick={() => handleEdit(event)}
-                          className="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center justify-center"
+                          className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center justify-center shadow-md"
                           title="Edit Event"
                         >
                           <FaEdit className="mr-2" />
@@ -904,7 +946,7 @@ export default function AdminPage() {
       {showImageManager && editingEvent && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl">
-            <div className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-6">
+            <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-6">
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="text-2xl font-bold">Manage Album</h3>
