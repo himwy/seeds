@@ -1055,16 +1055,16 @@ export default function Home() {
                   >
                     {Array.from({ length: Math.ceil(recentEvents.length / 3) }).map((_, groupIndex) => (
                       <div key={groupIndex} className="flex-none w-full">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-2">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2">
                           {recentEvents.slice(groupIndex * 3, (groupIndex + 1) * 3).map((event) => (
                             <Link
                               key={event.$id}
                               href={`/events/${event.$id}`}
                               className="group"
                             >
-                              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 h-full">
+                              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 h-full transform hover:scale-105">
                                 {event.images && event.images.length > 0 && (
-                                  <div className="relative h-48 overflow-hidden">
+                                  <div className="relative h-64 overflow-hidden">
                                     <Image
                                       src={event.images[0]}
                                       alt={

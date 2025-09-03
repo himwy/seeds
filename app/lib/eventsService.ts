@@ -177,7 +177,7 @@ export class EventsService {
     }
   }
 
-  // Upload multiple images with better error handling
+  // Upload multiple images and videos with better error handling
   static async uploadImages(files: File[]): Promise<string[]> {
     try {
       if (!STORAGE_BUCKET_ID) {
@@ -192,24 +192,27 @@ export class EventsService {
             file
           );
           
-          // Generate public file URL with proper parameters for better loading
-          // Use getFilePreview for optimized image display
-          const fileUrl = storage.getFilePreview(
-            STORAGE_BUCKET_ID,
-            response.$id,
-            800, // width
-            600, // height
-            ImageGravity.Center,
-            90 // quality
-          ).toString();
-          
-          // Alternative: Use getFileView for direct file access
-          // const fileUrl = storage.getFileView(
-          //   STORAGE_BUCKET_ID,
-          //   response.$id
-          // ).toString();
-          
-          return fileUrl;
+          // For videos, use getFileView for direct access
+          // For images, use getFilePreview for optimization
+          if (file.type.startsWith('video/')) {
+            const fileUrl = storage.getFileView(
+              STORAGE_BUCKET_ID,
+              response.$id
+            ).toString();
+            return fileUrl;
+          } else {
+            // Generate public file URL with proper parameters for better loading
+            // Use getFilePreview for optimized image display
+            const fileUrl = storage.getFilePreview(
+              STORAGE_BUCKET_ID,
+              response.$id,
+              800, // width
+              600, // height
+              ImageGravity.Center,
+              90 // quality
+            ).toString();
+            return fileUrl;
+          }
         } catch (error: unknown) {
           console.error(`Error uploading file ${file.name}:`, error);
           

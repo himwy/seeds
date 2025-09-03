@@ -287,6 +287,23 @@ export default function AdminPage() {
     });
   };
 
+  const isVideo = (file: File) => {
+    return file.type.startsWith('video/');
+  };
+
+  const isImage = (file: File) => {
+    return file.type.startsWith('image/');
+  };
+
+  const isVideoUrl = (url: string) => {
+    // Check file extension and URL patterns
+    const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.m4v'];
+    const lowerUrl = url.toLowerCase();
+    return videoExtensions.some(ext => lowerUrl.includes(ext)) || 
+           lowerUrl.includes('video') ||
+           lowerUrl.includes('/view?') && !lowerUrl.includes('preview'); // Appwrite video URLs use /view
+  };
+
   const removeFile = (index: number) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
     setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
@@ -327,31 +344,52 @@ export default function AdminPage() {
     }
   };
 
-  // Download image function
-  const downloadImage = async (imageUrl: string, index: number) => {
+  // Download media function
+  const downloadImage = async (mediaUrl: string, index: number) => {
     try {
-      // Create a temporary link to download the image
+      // Determine if it's a video or image
+      const isVideo = isVideoUrl(mediaUrl);
+      const fileExtension = isVideo ? 'mp4' : 'jpg';
+      const fileName = `event-media-${index + 1}.${fileExtension}`;
+      
+      // Use fetch to get the file as blob for proper download
+      const response = await fetch(mediaUrl);
+      const blob = await response.blob();
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = imageUrl;
-      link.download = `event-image-${index + 1}.jpg`;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
+      link.href = url;
+      link.download = fileName;
       
-      // For Appwrite URLs, we need to add download parameter
-      const url = new URL(imageUrl);
-      url.searchParams.set('download', 'true');
-      link.href = url.toString();
-      
+      // Trigger download
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       
-      setMessage({ type: "success", text: "Download started" });
+      // Clean up
+      window.URL.revokeObjectURL(url);
+      
+      setMessage({ type: "success", text: "Download completed" });
     } catch (err) {
-      console.error("Error downloading image:", err);
-      // Fallback: open in new tab
-      window.open(imageUrl, '_blank');
-      setMessage({ type: "error", text: "Download failed, opened in new tab" });
+      console.error("Error downloading media:", err);
+      try {
+        // Fallback: try direct download with download parameter
+        const url = new URL(mediaUrl);
+        url.searchParams.set('download', 'true');
+        const link = document.createElement('a');
+        link.href = url.toString();
+        link.download = `event-media-${index + 1}`;
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setMessage({ type: "success", text: "Download started" });
+      } catch {
+        // Final fallback: open in new tab
+        window.open(mediaUrl, '_blank');
+        setMessage({ type: "error", text: "Download failed, opened in new tab" });
+      }
     }
   };
 
@@ -773,7 +811,7 @@ export default function AdminPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Event Photos
+                  Event Media (Photos & Videos)
                 </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-blue-400 transition-colors">
                   <div className="text-center">
@@ -781,31 +819,40 @@ export default function AdminPage() {
                     <input
                       type="file"
                       multiple
-                      accept="image/*"
+                      accept="image/*,video/*"
                       onChange={handleFileSelect}
                       className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                     />
                     <p className="text-gray-500 text-sm mt-2">
-                      Upload multiple images (JPG, PNG, GIF)
+                      Upload images (JPG, PNG, GIF) and videos (MP4, MOV, AVI)
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Photo Previews */}
+              {/* Media Previews */}
               {previewUrls.length > 0 && (
                 <div>
                   <label className="block text-sm font-semibold text-gray-800 mb-4">
-                    New Photos ({previewUrls.length})
+                    New Media ({previewUrls.length})
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {previewUrls.map((url, index) => (
                       <div key={index} className="relative group">
-                        <img
-                          src={url}
-                          alt={`Preview ${index + 1}`}
-                          className="w-full h-24 object-cover rounded-xl border-2 border-gray-200"
-                        />
+                        {isVideo(selectedFiles[index]) ? (
+                          <video
+                            src={url}
+                            className="w-full h-24 object-cover rounded-xl border-2 border-gray-200"
+                            controls
+                            muted
+                          />
+                        ) : (
+                          <img
+                            src={url}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-xl border-2 border-gray-200"
+                          />
+                        )}
                         <button
                           type="button"
                           onClick={() => removeFile(index)}
@@ -819,20 +866,31 @@ export default function AdminPage() {
                 </div>
               )}
 
-              {/* Existing Photos */}
+              {/* Existing Media */}
               {(editingEvent?.images?.length ?? 0) > 0 && (
                 <div>
                   <label className="block text-sm font-semibold text-gray-800 mb-4">
-                    Current Photos ({editingEvent?.images?.length ?? 0})
+                    Current Media ({editingEvent?.images?.length ?? 0})
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {(editingEvent?.images ?? []).map((url, index) => (
-                      <img
-                        key={index}
-                        src={url}
-                        alt={`Current ${index + 1}`}
-                        className="w-full h-24 object-cover rounded-xl border-2 border-gray-200"
-                      />
+                      <div key={index} className="relative group">
+                        {isVideoUrl(url) ? (
+                          <video
+                            src={url}
+                            className="w-full h-24 object-cover rounded-xl border-2 border-gray-200"
+                            controls
+                            muted
+                            preload="metadata"
+                          />
+                        ) : (
+                          <img
+                            src={url}
+                            alt={`Current ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-xl border-2 border-gray-200"
+                          />
+                        )}
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -1021,20 +1079,20 @@ export default function AdminPage() {
             </div>
 
             <div className="p-8 max-h-[70vh] overflow-y-auto">
-              {/* Upload New Images */}
+              {/* Upload New Media */}
               <div className="mb-8">
                 <h4 className="text-lg font-semibold text-gray-800 mb-4">
-                  Add New Images
+                  Add New Media
                 </h4>
                 <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary transition-colors">
                   <FaCloudUploadAlt className="text-4xl text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600 mb-4">
-                    Drag and drop images here, or click to select
+                    Drag and drop images or videos here, or click to select
                   </p>
                   <input
                     type="file"
                     multiple
-                    accept="image/*"
+                    accept="image/*,video/*"
                     onChange={(e) => {
                       const files = Array.from(e.target.files || []);
                       if (files.length > 0) {
@@ -1048,30 +1106,30 @@ export default function AdminPage() {
                     htmlFor="image-upload"
                     className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-lg font-semibold cursor-pointer hover:from-secondary hover:to-primary transition-all duration-300"
                   >
-                    Select Images
+                    Select Media
                   </label>
                 </div>
               </div>
 
-              {/* Current Images */}
+              {/* Current Media */}
               <div>
                 <h4 className="text-lg font-semibold text-gray-800 mb-4">
-                  Current Images ({currentEventImages.length})
+                  Current Media ({currentEventImages.length})
                 </h4>
                 {currentEventImages.length > 0 && (
                   <p className="text-sm text-gray-600 mb-4 flex items-center">
                     <FaGripVertical className="mr-2 text-gray-400" />
-                    Drag and drop images to reorder them in the album
+                    Drag and drop media to reorder them in the album
                   </p>
                 )}
                 {currentEventImages.length === 0 ? (
                   <div className="text-center py-12">
                     <FaImages className="text-4xl text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600">No images in this album</p>
+                    <p className="text-gray-600">No media in this album</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {currentEventImages.map((imageUrl, index) => (
+                    {currentEventImages.map((mediaUrl, index) => (
                       <div 
                         key={index} 
                         className="relative group cursor-move"
@@ -1081,27 +1139,51 @@ export default function AdminPage() {
                         onDrop={(e) => handleDrop(e, index)}
                       >
                         <div className="relative w-full h-32 bg-gray-100 rounded-lg border border-gray-200 overflow-hidden">
-                          <Image
-                            src={imageUrl}
-                            alt={`Event image ${index + 1}`}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                            onError={(e) => {
-                              console.error('Image failed to load:', imageUrl);
-                              const target = e.target as HTMLImageElement;
-                              target.style.display = 'none';
-                              // Show placeholder
-                              const parent = target.parentElement;
-                              if (parent) {
-                                parent.innerHTML = `
-                                  <div class="flex items-center justify-center h-full bg-gray-200">
-                                    <span class="text-gray-500 text-xs">Image not available</span>
-                                  </div>
-                                `;
-                              }
-                            }}
-                          />
+                          {isVideoUrl(mediaUrl) ? (
+                            <video
+                              src={mediaUrl}
+                              className="w-full h-full object-cover"
+                              controls
+                              muted
+                              preload="metadata"
+                              onError={(e) => {
+                                console.error('Video failed to load:', mediaUrl);
+                                const target = e.target as HTMLVideoElement;
+                                target.style.display = 'none';
+                                // Show placeholder
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  parent.innerHTML = `
+                                    <div class="flex items-center justify-center h-full bg-gray-200">
+                                      <span class="text-gray-500 text-xs">Video not available</span>
+                                    </div>
+                                  `;
+                                }
+                              }}
+                            />
+                          ) : (
+                            <Image
+                              src={mediaUrl}
+                              alt={`Event media ${index + 1}`}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                              onError={(e) => {
+                                console.error('Image failed to load:', mediaUrl);
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                // Show placeholder
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  parent.innerHTML = `
+                                    <div class="flex items-center justify-center h-full bg-gray-200">
+                                      <span class="text-gray-500 text-xs">Image not available</span>
+                                    </div>
+                                  `;
+                                }
+                              }}
+                            />
+                          )}
                           {/* Drag Handle */}
                           <div className="absolute top-2 left-2 bg-black bg-opacity-50 rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity">
                             <FaGripVertical className="text-white text-xs" />
@@ -1109,16 +1191,16 @@ export default function AdminPage() {
                         </div>
                         <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
-                            onClick={() => downloadImage(imageUrl, index)}
+                            onClick={() => downloadImage(mediaUrl, index)}
                             className="bg-blue-500 text-white p-1.5 rounded-full hover:bg-blue-600 transition-colors shadow-lg"
-                            title="Download image"
+                            title="Download media"
                           >
                             <FaDownload className="text-xs" />
                           </button>
                           <button
-                            onClick={() => removeImageFromEvent(imageUrl)}
+                            onClick={() => removeImageFromEvent(mediaUrl)}
                             className="bg-red-500 text-white p-1.5 rounded-full hover:bg-red-600 transition-colors shadow-lg"
-                            title="Remove image"
+                            title="Remove media"
                           >
                             <FaTimes className="text-xs" />
                           </button>

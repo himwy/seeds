@@ -52,6 +52,15 @@ export default function EventDetailPage() {
     null
   );
 
+  const isVideoUrl = (url: string) => {
+    // Check file extension and URL patterns
+    const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.m4v'];
+    const lowerUrl = url.toLowerCase();
+    return videoExtensions.some(ext => lowerUrl.includes(ext)) || 
+           lowerUrl.includes('video') ||
+           lowerUrl.includes('/view?') && !lowerUrl.includes('preview'); // Appwrite video URLs use /view
+  };
+
   useEffect(() => {
     if (eventId) {
       loadEvent();
@@ -178,11 +187,11 @@ export default function EventDetailPage() {
             </div>
 
             <div className="text-gray-600">
-              {event.images.length} {t.photos}
+              {event.images.length} {event.images.length === 1 ? "item" : "items"}
             </div>
           </motion.div>
 
-          {/* Photo Gallery */}
+          {/* Media Gallery */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -190,16 +199,16 @@ export default function EventDetailPage() {
             className="bg-white rounded-xl shadow-lg p-8"
           >
             <h2 className="text-2xl font-bold text-gray-800 mb-6">
-              {t.photoGallery}
+              Media Gallery
             </h2>
 
             {event.images.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
-                No photos available
+                No media available
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {event.images.map((image, index) => (
+                {event.images.map((mediaUrl, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -209,13 +218,24 @@ export default function EventDetailPage() {
                     className="aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
                     onClick={() => openImageModal(index)}
                   >
-                    <img
-                      src={image}
-                      alt={`${
-                        language === "zh-HK" ? event.chineseName : event.name
-                      } - Photo ${index + 1}`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    />
+                    {isVideoUrl(mediaUrl) ? (
+                      <video
+                        src={mediaUrl}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        muted
+                        preload="metadata"
+                        onMouseEnter={(e) => e.currentTarget.play()}
+                        onMouseLeave={(e) => e.currentTarget.pause()}
+                      />
+                    ) : (
+                      <img
+                        src={mediaUrl}
+                        alt={`${
+                          language === "zh-HK" ? event.chineseName : event.name
+                        } - Media ${index + 1}`}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    )}
                   </motion.div>
                 ))}
               </div>
@@ -270,15 +290,25 @@ export default function EventDetailPage() {
               </>
             )}
 
-            {/* Image */}
-            <img
-              src={event.images[selectedImageIndex]}
-              alt={`${
-                language === "zh-HK" ? event.chineseName : event.name
-              } - Photo ${selectedImageIndex + 1}`}
-              className="max-w-full max-h-full object-contain"
-              onClick={(e) => e.stopPropagation()}
-            />
+            {/* Media Content */}
+            {isVideoUrl(event.images[selectedImageIndex]) ? (
+              <video
+                src={event.images[selectedImageIndex]}
+                className="max-w-full max-h-full object-contain"
+                controls
+                autoPlay
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              <img
+                src={event.images[selectedImageIndex]}
+                alt={`${
+                  language === "zh-HK" ? event.chineseName : event.name
+                } - Media ${selectedImageIndex + 1}`}
+                className="max-w-full max-h-full object-contain"
+                onClick={(e) => e.stopPropagation()}
+              />
+            )}
 
             {/* Image Counter */}
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
