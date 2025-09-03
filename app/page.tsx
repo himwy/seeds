@@ -314,6 +314,8 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [recentEvents, setRecentEvents] = useState<Event[]>([]);
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
+  const [isEventsPaused, setIsEventsPaused] = useState(false);
+  const [scrollOffset, setScrollOffset] = useState(0);
 
   // Load recent events
   useEffect(() => {
@@ -328,41 +330,39 @@ export default function Home() {
     loadEvents();
   }, []);
 
-  // Auto-scroll functionality
+  // Continuous smooth auto-scroll functionality with true infinite scrolling
   useEffect(() => {
-    if (recentEvents.length <= 3) return; // Only auto-scroll if more than 3 events
+    if (recentEvents.length <= 3 || isEventsPaused) return;
 
-    const interval = setInterval(() => {
-      setCurrentEventIndex((prevIndex) => {
-        const totalGroups = Math.ceil(recentEvents.length / 3);
-        const currentGroup = Math.floor(prevIndex / 3);
-        const nextGroup =
-          currentGroup >= totalGroups - 1 ? 0 : currentGroup + 1;
-        return nextGroup * 3;
+    const animationFrame = () => {
+      setScrollOffset((prevOffset) => {
+        const originalEventCount = recentEvents.length;
+        const totalSlots = Math.max(9, originalEventCount * 2);
+        const totalGroups = Math.ceil(totalSlots / 3);
+        
+        // Increment by a larger amount for faster movement
+        const newOffset = prevOffset + 0.05; // Fast speed
+        
+        // When we get to the halfway point, reset to beginning for seamless infinite scroll
+        const resetPoint = Math.ceil(originalEventCount / 3) * 100;
+        if (newOffset >= resetPoint) {
+          return newOffset - resetPoint;
+        }
+        
+        return newOffset;
       });
-    }, 4000); // Change every 4 seconds
+    };
 
-    return () => clearInterval(interval);
-  }, [recentEvents.length]);
+    const intervalId = setInterval(animationFrame, 16); // ~60fps for smooth animation
 
-  // Navigation functions for events
-  const nextEventGroup = () => {
-    setCurrentEventIndex((prevIndex) => {
-      const totalGroups = Math.ceil(recentEvents.length / 3);
-      const currentGroup = Math.floor(prevIndex / 3);
-      const nextGroup = currentGroup >= totalGroups - 1 ? 0 : currentGroup + 1;
-      return nextGroup * 3;
-    });
-  };
+    return () => clearInterval(intervalId);
+  }, [recentEvents.length, isEventsPaused]);
 
-  const prevEventGroup = () => {
-    setCurrentEventIndex((prevIndex) => {
-      const totalGroups = Math.ceil(recentEvents.length / 3);
-      const currentGroup = Math.floor(prevIndex / 3);
-      const prevGroup = currentGroup <= 0 ? totalGroups - 1 : currentGroup - 1;
-      return prevGroup * 3;
-    });
-  };
+  // Update currentEventIndex based on scrollOffset for indicators
+  useEffect(() => {
+    const currentGroup = Math.floor(scrollOffset / 100);
+    setCurrentEventIndex(currentGroup * 3);
+  }, [scrollOffset]);
 
   // Optimized mobile detection with debounce
   useEffect(() => {
@@ -1000,65 +1000,34 @@ export default function Home() {
 
           {recentEvents.length > 0 ? (
             <>
-              {/* Navigation controlled carousel showing 3 events */}
-              <div className="relative">
-                {/* Navigation buttons */}
-                {recentEvents.length > 3 && (
-                  <>
-                    <button
-                      onClick={prevEventGroup}
-                      className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-colors duration-200"
-                      aria-label="Previous events"
-                    >
-                      <svg
-                        className="w-5 h-5 text-gray-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 19l-7-7 7-7"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={nextEventGroup}
-                      className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-colors duration-200"
-                      aria-label="Next events"
-                    >
-                      <svg
-                        className="w-5 h-5 text-gray-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </button>
-                  </>
-                )}
-
+              {/* Continuous scrolling carousel showing 3 events */}
+              <div 
+                className="relative"
+                onMouseEnter={() => setIsEventsPaused(true)}
+                onMouseLeave={() => setIsEventsPaused(false)}
+              >
                 <div className="overflow-hidden">
                   <div
-                    className="flex transition-transform duration-700 ease-in-out"
+                    className="flex transition-none"
                     style={{
-                      transform: `translateX(-${Math.floor(currentEventIndex / 3) * 100}%)`,
+                      transform: `translateX(-${scrollOffset}%)`,
                     }}
                   >
-                    {Array.from({ length: Math.ceil(recentEvents.length / 3) }).map((_, groupIndex) => (
-                      <div key={groupIndex} className="flex-none w-full">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2">
-                          {recentEvents.slice(groupIndex * 3, (groupIndex + 1) * 3).map((event) => (
+                    {(() => {
+                      // Create infinite scroll by repeating events
+                      const infiniteEvents: Event[] = [];
+                      const totalSlots = Math.max(9, recentEvents.length * 2); // Ensure enough events for smooth infinite scroll
+                      
+                      for (let i = 0; i < totalSlots; i++) {
+                        infiniteEvents.push(recentEvents[i % recentEvents.length]);
+                      }
+                      
+                      return Array.from({ length: Math.ceil(infiniteEvents.length / 3) }).map((_, groupIndex) => (
+                        <div key={groupIndex} className="flex-none w-full">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2">
+                            {infiniteEvents.slice(groupIndex * 3, (groupIndex + 1) * 3).map((event, eventIndex) => (
                             <Link
-                              key={event.$id}
+                              key={`${event.$id}-${groupIndex}-${eventIndex}`}
                               href={`/events/${event.$id}`}
                               className="group"
                             >
@@ -1124,31 +1093,11 @@ export default function Home() {
                           ))}
                         </div>
                       </div>
-                    ))}
+                    ));
+                  })()}
                   </div>
                 </div>
               </div>
-
-              {/* Clean indicators for event groups */}
-              {recentEvents.length > 3 && (
-                <div className="flex justify-center items-center mt-8 gap-2">
-                  {Array.from(
-                    { length: Math.ceil(recentEvents.length / 3) },
-                    (_, groupIndex) => (
-                      <button
-                        key={groupIndex}
-                        onClick={() => setCurrentEventIndex(groupIndex * 3)}
-                        className={`transition-all duration-300 ${
-                          Math.floor(currentEventIndex / 3) === groupIndex
-                            ? "w-8 h-2 bg-primary rounded-full"
-                            : "w-2 h-2 bg-gray-300 rounded-full hover:bg-gray-400"
-                        }`}
-                        aria-label={`Go to event group ${groupIndex + 1}`}
-                      />
-                    )
-                  )}
-                </div>
-              )}
 
               {/* Call-to-action button with primary button style */}
               <div className="text-center mt-12">
