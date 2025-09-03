@@ -40,7 +40,10 @@ export default function CareersPage() {
       currentOpportunitiesDescription:
         "Join our dynamic team and start your journey in wealth management with comprehensive training and mentorship.",
       viewDetails: "View Details",
+      viewOpportunities: "View Opportunities",
       apply: "",
+      internSharingTitle: "Wealth Management Intern Experience",
+      internSharingDescription: "Discover what it's like to be part of our intern program through the experiences of our team members.",
       hearFromInternsTitle: "Hear from Our Interns",
       hearFromInternsDescription:
         "Discover what it's like to start your career with Seeds Financial Group.",
@@ -138,7 +141,10 @@ export default function CareersPage() {
       currentOpportunitiesDescription:
         "加入我們充滿活力的團隊，通過全面的培訓和指導開始您的財富管理之旅。",
       viewDetails: "查看詳情",
+      viewOpportunities: "查看機會",
       apply: "",
+      internSharingTitle: "財富管理實習生經驗分享",
+      internSharingDescription: "通過我們團隊成員的經驗，了解參與我們實習計劃的感受。",
       hearFromInternsTitle: "聽聽我們實習生的心聲",
       hearFromInternsDescription:
         "了解在Seeds Financial Group開始職業生涯的感受。",
@@ -276,7 +282,7 @@ export default function CareersPage() {
                   }}
                   className="px-8 py-4 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2"
                 >
-                  View Opportunities
+                  {t.viewOpportunities}
                 </motion.button>
               </div>
             </motion.div>
@@ -300,6 +306,40 @@ export default function CareersPage() {
               </div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Intern Video Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-8">
+              {t.internSharingTitle}
+            </h2>
+            <p className="text-lg text-gray-600 mb-12 leading-relaxed">
+              {t.internSharingDescription}
+            </p>
+            
+            <div className="max-w-4xl mx-auto">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl">
+                <iframe
+                  width="100%"
+                  height="500"
+                  src="https://www.youtube.com/embed/INTERN_VIDEO_ID"
+                  title="Wealth Management Intern Experience"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-[300px] md:h-[400px] lg:h-[500px]"
+                ></iframe>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

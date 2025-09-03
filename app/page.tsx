@@ -1048,61 +1048,82 @@ export default function Home() {
 
                 <div className="overflow-hidden">
                   <div
-                    className="flex transition-transform duration-500 ease-in-out"
+                    className="flex transition-transform duration-700 ease-in-out"
                     style={{
-                      transform: `translateX(-${
-                        Math.floor(currentEventIndex / 3) * 1200
-                      }px)`,
+                      transform: `translateX(-${Math.floor(currentEventIndex / 3) * 100}%)`,
                     }}
                   >
-                    {recentEvents.map((event) => (
-                      <Link
-                        key={event.$id}
-                        href={`/events/${event.$id}`}
-                        className="group flex-none w-80 lg:w-96 mx-3"
-                      >
-                        <div className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-200 h-full">
-                          {event.images && event.images.length > 0 && (
-                            <div className="relative h-48 md:h-64 overflow-hidden">
-                              <Image
-                                src={event.images[0]}
-                                alt={
-                                  language === "en"
-                                    ? event.name
-                                    : event.chineseName
-                                }
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 320px, 384px"
-                              />
-                              {/* Light overlay so text is readable */}
-                              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-all duration-300"></div>
-
-                              {/* Content overlay */}
-                              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white">
-                                <h3 className="text-lg md:text-xl font-bold mb-2 text-white drop-shadow-lg">
-                                  {language === "en"
-                                    ? event.name
-                                    : event.chineseName}
-                                </h3>
-                                <div className="flex items-center text-white text-sm drop-shadow-lg">
-                                  <FaCalendarAlt className="mr-2 text-white" />
-                                  <span className="text-white">
-                                    {new Date(event.date).toLocaleDateString(
-                                      language === "en" ? "en-US" : "zh-TW",
-                                      {
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric",
+                    {Array.from({ length: Math.ceil(recentEvents.length / 3) }).map((_, groupIndex) => (
+                      <div key={groupIndex} className="flex-none w-full">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-2">
+                          {recentEvents.slice(groupIndex * 3, (groupIndex + 1) * 3).map((event) => (
+                            <Link
+                              key={event.$id}
+                              href={`/events/${event.$id}`}
+                              className="group"
+                            >
+                              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 h-full">
+                                {event.images && event.images.length > 0 && (
+                                  <div className="relative h-48 overflow-hidden">
+                                    <Image
+                                      src={event.images[0]}
+                                      alt={
+                                        language === "en"
+                                          ? event.name
+                                          : event.chineseName
                                       }
-                                    )}
-                                  </span>
-                                </div>
+                                      fill
+                                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                      sizes="(max-width: 768px) 100vw, 33vw"
+                                    />
+                                    {/* Light overlay so text is readable */}
+                                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
+
+                                    {/* Event Date Badge */}
+                                    <div className="absolute top-3 left-3">
+                                      <div className="bg-white/95 backdrop-blur-sm rounded-lg px-2 py-1 shadow-md">
+                                        <div className="text-center">
+                                          <div className="text-primary font-bold text-sm leading-none">
+                                            {new Date(event.date).getDate()}
+                                          </div>
+                                          <div className="text-gray-600 text-xs font-medium uppercase">
+                                            {new Date(event.date).toLocaleDateString(
+                                              language === "en" ? "en-US" : "zh-TW",
+                                              { month: "short" }
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    {/* Content overlay */}
+                                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                                      <h3 className="text-lg font-bold mb-2 text-white drop-shadow-lg line-clamp-2">
+                                        {language === "en"
+                                          ? event.name
+                                          : event.chineseName}
+                                      </h3>
+                                      <div className="flex items-center text-white text-sm drop-shadow-lg">
+                                        <FaCalendarAlt className="mr-2 text-white" />
+                                        <span className="text-white">
+                                          {new Date(event.date).toLocaleDateString(
+                                            language === "en" ? "en-US" : "zh-TW",
+                                            {
+                                              year: "numeric",
+                                              month: "long",
+                                              day: "numeric",
+                                            }
+                                          )}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
-                            </div>
-                          )}
+                            </Link>
+                          ))}
                         </div>
-                      </Link>
+                      </div>
                     ))}
                   </div>
                 </div>

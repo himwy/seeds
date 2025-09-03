@@ -4,6 +4,7 @@ import "./globals.css";
 import AnimationProvider from "./components/AnimationProvider";
 import MainLayout from "./components/MainLayout";
 import { LanguageProvider } from "./components/LanguageContext";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -75,6 +76,7 @@ export default function RootLayout({
             <MainLayout>{children}</MainLayout>
           </LanguageProvider>
         </AnimationProvider>
+        <Analytics />
       </body>
     </html>
   );
