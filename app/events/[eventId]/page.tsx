@@ -237,7 +237,7 @@ export default function EventDetailPage() {
             {/* Close Button */}
             <button
               onClick={closeImageModal}
-              className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
+              className="absolute top-4 right-4 text-black hover:text-gray-600 z-10 p-2 transition-all bg-white bg-opacity-80 rounded-full"
               title={t.closeModal}
             >
               <FaTimes size={24} />
@@ -251,7 +251,7 @@ export default function EventDetailPage() {
                     e.stopPropagation();
                     prevImage();
                   }}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10"
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-black hover:text-gray-600 z-10 p-3 transition-all bg-white bg-opacity-80 rounded-full"
                   title={t.prevPhoto}
                 >
                   <FaChevronLeft size={24} />
@@ -262,7 +262,7 @@ export default function EventDetailPage() {
                     e.stopPropagation();
                     nextImage();
                   }}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black hover:text-gray-600 z-10 p-3 transition-all bg-white bg-opacity-80 rounded-full"
                   title={t.nextPhoto}
                 >
                   <FaChevronRight size={24} />

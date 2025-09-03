@@ -19,6 +19,7 @@ import {
   FaCloudUploadAlt,
   FaBars,
   FaDownload,
+  FaGripVertical,
   // FaEye,
   // FaChevronDown,
 } from "react-icons/fa";
@@ -53,6 +54,7 @@ export default function AdminPage() {
   });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(null);
 
   useEffect(() => {
     checkExistingSession();
@@ -110,6 +112,63 @@ export default function AdminPage() {
       // Force logout even if session deletion fails
       setIsLoggedIn(false);
     }
+  };
+
+  // Drag and drop handlers for reordering images
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedImageIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDrop = async (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    
+    if (draggedImageIndex === null || draggedImageIndex === dropIndex || !editingEvent) {
+      setDraggedImageIndex(null);
+      return;
+    }
+
+    const newImages = [...currentEventImages];
+    const draggedImage = newImages[draggedImageIndex];
+    
+    // Remove the dragged image from its original position
+    newImages.splice(draggedImageIndex, 1);
+    
+    // Insert it at the new position
+    newImages.splice(dropIndex, 0, draggedImage);
+    
+    setCurrentEventImages(newImages);
+    
+    try {
+      // Update the event in the database
+      await EventsService.updateEvent(editingEvent.$id!, {
+        ...editingEvent,
+        images: newImages,
+      });
+      
+      setMessage({
+        type: "success",
+        text: "Image order updated successfully",
+      });
+      
+      // Reload events to reflect changes
+      loadEvents();
+    } catch (error) {
+      console.error("Error updating image order:", error);
+      setMessage({
+        type: "error",
+        text: "Failed to update image order",
+      });
+      // Revert the change
+      setCurrentEventImages(editingEvent.images || []);
+    }
+    
+    setDraggedImageIndex(null);
   };
 
   useEffect(() => {
@@ -510,7 +569,7 @@ export default function AdminPage() {
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center shadow-lg"
+                className="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center shadow-sm"
               >
                 <FaUser className="mr-2" />
                 Access Dashboard
@@ -559,14 +618,14 @@ export default function AdminPage() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowForm(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md"
+                className="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
               >
                 <FaPlus className="w-4 h-4" />
                 <span className="hidden sm:inline">Add Event</span>
               </button>
               <button
                 onClick={() => handleLogout()}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md"
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
               >
                 <FaSignOutAlt className="w-4 h-4" />
                 <span className="hidden sm:inline">Logout</span>
@@ -999,6 +1058,12 @@ export default function AdminPage() {
                 <h4 className="text-lg font-semibold text-gray-800 mb-4">
                   Current Images ({currentEventImages.length})
                 </h4>
+                {currentEventImages.length > 0 && (
+                  <p className="text-sm text-gray-600 mb-4 flex items-center">
+                    <FaGripVertical className="mr-2 text-gray-400" />
+                    Drag and drop images to reorder them in the album
+                  </p>
+                )}
                 {currentEventImages.length === 0 ? (
                   <div className="text-center py-12">
                     <FaImages className="text-4xl text-gray-400 mx-auto mb-4" />
@@ -1007,7 +1072,14 @@ export default function AdminPage() {
                 ) : (
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {currentEventImages.map((imageUrl, index) => (
-                      <div key={index} className="relative group">
+                      <div 
+                        key={index} 
+                        className="relative group cursor-move"
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, index)}
+                        onDragOver={handleDragOver}
+                        onDrop={(e) => handleDrop(e, index)}
+                      >
                         <div className="relative w-full h-32 bg-gray-100 rounded-lg border border-gray-200 overflow-hidden">
                           <Image
                             src={imageUrl}
@@ -1030,6 +1102,10 @@ export default function AdminPage() {
                               }
                             }}
                           />
+                          {/* Drag Handle */}
+                          <div className="absolute top-2 left-2 bg-black bg-opacity-50 rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <FaGripVertical className="text-white text-xs" />
+                          </div>
                         </div>
                         <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
