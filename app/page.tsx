@@ -1,5 +1,6 @@
 "use client";
 
+
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "./components/LanguageContext";
@@ -432,7 +433,6 @@ export default function Home() {
     borderColor: "white",
     color: "white",
   };
-
   // Mobile view - Fixed to match desktop design exactly
   if (isMobile) {
     return (
@@ -477,6 +477,73 @@ export default function Home() {
                 >
                   {t.hero.contactButton}
                 </ContactButton>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Mobile Highlight Section */}
+        <section className="py-10 px-6 bg-gradient-to-r from-primary to-secondary w-full">
+          <div className="fade-in-up">
+            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+              {/* Header */}
+              <div className="bg-gradient-to-r from-primary/10 to-secondary/10 px-5 py-2.5 border-b">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-bold text-primary">
+                    {language === "en" ? "Featured Highlight" : "精選亮點"}
+                  </h2>
+                  <span className="text-xs text-primary/70 font-medium">
+                    {language === "en" ? "This Month" : "本月"}
+                  </span>
+                </div>
+              </div>
+              
+              {/* Content */}
+              <div className="p-5">
+                {/* Text Content */}
+                <div>
+                  <div className="mb-3">
+                    <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
+                      {language === "en" ? "Monthly Feature" : "每月精選"}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold mb-3 text-gray-900">
+                    {language === "en" 
+                      ? "A Tribute to Joshua" 
+                      : "致敬Joshua"}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                    {language === "en"
+                      ? "My client Joshua changed my life. Although he has passed away, his legend lives on! A heartfelt tribute from Ms. Wendy Lee to a client who embodied elegance, understanding, and the true meaning of trust in the insurance relationship. Joshua's wife will share her perspectives on insurance with us, hoping to bring positive messages about insurance to everyone and inspire all financial planners to take pride in their work."
+                      : "我的客戶Joshua，他改變了我的生活，雖然他已經離世，但他的傳奇永存！Wendy Lee女士對一位體現了優雅、理解和保險關係中真正信任意義的客戶的衷心致敬。Joshua的妻子將與我們分享她對保險的看法，希望這能為每個人帶來關於保險的正面信息，並希望所有理財規劃師都為自己的工作感到自豪。"}
+                  </p>
+                  
+                  {/* Joshua Video - Mobile */}
+                  <div className="mb-4">
+                    <div className="relative w-full h-0 pb-[56.25%] rounded-lg overflow-hidden shadow-lg">
+                      <iframe
+                        src="https://www.youtube.com/embed/HVU1m1z-TLA"
+                        title={language === "en" ? "Joshua's Story - A Tribute" : "Joshua的故事 - 致敬"}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        className="absolute top-0 left-0 w-full h-full"
+                      ></iframe>
+                    </div>
+                  </div>
+
+                  <div className="text-center mt-6">
+                    <Link
+                      href="/case-studies/client-stories/joshua-tribute"
+                      className="btn-primary inline-flex items-center group"
+                    >
+                      <span className="mr-3">
+                        {language === "en" ? "View More" : "查看更多"}
+                      </span>
+                      <FaArrowRight className="text-white transform group-hover:translate-x-1 transition-transform duration-300" />
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -777,6 +844,77 @@ export default function Home() {
               >
                 {t.hero.contactButton}
               </ContactButton>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Desktop Highlight Section */}
+      <section className="py-12 md:py-16 bg-gradient-to-r from-primary to-secondary w-full">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto fade-in-up">
+            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+              {/* Header */}
+              <div className="bg-gradient-to-r from-primary/10 to-secondary/10 px-6 py-3 border-b">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl md:text-2xl font-bold text-primary">
+                    {language === "en" ? "Featured Highlight" : "精選亮點"}
+                  </h2>
+                  <span className="text-sm text-primary/70 font-medium">
+                    {language === "en" ? "This Month" : "本月"}
+                  </span>
+                </div>
+              </div>
+              
+              {/* Content Area */}
+              <div className="p-6 md:p-8">
+                <div className="flex justify-center">
+                  {/* Text Content */}
+                  <div className="max-w-2xl text-center">
+                    <div className="mb-3">
+                      <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full">
+                        {language === "en" ? "Monthly Feature" : "每月精選"}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">
+                      {language === "en" 
+                        ? "A Tribute to Joshua" 
+                        : "致敬Joshua"}
+                    </h3>
+                    <p className="text-gray-600 mb-6 leading-relaxed">
+                      {language === "en"
+                        ? "My client Joshua changed my life. Although he has passed away, his legend lives on! A heartfelt tribute from Ms. Wendy Lee to a client who embodied elegance, understanding, and the true meaning of trust in the insurance relationship. Joshua's wife will share her perspectives on insurance with us, hoping to bring positive messages about insurance to everyone and inspire all financial planners to take pride in their work."
+                        : "我的客戶Joshua，他改變了我的生活，雖然他已經離世，但他的傳奇永存！Wendy Lee女士對一位體現了優雅、理解和保險關係中真正信任意義的客戶的衷心致敬。Joshua的妻子將與我們分享她對保險的看法，希望這能為每個人帶來關於保險的正面信息，並希望所有理財規劃師都為自己的工作感到自豪。"}
+                    </p>
+                    
+                    {/* Joshua Video */}
+                    <div className="mb-6">
+                      <div className="relative w-full h-0 pb-[56.25%] rounded-lg overflow-hidden shadow-lg">
+                        <iframe
+                          src="https://www.youtube.com/embed/HVU1m1z-TLA"
+                          title={language === "en" ? "Joshua's Story - A Tribute" : "Joshua的故事 - 致敬"}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                          className="absolute top-0 left-0 w-full h-full"
+                        ></iframe>
+                      </div>
+                    </div>
+
+                    <div className="text-center md:text-left mt-6">
+                      <Link
+                        href="/case-studies/client-stories/joshua-tribute"
+                        className="btn-primary inline-flex items-center group"
+                      >
+                        <span className="mr-3">
+                          {language === "en" ? "View More" : "查看更多"}
+                        </span>
+                        <FaArrowRight className="text-white transform group-hover:translate-x-1 transition-transform duration-300" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

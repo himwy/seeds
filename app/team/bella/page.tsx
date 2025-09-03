@@ -174,13 +174,14 @@ export default function BellaPage() {
         <section className="mb-16">
           <div className="max-w-4xl mx-auto">
             <div className="relative aspect-video bg-black rounded-lg overflow-hidden shadow-lg">
-              <video controls className="w-full h-full">
-                <source
-                  src="/assets/bella/Seeds Team-Bella-Highlight-2024-1211-720p.MP4"
-                  type="video/mp4"
-                />
-                Your browser does not support the video tag.
-              </video>
+              <iframe
+                src="https://www.youtube.com/embed/IfnR6P5o42k"
+                title="Bella's Journey Joining AIA"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="absolute top-0 left-0 w-full h-full"
+              ></iframe>
             </div>
             <p className="text-center text-gray-600 mt-4 italic">
               Bella&apos;s Journey Joining AIA

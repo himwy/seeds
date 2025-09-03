@@ -1,4 +1,4 @@
-import { databases, DATABASE_ID, EVENTS_COLLECTION_ID, storage, STORAGE_BUCKET_ID } from './appwrite';
+import { databases, DATABASE_ID, EVENTS_TABLE_ID, storage, STORAGE_BUCKET_ID } from './appwrite';
 import { ID, Query, ImageGravity } from 'appwrite';
 
 export interface Event {
@@ -16,7 +16,7 @@ export class EventsService {
     try {
       const response = await databases.listDocuments(
         DATABASE_ID,
-        EVENTS_COLLECTION_ID,
+        EVENTS_TABLE_ID,
         [
           Query.equal('category', category),
           Query.orderDesc('date'),
@@ -42,7 +42,7 @@ export class EventsService {
     try {
       const response = await databases.listDocuments(
         DATABASE_ID,
-        EVENTS_COLLECTION_ID,
+        EVENTS_TABLE_ID,
         [
           Query.orderDesc('date'),
           Query.limit(100)
@@ -67,7 +67,7 @@ export class EventsService {
     try {
       const response = await databases.getDocument(
         DATABASE_ID,
-        EVENTS_COLLECTION_ID,
+        EVENTS_TABLE_ID,
         id
       );
       
@@ -113,7 +113,7 @@ export class EventsService {
     try {
       const response = await databases.createDocument(
         DATABASE_ID,
-        EVENTS_COLLECTION_ID,
+        EVENTS_TABLE_ID,
         ID.unique(),
         {
           ...eventData,
@@ -144,7 +144,7 @@ export class EventsService {
       
       const response = await databases.updateDocument(
         DATABASE_ID,
-        EVENTS_COLLECTION_ID,
+        EVENTS_TABLE_ID,
         id,
         updateData
       );
@@ -168,7 +168,7 @@ export class EventsService {
     try {
       await databases.deleteDocument(
         DATABASE_ID,
-        EVENTS_COLLECTION_ID,
+        EVENTS_TABLE_ID,
         id
       );
     } catch (error) {
@@ -192,17 +192,13 @@ export class EventsService {
             file
           );
           
-          // Generate preview URL
-          const previewUrl = storage.getFilePreview(
+          // Generate public file URL
+          const fileUrl = storage.getFileView(
             STORAGE_BUCKET_ID,
-            response.$id,
-            800,
-            600,
-            ImageGravity.Center,
-            90
+            response.$id
           ).toString();
           
-          return previewUrl;
+          return fileUrl;
         } catch (error: unknown) {
           console.error(`Error uploading file ${file.name}:`, error);
           
@@ -265,8 +261,8 @@ export class EventsService {
       errors.push('Database ID is missing from environment variables');
     }
     
-    if (!EVENTS_COLLECTION_ID) {
-      errors.push('Events collection ID is missing from environment variables');
+    if (!EVENTS_TABLE_ID) {
+      errors.push('Events table ID is missing from environment variables');
     }
     
     if (!STORAGE_BUCKET_ID) {

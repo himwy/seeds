@@ -18,6 +18,7 @@ import {
   FaSignOutAlt,
   FaCloudUploadAlt,
   FaBars,
+  FaDownload,
   // FaEye,
   // FaChevronDown,
 } from "react-icons/fa";
@@ -222,6 +223,34 @@ export default function AdminPage() {
       setMessage({ type: "error", text: "Failed to remove image" });
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Download image function
+  const downloadImage = async (imageUrl: string, index: number) => {
+    try {
+      // Create a temporary link to download the image
+      const link = document.createElement('a');
+      link.href = imageUrl;
+      link.download = `event-image-${index + 1}.jpg`;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      
+      // For Appwrite URLs, we need to add download parameter
+      const url = new URL(imageUrl);
+      url.searchParams.set('download', 'true');
+      link.href = url.toString();
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      setMessage({ type: "success", text: "Download started" });
+    } catch (err) {
+      console.error("Error downloading image:", err);
+      // Fallback: open in new tab
+      window.open(imageUrl, '_blank');
+      setMessage({ type: "error", text: "Download failed, opened in new tab" });
     }
   };
 
@@ -937,20 +966,45 @@ export default function AdminPage() {
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {currentEventImages.map((imageUrl, index) => (
                       <div key={index} className="relative group">
-                        <Image
-                          src={imageUrl}
-                          alt={`Event image ${index + 1}`}
-                          width={200}
-                          height={150}
-                          className="w-full h-32 object-cover rounded-lg border border-gray-200"
-                        />
-                        <button
-                          onClick={() => removeImageFromEvent(imageUrl)}
-                          className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
-                          title="Remove image"
-                        >
-                          <FaTimes className="text-sm" />
-                        </button>
+                        <div className="relative w-full h-32 bg-gray-100 rounded-lg border border-gray-200 overflow-hidden">
+                          <Image
+                            src={imageUrl}
+                            alt={`Event image ${index + 1}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                            onError={(e) => {
+                              console.error('Image failed to load:', imageUrl);
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              // Show placeholder
+                              const parent = target.parentElement;
+                              if (parent) {
+                                parent.innerHTML = `
+                                  <div class="flex items-center justify-center h-full bg-gray-200">
+                                    <span class="text-gray-500 text-xs">Image not available</span>
+                                  </div>
+                                `;
+                              }
+                            }}
+                          />
+                        </div>
+                        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button
+                            onClick={() => downloadImage(imageUrl, index)}
+                            className="bg-blue-500 text-white p-1.5 rounded-full hover:bg-blue-600 transition-colors shadow-lg"
+                            title="Download image"
+                          >
+                            <FaDownload className="text-xs" />
+                          </button>
+                          <button
+                            onClick={() => removeImageFromEvent(imageUrl)}
+                            className="bg-red-500 text-white p-1.5 rounded-full hover:bg-red-600 transition-colors shadow-lg"
+                            title="Remove image"
+                          >
+                            <FaTimes className="text-xs" />
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>

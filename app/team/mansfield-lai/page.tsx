@@ -335,17 +335,14 @@ export default function MansfieldLaiPage() {
         <section className="mb-16">
           <div className="max-w-4xl mx-auto">
             <div className="relative aspect-video bg-black rounded-lg overflow-hidden shadow-lg">
-              <video
-                controls
-                className="w-full h-full"
-                poster="/assets/mansfield/mansfield pfp.jpeg"
-              >
-                <source
-                  src="/assets/mansfield/VIDEO-2022-12-28-23-19-39.mp4"
-                  type="video/mp4"
-                />
-                Your browser does not support the video tag.
-              </video>
+              <iframe
+                src="https://www.youtube.com/embed/A8f7rKi-bEM"
+                title="The Good Citizen Award 2015 Recognition Video - Mansfield Lai"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="absolute top-0 left-0 w-full h-full"
+              ></iframe>
             </div>
             <p className="text-center text-gray-600 mt-4 italic">
               The Good Citizen Award 2015 Recognition Video
