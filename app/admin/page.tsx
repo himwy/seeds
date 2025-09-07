@@ -55,6 +55,7 @@ export default function AdminPage() {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   useEffect(() => {
     checkExistingSession();
@@ -278,13 +279,28 @@ export default function AdminPage() {
     const files = Array.from(e.target.files || []);
     setSelectedFiles((prev) => [...prev, ...files]);
 
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewUrls((prev) => [...prev, e.target?.result as string]);
-      };
-      reader.readAsDataURL(file);
-    });
+    // Process files sequentially to maintain order
+    const processFiles = async () => {
+      const newPreviewUrls: string[] = [];
+      
+      for (const file of files) {
+        try {
+          const preview = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target?.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+          newPreviewUrls.push(preview);
+        } catch (error) {
+          console.error('Error reading file:', file.name, error);
+        }
+      }
+      
+      setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
+    };
+    
+    processFiles();
   };
 
   const isVideo = (file: File) => {
@@ -307,6 +323,77 @@ export default function AdminPage() {
   const removeFile = (index: number) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
     setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // File Upload Drag and Drop Handlers
+  const handleFileUploadDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleFileUploadDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleFileUploadDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    
+    const files = Array.from(e.dataTransfer.files);
+    console.log('Dropped files:', files.length, files.map(f => f.name));
+    
+    const mediaFiles = files.filter(file => 
+      file.type.startsWith('image/') || file.type.startsWith('video/')
+    );
+    
+    console.log('Media files after filtering:', mediaFiles.length, mediaFiles.map(f => f.name));
+    
+    if (mediaFiles.length > 0) {
+      setSelectedFiles((prev) => {
+        const newFiles = [...prev, ...mediaFiles];
+        console.log('Total files after adding:', newFiles.length);
+        return newFiles;
+      });
+      
+      // Process files sequentially to maintain order
+      const processFiles = async () => {
+        const newPreviewUrls: string[] = [];
+        
+        for (const file of mediaFiles) {
+          try {
+            const preview = await new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (e) => resolve(e.target?.result as string);
+              reader.onerror = reject;
+              reader.readAsDataURL(file);
+            });
+            newPreviewUrls.push(preview);
+          } catch (error) {
+            console.error('Error reading file:', file.name, error);
+          }
+        }
+        
+        console.log('Generated previews:', newPreviewUrls.length);
+        setPreviewUrls((prev) => {
+          const newPreviews = [...prev, ...newPreviewUrls];
+          console.log('Total previews after adding:', newPreviews.length);
+          return newPreviews;
+        });
+      };
+      
+      processFiles();
+      
+      setMessage({
+        type: "success",
+        text: `Added ${mediaFiles.length} file(s) successfully! Processing previews...`
+      });
+    } else {
+      setMessage({
+        type: "error",
+        text: "Please drop only image or video files."
+      });
+    }
   };
 
   // Image Album Management Functions
@@ -813,18 +900,45 @@ export default function AdminPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Event Media (Photos & Videos)
                 </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-blue-400 transition-colors">
+                <div 
+                  className={`border-2 border-dashed rounded-lg p-8 transition-all duration-200 cursor-pointer ${
+                    isDragOver 
+                      ? 'border-blue-500 bg-blue-50' 
+                      : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
+                  }`}
+                  onDragOver={handleFileUploadDragOver}
+                  onDragLeave={handleFileUploadDragLeave}
+                  onDrop={handleFileUploadDrop}
+                  onClick={() => document.getElementById('file-upload')?.click()}
+                >
                   <div className="text-center">
-                    <FaUpload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                    <FaCloudUploadAlt className={`mx-auto h-16 w-16 mb-4 transition-colors ${
+                      isDragOver ? 'text-blue-500' : 'text-gray-400'
+                    }`} />
+                    <h3 className={`text-lg font-medium mb-2 ${
+                      isDragOver ? 'text-blue-700' : 'text-gray-700'
+                    }`}>
+                      {isDragOver ? 'Drop your files here!' : 'Drag & Drop your files here'}
+                    </h3>
+                    <p className="text-gray-500 text-sm mb-4">
+                      Drag and drop images or videos here, or click to select
+                    </p>
                     <input
+                      id="file-upload"
                       type="file"
                       multiple
                       accept="image/*,video/*"
                       onChange={handleFileSelect}
-                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      className="hidden"
                     />
-                    <p className="text-gray-500 text-sm mt-2">
-                      Upload images (JPG, PNG, GIF) and videos (MP4, MOV, AVI)
+                    <button
+                      type="button"
+                      className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-lg font-semibold hover:from-secondary hover:to-primary transition-all duration-300"
+                    >
+                      Select Files
+                    </button>
+                    <p className="text-gray-400 text-xs mt-3">
+                      Supports: JPG, PNG, GIF, MP4, MOV, AVI (Max 10MB each)
                     </p>
                   </div>
                 </div>
@@ -1084,10 +1198,45 @@ export default function AdminPage() {
                 <h4 className="text-lg font-semibold text-gray-800 mb-4">
                   Add New Media
                 </h4>
-                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary transition-colors">
-                  <FaCloudUploadAlt className="text-4xl text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600 mb-4">
-                    Drag and drop images or videos here, or click to select
+                <div 
+                  className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 cursor-pointer ${
+                    isDragOver 
+                      ? 'border-blue-500 bg-blue-50' 
+                      : 'border-gray-300 hover:border-primary hover:bg-gray-50'
+                  }`}
+                  onDragOver={handleFileUploadDragOver}
+                  onDragLeave={handleFileUploadDragLeave}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    setIsDragOver(false);
+                    
+                    const files = Array.from(e.dataTransfer.files);
+                    const mediaFiles = files.filter(file => 
+                      file.type.startsWith('image/') || file.type.startsWith('video/')
+                    );
+                    
+                    if (mediaFiles.length > 0) {
+                      addImagesToEvent(mediaFiles);
+                      setMessage({
+                        type: "success",
+                        text: `Added ${mediaFiles.length} file(s) to the event!`
+                      });
+                    } else {
+                      setMessage({
+                        type: "error",
+                        text: "Please drop only image or video files."
+                      });
+                    }
+                  }}
+                  onClick={() => document.getElementById('image-upload')?.click()}
+                >
+                  <FaCloudUploadAlt className={`text-4xl mx-auto mb-4 transition-colors ${
+                    isDragOver ? 'text-blue-500' : 'text-gray-400'
+                  }`} />
+                  <p className={`mb-4 transition-colors ${
+                    isDragOver ? 'text-blue-700' : 'text-gray-600'
+                  }`}>
+                    {isDragOver ? 'Drop your files here!' : 'Drag and drop images or videos here, or click to select'}
                   </p>
                   <input
                     type="file"

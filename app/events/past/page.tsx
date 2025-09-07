@@ -225,12 +225,14 @@ export default function PastEventsPage() {
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    <div className="p-6 flex flex-col min-h-[140px]">
+                      {/* Title with flexible height */}
+                      <h3 className="text-xl font-semibold text-gray-900 mb-3 flex-grow">
                         {language === "zh-HK" ? event.chineseName : event.name}
                       </h3>
 
-                      <div className="flex items-center justify-between">
+                      {/* Bottom section with consistent positioning */}
+                      <div className="flex items-center justify-between mt-auto">
                         <div className="flex items-center text-gray-600 text-sm">
                           <FaCalendarAlt className="mr-2" />
                           <span>{formatDate(event.date)}</span>

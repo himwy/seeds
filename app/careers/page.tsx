@@ -386,31 +386,6 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* Intern Video Section - Moved before opportunities */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              {t.hearFromInternsTitle}
-            </h2>
-            <p className="text-lg text-gray-600 mb-8">
-              {t.hearFromInternsDescription}
-            </p>
-
-            <div className="bg-gray-100 rounded-xl p-12 border-2 border-dashed border-gray-300">
-              <FaUsers className="text-6xl text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">{t.videoPlaceholder}</p>
-              <p className="text-sm text-gray-400 mt-2">{t.videoNote}</p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Current Opportunities Section */}
       <section id="opportunities-section" className="py-20 bg-gray-50">
         <div className="container mx-auto px-8">

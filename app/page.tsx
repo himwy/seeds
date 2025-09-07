@@ -322,7 +322,7 @@ export default function Home() {
     const loadEvents = async () => {
       try {
         const events = await EventsService.getEventsByCategory("recent");
-        setRecentEvents(events.slice(0, 6)); // Show max 6 events for better auto-scroll
+        setRecentEvents(events); // Show all events for complete infinite loop
       } catch (error) {
         console.error("Error loading events:", error);
       }
@@ -332,21 +332,23 @@ export default function Home() {
 
   // Continuous smooth auto-scroll functionality with true infinite scrolling
   useEffect(() => {
-    if (recentEvents.length <= 3 || isEventsPaused) return;
+    if (recentEvents.length <= 1 || isEventsPaused) return;
 
     const animationFrame = () => {
       setScrollOffset((prevOffset) => {
         const originalEventCount = recentEvents.length;
-        const totalSlots = Math.max(9, originalEventCount * 2);
+        // Create enough repetitions to ensure smooth infinite scroll
+        const repetitions = Math.max(3, Math.ceil(12 / originalEventCount)); // At least 3 repetitions, more if needed
+        const totalSlots = originalEventCount * repetitions;
         const totalGroups = Math.ceil(totalSlots / 3);
         
-        // Increment by a larger amount for faster movement
-        const newOffset = prevOffset + 0.05; // Fast speed
+        // Increment by a small amount for smooth movement
+        const newOffset = prevOffset + 0.03; // Smooth speed
         
-        // When we get to the halfway point, reset to beginning for seamless infinite scroll
-        const resetPoint = Math.ceil(originalEventCount / 3) * 100;
-        if (newOffset >= resetPoint) {
-          return newOffset - resetPoint;
+        // Reset when we've shown one complete cycle of original events
+        const oneCompleteReset = (originalEventCount / 3) * 100;
+        if (newOffset >= oneCompleteReset) {
+          return 0; // Reset to beginning for seamless loop
         }
         
         return newOffset;
@@ -1014,12 +1016,17 @@ export default function Home() {
                     }}
                   >
                     {(() => {
-                      // Create infinite scroll by repeating events
+                      // Create infinite scroll by repeating events multiple times
                       const infiniteEvents: Event[] = [];
-                      const totalSlots = Math.max(9, recentEvents.length * 2); // Ensure enough events for smooth infinite scroll
+                      const originalEventCount = recentEvents.length;
                       
+                      // Create enough repetitions to ensure smooth infinite scroll for all events
+                      const repetitions = Math.max(3, Math.ceil(12 / originalEventCount)); // At least 3 repetitions
+                      const totalSlots = originalEventCount * repetitions;
+                      
+                      // Fill the infinite events array with repeated events
                       for (let i = 0; i < totalSlots; i++) {
-                        infiniteEvents.push(recentEvents[i % recentEvents.length]);
+                        infiniteEvents.push(recentEvents[i % originalEventCount]);
                       }
                       
                       return Array.from({ length: Math.ceil(infiniteEvents.length / 3) }).map((_, groupIndex) => (
