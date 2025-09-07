@@ -12,6 +12,7 @@ const translations = {
     title: "Andy Yiu",
     subtitle: "Business Partner",
     chineseName: "姚承彦",
+  sharingTitle: "Andy (Sharing)",
 
     intro:
       "Andy officially joined AIA in January 2022 and came to the Seeds Financial Group family. As the new blood of the team, he has little experience but is still filled with enthusiasm. He therefore wishes to share his experience of joining AIA.",
@@ -53,6 +54,8 @@ const translations = {
     title: "Andy Yiu",
     subtitle: "業務夥伴",
     chineseName: "姚承彦",
+
+  sharingTitle: "Andy（分享）",
 
     intro:
       "Andy 在2022年一月正式加入AIA，來到Seeds Financial Group這一個大家庭。作為一個新進團隊的年輕人，經驗不多，卻滿腔熱情，希望分享一下自己入職AIA的經歷。",
@@ -116,8 +119,8 @@ export default function AndyYiuPage() {
       {/* Main Article */}
       <article className="max-w-6xl mx-auto px-8 py-12">
         {/* Hero Section */}
-        <header className="text-center mb-16">
-          <div className="relative w-80 h-80 mx-auto mb-8 rounded-full overflow-hidden shadow-lg">
+        <header className="text-center mb-12">
+          <div className="relative w-56 h-56 sm:w-64 sm:h-64 mx-auto mb-6 rounded-full overflow-hidden shadow-lg">
             <Image
               src="/assets/andy/andy pfp.jpeg"
               alt="Andy Yiu - Business Partner"
@@ -125,10 +128,10 @@ export default function AndyYiuPage() {
               className="object-cover"
             />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">{t.title}</h1>
-          <p className="text-2xl text-gray-700 mb-2">{t.chineseName}</p>
-          <p className="text-xl text-gray-600 mb-4">{t.subtitle}</p>
-          <div className="w-24 h-1 bg-gray-900 mx-auto"></div>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-1">{t.title}</h1>
+          <p className="text-xl sm:text-2xl text-gray-700 mb-1">{t.chineseName}</p>
+          <p className="text-lg sm:text-xl text-gray-600 mb-3">{t.subtitle}</p>
+          <div className="w-20 h-1 bg-gray-900 mx-auto"></div>
         </header>
 
         {/* Introduction */}
@@ -136,6 +139,26 @@ export default function AndyYiuPage() {
           <p className="text-gray-700 leading-relaxed text-lg mb-8">
             {t.intro}
           </p>
+        </section>
+
+        {/* Andy Sharing Video */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">{t.sharingTitle}</h2>
+          <div className="w-16 h-1 bg-gray-900 mb-8"></div>
+          <div
+            className="relative rounded-xl overflow-hidden shadow-2xl"
+            style={{ paddingTop: "56.25%" }}
+          >
+            <iframe
+              className="absolute top-0 left-0 w-full h-full"
+              src="https://www.youtube.com/embed/mskGhjM64_c"
+              title="Andy Sharing - Seeds Financial Group"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+            ></iframe>
+          </div>
         </section>
 
         {/* Achievements Section */}
