@@ -330,7 +330,7 @@ export default function CareersPage() {
                 <iframe
                   width="100%"
                   height="500"
-                  src="https://www.youtube.com/embed/INTERN_VIDEO_ID"
+                  src="https://www.youtube.com/embed/ugKwnuLrD7I"
                   title="Wealth Management Intern Experience"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
