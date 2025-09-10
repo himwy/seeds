@@ -392,13 +392,34 @@ export default function Home() {
       });
     }, observerOptions);
 
-    // Observe all elements with animation classes
-    const animatedElements = document.querySelectorAll(
-      ".fade-in-up, .fade-in, .slide-in-left, .slide-in-right"
-    );
-    animatedElements.forEach((el) => observer.observe(el));
+    // Small delay to ensure DOM is ready
+    const setupAnimations = () => {
+      // Observe all elements with animation classes
+      const animatedElements = document.querySelectorAll(
+        ".fade-in-up, .fade-in, .slide-in-left, .slide-in-right"
+      );
+      animatedElements.forEach((el) => observer.observe(el));
+
+      // For mobile, immediately animate elements that are above the fold
+      if (isMobile) {
+        animatedElements.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.top > -100) {
+            el.classList.add("animate");
+          }
+        });
+      }
+    };
+
+    // Run immediately and after a short delay to catch any delayed renders
+    setupAnimations();
+    const timeoutId = setTimeout(setupAnimations, 100);
 
     return () => {
+      clearTimeout(timeoutId);
+      const animatedElements = document.querySelectorAll(
+        ".fade-in-up, .fade-in, .slide-in-left, .slide-in-right"
+      );
       animatedElements.forEach((el) => observer.unobserve(el));
     };
   }, [isMobile]); // Re-run when mobile state changes
@@ -612,7 +633,7 @@ export default function Home() {
         {recentEvents.length > 0 && (
           <section className="py-16 relative overflow-hidden bg-light-gray md:hidden">
             <div className="relative z-10 px-6">
-              <div className="text-center mb-12 fade-in-up">
+              <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold mb-4 text-primary">
                   {language === "en" ? "Recent Events" : "最近活動"}
                 </h2>
