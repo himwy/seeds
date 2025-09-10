@@ -358,6 +358,13 @@ export default function TeamPage() {
                             fill
                             className="object-cover"
                           />
+                        ) : member.id === "bella" ? (
+                          <Image
+                            src="/assets/bella/Bella PFP.jpeg"
+                            alt={`${member.name} - ${member.position}`}
+                            fill
+                            className="object-cover object-top"
+                          />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                             <div className="text-center">

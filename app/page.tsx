@@ -1,6 +1,5 @@
 "use client";
 
-
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "./components/LanguageContext";
@@ -17,7 +16,7 @@ import {
   FaMapMarkerAlt,
   FaImages,
 } from "react-icons/fa";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { ReactNode, CSSProperties, MouseEvent } from "react";
 import { EventsService, Event } from "./lib/eventsService";
 
@@ -314,8 +313,26 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [recentEvents, setRecentEvents] = useState<Event[]>([]);
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
-  const [isEventsPaused, setIsEventsPaused] = useState(false);
-  const [scrollOffset, setScrollOffset] = useState(0);
+  const [animationPaused, setAnimationPaused] = useState(false);
+  const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Throttled mouse event handlers
+  const handleMouseEnter = useCallback(() => {
+    if (pauseTimeoutRef.current) {
+      clearTimeout(pauseTimeoutRef.current);
+    }
+    setAnimationPaused(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (pauseTimeoutRef.current) {
+      clearTimeout(pauseTimeoutRef.current);
+    }
+    // Small delay to prevent rapid toggling
+    pauseTimeoutRef.current = setTimeout(() => {
+      setAnimationPaused(false);
+    }, 100);
+  }, []);
 
   // Load recent events
   useEffect(() => {
@@ -329,42 +346,6 @@ export default function Home() {
     };
     loadEvents();
   }, []);
-
-  // Continuous smooth auto-scroll functionality with true infinite scrolling
-  useEffect(() => {
-    if (recentEvents.length <= 1 || isEventsPaused) return;
-
-    const animationFrame = () => {
-      setScrollOffset((prevOffset) => {
-        const originalEventCount = recentEvents.length;
-        // Create enough repetitions to ensure smooth infinite scroll
-        const repetitions = Math.max(3, Math.ceil(12 / originalEventCount)); // At least 3 repetitions, more if needed
-        const totalSlots = originalEventCount * repetitions;
-        const totalGroups = Math.ceil(totalSlots / 3);
-        
-        // Increment by a small amount for smooth movement
-        const newOffset = prevOffset + 0.03; // Smooth speed
-        
-        // Reset when we've shown one complete cycle of original events
-        const oneCompleteReset = (originalEventCount / 3) * 100;
-        if (newOffset >= oneCompleteReset) {
-          return 0; // Reset to beginning for seamless loop
-        }
-        
-        return newOffset;
-      });
-    };
-
-    const intervalId = setInterval(animationFrame, 16); // ~60fps for smooth animation
-
-    return () => clearInterval(intervalId);
-  }, [recentEvents.length, isEventsPaused]);
-
-  // Update currentEventIndex based on scrollOffset for indicators
-  useEffect(() => {
-    const currentGroup = Math.floor(scrollOffset / 100);
-    setCurrentEventIndex(currentGroup * 3);
-  }, [scrollOffset]);
 
   // Optimized mobile detection with debounce
   useEffect(() => {
@@ -384,6 +365,15 @@ export default function Home() {
     return () => {
       clearTimeout(resizeTimeout);
       window.removeEventListener("resize", debouncedResize);
+    };
+  }, []);
+
+  // Cleanup pause timeout on component unmount
+  useEffect(() => {
+    return () => {
+      if (pauseTimeoutRef.current) {
+        clearTimeout(pauseTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -499,7 +489,7 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-              
+
               {/* Content */}
               <div className="p-5">
                 {/* Text Content */}
@@ -510,22 +500,24 @@ export default function Home() {
                     </span>
                   </div>
                   <h3 className="text-xl font-bold mb-3 text-gray-900">
-                    {language === "en" 
-                      ? "A Tribute to Joshua" 
-                      : "致敬Joshua"}
+                    {language === "en" ? "A Tribute to Joshua" : "致敬Joshua"}
                   </h3>
                   <p className="text-gray-600 text-sm mb-4 leading-relaxed">
                     {language === "en"
                       ? "My client Joshua changed my life. Although he has passed away, his legend lives on! A heartfelt tribute from Ms. Wendy Lee to a client who embodied elegance, understanding, and the true meaning of trust in the insurance relationship. Joshua's wife will share her perspectives on insurance with us, hoping to bring positive messages about insurance to everyone and inspire all financial planners to take pride in their work."
                       : "我的客戶Joshua，他改變了我的生活，雖然他已經離世，但他的傳奇永存！Wendy Lee女士對一位體現了優雅、理解和保險關係中真正信任意義的客戶的衷心致敬。Joshua的妻子將與我們分享她對保險的看法，希望這能為每個人帶來關於保險的正面信息，並希望所有理財規劃師都為自己的工作感到自豪。"}
                   </p>
-                  
+
                   {/* Joshua Video - Mobile */}
                   <div className="mb-4">
                     <div className="relative w-full h-0 pb-[56.25%] rounded-lg overflow-hidden shadow-lg">
                       <iframe
                         src="https://www.youtube.com/embed/HVU1m1z-TLA"
-                        title={language === "en" ? "Joshua's Story - A Tribute" : "Joshua的故事 - 致敬"}
+                        title={
+                          language === "en"
+                            ? "Joshua's Story - A Tribute"
+                            : "Joshua的故事 - 致敬"
+                        }
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
@@ -867,7 +859,7 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-              
+
               {/* Content Area */}
               <div className="p-6 md:p-8">
                 <div className="flex justify-center">
@@ -879,22 +871,24 @@ export default function Home() {
                       </span>
                     </div>
                     <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">
-                      {language === "en" 
-                        ? "A Tribute to Joshua" 
-                        : "致敬Joshua"}
+                      {language === "en" ? "A Tribute to Joshua" : "致敬Joshua"}
                     </h3>
                     <p className="text-gray-600 mb-6 leading-relaxed">
                       {language === "en"
                         ? "My client Joshua changed my life. Although he has passed away, his legend lives on! A heartfelt tribute from Ms. Wendy Lee to a client who embodied elegance, understanding, and the true meaning of trust in the insurance relationship. Joshua's wife will share her perspectives on insurance with us, hoping to bring positive messages about insurance to everyone and inspire all financial planners to take pride in their work."
                         : "我的客戶Joshua，他改變了我的生活，雖然他已經離世，但他的傳奇永存！Wendy Lee女士對一位體現了優雅、理解和保險關係中真正信任意義的客戶的衷心致敬。Joshua的妻子將與我們分享她對保險的看法，希望這能為每個人帶來關於保險的正面信息，並希望所有理財規劃師都為自己的工作感到自豪。"}
                     </p>
-                    
+
                     {/* Joshua Video */}
                     <div className="mb-6">
                       <div className="relative w-full h-0 pb-[56.25%] rounded-lg overflow-hidden shadow-lg">
                         <iframe
                           src="https://www.youtube.com/embed/HVU1m1z-TLA"
-                          title={language === "en" ? "Joshua's Story - A Tribute" : "Joshua的故事 - 致敬"}
+                          title={
+                            language === "en"
+                              ? "Joshua's Story - A Tribute"
+                              : "Joshua的故事 - 致敬"
+                          }
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
@@ -1003,105 +997,124 @@ export default function Home() {
           {recentEvents.length > 0 ? (
             <>
               {/* Continuous scrolling carousel showing 3 events */}
-              <div 
+              <div
                 className="relative"
-                onMouseEnter={() => setIsEventsPaused(true)}
-                onMouseLeave={() => setIsEventsPaused(false)}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
               >
                 <div className="overflow-hidden">
                   <div
-                    className="flex transition-none"
+                    className="flex"
                     style={{
-                      transform: `translateX(-${scrollOffset}%)`,
+                      animation: animationPaused 
+                        ? 'none' 
+                        : `slideLeft ${recentEvents.length * 8}s linear infinite`,
                     }}
                   >
                     {(() => {
                       // Create infinite scroll by repeating events multiple times
                       const infiniteEvents: Event[] = [];
                       const originalEventCount = recentEvents.length;
-                      
-                      // Create enough repetitions to ensure smooth infinite scroll for all events
-                      const repetitions = Math.max(3, Math.ceil(12 / originalEventCount)); // At least 3 repetitions
+
+                      // Create enough repetitions for smooth infinite scroll
+                      const repetitions = 4; // Fixed repetitions for simplicity
                       const totalSlots = originalEventCount * repetitions;
-                      
+
                       // Fill the infinite events array with repeated events
                       for (let i = 0; i < totalSlots; i++) {
-                        infiniteEvents.push(recentEvents[i % originalEventCount]);
+                        infiniteEvents.push(
+                          recentEvents[i % originalEventCount]
+                        );
                       }
-                      
-                      return Array.from({ length: Math.ceil(infiniteEvents.length / 3) }).map((_, groupIndex) => (
+
+                      return Array.from({
+                        length: Math.ceil(infiniteEvents.length / 3),
+                      }).map((_, groupIndex) => (
                         <div key={groupIndex} className="flex-none w-full">
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2">
-                            {infiniteEvents.slice(groupIndex * 3, (groupIndex + 1) * 3).map((event, eventIndex) => (
-                            <Link
-                              key={`${event.$id}-${groupIndex}-${eventIndex}`}
-                              href={`/events/${event.$id}`}
-                              className="group"
-                            >
-                              <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 h-full transform hover:scale-105">
-                                {event.images && event.images.length > 0 && (
-                                  <div className="relative h-64 overflow-hidden">
-                                    <Image
-                                      src={event.images[0]}
-                                      alt={
-                                        language === "en"
-                                          ? event.name
-                                          : event.chineseName
-                                      }
-                                      fill
-                                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                      sizes="(max-width: 768px) 100vw, 33vw"
-                                    />
-                                    {/* Light overlay so text is readable */}
-                                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
+                            {infiniteEvents
+                              .slice(groupIndex * 3, (groupIndex + 1) * 3)
+                              .map((event, eventIndex) => (
+                                <Link
+                                  key={`${event.$id}-${groupIndex}-${eventIndex}`}
+                                  href={`/events/${event.$id}`}
+                                  className="group"
+                                >
+                                  <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 h-full transform hover:scale-105">
+                                    {event.images &&
+                                      event.images.length > 0 && (
+                                        <div className="relative h-64 overflow-hidden">
+                                          <Image
+                                            src={event.images[0]}
+                                            alt={
+                                              language === "en"
+                                                ? event.name
+                                                : event.chineseName
+                                            }
+                                            fill
+                                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                            sizes="(max-width: 768px) 100vw, 33vw"
+                                          />
+                                          {/* Light overlay so text is readable */}
+                                          <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
 
-                                    {/* Event Date Badge */}
-                                    <div className="absolute top-3 left-3">
-                                      <div className="bg-white/95 backdrop-blur-sm rounded-lg px-2 py-1 shadow-md">
-                                        <div className="text-center">
-                                          <div className="text-primary font-bold text-sm leading-none">
-                                            {new Date(event.date).getDate()}
+                                          {/* Event Date Badge */}
+                                          <div className="absolute top-3 left-3">
+                                            <div className="bg-white/95 backdrop-blur-sm rounded-lg px-2 py-1 shadow-md">
+                                              <div className="text-center">
+                                                <div className="text-primary font-bold text-sm leading-none">
+                                                  {new Date(
+                                                    event.date
+                                                  ).getDate()}
+                                                </div>
+                                                <div className="text-gray-600 text-xs font-medium uppercase">
+                                                  {new Date(
+                                                    event.date
+                                                  ).toLocaleDateString(
+                                                    language === "en"
+                                                      ? "en-US"
+                                                      : "zh-TW",
+                                                    { month: "short" }
+                                                  )}
+                                                </div>
+                                              </div>
+                                            </div>
                                           </div>
-                                          <div className="text-gray-600 text-xs font-medium uppercase">
-                                            {new Date(event.date).toLocaleDateString(
-                                              language === "en" ? "en-US" : "zh-TW",
-                                              { month: "short" }
-                                            )}
+
+                                          {/* Content overlay */}
+                                          <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                                            <h3 className="text-lg font-bold mb-2 text-white drop-shadow-lg line-clamp-2">
+                                              {language === "en"
+                                                ? event.name
+                                                : event.chineseName}
+                                            </h3>
+                                            <div className="flex items-center text-white text-sm drop-shadow-lg">
+                                              <FaCalendarAlt className="mr-2 text-white" />
+                                              <span className="text-white">
+                                                {new Date(
+                                                  event.date
+                                                ).toLocaleDateString(
+                                                  language === "en"
+                                                    ? "en-US"
+                                                    : "zh-TW",
+                                                  {
+                                                    year: "numeric",
+                                                    month: "long",
+                                                    day: "numeric",
+                                                  }
+                                                )}
+                                              </span>
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    </div>
-
-                                    {/* Content overlay */}
-                                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                                      <h3 className="text-lg font-bold mb-2 text-white drop-shadow-lg line-clamp-2">
-                                        {language === "en"
-                                          ? event.name
-                                          : event.chineseName}
-                                      </h3>
-                                      <div className="flex items-center text-white text-sm drop-shadow-lg">
-                                        <FaCalendarAlt className="mr-2 text-white" />
-                                        <span className="text-white">
-                                          {new Date(event.date).toLocaleDateString(
-                                            language === "en" ? "en-US" : "zh-TW",
-                                            {
-                                              year: "numeric",
-                                              month: "long",
-                                              day: "numeric",
-                                            }
-                                          )}
-                                        </span>
-                                      </div>
-                                    </div>
+                                      )}
                                   </div>
-                                )}
-                              </div>
-                            </Link>
-                          ))}
+                                </Link>
+                              ))}
+                          </div>
                         </div>
-                      </div>
-                    ));
-                  })()}
+                      ));
+                    })()}
                   </div>
                 </div>
               </div>

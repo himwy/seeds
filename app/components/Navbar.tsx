@@ -10,7 +10,7 @@ import {
   FaBriefcase,
   FaGraduationCap,
   FaCalendarAlt,
-  // FaEnvelope,
+  FaEnvelope,
 } from "react-icons/fa";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "./LanguageContext";
@@ -90,6 +90,11 @@ export default function Navbar() {
           path: "/events/past",
         },
       ],
+    },
+    {
+      title: t.navbar.contact,
+      path: "/contact",
+      icon: <FaEnvelope className="w-5 h-5" />,
     },
   ];
 

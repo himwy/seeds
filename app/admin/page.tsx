@@ -20,11 +20,13 @@ import {
   FaBars,
   FaDownload,
   FaGripVertical,
+  FaInbox,
   // FaEye,
   // FaChevronDown,
 } from "react-icons/fa";
 import { EventsService, Event } from "../lib/eventsService";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { account } from "../lib/appwrite";
 
@@ -54,7 +56,9 @@ export default function AdminPage() {
   });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(null);
+  const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(
+    null
+  );
   const [isDragOver, setIsDragOver] = useState(false);
 
   useEffect(() => {
@@ -85,7 +89,7 @@ export default function AdminPage() {
       const isAdmin =
         (Array.isArray(ud.labels) && ud.labels.includes("admin")) ||
         ud.email === "admin@seeds.com";
-      
+
       if (isAdmin) {
         setIsLoggedIn(true);
         setMessage({
@@ -128,35 +132,39 @@ export default function AdminPage() {
 
   const handleDrop = async (e: React.DragEvent, dropIndex: number) => {
     e.preventDefault();
-    
-    if (draggedImageIndex === null || draggedImageIndex === dropIndex || !editingEvent) {
+
+    if (
+      draggedImageIndex === null ||
+      draggedImageIndex === dropIndex ||
+      !editingEvent
+    ) {
       setDraggedImageIndex(null);
       return;
     }
 
     const newImages = [...currentEventImages];
     const draggedImage = newImages[draggedImageIndex];
-    
+
     // Remove the dragged image from its original position
     newImages.splice(draggedImageIndex, 1);
-    
+
     // Insert it at the new position
     newImages.splice(dropIndex, 0, draggedImage);
-    
+
     setCurrentEventImages(newImages);
-    
+
     try {
       // Update the event in the database
       await EventsService.updateEvent(editingEvent.$id!, {
         ...editingEvent,
         images: newImages,
       });
-      
+
       setMessage({
         type: "success",
         text: "Image order updated successfully",
       });
-      
+
       // Reload events to reflect changes
       loadEvents();
     } catch (error) {
@@ -168,7 +176,7 @@ export default function AdminPage() {
       // Revert the change
       setCurrentEventImages(editingEvent.images || []);
     }
-    
+
     setDraggedImageIndex(null);
   };
 
@@ -206,27 +214,34 @@ export default function AdminPage() {
       }
 
       // Use SDK method if available (newer Appwrite SDKs).
-      const acc = account as unknown as { createEmailSession?: (email: string, password: string) => Promise<unknown> };
+      const acc = account as unknown as {
+        createEmailSession?: (
+          email: string,
+          password: string
+        ) => Promise<unknown>;
+      };
       if (!existingUser) {
         if (typeof acc.createEmailSession === "function") {
           await acc.createEmailSession(email, password);
         } else {
-        // Fallback: call Appwrite REST endpoint for email/password sessions.
-        const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "https://cloud.appwrite.io/v1";
-        const project = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "";
-        const res = await fetch(`${endpoint}/account/sessions/email`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Appwrite-Project": project,
-          },
-          body: JSON.stringify({ email, password }),
-          credentials: "include",
-        });
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          throw new Error(err?.message || `Login failed (${res.status})`);
-        }
+          // Fallback: call Appwrite REST endpoint for email/password sessions.
+          const endpoint =
+            process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT ||
+            "https://cloud.appwrite.io/v1";
+          const project = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "";
+          const res = await fetch(`${endpoint}/account/sessions/email`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Appwrite-Project": project,
+            },
+            body: JSON.stringify({ email, password }),
+            credentials: "include",
+          });
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err?.message || `Login failed (${res.status})`);
+          }
         }
       }
       const userData = existingUser ?? (await account.get());
@@ -282,7 +297,7 @@ export default function AdminPage() {
     // Process files sequentially to maintain order
     const processFiles = async () => {
       const newPreviewUrls: string[] = [];
-      
+
       for (const file of files) {
         try {
           const preview = await new Promise<string>((resolve, reject) => {
@@ -293,31 +308,33 @@ export default function AdminPage() {
           });
           newPreviewUrls.push(preview);
         } catch (error) {
-          console.error('Error reading file:', file.name, error);
+          console.error("Error reading file:", file.name, error);
         }
       }
-      
+
       setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
     };
-    
+
     processFiles();
   };
 
   const isVideo = (file: File) => {
-    return file.type.startsWith('video/');
+    return file.type.startsWith("video/");
   };
 
   const isImage = (file: File) => {
-    return file.type.startsWith('image/');
+    return file.type.startsWith("image/");
   };
 
   const isVideoUrl = (url: string) => {
     // Check file extension and URL patterns
-    const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.m4v'];
+    const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
     const lowerUrl = url.toLowerCase();
-    return videoExtensions.some(ext => lowerUrl.includes(ext)) || 
-           lowerUrl.includes('video') ||
-           lowerUrl.includes('/view?') && !lowerUrl.includes('preview'); // Appwrite video URLs use /view
+    return (
+      videoExtensions.some((ext) => lowerUrl.includes(ext)) ||
+      lowerUrl.includes("video") ||
+      (lowerUrl.includes("/view?") && !lowerUrl.includes("preview"))
+    ); // Appwrite video URLs use /view
   };
 
   const removeFile = (index: number) => {
@@ -339,27 +356,35 @@ export default function AdminPage() {
   const handleFileUploadDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragOver(false);
-    
+
     const files = Array.from(e.dataTransfer.files);
-    console.log('Dropped files:', files.length, files.map(f => f.name));
-    
-    const mediaFiles = files.filter(file => 
-      file.type.startsWith('image/') || file.type.startsWith('video/')
+    console.log(
+      "Dropped files:",
+      files.length,
+      files.map((f) => f.name)
     );
-    
-    console.log('Media files after filtering:', mediaFiles.length, mediaFiles.map(f => f.name));
-    
+
+    const mediaFiles = files.filter(
+      (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
+    );
+
+    console.log(
+      "Media files after filtering:",
+      mediaFiles.length,
+      mediaFiles.map((f) => f.name)
+    );
+
     if (mediaFiles.length > 0) {
       setSelectedFiles((prev) => {
         const newFiles = [...prev, ...mediaFiles];
-        console.log('Total files after adding:', newFiles.length);
+        console.log("Total files after adding:", newFiles.length);
         return newFiles;
       });
-      
+
       // Process files sequentially to maintain order
       const processFiles = async () => {
         const newPreviewUrls: string[] = [];
-        
+
         for (const file of mediaFiles) {
           try {
             const preview = await new Promise<string>((resolve, reject) => {
@@ -370,28 +395,28 @@ export default function AdminPage() {
             });
             newPreviewUrls.push(preview);
           } catch (error) {
-            console.error('Error reading file:', file.name, error);
+            console.error("Error reading file:", file.name, error);
           }
         }
-        
-        console.log('Generated previews:', newPreviewUrls.length);
+
+        console.log("Generated previews:", newPreviewUrls.length);
         setPreviewUrls((prev) => {
           const newPreviews = [...prev, ...newPreviewUrls];
-          console.log('Total previews after adding:', newPreviews.length);
+          console.log("Total previews after adding:", newPreviews.length);
           return newPreviews;
         });
       };
-      
+
       processFiles();
-      
+
       setMessage({
         type: "success",
-        text: `Added ${mediaFiles.length} file(s) successfully! Processing previews...`
+        text: `Added ${mediaFiles.length} file(s) successfully! Processing previews...`,
       });
     } else {
       setMessage({
         type: "error",
-        text: "Please drop only image or video files."
+        text: "Please drop only image or video files.",
       });
     }
   };
@@ -436,46 +461,49 @@ export default function AdminPage() {
     try {
       // Determine if it's a video or image
       const isVideo = isVideoUrl(mediaUrl);
-      const fileExtension = isVideo ? 'mp4' : 'jpg';
+      const fileExtension = isVideo ? "mp4" : "jpg";
       const fileName = `event-media-${index + 1}.${fileExtension}`;
-      
+
       // Use fetch to get the file as blob for proper download
       const response = await fetch(mediaUrl);
       const blob = await response.blob();
-      
+
       // Create download link
       const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
       link.download = fileName;
-      
+
       // Trigger download
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       // Clean up
       window.URL.revokeObjectURL(url);
-      
+
       setMessage({ type: "success", text: "Download completed" });
     } catch (err) {
       console.error("Error downloading media:", err);
       try {
         // Fallback: try direct download with download parameter
         const url = new URL(mediaUrl);
-        url.searchParams.set('download', 'true');
-        const link = document.createElement('a');
+        url.searchParams.set("download", "true");
+        const link = document.createElement("a");
         link.href = url.toString();
         link.download = `event-media-${index + 1}`;
-        link.target = '_blank';
+        link.target = "_blank";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         setMessage({ type: "success", text: "Download started" });
       } catch {
         // Final fallback: open in new tab
-        window.open(mediaUrl, '_blank');
-        setMessage({ type: "error", text: "Download failed, opened in new tab" });
+        window.open(mediaUrl, "_blank");
+        setMessage({
+          type: "error",
+          text: "Download failed, opened in new tab",
+        });
       }
     }
   };
@@ -715,7 +743,7 @@ export default function AdminPage() {
       style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
     >
       {/* Mobile-First Header */}
-  <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             {/* Mobile Menu Button */}
@@ -741,6 +769,13 @@ export default function AdminPage() {
 
             {/* Action Buttons */}
             <div className="flex items-center gap-2">
+              <Link
+                href="/admin/contacts"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
+              >
+                <FaInbox className="w-4 h-4" />
+                <span className="hidden sm:inline">Messages</span>
+              </Link>
               <button
                 onClick={() => setShowForm(true)}
                 className="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
@@ -760,7 +795,7 @@ export default function AdminPage() {
         </div>
       </div>
 
-  {/* Duplicate toolbar removed; top-right header controls are retained */}
+      {/* Duplicate toolbar removed; top-right header controls are retained */}
 
       {/* Status Messages */}
       <AnimatePresence>
@@ -791,7 +826,7 @@ export default function AdminPage() {
         )}
       </AnimatePresence>
 
-  {/* Main Content removed - using the polished gallery below to avoid duplicate UIs */}
+      {/* Main Content removed - using the polished gallery below to avoid duplicate UIs */}
 
       {/* Event Form Modal */}
       {showForm && (
@@ -900,25 +935,33 @@ export default function AdminPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Event Media (Photos & Videos)
                 </label>
-                <div 
+                <div
                   className={`border-2 border-dashed rounded-lg p-8 transition-all duration-200 cursor-pointer ${
-                    isDragOver 
-                      ? 'border-blue-500 bg-blue-50' 
-                      : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
+                    isDragOver
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-300 hover:border-blue-400 hover:bg-gray-50"
                   }`}
                   onDragOver={handleFileUploadDragOver}
                   onDragLeave={handleFileUploadDragLeave}
                   onDrop={handleFileUploadDrop}
-                  onClick={() => document.getElementById('file-upload')?.click()}
+                  onClick={() =>
+                    document.getElementById("file-upload")?.click()
+                  }
                 >
                   <div className="text-center">
-                    <FaCloudUploadAlt className={`mx-auto h-16 w-16 mb-4 transition-colors ${
-                      isDragOver ? 'text-blue-500' : 'text-gray-400'
-                    }`} />
-                    <h3 className={`text-lg font-medium mb-2 ${
-                      isDragOver ? 'text-blue-700' : 'text-gray-700'
-                    }`}>
-                      {isDragOver ? 'Drop your files here!' : 'Drag & Drop your files here'}
+                    <FaCloudUploadAlt
+                      className={`mx-auto h-16 w-16 mb-4 transition-colors ${
+                        isDragOver ? "text-blue-500" : "text-gray-400"
+                      }`}
+                    />
+                    <h3
+                      className={`text-lg font-medium mb-2 ${
+                        isDragOver ? "text-blue-700" : "text-gray-700"
+                      }`}
+                    >
+                      {isDragOver
+                        ? "Drop your files here!"
+                        : "Drag & Drop your files here"}
                     </h3>
                     <p className="text-gray-500 text-sm mb-4">
                       Drag and drop images or videos here, or click to select
@@ -1198,45 +1241,55 @@ export default function AdminPage() {
                 <h4 className="text-lg font-semibold text-gray-800 mb-4">
                   Add New Media
                 </h4>
-                <div 
+                <div
                   className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 cursor-pointer ${
-                    isDragOver 
-                      ? 'border-blue-500 bg-blue-50' 
-                      : 'border-gray-300 hover:border-primary hover:bg-gray-50'
+                    isDragOver
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-300 hover:border-primary hover:bg-gray-50"
                   }`}
                   onDragOver={handleFileUploadDragOver}
                   onDragLeave={handleFileUploadDragLeave}
                   onDrop={(e) => {
                     e.preventDefault();
                     setIsDragOver(false);
-                    
+
                     const files = Array.from(e.dataTransfer.files);
-                    const mediaFiles = files.filter(file => 
-                      file.type.startsWith('image/') || file.type.startsWith('video/')
+                    const mediaFiles = files.filter(
+                      (file) =>
+                        file.type.startsWith("image/") ||
+                        file.type.startsWith("video/")
                     );
-                    
+
                     if (mediaFiles.length > 0) {
                       addImagesToEvent(mediaFiles);
                       setMessage({
                         type: "success",
-                        text: `Added ${mediaFiles.length} file(s) to the event!`
+                        text: `Added ${mediaFiles.length} file(s) to the event!`,
                       });
                     } else {
                       setMessage({
                         type: "error",
-                        text: "Please drop only image or video files."
+                        text: "Please drop only image or video files.",
                       });
                     }
                   }}
-                  onClick={() => document.getElementById('image-upload')?.click()}
+                  onClick={() =>
+                    document.getElementById("image-upload")?.click()
+                  }
                 >
-                  <FaCloudUploadAlt className={`text-4xl mx-auto mb-4 transition-colors ${
-                    isDragOver ? 'text-blue-500' : 'text-gray-400'
-                  }`} />
-                  <p className={`mb-4 transition-colors ${
-                    isDragOver ? 'text-blue-700' : 'text-gray-600'
-                  }`}>
-                    {isDragOver ? 'Drop your files here!' : 'Drag and drop images or videos here, or click to select'}
+                  <FaCloudUploadAlt
+                    className={`text-4xl mx-auto mb-4 transition-colors ${
+                      isDragOver ? "text-blue-500" : "text-gray-400"
+                    }`}
+                  />
+                  <p
+                    className={`mb-4 transition-colors ${
+                      isDragOver ? "text-blue-700" : "text-gray-600"
+                    }`}
+                  >
+                    {isDragOver
+                      ? "Drop your files here!"
+                      : "Drag and drop images or videos here, or click to select"}
                   </p>
                   <input
                     type="file"
@@ -1279,8 +1332,8 @@ export default function AdminPage() {
                 ) : (
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {currentEventImages.map((mediaUrl, index) => (
-                      <div 
-                        key={index} 
+                      <div
+                        key={index}
                         className="relative group cursor-move"
                         draggable
                         onDragStart={(e) => handleDragStart(e, index)}
@@ -1296,9 +1349,12 @@ export default function AdminPage() {
                               muted
                               preload="metadata"
                               onError={(e) => {
-                                console.error('Video failed to load:', mediaUrl);
+                                console.error(
+                                  "Video failed to load:",
+                                  mediaUrl
+                                );
                                 const target = e.target as HTMLVideoElement;
-                                target.style.display = 'none';
+                                target.style.display = "none";
                                 // Show placeholder
                                 const parent = target.parentElement;
                                 if (parent) {
@@ -1318,9 +1374,12 @@ export default function AdminPage() {
                               className="object-cover"
                               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                               onError={(e) => {
-                                console.error('Image failed to load:', mediaUrl);
+                                console.error(
+                                  "Image failed to load:",
+                                  mediaUrl
+                                );
                                 const target = e.target as HTMLImageElement;
-                                target.style.display = 'none';
+                                target.style.display = "none";
                                 // Show placeholder
                                 const parent = target.parentElement;
                                 if (parent) {
