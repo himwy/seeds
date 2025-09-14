@@ -47,6 +47,10 @@ export default function CareersPage() {
       apply: "",
       internSharingTitle: "Intern/Members Sharing Experience",
       internSharingDescription: "Discover what it's like to be part of our team through the experiences of our interns and members.",
+      swipeHint: "Swipe left or right to navigate videos",
+      featuredVideoTitle: "Featured Video",
+      featuredVideoDescription: "Learn more about wealth management opportunities",
+      wendyVideoCaption: "Wendy Lee sharing insights from one of her insurance experience journeys",
       hearFromInternsTitle: "Hear from Our Interns",
       hearFromInternsDescription:
         "Discover what it's like to start your career with Seeds Financial Group.",
@@ -148,6 +152,10 @@ export default function CareersPage() {
       apply: "",
       internSharingTitle: "實習生/成員經驗分享",
       internSharingDescription: "通過我們實習生和成員的經驗，了解成為我們團隊一員的感受。",
+      swipeHint: "左右滑動以瀏覽視頻",
+      featuredVideoTitle: "精選視頻",
+      featuredVideoDescription: "了解更多財富管理機會",
+      wendyVideoCaption: "Wendy Lee 分享她的保險經驗心得",
       hearFromInternsTitle: "聽聽我們實習生的心聲",
       hearFromInternsDescription:
         "了解在Seeds Financial Group開始職業生涯的感受。",
@@ -392,15 +400,26 @@ export default function CareersPage() {
               className="relative"
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src="/assets/Recruitment.jpg"
-                  alt="Career Opportunities"
-                  width={600}
-                  height={400}
-                  className="w-full h-[250px] md:h-[400px] object-cover object-center"
-                  style={{ objectPosition: "center 20%" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                <div className="relative w-full h-[250px] md:h-[400px]">
+                  <iframe
+                    src="https://www.youtube.com/embed/SYHptynxjQ0"
+                    title="Wendy's Insurance Experience Sharing"
+                    width="100%"
+                    height="100%"
+                    className="w-full h-full rounded-2xl"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
+              </div>
+              
+              {/* Video Caption */}
+              <div className="mt-4 text-center">
+                <p className="text-sm text-gray-600 italic">
+                  {t.wendyVideoCaption}
+                </p>
               </div>
             </motion.div>
           </div>
@@ -497,12 +516,21 @@ export default function CareersPage() {
                 {/* Mobile swipe hint */}
                 <div className="mt-2 md:hidden">
                   <p className="text-xs text-gray-500">
-                    Swipe left or right to navigate videos
+                    {t.swipeHint}
                   </p>
                 </div>
               </div>
             </div>
           </motion.div>
+          
+          {/* Decorative Separator */}
+          <div className="flex justify-center mt-12">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-px bg-gray-400"></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+              <div className="w-16 h-px bg-gray-400"></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -545,6 +573,49 @@ export default function CareersPage() {
                 </p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Video Section */}
+      <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
+        <div className="container mx-auto px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+              {t.featuredVideoTitle}
+            </h2>
+            
+            {/* Featured Video */}
+            <div className="relative max-w-3xl mx-auto">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <div className="relative w-full h-[250px] md:h-[450px]">
+                  <iframe
+                    src="https://www.youtube.com/embed/StE1WDLayMY"
+                    title="Why Choose Wealth Management - Featured Video"
+                    width="100%"
+                    height="100%"
+                    className="w-full h-full rounded-2xl"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* Decorative Separator */}
+          <div className="flex justify-center mt-12">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-px bg-gray-400"></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+              <div className="w-16 h-px bg-gray-400"></div>
+            </div>
           </div>
         </div>
       </section>
