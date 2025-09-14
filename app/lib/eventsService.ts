@@ -20,7 +20,7 @@ export class EventsService {
         [
           Query.equal('category', category),
           Query.orderDesc('date'),
-          Query.limit(50)
+          Query.limit(100)
         ]
       );
       return response.documents.map(doc => ({
@@ -45,7 +45,7 @@ export class EventsService {
         EVENTS_TABLE_ID,
         [
           Query.orderDesc('date'),
-          Query.limit(100)
+          Query.limit(150)
         ]
       );
       return response.documents.map(doc => ({
@@ -287,6 +287,22 @@ export class EventsService {
       isValid: errors.length === 0,
       errors
     };
+  }
+
+  // Get count of events by category
+  static async getEventsCount(category?: 'recent' | 'past'): Promise<number> {
+    try {
+      const queries = category ? [Query.equal('category', category)] : [];
+      const response = await databases.listDocuments(
+        DATABASE_ID,
+        EVENTS_TABLE_ID,
+        queries
+      );
+      return response.total;
+    } catch (error) {
+      console.error('Error counting events:', error);
+      return 0;
+    }
   }
 
   // Generate optimized image URL with fallback

@@ -3,6 +3,7 @@
 import React from "react";
 import { useLanguage } from "../../components/LanguageContext";
 import Link from "next/link";
+import Image from "next/image";
 import { FaArrowLeft, FaUsers } from "react-icons/fa";
 
 const translations = {
@@ -104,14 +105,13 @@ export default function AnniePage() {
       <article className="max-w-6xl mx-auto px-8 py-12">
         {/* Hero Section */}
         <header className="text-center mb-16">
-          <div className="relative w-80 h-80 mx-auto mb-8 rounded-full overflow-hidden shadow-lg bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FaUsers className="text-white text-2xl" />
-              </div>
-              <p className="text-gray-700 font-semibold text-xl">{t.title}</p>
-              <p className="text-gray-600">{t.chineseName}</p>
-            </div>
+          <div className="relative w-56 h-56 sm:w-64 sm:h-64 mx-auto mb-6 rounded-full overflow-hidden shadow-lg">
+            <Image
+              src="/assets/annie/anniepfp.jpg"
+              alt="Annie - Team Member"
+              fill
+              className="object-cover"
+            />
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">{t.title}</h1>
           <p className="text-xl text-gray-600 mb-4">{t.subtitle}</p>

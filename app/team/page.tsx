@@ -365,6 +365,13 @@ export default function TeamPage() {
                             fill
                             className="object-cover object-top"
                           />
+                        ) : member.id === "annie" ? (
+                          <Image
+                            src="/assets/annie/anniepfp.jpg"
+                            alt={`${member.name} - ${member.position}`}
+                            fill
+                            className="object-cover"
+                          />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                             <div className="text-center">

@@ -76,6 +76,7 @@ export default function RecentEventsPage() {
       setLoading(true);
       setError(null);
       const eventsData = await EventsService.getEventsByCategory("recent");
+      console.log(`Loaded ${eventsData.length} recent events`);
       setEvents(eventsData);
     } catch (err) {
       setError(t.error);

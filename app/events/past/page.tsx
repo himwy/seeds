@@ -76,6 +76,7 @@ export default function PastEventsPage() {
       setLoading(true);
       setError(null);
       const eventsData = await EventsService.getEventsByCategory("past");
+      console.log(`Loaded ${eventsData.length} past events`);
       setEvents(eventsData);
     } catch (err) {
       setError(t.error);
