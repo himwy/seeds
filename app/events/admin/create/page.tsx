@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLanguage } from "../../../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -14,6 +14,7 @@ import {
   FaExclamationTriangle,
   FaSave,
   FaTimes,
+  FaPlay,
 } from "react-icons/fa";
 import { EventsService } from "../../../lib/eventsService";
 
@@ -27,8 +28,8 @@ const translations = {
     eventNameChinese: "Event Name (Chinese)",
     eventDate: "Event Date",
     eventCategory: "Event Category",
-    uploadPhotos: "Upload Event Photos",
-    uploadHint: "Select multiple photos for this event (JPG, PNG, GIF)",
+    uploadPhotos: "Upload Event Media",
+    uploadHint: "Select multiple photos and videos for this event (JPG, PNG, GIF, MP4, MOV, etc.)",
 
     categoryRecent: "Recent Events",
     categoryPast: "Past Events",
@@ -36,17 +37,17 @@ const translations = {
     save: "Create Event",
     cancel: "Cancel",
 
-    uploading: "Uploading photos...",
+    uploading: "Uploading media...",
     saving: "Creating event...",
     success: "Event created successfully!",
     error: "Error creating event",
     validationError:
-      "Please fill in all required fields and upload at least one photo",
+      "Please fill in all required fields and upload at least one photo or video",
 
-    removePhoto: "Remove photo",
-    dragDrop: "Drag & drop photos here or click to browse",
-    selectedPhotos: "Selected Photos",
-    noPhotos: "No photos selected",
+    removePhoto: "Remove media",
+    dragDrop: "Drag & drop photos and videos here or click to browse",
+    selectedPhotos: "Selected Media",
+    noPhotos: "No media selected",
 
     required: "Required field",
     optional: "Optional",
@@ -60,8 +61,8 @@ const translations = {
     eventNameChinese: "活動名稱（中文）",
     eventDate: "活動日期",
     eventCategory: "活動類別",
-    uploadPhotos: "上傳活動相片",
-    uploadHint: "為此活動選擇多張相片（JPG、PNG、GIF）",
+    uploadPhotos: "上傳活動媒體",
+    uploadHint: "為此活動選擇多張相片和影片（JPG、PNG、GIF、MP4、MOV等）",
 
     categoryRecent: "最近活動",
     categoryPast: "過往活動",
@@ -69,16 +70,16 @@ const translations = {
     save: "創建活動",
     cancel: "取消",
 
-    uploading: "上傳相片中...",
+    uploading: "上傳媒體中...",
     saving: "創建活動中...",
     success: "活動創建成功！",
     error: "創建活動時出錯",
-    validationError: "請填寫所有必填欄位並上傳至少一張相片",
+    validationError: "請填寫所有必填欄位並上傳至少一張相片或影片",
 
-    removePhoto: "移除相片",
-    dragDrop: "拖放相片到此處或點擊瀏覽",
-    selectedPhotos: "已選相片",
-    noPhotos: "未選擇相片",
+    removePhoto: "移除媒體",
+    dragDrop: "拖放相片和影片到此處或點擊瀏覽",
+    selectedPhotos: "已選媒體",
+    noPhotos: "未選擇媒體",
 
     required: "必填欄位",
     optional: "可選",
@@ -101,10 +102,69 @@ export default function CreateEventPage() {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
   const [message, setMessage] = useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
+
+  // File collection state for handling multiple rapid drops
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
+  const [dropTimeout, setDropTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  const isVideoFile = (file: File) => {
+    return file.type.startsWith("video/");
+  };
+
+  // Cleanup object URLs on component unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      previewUrls.forEach((url) => {
+        if (url.startsWith("blob:")) {
+          URL.revokeObjectURL(url);
+        }
+      });
+      // Clear any pending timeout
+      if (dropTimeout) {
+        clearTimeout(dropTimeout);
+      }
+    };
+  }, [previewUrls, dropTimeout]);
+
+  // Prevent default drag behavior on document
+  useEffect(() => {
+    const preventDefaults = (e: DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    const handleDragEnter = (e: DragEvent) => preventDefaults(e);
+    const handleDragLeave = (e: DragEvent) => preventDefaults(e);
+    const handleDragOver = (e: DragEvent) => preventDefaults(e);
+    const handleDrop = (e: DragEvent) => preventDefaults(e);
+
+    document.addEventListener('dragenter', handleDragEnter);
+    document.addEventListener('dragleave', handleDragLeave);
+    document.addEventListener('dragover', handleDragOver);
+    document.addEventListener('drop', handleDrop);
+
+    return () => {
+      document.removeEventListener('dragenter', handleDragEnter);
+      document.removeEventListener('dragleave', handleDragLeave);
+      document.removeEventListener('dragover', handleDragOver);
+      document.removeEventListener('drop', handleDrop);
+    };
+  }, []);
+
+  // Process pending files after a brief delay
+  const processPendingFiles = useCallback(async () => {
+    if (pendingFiles.length > 0) {
+      console.log(`Processing ${pendingFiles.length} pending files:`, pendingFiles.map(f => f.name));
+      await addFiles(pendingFiles);
+      setPendingFiles([]);
+    }
+    setDropTimeout(null);
+  }, [pendingFiles]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -116,32 +176,141 @@ export default function CreateEventPage() {
     }));
   };
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("File input change triggered");
     const files = Array.from(e.target.files || []);
-    addFiles(files);
+    console.log("File input files:", files.length, files.map(f => f.name));
+    
+    if (files.length > 0) {
+      await addFiles(files);
+    }
+    
+    // Reset the input so the same files can be selected again if needed
+    e.target.value = '';
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const files = Array.from(e.dataTransfer.files).filter((file) =>
-      file.type.startsWith("image/")
+    e.stopPropagation();
+    setIsDragOver(false);
+    
+    console.log("=== DROP EVENT START ===");
+    console.log("DataTransfer object:", e.dataTransfer);
+    console.log("DataTransfer.files:", e.dataTransfer.files);
+    console.log("DataTransfer.files.length:", e.dataTransfer.files.length);
+    console.log("DataTransfer.items:", e.dataTransfer.items);
+    console.log("DataTransfer.items.length:", e.dataTransfer.items?.length);
+    
+    // Try using DataTransferItemList first (more reliable for multiple files)
+    let allFiles: File[] = [];
+    
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      console.log("Using DataTransfer.items");
+      for (let i = 0; i < e.dataTransfer.items.length; i++) {
+        const item = e.dataTransfer.items[i];
+        console.log(`Item ${i}:`, item.kind, item.type);
+        if (item.kind === 'file') {
+          const file = item.getAsFile();
+          if (file) {
+            allFiles.push(file);
+          }
+        }
+      }
+    } else {
+      console.log("Using DataTransfer.files");
+      allFiles = Array.from(e.dataTransfer.files);
+    }
+    
+    console.log("All files collected:", allFiles.length, allFiles.map(f => f.name));
+    
+    const files = allFiles.filter((file) =>
+      file.type.startsWith("image/") || file.type.startsWith("video/")
     );
-    addFiles(files);
+    
+    console.log("Media files after filtering:", files.length, files.map(f => f.name));
+    console.log("=== DROP EVENT END ===");
+    
+    if (files.length > 0) {
+      await addFiles(files);
+    } else {
+      console.warn("No valid image or video files found in drop");
+    }
   };
 
-  const addFiles = (files: File[]) => {
-    setSelectedFiles((prev) => [...prev, ...files]);
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
 
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewUrls((prev) => [...prev, e.target?.result as string]);
-      };
-      reader.readAsDataURL(file);
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+  };
+
+  const addFiles = async (files: File[]) => {
+    console.log(`Processing ${files.length} files:`, files.map(f => f.name));
+    
+    // Add all files to the state immediately
+    setSelectedFiles((prev) => {
+      const newFiles = [...prev, ...files];
+      console.log(`Total files after adding: ${newFiles.length}`);
+      return newFiles;
     });
+
+    // Generate previews for all files
+    const previewPromises = files.map((file, index) => {
+      return new Promise<string>((resolve) => {
+        if (file.type.startsWith("image/")) {
+          // For images, create preview using FileReader
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            console.log(`Generated preview for image: ${file.name}`);
+            resolve(e.target?.result as string);
+          };
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith("video/")) {
+          // For videos, create preview using URL.createObjectURL
+          const videoUrl = URL.createObjectURL(file);
+          console.log(`Generated preview for video: ${file.name}`);
+          resolve(videoUrl);
+        } else {
+          // Fallback for unsupported file types
+          console.warn(`Unsupported file type: ${file.type} for ${file.name}`);
+          resolve("");
+        }
+      });
+    });
+
+    // Wait for all previews to be generated
+    try {
+      const newPreviews = await Promise.all(previewPromises);
+      const validPreviews = newPreviews.filter(url => url !== "");
+      console.log(`Generated ${validPreviews.length} valid previews`);
+      
+      setPreviewUrls((prev) => {
+        const allPreviews = [...prev, ...validPreviews];
+        console.log(`Total preview URLs: ${allPreviews.length}`);
+        return allPreviews;
+      });
+    } catch (error) {
+      console.error("Error generating previews:", error);
+    }
   };
 
   const removeFile = (index: number) => {
+    // Clean up object URLs for videos to prevent memory leaks
+    const urlToRemove = previewUrls[index];
+    if (selectedFiles[index]?.type.startsWith("video/") && urlToRemove.startsWith("blob:")) {
+      URL.revokeObjectURL(urlToRemove);
+    }
+    
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
     setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
   };
@@ -335,15 +504,21 @@ export default function CreateEventPage() {
 
               <div
                 onDrop={handleDrop}
-                onDragOver={(e) => e.preventDefault()}
-                className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors bg-gray-50"
+                onDragOver={handleDragOver}
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+                  isDragOver 
+                    ? 'border-blue-500 bg-blue-50' 
+                    : 'border-gray-300 bg-gray-50 hover:border-blue-400'
+                }`}
               >
                 <FaUpload className="text-4xl text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-600 mb-4">{t.dragDrop}</p>
                 <input
                   type="file"
                   multiple
-                  accept="image/*"
+                  accept="image/*,video/*"
                   onChange={handleFileSelect}
                   className="hidden"
                   id="photo-upload"
@@ -358,6 +533,18 @@ export default function CreateEventPage() {
               </div>
             </div>
 
+            {/* Debug Info */}
+            <div className="text-sm text-gray-500 p-4 bg-gray-100 rounded-lg">
+              <p><strong>Debug Info:</strong></p>
+              <p>Selected Files: {selectedFiles.length}</p>
+              <p>Preview URLs: {previewUrls.length}</p>
+              <p>Pending Files: {pendingFiles.length}</p>
+              <p>Files: {selectedFiles.map(f => f.name).join(', ')}</p>
+              {pendingFiles.length > 0 && (
+                <p>Pending: {pendingFiles.map(f => f.name).join(', ')}</p>
+              )}
+            </div>
+
             {/* Photo Previews */}
             {previewUrls.length > 0 && (
               <div>
@@ -368,11 +555,26 @@ export default function CreateEventPage() {
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                   {previewUrls.map((url, index) => (
                     <div key={index} className="relative group">
-                      <img
-                        src={url}
-                        alt={`Preview ${index + 1}`}
-                        className="w-full h-24 object-cover rounded-lg border border-gray-200"
-                      />
+                      {isVideoFile(selectedFiles[index]) ? (
+                        <div className="relative">
+                          <video
+                            src={url}
+                            className="w-full h-24 object-cover rounded-lg border border-gray-200"
+                            muted
+                            preload="metadata"
+                          />
+                          {/* Video play icon overlay */}
+                          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 rounded-lg">
+                            <FaPlay className="text-white text-lg" />
+                          </div>
+                        </div>
+                      ) : (
+                        <img
+                          src={url}
+                          alt={`Preview ${index + 1}`}
+                          className="w-full h-24 object-cover rounded-lg border border-gray-200"
+                        />
+                      )}
                       <button
                         type="button"
                         onClick={() => removeFile(index)}

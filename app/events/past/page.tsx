@@ -11,6 +11,7 @@ import {
   // FaArrowRight,
   FaFilter,
   FaHistory,
+  FaPlay,
 } from "react-icons/fa";
 import { EventsService, Event } from "../../lib/eventsService";
 
@@ -24,6 +25,8 @@ const translations = {
     loading: "Loading events...",
     error: "Unable to load events",
     photosCount: "photos",
+    videosCount: "videos", 
+    mediaCount: "items",
     eventsTitle: "Past Events",
     sortBy: "Sort by",
     sortNewest: "Newest First",
@@ -42,6 +45,8 @@ const translations = {
     loading: "載入活動中...",
     error: "無法載入活動",
     photosCount: "張相片",
+    videosCount: "段影片",
+    mediaCount: "項媒體",
     eventsTitle: "過往活動",
     sortBy: "排序方式",
     sortNewest: "最新優先",
@@ -78,6 +83,15 @@ export default function PastEventsPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const isVideoUrl = (url: string) => {
+    // Check file extension and URL patterns for video files
+    const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.m4v'];
+    const lowerUrl = url.toLowerCase();
+    return videoExtensions.some(ext => lowerUrl.includes(ext)) || 
+           lowerUrl.includes('video') ||
+           lowerUrl.includes('/view?') && !lowerUrl.includes('preview'); // Appwrite video URLs use /view
   };
 
   const formatDate = (dateString: string) => {
@@ -184,31 +198,48 @@ export default function PastEventsPage() {
               {/* Events Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {sortedEvents.map((event, index) => (
-                  <motion.article
+                  <article
                     key={event.$id}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
                     className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
                   >
                     {/* Image Container */}
                     <div className="relative h-64 overflow-hidden">
                       {event.images && event.images.length > 0 ? (
                         <>
-                          <img
-                            src={event.images[0]}
-                            alt={
-                              language === "zh-HK"
-                                ? event.chineseName
-                                : event.name
-                            }
-                            className="w-full h-full object-cover"
-                          />
+                          {isVideoUrl(event.images[0]) ? (
+                            <div className="relative w-full h-full">
+                              <video
+                                src={event.images[0]}
+                                className="w-full h-full object-cover"
+                                muted
+                                preload="metadata"
+                              />
+                              {/* Video Play Overlay */}
+                              <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                                <div className="bg-white bg-opacity-90 rounded-full p-4">
+                                  <FaPlay className="text-2xl text-gray-800" />
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <img
+                              src={event.images[0]}
+                              alt={
+                                language === "zh-HK"
+                                  ? event.chineseName
+                                  : event.name
+                              }
+                              className="w-full h-full object-cover"
+                            />
+                          )}
 
-                          {/* Photo Count Badge */}
+                          {/* Media Count Badge */}
                           <div className="absolute top-4 right-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
-                            <FaImages className="text-xs" />
+                            {isVideoUrl(event.images[0]) ? (
+                              <FaPlay className="text-xs" />
+                            ) : (
+                              <FaImages className="text-xs" />
+                            )}
                             {event.images.length}
                           </div>
 
@@ -246,7 +277,7 @@ export default function PastEventsPage() {
                         </Link>
                       </div>
                     </div>
-                  </motion.article>
+                  </article>
                 ))}
               </div>
             </>

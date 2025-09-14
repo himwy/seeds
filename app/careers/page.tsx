@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLanguage } from "../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -19,6 +19,9 @@ import {
   FaLightbulb,
   FaHeart,
   FaRocket,
+  FaChevronLeft,
+  FaChevronRight,
+  FaPlay,
   // FaEye,
   // FaPaperPlane,
 } from "react-icons/fa";
@@ -42,8 +45,8 @@ export default function CareersPage() {
       viewDetails: "View Details",
       viewOpportunities: "View Opportunities",
       apply: "",
-      internSharingTitle: "Wealth Management Intern Experience",
-      internSharingDescription: "Discover what it's like to be part of our intern program through the experiences of our team members.",
+      internSharingTitle: "Intern/Members Sharing Experience",
+      internSharingDescription: "Discover what it's like to be part of our team through the experiences of our interns and members.",
       hearFromInternsTitle: "Hear from Our Interns",
       hearFromInternsDescription:
         "Discover what it's like to start your career with Seeds Financial Group.",
@@ -143,8 +146,8 @@ export default function CareersPage() {
       viewDetails: "查看詳情",
       viewOpportunities: "查看機會",
       apply: "",
-      internSharingTitle: "財富管理實習生經驗分享",
-      internSharingDescription: "通過我們團隊成員的經驗，了解參與我們實習計劃的感受。",
+      internSharingTitle: "實習生/成員經驗分享",
+      internSharingDescription: "通過我們實習生和成員的經驗，了解成為我們團隊一員的感受。",
       hearFromInternsTitle: "聽聽我們實習生的心聲",
       hearFromInternsDescription:
         "了解在Seeds Financial Group開始職業生涯的感受。",
@@ -233,6 +236,101 @@ export default function CareersPage() {
 
   const t = translations[language];
 
+  // Video data for the carousel
+  const videos = [
+    {
+      id: "ugKwnuLrD7I",
+      title: "Original Intern Experience",
+      description: "The original intern sharing experience video"
+    },
+    {
+      id: "gkBgleZ0Sm8",
+      title: "Intern/Member Sharing #1",
+      description: "Additional team member experience"
+    },
+    {
+      id: "UGD8FRl0Dfo",
+      title: "Intern/Member Sharing #2", 
+      description: "Another team member perspective"
+    },
+    {
+      id: "y1EhJ1HKF6k",
+      title: "Intern/Member Sharing #3",
+      description: "More insights from our team"
+    },
+    {
+      id: "1NCJtZ4G0aQ",
+      title: "Intern/Member Sharing #4",
+      description: "Team member journey sharing"
+    },
+    {
+      id: "XX9FEeNz_Vs",
+      title: "Intern/Member Sharing #5",
+      description: "Professional development story"
+    },
+    {
+      id: "sJU2wSLYqLg",
+      title: "Intern/Member Sharing #6",
+      description: "Career growth experience"
+    }
+  ];
+
+  // State for video carousel
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+  // Touch handling for mobile swipe
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
+
+  const nextVideo = () => {
+    setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
+  };
+
+  const prevVideo = () => {
+    setCurrentVideoIndex((prev) => (prev - 1 + videos.length) % videos.length);
+  };
+
+  // Touch handlers for swipe navigation
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextVideo();
+    } else if (isRightSwipe) {
+      prevVideo();
+    }
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        prevVideo();
+      } else if (e.key === 'ArrowRight') {
+        nextVideo();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
+
   const reasonsWithIcons = [
     { icon: FaHeart, ...t.reasons[0] },
     { icon: FaRocket, ...t.reasons[1] },
@@ -309,34 +407,99 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* Intern Video Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-8">
+      {/* Intern/Members Video Carousel Section */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center mb-16"
+            className="max-w-6xl mx-auto text-center mb-12 md:mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 md:mb-8">
               {t.internSharingTitle}
             </h2>
-            <p className="text-lg text-gray-600 mb-12 leading-relaxed">
+            <p className="text-base md:text-lg text-gray-600 mb-8 md:mb-12 leading-relaxed px-4">
               {t.internSharingDescription}
             </p>
             
-            <div className="max-w-4xl mx-auto">
-              <div className="relative rounded-xl overflow-hidden shadow-2xl">
-                <iframe
-                  width="100%"
-                  height="500"
-                  src="https://www.youtube.com/embed/ugKwnuLrD7I"
-                  title="Wealth Management Intern Experience"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-[300px] md:h-[400px] lg:h-[500px]"
-                ></iframe>
+            {/* Video Carousel */}
+            <div className="relative">
+              {/* Main Video Display */}
+              <div className="max-w-4xl mx-auto mb-8">
+                <div 
+                  className="relative rounded-xl overflow-hidden shadow-2xl bg-black"
+                  onTouchStart={onTouchStart}
+                  onTouchMove={onTouchMove}
+                  onTouchEnd={onTouchEnd}
+                >
+                  <iframe
+                    width="100%"
+                    height="500"
+                    src={`https://www.youtube.com/embed/${videos[currentVideoIndex].id}`}
+                    title={videos[currentVideoIndex].title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-[300px] md:h-[400px] lg:h-[500px]"
+                  ></iframe>
+                  
+                  {/* Navigation Arrows - Mobile Only */}
+                  <button
+                    onClick={prevVideo}
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-70 hover:bg-opacity-90 text-white p-2 rounded-full transition-all duration-200 z-10 touch-manipulation md:hidden"
+                    aria-label="Previous video"
+                  >
+                    <FaChevronLeft className="w-4 h-4" />
+                  </button>
+                  
+                  <button
+                    onClick={nextVideo}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-70 hover:bg-opacity-90 text-white p-2 rounded-full transition-all duration-200 z-10 touch-manipulation md:hidden"
+                    aria-label="Next video"
+                  >
+                    <FaChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              
+              {/* Video Thumbnails/Dots Navigation */}
+              <div className="flex justify-start md:justify-center space-x-2 md:space-x-4 overflow-x-auto pb-4 px-4 scrollbar-hide">
+                {videos.map((video, index) => (
+                  <button
+                    key={video.id}
+                    onClick={() => setCurrentVideoIndex(index)}
+                    className={`flex-shrink-0 w-20 h-12 md:w-24 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 touch-manipulation ${
+                      index === currentVideoIndex
+                        ? 'border-blue-500 ring-2 ring-blue-200'
+                        : 'border-gray-300 hover:border-gray-400'
+                    }`}
+                  >
+                    {/* YouTube Thumbnail */}
+                    <div className="relative w-full h-full bg-gray-800 flex items-center justify-center">
+                      <img
+                        src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
+                        alt={video.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <FaPlay className="absolute text-white text-xs opacity-80" />
+                    </div>
+                  </button>
+                ))}
+              </div>
+              
+              {/* Video Counter */}
+              <div className="mt-4 text-center">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                  {currentVideoIndex + 1} of {videos.length}
+                </span>
+                
+                {/* Mobile swipe hint */}
+                <div className="mt-2 md:hidden">
+                  <p className="text-xs text-gray-500">
+                    Swipe left or right to navigate videos
+                  </p>
+                </div>
               </div>
             </div>
           </motion.div>
