@@ -11,24 +11,6 @@ export interface Event {
 }
 
 export class EventsService {
-  // Convert preview URLs to direct view URLs to avoid transformation limits
-  private static convertToDirectUrl(url: string): string {
-    if (!url) return url;
-    
-    // Check if it's an Appwrite preview URL that we need to convert
-    if (url.includes('/preview')) {
-      // Extract the file ID from the preview URL
-      const match = url.match(/\/files\/([^\/]+)\/preview/);
-      if (match && match[1]) {
-        const fileId = match[1];
-        // Replace with direct view URL (no transformations)
-        return url.replace(/\/files\/[^\/]+\/preview.*$/, `/files/${fileId}/view`);
-      }
-    }
-    
-    return url;
-  }
-
   // Get events by category
   static async getEventsByCategory(category: 'recent' | 'past'): Promise<Event[]> {
     try {
@@ -47,7 +29,7 @@ export class EventsService {
         chineseName: doc.chineseName,
         date: doc.date,
         category: doc.category,
-        images: JSON.parse(doc.images || '[]').map((url: string) => this.convertToDirectUrl(url))
+        images: JSON.parse(doc.images || '[]')
       })) as Event[];
     } catch (error) {
       console.error('Error fetching events:', error);
@@ -72,7 +54,7 @@ export class EventsService {
         chineseName: doc.chineseName,
         date: doc.date,
         category: doc.category,
-        images: JSON.parse(doc.images || '[]').map((url: string) => this.convertToDirectUrl(url))
+        images: JSON.parse(doc.images || '[]')
       })) as Event[];
     } catch (error) {
       console.error('Error fetching events:', error);
@@ -111,9 +93,6 @@ export class EventsService {
           }
         }
       }
-      
-      // Convert all URLs to direct view URLs to avoid transformations
-      images = images.map(url => this.convertToDirectUrl(url));
       
       return {
         $id: response.$id,
