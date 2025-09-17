@@ -1,5 +1,5 @@
 import { databases, DATABASE_ID, EVENTS_TABLE_ID, storage, STORAGE_BUCKET_ID } from './appwrite';
-import { ID, Query, ImageGravity } from 'appwrite';
+import { ID, Query } from 'appwrite';
 
 export interface Event {
   $id?: string;
@@ -193,26 +193,12 @@ export class EventsService {
           );
           
           // For videos, use getFileView for direct access
-          // For images, use getFilePreview for optimization
-          if (file.type.startsWith('video/')) {
-            const fileUrl = storage.getFileView(
-              STORAGE_BUCKET_ID,
-              response.$id
-            ).toString();
-            return fileUrl;
-          } else {
-            // Generate public file URL with proper parameters for better loading
-            // Use getFilePreview for optimized image display
-            const fileUrl = storage.getFilePreview(
-              STORAGE_BUCKET_ID,
-              response.$id,
-              800, // width
-              600, // height
-              ImageGravity.Center,
-              90 // quality
-            ).toString();
-            return fileUrl;
-          }
+          // For images, also use getFileView to avoid transformation limits
+          const fileUrl = storage.getFileView(
+            STORAGE_BUCKET_ID,
+            response.$id
+          ).toString();
+          return fileUrl;
         } catch (error: unknown) {
           console.error(`Error uploading file ${file.name}:`, error);
           
@@ -305,21 +291,17 @@ export class EventsService {
     }
   }
 
-  // Generate optimized image URL with fallback
-  static getImageUrl(fileId: string, width: number = 800, height: number = 600): string {
+  // Generate direct image URL without transformations
+  static getImageUrl(fileId: string): string {
     try {
       if (!STORAGE_BUCKET_ID || !fileId) {
         return '/placeholder-image.jpg'; // fallback image
       }
       
-      // Use getFilePreview for better optimization and caching
-      return storage.getFilePreview(
+      // Use getFileView for direct access without transformation limits
+      return storage.getFileView(
         STORAGE_BUCKET_ID,
-        fileId,
-        width,
-        height,
-        ImageGravity.Center,
-        90 // quality
+        fileId
       ).toString();
     } catch (error) {
       console.error('Error generating image URL:', error);
