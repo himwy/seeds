@@ -46,11 +46,14 @@ export default function CareersPage() {
       viewOpportunities: "View Opportunities",
       apply: "",
       internSharingTitle: "Intern/Members Sharing Experience",
-      internSharingDescription: "Discover what it's like to be part of our team through the experiences of our interns and members.",
+      internSharingDescription:
+        "Discover what it's like to be part of our team through the experiences of our interns and members.",
       swipeHint: "Swipe left or right to navigate videos",
       featuredVideoTitle: "Featured Video",
-      featuredVideoDescription: "Learn more about wealth management opportunities",
-      wendyVideoCaption: "Wendy Lee sharing insights from one of her insurance experience journeys",
+      featuredVideoDescription:
+        "Learn more about wealth management opportunities",
+      wendyVideoCaption:
+        "Wendy Lee sharing insights from one of her insurance experience journeys",
       hearFromInternsTitle: "Hear from Our Interns",
       hearFromInternsDescription:
         "Discover what it's like to start your career with Seeds Financial Group.",
@@ -151,7 +154,8 @@ export default function CareersPage() {
       viewOpportunities: "查看機會",
       apply: "",
       internSharingTitle: "實習生/成員經驗分享",
-      internSharingDescription: "通過我們實習生和成員的經驗，了解成為我們團隊一員的感受。",
+      internSharingDescription:
+        "通過我們實習生和成員的經驗，了解成為我們團隊一員的感受。",
       swipeHint: "左右滑動以瀏覽視頻",
       featuredVideoTitle: "精選視頻",
       featuredVideoDescription: "了解更多財富管理機會",
@@ -249,38 +253,38 @@ export default function CareersPage() {
     {
       id: "ugKwnuLrD7I",
       title: "Original Intern Experience",
-      description: "The original intern sharing experience video"
+      description: "The original intern sharing experience video",
     },
     {
       id: "gkBgleZ0Sm8",
       title: "Intern/Member Sharing #1",
-      description: "Additional team member experience"
+      description: "Additional team member experience",
     },
     {
       id: "UGD8FRl0Dfo",
-      title: "Intern/Member Sharing #2", 
-      description: "Another team member perspective"
+      title: "Intern/Member Sharing #2",
+      description: "Another team member perspective",
     },
     {
       id: "y1EhJ1HKF6k",
       title: "Intern/Member Sharing #3",
-      description: "More insights from our team"
+      description: "More insights from our team",
     },
     {
       id: "1NCJtZ4G0aQ",
       title: "Intern/Member Sharing #4",
-      description: "Team member journey sharing"
+      description: "Team member journey sharing",
     },
     {
       id: "XX9FEeNz_Vs",
       title: "Intern/Member Sharing #5",
-      description: "Professional development story"
+      description: "Professional development story",
     },
     {
       id: "sJU2wSLYqLg",
       title: "Intern/Member Sharing #6",
-      description: "Career growth experience"
-    }
+      description: "Career growth experience",
+    },
   ];
 
   // State for video carousel
@@ -313,7 +317,7 @@ export default function CareersPage() {
 
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
@@ -328,15 +332,15 @@ export default function CareersPage() {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
+      if (e.key === "ArrowLeft") {
         prevVideo();
-      } else if (e.key === 'ArrowRight') {
+      } else if (e.key === "ArrowRight") {
         nextVideo();
       }
     };
 
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
   }, []);
 
   const reasonsWithIcons = [
@@ -414,7 +418,7 @@ export default function CareersPage() {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
               </div>
-              
+
               {/* Video Caption */}
               <div className="mt-4 text-center">
                 <p className="text-sm text-gray-600 italic">
@@ -441,12 +445,12 @@ export default function CareersPage() {
             <p className="text-base md:text-lg text-gray-600 mb-8 md:mb-12 leading-relaxed px-4">
               {t.internSharingDescription}
             </p>
-            
+
             {/* Video Carousel */}
             <div className="relative">
               {/* Main Video Display */}
               <div className="max-w-4xl mx-auto mb-8">
-                <div 
+                <div
                   className="relative rounded-xl overflow-hidden shadow-2xl bg-black"
                   onTouchStart={onTouchStart}
                   onTouchMove={onTouchMove}
@@ -462,7 +466,7 @@ export default function CareersPage() {
                     allowFullScreen
                     className="w-full h-[300px] md:h-[400px] lg:h-[500px]"
                   ></iframe>
-                  
+
                   {/* Navigation Arrows - Mobile Only */}
                   <button
                     onClick={prevVideo}
@@ -471,7 +475,7 @@ export default function CareersPage() {
                   >
                     <FaChevronLeft className="w-4 h-4" />
                   </button>
-                  
+
                   <button
                     onClick={nextVideo}
                     className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-70 hover:bg-opacity-90 text-white p-2 rounded-full transition-all duration-200 z-10 touch-manipulation md:hidden"
@@ -481,7 +485,7 @@ export default function CareersPage() {
                   </button>
                 </div>
               </div>
-              
+
               {/* Video Thumbnails/Dots Navigation */}
               <div className="flex justify-start md:justify-center space-x-2 md:space-x-4 overflow-x-auto pb-4 px-4 scrollbar-hide">
                 {videos.map((video, index) => (
@@ -490,8 +494,8 @@ export default function CareersPage() {
                     onClick={() => setCurrentVideoIndex(index)}
                     className={`flex-shrink-0 w-20 h-12 md:w-24 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 touch-manipulation ${
                       index === currentVideoIndex
-                        ? 'border-blue-500 ring-2 ring-blue-200'
-                        : 'border-gray-300 hover:border-gray-400'
+                        ? "border-blue-500 ring-2 ring-blue-200"
+                        : "border-gray-300 hover:border-gray-400"
                     }`}
                   >
                     {/* YouTube Thumbnail */}
@@ -506,23 +510,21 @@ export default function CareersPage() {
                   </button>
                 ))}
               </div>
-              
+
               {/* Video Counter */}
               <div className="mt-4 text-center">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
                   {currentVideoIndex + 1} of {videos.length}
                 </span>
-                
+
                 {/* Mobile swipe hint */}
                 <div className="mt-2 md:hidden">
-                  <p className="text-xs text-gray-500">
-                    {t.swipeHint}
-                  </p>
+                  <p className="text-xs text-gray-500">{t.swipeHint}</p>
                 </div>
               </div>
             </div>
           </motion.div>
-          
+
           {/* Decorative Separator */}
           <div className="flex justify-center mt-12">
             <div className="flex items-center space-x-4">
@@ -589,7 +591,7 @@ export default function CareersPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
               {t.featuredVideoTitle}
             </h2>
-            
+
             {/* Featured Video */}
             <div className="relative max-w-3xl mx-auto">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
@@ -608,7 +610,7 @@ export default function CareersPage() {
               </div>
             </div>
           </motion.div>
-          
+
           {/* Decorative Separator */}
           <div className="flex justify-center mt-12">
             <div className="flex items-center space-x-4">
@@ -688,3 +690,4 @@ export default function CareersPage() {
     </div>
   );
 }
+X``;

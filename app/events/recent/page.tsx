@@ -88,11 +88,13 @@ export default function RecentEventsPage() {
 
   const isVideoUrl = (url: string) => {
     // Check file extension and URL patterns for video files
-    const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.m4v'];
+    const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
     const lowerUrl = url.toLowerCase();
-    return videoExtensions.some(ext => lowerUrl.includes(ext)) || 
-           lowerUrl.includes('video') ||
-           lowerUrl.includes('/view?') && !lowerUrl.includes('preview'); // Appwrite video URLs use /view
+    return (
+      videoExtensions.some((ext) => lowerUrl.includes(ext)) ||
+      lowerUrl.includes("video") ||
+      (lowerUrl.includes("/view?") && !lowerUrl.includes("preview"))
+    ); // Appwrite video URLs use /view
   };
 
   const formatDate = (dateString: string) => {
