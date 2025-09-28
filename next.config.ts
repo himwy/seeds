@@ -4,25 +4,29 @@ const nextConfig: NextConfig = {
   // Enable React strict mode for better development experience
   reactStrictMode: true,
 
-  // Image optimization settings
+  // Image optimization settings - DISABLE Appwrite optimization
   images: {
     formats: ["image/webp", "image/avif"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Removed Appwrite remotePatterns to prevent transformation calls
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cloud.appwrite.io',
-        port: '',
-        pathname: '/v1/storage/buckets/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'fra.cloud.appwrite.io',
-        port: '',
-        pathname: '/v1/storage/buckets/**',
-      },
+      // Temporarily disabled to avoid transformation limits
+      // {
+      //   protocol: 'https',
+      //   hostname: 'cloud.appwrite.io',
+      //   port: '',
+      //   pathname: '/v1/storage/buckets/**',
+      // },
+      // {
+      //   protocol: 'https',
+      //   hostname: 'fra.cloud.appwrite.io',
+      //   port: '',
+      //   pathname: '/v1/storage/buckets/**',
+      // },
     ],
+    // Completely disable image optimization to prevent Appwrite transformation calls
+    unoptimized: true,
   },
 
   // Performance optimizations

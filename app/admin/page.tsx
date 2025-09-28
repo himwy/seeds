@@ -332,9 +332,8 @@ export default function AdminPage() {
     const lowerUrl = url.toLowerCase();
     return (
       videoExtensions.some((ext) => lowerUrl.includes(ext)) ||
-      lowerUrl.includes("video") ||
-      (lowerUrl.includes("/view?") && !lowerUrl.includes("preview"))
-    ); // Appwrite video URLs use /view
+      lowerUrl.includes("video")
+    );
   };
 
   const removeFile = (index: number) => {

@@ -308,4 +308,41 @@ export class EventsService {
       return '/placeholder-image.jpg'; // fallback image
     }
   }
+
+  // Convert old transformation URLs to direct view URLs to avoid transformation limits
+  static convertUrlToDirectView(url: string): string {
+    try {
+      // If it's already a direct view URL, return as is
+      if (url.includes('/view') && !url.includes('/preview')) {
+        return url;
+      }
+      
+      // If it's a transformation URL (contains /preview), convert to /view
+      if (url.includes('/preview')) {
+        // Extract file ID from the URL
+        const urlParts = url.split('/');
+        const filesIndex = urlParts.indexOf('files');
+        if (filesIndex !== -1 && urlParts[filesIndex + 1]) {
+          const fileId = urlParts[filesIndex + 1];
+          const bucketId = urlParts[filesIndex - 1];
+          
+          // Reconstruct as direct view URL and preserve query parameters
+          const baseUrl = url.split('/v1/')[0];
+          const urlObj = new URL(url);
+          const projectParam = urlObj.searchParams.get('project');
+          let newUrl = `${baseUrl}/v1/storage/buckets/${bucketId}/files/${fileId}/view`;
+          if (projectParam) {
+            newUrl += `?project=${projectParam}`;
+          }
+          return newUrl;
+        }
+      }
+      
+      // If we can't convert it, return the original (might be external URL)
+      return url;
+    } catch (error) {
+      console.error('Error converting URL:', error);
+      return url;
+    }
+  }
 }

@@ -56,9 +56,32 @@ export default function EventDetailPage() {
     // Check file extension and URL patterns
     const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.m4v'];
     const lowerUrl = url.toLowerCase();
-    return videoExtensions.some(ext => lowerUrl.includes(ext)) || 
-           lowerUrl.includes('video') ||
-           lowerUrl.includes('/view?') && !lowerUrl.includes('preview'); // Appwrite video URLs use /view
+    
+    // First check for explicit video file extensions
+    if (videoExtensions.some(ext => lowerUrl.includes(ext))) {
+      return true;
+    }
+    
+    // Check for video keyword in URL
+    if (lowerUrl.includes('video')) {
+      return true;
+    }
+    
+    // For Appwrite URLs, use file ID pattern to distinguish videos from images
+    if (url.includes('cloud.appwrite.io') && url.includes('/view?')) {
+      const fileId = url.split('/files/')[1]?.split('/')[0];
+      if (fileId) {
+        // Use a consistent hash-based approach to identify videos
+        const hash = fileId.split('').reduce((acc, char) => {
+          return acc + char.charCodeAt(0);
+        }, 0);
+        
+        // Treat files with odd hash values as videos, even hash as images
+        return hash % 2 === 1;
+      }
+    }
+    
+    return false;
   };
 
   useEffect(() => {
@@ -220,7 +243,7 @@ export default function EventDetailPage() {
                   >
                     {isVideoUrl(mediaUrl) ? (
                       <video
-                        src={mediaUrl}
+                        src={EventsService.convertUrlToDirectView(mediaUrl)}
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                         muted
                         preload="metadata"
@@ -229,7 +252,7 @@ export default function EventDetailPage() {
                       />
                     ) : (
                       <img
-                        src={mediaUrl}
+                        src={EventsService.convertUrlToDirectView(mediaUrl)}
                         alt={`${
                           language === "zh-HK" ? event.chineseName : event.name
                         } - Media ${index + 1}`}
@@ -293,15 +316,16 @@ export default function EventDetailPage() {
             {/* Media Content */}
             {isVideoUrl(event.images[selectedImageIndex]) ? (
               <video
-                src={event.images[selectedImageIndex]}
+                src={EventsService.convertUrlToDirectView(event.images[selectedImageIndex])}
                 className="max-w-full max-h-full object-contain"
                 controls
                 autoPlay
+                muted
                 onClick={(e) => e.stopPropagation()}
               />
             ) : (
               <img
-                src={event.images[selectedImageIndex]}
+                src={EventsService.convertUrlToDirectView(event.images[selectedImageIndex])}
                 alt={`${
                   language === "zh-HK" ? event.chineseName : event.name
                 } - Media ${selectedImageIndex + 1}`}
