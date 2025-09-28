@@ -463,8 +463,11 @@ export default function AdminPage() {
       const fileExtension = isVideo ? "mp4" : "jpg";
       const fileName = `event-media-${index + 1}.${fileExtension}`;
 
+      // Convert view URL to download URL for proper file downloads
+      const downloadUrl = EventsService.convertUrlToDirectDownload(mediaUrl);
+
       // Use fetch to get the file as blob for proper download
-      const response = await fetch(mediaUrl);
+      const response = await fetch(downloadUrl);
       const blob = await response.blob();
 
       // Create download link
@@ -1041,7 +1044,7 @@ export default function AdminPage() {
                           />
                         ) : (
                           <img
-                            src={url}
+                            src={EventsService.convertUrlToDirectView(url)}
                             alt={`Current ${index + 1}`}
                             className="w-full h-24 object-cover rounded-xl border-2 border-gray-200"
                           />
@@ -1136,7 +1139,7 @@ export default function AdminPage() {
                     <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200">
                       {event.images && event.images.length > 0 ? (
                         <Image
-                          src={event.images[0]}
+                          src={EventsService.convertUrlToDirectView(event.images[0])}
                           alt={event.name}
                           fill
                           className="object-cover"
@@ -1342,7 +1345,7 @@ export default function AdminPage() {
                         <div className="relative w-full h-32 bg-gray-100 rounded-lg border border-gray-200 overflow-hidden">
                           {isVideoUrl(mediaUrl) ? (
                             <video
-                              src={mediaUrl}
+                              src={EventsService.convertUrlToDirectView(mediaUrl)}
                               className="w-full h-full object-cover"
                               controls
                               muted
@@ -1367,7 +1370,7 @@ export default function AdminPage() {
                             />
                           ) : (
                             <Image
-                              src={mediaUrl}
+                              src={EventsService.convertUrlToDirectView(mediaUrl)}
                               alt={`Event media ${index + 1}`}
                               fill
                               className="object-cover"

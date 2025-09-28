@@ -345,4 +345,35 @@ export class EventsService {
       return url;
     }
   }
+
+  // Convert URLs to proper download format for file downloads
+  static convertUrlToDirectDownload(url: string): string {
+    try {
+      // If it's an Appwrite URL, convert to download endpoint
+      if (url.includes('cloud.appwrite.io') && url.includes('/files/')) {
+        const urlParts = url.split('/');
+        const filesIndex = urlParts.indexOf('files');
+        if (filesIndex !== -1 && urlParts[filesIndex + 1]) {
+          const fileId = urlParts[filesIndex + 1];
+          const bucketId = urlParts[filesIndex - 1];
+          
+          // Reconstruct as download URL and preserve query parameters
+          const baseUrl = url.split('/v1/')[0];
+          const urlObj = new URL(url);
+          const projectParam = urlObj.searchParams.get('project');
+          let downloadUrl = `${baseUrl}/v1/storage/buckets/${bucketId}/files/${fileId}/download`;
+          if (projectParam) {
+            downloadUrl += `?project=${projectParam}`;
+          }
+          return downloadUrl;
+        }
+      }
+      
+      // If we can't convert it, return the original
+      return url;
+    } catch (error) {
+      console.error('Error converting download URL:', error);
+      return url;
+    }
+  }
 }
