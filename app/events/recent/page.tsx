@@ -229,17 +229,30 @@ export default function RecentEventsPage() {
                       {event.images && event.images.length > 0 ? (
                         <>
                           {isVideoUrl(event.images[0]) ? (
-                            <div className="relative w-full h-full">
+                            <div className="relative w-full h-full bg-gray-100">
                               <video
                                 src={EventsService.convertUrlToDirectView(event.images[0])}
+                                poster={EventsService.convertUrlToDirectView(event.images[0])}
                                 className="w-full h-full object-cover"
                                 muted
                                 preload="metadata"
+                                playsInline
+                                onLoadedData={(e) => {
+                                  // Try to capture first frame as poster
+                                  e.currentTarget.currentTime = 0.1;
+                                }}
                               />
                               {/* Video Play Overlay */}
-                              <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                                <div className="bg-white bg-opacity-90 rounded-full p-4">
+                              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
+                                <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
                                   <FaPlay className="text-2xl text-gray-800" />
+                                </div>
+                              </div>
+                              {/* Loading placeholder */}
+                              <div className="absolute inset-0 bg-gray-200 flex items-center justify-center -z-10">
+                                <div className="text-gray-400 text-center">
+                                  <FaPlay className="text-4xl mx-auto mb-2" />
+                                  <p className="text-sm">Loading Video...</p>
                                 </div>
                               </div>
                             </div>
