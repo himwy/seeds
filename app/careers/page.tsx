@@ -47,9 +47,9 @@ export default function CareersPage() {
       apply: "",
       internSharingTitle: "Intern/Members Sharing Experience",
       internSharingDescription: "Discover what it's like to be part of our team through the experiences of our interns and members.",
+      wendySharingTitle: "Wendy's Sharing",
+      wendySharingDescription: "Learn from Wendy's extensive experience and insights in the insurance and wealth management industry.",
       swipeHint: "Swipe left or right to navigate videos",
-      featuredVideoTitle: "Featured Video",
-      featuredVideoDescription: "Learn more about wealth management opportunities",
       wendyVideoCaption: "Wendy Lee sharing insights from one of her insurance experience journeys",
       hearFromInternsTitle: "Hear from Our Interns",
       hearFromInternsDescription:
@@ -152,9 +152,9 @@ export default function CareersPage() {
       apply: "",
       internSharingTitle: "實習生/成員經驗分享",
       internSharingDescription: "通過我們實習生和成員的經驗，了解成為我們團隊一員的感受。",
+      wendySharingTitle: "Wendy 分享",
+      wendySharingDescription: "從 Wendy 在保險和財富管理行業的豐富經驗和見解中學習。",
       swipeHint: "左右滑動以瀏覽視頻",
-      featuredVideoTitle: "精選視頻",
-      featuredVideoDescription: "了解更多財富管理機會",
       wendyVideoCaption: "Wendy Lee 分享她的保險經驗心得",
       hearFromInternsTitle: "聽聽我們實習生的心聲",
       hearFromInternsDescription:
@@ -283,12 +283,44 @@ export default function CareersPage() {
     }
   ];
 
+  // Wendy's sharing videos data
+  const wendyVideos = [
+    {
+      id: "72JjTULqXJM",
+      title: "Wendy's Industry Insights #1",
+      description: "Professional experience and guidance"
+    },
+    {
+      id: "56ftgW-x22o",
+      title: "Wendy's Industry Insights #2",
+      description: "Insurance industry expertise"
+    },
+    {
+      id: "-6w2MmydxYI",
+      title: "Wendy's Industry Insights #3",
+      description: "Wealth management strategies"
+    },
+    {
+      id: "mENdIqPYP2E",
+      title: "Wendy's Industry Insights #4",
+      description: "Career development advice"
+    },
+    {
+      id: "SYHptynxjQ0",
+      title: "Wendy's Industry Insights #5",
+      description: "Insurance experience journey"
+    }
+  ];
+
   // State for video carousel
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [currentWendyVideoIndex, setCurrentWendyVideoIndex] = useState(0);
 
   // Touch handling for mobile swipe
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [wendyTouchStart, setWendyTouchStart] = useState<number | null>(null);
+  const [wendyTouchEnd, setWendyTouchEnd] = useState<number | null>(null);
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -299,6 +331,15 @@ export default function CareersPage() {
 
   const prevVideo = () => {
     setCurrentVideoIndex((prev) => (prev - 1 + videos.length) % videos.length);
+  };
+
+  // Wendy's video navigation
+  const nextWendyVideo = () => {
+    setCurrentWendyVideoIndex((prev) => (prev + 1) % wendyVideos.length);
+  };
+
+  const prevWendyVideo = () => {
+    setCurrentWendyVideoIndex((prev) => (prev - 1 + wendyVideos.length) % wendyVideos.length);
   };
 
   // Touch handlers for swipe navigation
@@ -322,6 +363,30 @@ export default function CareersPage() {
       nextVideo();
     } else if (isRightSwipe) {
       prevVideo();
+    }
+  };
+
+  // Touch handlers for Wendy's videos swipe navigation
+  const onWendyTouchStart = (e: React.TouchEvent) => {
+    setWendyTouchEnd(null);
+    setWendyTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onWendyTouchMove = (e: React.TouchEvent) => {
+    setWendyTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onWendyTouchEnd = () => {
+    if (!wendyTouchStart || !wendyTouchEnd) return;
+    
+    const distance = wendyTouchStart - wendyTouchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextWendyVideo();
+    } else if (isRightSwipe) {
+      prevWendyVideo();
     }
   };
 
@@ -400,34 +465,131 @@ export default function CareersPage() {
               className="relative"
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <div className="relative w-full h-[250px] md:h-[400px]">
-                  <iframe
-                    src="https://www.youtube.com/embed/SYHptynxjQ0"
-                    title="Wendy's Insurance Experience Sharing"
-                    width="100%"
-                    height="100%"
-                    className="w-full h-full rounded-2xl"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
-              </div>
-              
-              {/* Video Caption */}
-              <div className="mt-4 text-center">
-                <p className="text-sm text-gray-600 italic">
-                  {t.wendyVideoCaption}
-                </p>
+                <Image
+                  src="/assets/Recruitment.jpg"
+                  alt="Career Opportunities"
+                  width={600}
+                  height={400}
+                  className="w-full h-[250px] md:h-[400px] object-cover object-center"
+                  style={{ objectPosition: "center 20%" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Intern/Members Video Carousel Section */}
+      {/* Wendy's Sharing Video Carousel Section */}
       <section className="py-16 md:py-24 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-6xl mx-auto text-center mb-12 md:mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 md:mb-8">
+              {t.wendySharingTitle}
+            </h2>
+            <p className="text-base md:text-lg text-gray-600 mb-8 md:mb-12 leading-relaxed px-4">
+              {t.wendySharingDescription}
+            </p>
+            
+            {/* Video Carousel */}
+            <div className="relative">
+              {/* Main Video Display */}
+              <div className="max-w-4xl mx-auto mb-8">
+                <div 
+                  className="relative rounded-xl overflow-hidden shadow-2xl bg-black"
+                  onTouchStart={onWendyTouchStart}
+                  onTouchMove={onWendyTouchMove}
+                  onTouchEnd={onWendyTouchEnd}
+                >
+                  <iframe
+                    width="100%"
+                    height="500"
+                    src={`https://www.youtube.com/embed/${wendyVideos[currentWendyVideoIndex].id}`}
+                    title={wendyVideos[currentWendyVideoIndex].title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-[300px] md:h-[400px] lg:h-[500px]"
+                  ></iframe>
+                  
+                  {/* Navigation Arrows - Mobile Only */}
+                  <button
+                    onClick={prevWendyVideo}
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-70 hover:bg-opacity-90 text-white p-2 rounded-full transition-all duration-200 z-10 touch-manipulation md:hidden"
+                    aria-label="Previous video"
+                  >
+                    <FaChevronLeft className="w-4 h-4" />
+                  </button>
+                  
+                  <button
+                    onClick={nextWendyVideo}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-70 hover:bg-opacity-90 text-white p-2 rounded-full transition-all duration-200 z-10 touch-manipulation md:hidden"
+                    aria-label="Next video"
+                  >
+                    <FaChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              
+              {/* Video Thumbnails/Dots Navigation */}
+              <div className="flex justify-start md:justify-center space-x-2 md:space-x-4 overflow-x-auto pb-4 px-4 scrollbar-hide">
+                {wendyVideos.map((video, index) => (
+                  <button
+                    key={video.id}
+                    onClick={() => setCurrentWendyVideoIndex(index)}
+                    className={`flex-shrink-0 w-20 h-12 md:w-24 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 touch-manipulation ${
+                      index === currentWendyVideoIndex
+                        ? 'border-blue-500 ring-2 ring-blue-200'
+                        : 'border-gray-300 hover:border-gray-400'
+                    }`}
+                  >
+                    {/* YouTube Thumbnail */}
+                    <div className="relative w-full h-full bg-gray-800 flex items-center justify-center">
+                      <img
+                        src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
+                        alt={video.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <FaPlay className="absolute text-white text-xs opacity-80" />
+                    </div>
+                  </button>
+                ))}
+              </div>
+              
+              {/* Video Counter */}
+              <div className="mt-4 text-center">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                  {currentWendyVideoIndex + 1} of {wendyVideos.length}
+                </span>
+                
+                {/* Mobile swipe hint */}
+                <div className="mt-2 md:hidden">
+                  <p className="text-xs text-gray-500">
+                    {t.swipeHint}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* Decorative Separator */}
+          <div className="flex justify-center mt-12">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-px bg-gray-400"></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+              <div className="w-16 h-px bg-gray-400"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Intern/Members Video Carousel Section */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -573,49 +735,6 @@ export default function CareersPage() {
                 </p>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Video Section */}
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
-        <div className="container mx-auto px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
-              {t.featuredVideoTitle}
-            </h2>
-            
-            {/* Featured Video */}
-            <div className="relative max-w-3xl mx-auto">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <div className="relative w-full h-[250px] md:h-[450px]">
-                  <iframe
-                    src="https://www.youtube.com/embed/StE1WDLayMY"
-                    title="Why Choose Wealth Management - Featured Video"
-                    width="100%"
-                    height="100%"
-                    className="w-full h-full rounded-2xl"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-          
-          {/* Decorative Separator */}
-          <div className="flex justify-center mt-12">
-            <div className="flex items-center space-x-4">
-              <div className="w-16 h-px bg-gray-400"></div>
-              <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-              <div className="w-16 h-px bg-gray-400"></div>
-            </div>
           </div>
         </div>
       </section>
