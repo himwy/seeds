@@ -248,14 +248,11 @@ export default function EventDetailPage() {
                           src={mediaUrl}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                           muted
-                          preload="none"
+                          preload="metadata"
                           playsInline
                           onLoadedData={(e) => {
                             // Try to capture first frame as thumbnail
-                            e.currentTarget.currentTime = 0;
-                          }}
-                          onCanPlay={(e) => {
-                            e.currentTarget.pause();
+                            e.currentTarget.currentTime = 0.1;
                           }}
                         />
                         {/* Video Play Overlay */}

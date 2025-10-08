@@ -1106,16 +1106,11 @@ export default function Home() {
                                                 src={event.images[0]}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                 muted
-                                                preload="none"
+                                                preload="metadata"
                                                 playsInline
-                                                poster=""
                                                 onLoadedData={(e) => {
                                                   // Quickly seek to get first frame
-                                                  e.currentTarget.currentTime = 0;
-                                                }}
-                                                onCanPlay={(e) => {
-                                                  // Pause immediately after getting first frame
-                                                  e.currentTarget.pause();
+                                                  e.currentTarget.currentTime = 0.1;
                                                 }}
                                               />
                                               {/* Video Play Overlay */}
