@@ -1101,21 +1101,29 @@ export default function Home() {
                                       event.images.length > 0 && (
                                         <div className="relative h-64 overflow-hidden">
                                           {isVideoUrl(event.images[0]) ? (
-                                            <div className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                                              {/* Video Thumbnail Placeholder */}
-                                              <div className="text-center text-white">
-                                                <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 mb-4 mx-auto w-20 h-20 flex items-center justify-center">
-                                                  <FaImages className="text-3xl text-white" />
+                                            <div className="relative w-full h-full">
+                                              <video
+                                                src={event.images[0]}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                muted
+                                                preload="none"
+                                                playsInline
+                                                poster=""
+                                                onLoadedData={(e) => {
+                                                  // Quickly seek to get first frame
+                                                  e.currentTarget.currentTime = 0;
+                                                }}
+                                                onCanPlay={(e) => {
+                                                  // Pause immediately after getting first frame
+                                                  e.currentTarget.pause();
+                                                }}
+                                              />
+                                              {/* Video Play Overlay */}
+                                              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                                                <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
+                                                  <FaImages className="text-xl text-gray-800" />
                                                 </div>
-                                                <p className="text-white/90 text-sm font-medium">
-                                                  Video Content
-                                                </p>
-                                                <p className="text-white/70 text-xs mt-1">
-                                                  Click to view
-                                                </p>
                                               </div>
-                                              {/* Fast loading overlay */}
-                                              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300"></div>
                                             </div>
                                           ) : (
                                             <Image

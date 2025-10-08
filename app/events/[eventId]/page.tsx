@@ -243,21 +243,28 @@ export default function EventDetailPage() {
                     onClick={() => openImageModal(index)}
                   >
                     {isVideoUrl(mediaUrl) ? (
-                      <div className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                        {/* Video Thumbnail Placeholder */}
-                        <div className="text-center text-white">
-                          <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 mb-2 mx-auto w-16 h-16 flex items-center justify-center">
-                            <svg
-                              className="w-6 h-6 text-white"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path d="M8 5v10l8-5-8-5z" />
+                      <div className="relative w-full h-full bg-gray-100">
+                        <video
+                          src={mediaUrl}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          muted
+                          preload="none"
+                          playsInline
+                          onLoadedData={(e) => {
+                            // Try to capture first frame as thumbnail
+                            e.currentTarget.currentTime = 0;
+                          }}
+                          onCanPlay={(e) => {
+                            e.currentTarget.pause();
+                          }}
+                        />
+                        {/* Video Play Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
+                          <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
+                            <svg className="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M8 5v10l8-5-8-5z"/>
                             </svg>
                           </div>
-                          <p className="text-white/90 text-xs font-medium">
-                            Video
-                          </p>
                         </div>
                       </div>
                     ) : (
