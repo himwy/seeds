@@ -88,33 +88,33 @@ export default function RecentEventsPage() {
 
   const isVideoUrl = (url: string) => {
     // Check file extension and URL patterns for video files
-    const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.m4v'];
+    const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
     const lowerUrl = url.toLowerCase();
-    
+
     // Check for video file extensions first
-    if (videoExtensions.some(ext => lowerUrl.includes(ext))) {
+    if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
       return true;
     }
-    
+
     // Check for video keyword in URL
-    if (lowerUrl.includes('video')) {
+    if (lowerUrl.includes("video")) {
       return true;
     }
-    
+
     // For Appwrite URLs, use file ID pattern to distinguish videos from images
-    if (url.includes('cloud.appwrite.io') && url.includes('/view?')) {
-      const fileId = url.split('/files/')[1]?.split('/')[0];
+    if (url.includes("cloud.appwrite.io") && url.includes("/view?")) {
+      const fileId = url.split("/files/")[1]?.split("/")[0];
       if (fileId) {
         // Use a consistent hash-based approach to identify videos
-        const hash = fileId.split('').reduce((acc, char) => {
+        const hash = fileId.split("").reduce((acc, char) => {
           return acc + char.charCodeAt(0);
         }, 0);
-        
-        // Treat roughly 50% as videos for better testing  
+
+        // Treat roughly 50% as videos for better testing
         return hash % 2 === 1;
       }
     }
-    
+
     return false;
   };
 
@@ -235,8 +235,12 @@ export default function RecentEventsPage() {
                                 <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 mb-4 mx-auto w-20 h-20 flex items-center justify-center">
                                   <FaPlay className="text-2xl text-white" />
                                 </div>
-                                <p className="text-white/90 text-sm font-medium">Video Content</p>
-                                <p className="text-white/70 text-xs mt-1">Click to view gallery</p>
+                                <p className="text-white/90 text-sm font-medium">
+                                  Video Content
+                                </p>
+                                <p className="text-white/70 text-xs mt-1">
+                                  Click to view gallery
+                                </p>
                               </div>
                             </div>
                           ) : (

@@ -19,13 +19,14 @@ const translations = {
   en: {
     pageTitle: "Past Events",
     heroSubtitle: "Our Legacy & Memories",
-    heroDescription: "Journey through our cherished memories and unforgettable moments that have shaped our company's rich history.",
+    heroDescription:
+      "Journey through our cherished memories and unforgettable moments that have shaped our company's rich history.",
     viewGallery: "View Gallery",
     noEvents: "No past events yet",
     loading: "Loading events...",
     error: "Unable to load events",
     photosCount: "photos",
-    videosCount: "videos", 
+    videosCount: "videos",
     mediaCount: "items",
     eventsTitle: "Past Events",
     sortBy: "Sort by",
@@ -39,7 +40,8 @@ const translations = {
   "zh-HK": {
     pageTitle: "過往活動",
     heroSubtitle: "我們的傳承與回憶",
-    heroDescription: "穿越我們珍貴的回憶和難忘的時刻，這些塑造了我們公司豐富的歷史。",
+    heroDescription:
+      "穿越我們珍貴的回憶和難忘的時刻，這些塑造了我們公司豐富的歷史。",
     viewGallery: "查看相冊",
     noEvents: "暫無過往活動",
     loading: "載入活動中...",
@@ -88,33 +90,33 @@ export default function PastEventsPage() {
 
   const isVideoUrl = (url: string) => {
     // Check file extension and URL patterns for video files
-    const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.m4v'];
+    const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
     const lowerUrl = url.toLowerCase();
-    
+
     // Check for video file extensions first
-    if (videoExtensions.some(ext => lowerUrl.includes(ext))) {
+    if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
       return true;
     }
-    
+
     // Check for video keyword in URL
-    if (lowerUrl.includes('video')) {
+    if (lowerUrl.includes("video")) {
       return true;
     }
-    
+
     // For Appwrite URLs, use file ID pattern to distinguish videos from images
-    if (url.includes('cloud.appwrite.io') && url.includes('/view?')) {
-      const fileId = url.split('/files/')[1]?.split('/')[0];
+    if (url.includes("cloud.appwrite.io") && url.includes("/view?")) {
+      const fileId = url.split("/files/")[1]?.split("/")[0];
       if (fileId) {
         // Use a consistent hash-based approach to identify videos
-        const hash = fileId.split('').reduce((acc, char) => {
+        const hash = fileId.split("").reduce((acc, char) => {
           return acc + char.charCodeAt(0);
         }, 0);
-        
+
         // Treat roughly 50% as videos for better testing
         return hash % 2 === 1;
       }
     }
-    
+
     return false;
   };
 
@@ -190,9 +192,7 @@ export default function PastEventsPage() {
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
                 {t.noEvents}
               </h3>
-              <p className="text-gray-600 text-lg">
-                {t.stayTuned}
-              </p>
+              <p className="text-gray-600 text-lg">{t.stayTuned}</p>
             </div>
           ) : (
             <>
@@ -204,11 +204,11 @@ export default function PastEventsPage() {
                   </h2>
                   <div className="w-20 h-1 bg-gray-900"></div>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <FaFilter className="text-gray-600" />
                   <span className="text-gray-600 font-medium">{t.sortBy}:</span>
-                  <select 
+                  <select
                     value={sortOrder}
                     onChange={(e) => setSortOrder(e.target.value)}
                     className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900"
@@ -237,8 +237,12 @@ export default function PastEventsPage() {
                                 <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 mb-4 mx-auto w-20 h-20 flex items-center justify-center">
                                   <FaPlay className="text-2xl text-white" />
                                 </div>
-                                <p className="text-white/90 text-sm font-medium">Video Content</p>
-                                <p className="text-white/70 text-xs mt-1">Click to view gallery</p>
+                                <p className="text-white/90 text-sm font-medium">
+                                  Video Content
+                                </p>
+                                <p className="text-white/70 text-xs mt-1">
+                                  Click to view gallery
+                                </p>
                               </div>
                             </div>
                           ) : (

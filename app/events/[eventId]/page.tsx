@@ -54,33 +54,33 @@ export default function EventDetailPage() {
 
   const isVideoUrl = (url: string) => {
     // Check file extension and URL patterns
-    const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.m4v'];
+    const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
     const lowerUrl = url.toLowerCase();
-    
+
     // First check for explicit video file extensions
-    if (videoExtensions.some(ext => lowerUrl.includes(ext))) {
+    if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
       return true;
     }
-    
+
     // Check for video keyword in URL
-    if (lowerUrl.includes('video')) {
+    if (lowerUrl.includes("video")) {
       return true;
     }
-    
+
     // For Appwrite URLs, use file ID pattern to distinguish videos from images
-    if (url.includes('cloud.appwrite.io') && url.includes('/view?')) {
-      const fileId = url.split('/files/')[1]?.split('/')[0];
+    if (url.includes("cloud.appwrite.io") && url.includes("/view?")) {
+      const fileId = url.split("/files/")[1]?.split("/")[0];
       if (fileId) {
         // Use a consistent hash-based approach to identify videos
-        const hash = fileId.split('').reduce((acc, char) => {
+        const hash = fileId.split("").reduce((acc, char) => {
           return acc + char.charCodeAt(0);
         }, 0);
-        
+
         // Treat files with odd hash values as videos, even hash as images
         return hash % 2 === 1;
       }
     }
-    
+
     return false;
   };
 
@@ -210,7 +210,8 @@ export default function EventDetailPage() {
             </div>
 
             <div className="text-gray-600">
-              {event.images.length} {event.images.length === 1 ? "item" : "items"}
+              {event.images.length}{" "}
+              {event.images.length === 1 ? "item" : "items"}
             </div>
           </motion.div>
 
@@ -246,11 +247,17 @@ export default function EventDetailPage() {
                         {/* Video Thumbnail Placeholder */}
                         <div className="text-center text-white">
                           <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 mb-2 mx-auto w-16 h-16 flex items-center justify-center">
-                            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M8 5v10l8-5-8-5z"/>
+                            <svg
+                              className="w-6 h-6 text-white"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M8 5v10l8-5-8-5z" />
                             </svg>
                           </div>
-                          <p className="text-white/90 text-xs font-medium">Video</p>
+                          <p className="text-white/90 text-xs font-medium">
+                            Video
+                          </p>
                         </div>
                       </div>
                     ) : (
@@ -321,7 +328,9 @@ export default function EventDetailPage() {
             {/* Media Content */}
             {isVideoUrl(event.images[selectedImageIndex]) ? (
               <video
-                src={EventsService.convertUrlToDirectView(event.images[selectedImageIndex])}
+                src={EventsService.convertUrlToDirectView(
+                  event.images[selectedImageIndex]
+                )}
                 className="max-w-full max-h-full object-contain"
                 controls
                 autoPlay
@@ -330,7 +339,9 @@ export default function EventDetailPage() {
               />
             ) : (
               <img
-                src={EventsService.convertUrlToDirectView(event.images[selectedImageIndex])}
+                src={EventsService.convertUrlToDirectView(
+                  event.images[selectedImageIndex]
+                )}
                 alt={`${
                   language === "zh-HK" ? event.chineseName : event.name
                 } - Media ${selectedImageIndex + 1}`}

@@ -1107,8 +1107,12 @@ export default function Home() {
                                                 <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 mb-4 mx-auto w-20 h-20 flex items-center justify-center">
                                                   <FaImages className="text-3xl text-white" />
                                                 </div>
-                                                <p className="text-white/90 text-sm font-medium">Video Content</p>
-                                                <p className="text-white/70 text-xs mt-1">Click to view</p>
+                                                <p className="text-white/90 text-sm font-medium">
+                                                  Video Content
+                                                </p>
+                                                <p className="text-white/70 text-xs mt-1">
+                                                  Click to view
+                                                </p>
                                               </div>
                                               {/* Fast loading overlay */}
                                               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300"></div>
