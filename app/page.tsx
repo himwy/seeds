@@ -23,33 +23,33 @@ import { EventsService, Event } from "./lib/eventsService";
 // Helper function to detect video URLs
 const isVideoUrl = (url: string) => {
   // Check file extension and URL patterns for video files
-  const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.m4v'];
+  const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
   const lowerUrl = url.toLowerCase();
-  
+
   // Check for video file extensions first
-  if (videoExtensions.some(ext => lowerUrl.includes(ext))) {
+  if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
     return true;
   }
-  
+
   // Check for video keyword in URL
-  if (lowerUrl.includes('video')) {
+  if (lowerUrl.includes("video")) {
     return true;
   }
-  
+
   // For Appwrite URLs, use file ID pattern to distinguish videos from images
-  if (url.includes('cloud.appwrite.io') && url.includes('/view?')) {
-    const fileId = url.split('/files/')[1]?.split('/')[0];
+  if (url.includes("cloud.appwrite.io") && url.includes("/view?")) {
+    const fileId = url.split("/files/")[1]?.split("/")[0];
     if (fileId) {
       // Use a consistent hash-based approach to identify videos
-      const hash = fileId.split('').reduce((acc, char) => {
+      const hash = fileId.split("").reduce((acc, char) => {
         return acc + char.charCodeAt(0);
       }, 0);
-      
-      // Treat roughly 50% as videos for better testing  
+
+      // Treat roughly 50% as videos for better testing
       return hash % 2 === 1;
     }
   }
-  
+
   return false;
 };
 
@@ -1060,9 +1060,11 @@ export default function Home() {
                   <div
                     className="flex"
                     style={{
-                      animation: animationPaused 
-                        ? 'none' 
-                        : `slideLeft ${recentEvents.length * 8}s linear infinite`,
+                      animation: animationPaused
+                        ? "none"
+                        : `slideLeft ${
+                            recentEvents.length * 8
+                          }s linear infinite`,
                     }}
                   >
                     {(() => {
@@ -1099,25 +1101,17 @@ export default function Home() {
                                       event.images.length > 0 && (
                                         <div className="relative h-64 overflow-hidden">
                                           {isVideoUrl(event.images[0]) ? (
-                                            <div className="relative w-full h-full">
-                                              <video
-                                                src={event.images[0]}
-                                                poster={event.images[0]}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                                muted
-                                                preload="metadata"
-                                                playsInline
-                                                onLoadedData={(e) => {
-                                                  // Try to capture first frame as poster
-                                                  e.currentTarget.currentTime = 0.1;
-                                                }}
-                                              />
-                                              {/* Video Play Overlay */}
-                                              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
-                                                <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
-                                                  <FaImages className="text-xl text-gray-800" />
+                                            <div className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                                              {/* Video Thumbnail Placeholder */}
+                                              <div className="text-center text-white">
+                                                <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 mb-4 mx-auto w-20 h-20 flex items-center justify-center">
+                                                  <FaImages className="text-3xl text-white" />
                                                 </div>
+                                                <p className="text-white/90 text-sm font-medium">Video Content</p>
+                                                <p className="text-white/70 text-xs mt-1">Click to view</p>
                                               </div>
+                                              {/* Fast loading overlay */}
+                                              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300"></div>
                                             </div>
                                           ) : (
                                             <Image
@@ -1130,6 +1124,10 @@ export default function Home() {
                                               fill
                                               className="object-cover group-hover:scale-105 transition-transform duration-500"
                                               sizes="(max-width: 768px) 100vw, 33vw"
+                                              priority={false}
+                                              loading="lazy"
+                                              placeholder="blur"
+                                              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyztP9jvKf/2Q=="
                                             />
                                           )}
                                           {/* Light overlay so text is readable */}

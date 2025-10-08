@@ -20,12 +20,7 @@
   }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
-}
+/* Remove problematic @theme rule and replace with standard CSS */
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -48,6 +43,30 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter);
   position: relative;
+  /* Mobile performance optimizations */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+}
+
+/* Fast loading optimizations */
+img {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px 200px;
+}
+
+/* Prevent layout shifts */
+.aspect-ratio-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+/* Hardware acceleration for animations */
+.transform-gpu {
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 /* Scrollbar hiding utilities */

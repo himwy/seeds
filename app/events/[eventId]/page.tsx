@@ -242,21 +242,26 @@ export default function EventDetailPage() {
                     onClick={() => openImageModal(index)}
                   >
                     {isVideoUrl(mediaUrl) ? (
-                      <video
-                        src={EventsService.convertUrlToDirectView(mediaUrl)}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        muted
-                        preload="metadata"
-                        onMouseEnter={(e) => e.currentTarget.play()}
-                        onMouseLeave={(e) => e.currentTarget.pause()}
-                      />
+                      <div className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                        {/* Video Thumbnail Placeholder */}
+                        <div className="text-center text-white">
+                          <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 mb-2 mx-auto w-16 h-16 flex items-center justify-center">
+                            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M8 5v10l8-5-8-5z"/>
+                            </svg>
+                          </div>
+                          <p className="text-white/90 text-xs font-medium">Video</p>
+                        </div>
+                      </div>
                     ) : (
                       <img
-                        src={EventsService.convertUrlToDirectView(mediaUrl)}
+                        src={mediaUrl}
                         alt={`${
                           language === "zh-HK" ? event.chineseName : event.name
                         } - Media ${index + 1}`}
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        decoding="async"
                       />
                     )}
                   </motion.div>
