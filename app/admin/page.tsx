@@ -1044,7 +1044,7 @@ export default function AdminPage() {
                           />
                         ) : (
                           <img
-                            src={EventsService.convertUrlToDirectView(url)}
+                            src={url}
                             alt={`Current ${index + 1}`}
                             className="w-full h-24 object-cover rounded-xl border-2 border-gray-200"
                           />
@@ -1139,7 +1139,7 @@ export default function AdminPage() {
                     <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200">
                       {event.images && event.images.length > 0 ? (
                         <Image
-                          src={EventsService.convertUrlToDirectView(event.images[0])}
+                          src={event.images[0]}
                           alt={event.name}
                           fill
                           className="object-cover"
@@ -1345,7 +1345,7 @@ export default function AdminPage() {
                         <div className="relative w-full h-32 bg-gray-100 rounded-lg border border-gray-200 overflow-hidden">
                           {isVideoUrl(mediaUrl) ? (
                             <video
-                              src={EventsService.convertUrlToDirectView(mediaUrl)}
+                              src={mediaUrl}
                               className="w-full h-full object-cover"
                               controls
                               muted
@@ -1370,7 +1370,7 @@ export default function AdminPage() {
                             />
                           ) : (
                             <Image
-                              src={EventsService.convertUrlToDirectView(mediaUrl)}
+                              src={mediaUrl}
                               alt={`Event media ${index + 1}`}
                               fill
                               className="object-cover"

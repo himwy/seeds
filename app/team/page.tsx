@@ -339,10 +339,10 @@ export default function TeamPage() {
                           />
                         ) : member.id === "kimman-cheung" ? (
                           <Image
-                            src="/assets/kimman/kimman pfp.jpg"
+                            src="/assets/kimman/kimman pfp.jpeg"
                             alt={`${member.name} - ${member.position}`}
                             fill
-                            className="object-cover object-right"
+                            className="object-cover object-center"
                           />
                         ) : member.id === "andy-yiu" ? (
                           <Image

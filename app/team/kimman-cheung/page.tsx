@@ -90,7 +90,7 @@ export default function KimmanCheungPage() {
         <header className="text-center mb-16">
           <div className="relative w-80 h-80 mx-auto mb-8 rounded-full overflow-hidden shadow-lg">
             <Image
-              src="/assets/kimman/kimman pfp.jpg"
+              src="/assets/kimman/kimman pfp.jpeg"
               alt="Kimman Cheung - Senior Business Partner"
               fill
               className="object-cover object-right"
