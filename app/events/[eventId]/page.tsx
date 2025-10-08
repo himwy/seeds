@@ -261,8 +261,12 @@ export default function EventDetailPage() {
                         {/* Video Play Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
                           <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
-                            <svg className="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M8 5v10l8-5-8-5z"/>
+                            <svg
+                              className="w-5 h-5 text-gray-800"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M8 5v10l8-5-8-5z" />
                             </svg>
                           </div>
                         </div>
