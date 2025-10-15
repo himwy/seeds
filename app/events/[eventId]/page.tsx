@@ -63,17 +63,22 @@ export default function EventDetailPage() {
       // Parse the URL
       const urlObj = new URL(url);
 
-      // Remove ALL query parameters to avoid transformations
+      // Keep only the project parameter, remove transformation parameters
+      const projectParam = urlObj.searchParams.get("project");
       urlObj.search = "";
+      if (projectParam) {
+        urlObj.searchParams.set("project", projectParam);
+      }
 
       // If it has /preview in path, convert to /view for direct access
       let cleanPath = urlObj.pathname;
       if (cleanPath.includes("/preview")) {
         cleanPath = cleanPath.replace("/preview", "/view");
       }
+      urlObj.pathname = cleanPath;
 
-      // Reconstruct clean URL without any parameters
-      return `${urlObj.origin}${cleanPath}`;
+      // Return clean URL with only project parameter
+      return urlObj.toString();
     } catch (error) {
       console.error("Error cleaning URL:", error);
       return url;
