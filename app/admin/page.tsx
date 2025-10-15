@@ -294,26 +294,36 @@ export default function AdminPage() {
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    
+
     // Check for very large files that might cause browser issues
     const LARGE_FILE_THRESHOLD = 500 * 1024 * 1024; // 500MB threshold for preview generation
     const EXTREME_FILE_THRESHOLD = 2 * 1024 * 1024 * 1024; // 2GB threshold for timeout warning
-    
-    const largeFiles = files.filter(file => file.size > LARGE_FILE_THRESHOLD);
-    const extremeFiles = files.filter(file => file.size > EXTREME_FILE_THRESHOLD);
-    
+
+    const largeFiles = files.filter((file) => file.size > LARGE_FILE_THRESHOLD);
+    const extremeFiles = files.filter(
+      (file) => file.size > EXTREME_FILE_THRESHOLD
+    );
+
     if (extremeFiles.length > 0) {
       setMessage({
-        type: "error", 
-        text: `⚠️ VERY LARGE FILES DETECTED (${extremeFiles.map(f => `${f.name}: ${(f.size / 1024 / 1024 / 1024).toFixed(2)}GB`).join(', ')}). Upload will take a long time and may timeout. Please ensure stable internet connection.`
+        type: "error",
+        text: `⚠️ VERY LARGE FILES DETECTED (${extremeFiles
+          .map(
+            (f) => `${f.name}: ${(f.size / 1024 / 1024 / 1024).toFixed(2)}GB`
+          )
+          .join(
+            ", "
+          )}). Upload will take a long time and may timeout. Please ensure stable internet connection.`,
       });
     } else if (largeFiles.length > 0) {
       setMessage({
-        type: "error", 
-        text: `Large files detected (${largeFiles.map(f => `${f.name}: ${(f.size / 1024 / 1024).toFixed(0)}MB`).join(', ')}). Previews will be skipped to prevent browser crashes.`
+        type: "error",
+        text: `Large files detected (${largeFiles
+          .map((f) => `${f.name}: ${(f.size / 1024 / 1024).toFixed(0)}MB`)
+          .join(", ")}). Previews will be skipped to prevent browser crashes.`,
       });
     }
-    
+
     setSelectedFiles((prev) => [...prev, ...files]);
 
     // Process files sequentially to maintain order, but skip previews for large files
@@ -325,10 +335,14 @@ export default function AdminPage() {
           // Skip preview generation for large files to prevent crashes
           if (file.size > LARGE_FILE_THRESHOLD) {
             // Add a placeholder for large files
-            if (file.type.startsWith('video/')) {
-              newPreviewUrls.push('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMzUgMjVMMzUgNzVMNzUgNTBMMzUgMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==');
+            if (file.type.startsWith("video/")) {
+              newPreviewUrls.push(
+                "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMzUgMjVMMzUgNzVMNzUgNTBMMzUgMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg=="
+              );
             } else {
-              newPreviewUrls.push('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMjUgMjVIMzVWNzVIMjVWMjVaTTQwIDI1SDUwVjc1SDQwVjI1Wk01NSAyNUg2NVY3NUg1NVYyNVpNNzAgMjVIODBWNzVINzBWMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==');
+              newPreviewUrls.push(
+                "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMjUgMjVIMzVWNzVIMjVWMjVaTTQwIDI1SDUwVjc1SDQwVjI1Wk01NSAyNUg2NVY3NUg1NVYyNVpNNzAgMjVIODBWNzVINzBWMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg=="
+              );
             }
           } else {
             // Generate preview for smaller files
@@ -343,7 +357,9 @@ export default function AdminPage() {
         } catch (error) {
           console.error("Error reading file:", file.name, error);
           // Add error placeholder
-          newPreviewUrls.push('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNEQzI2MjYiLz48cGF0aCBkPSJNMjUgMjVMNzUgNzVNNzUgMjVMMjUgNzUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg==');
+          newPreviewUrls.push(
+            "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNEQzI2MjYiLz48cGF0aCBkPSJNMjUgMjVMNzUgNzVNNzUgMjVMMjUgNzUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg=="
+          );
         }
       }
 
@@ -405,19 +421,31 @@ export default function AdminPage() {
     // Check for very large files that might cause browser issues
     const LARGE_FILE_THRESHOLD = 500 * 1024 * 1024; // 500MB threshold for preview generation
     const EXTREME_FILE_THRESHOLD = 2 * 1024 * 1024 * 1024; // 2GB threshold for timeout warning
-    
-    const largeFiles = mediaFiles.filter(file => file.size > LARGE_FILE_THRESHOLD);
-    const extremeFiles = mediaFiles.filter(file => file.size > EXTREME_FILE_THRESHOLD);
-    
+
+    const largeFiles = mediaFiles.filter(
+      (file) => file.size > LARGE_FILE_THRESHOLD
+    );
+    const extremeFiles = mediaFiles.filter(
+      (file) => file.size > EXTREME_FILE_THRESHOLD
+    );
+
     if (extremeFiles.length > 0) {
       setMessage({
-        type: "error", 
-        text: `⚠️ VERY LARGE FILES DETECTED (${extremeFiles.map(f => `${f.name}: ${(f.size / 1024 / 1024 / 1024).toFixed(2)}GB`).join(', ')}). Upload will take a long time and may timeout. Please ensure stable internet connection.`
+        type: "error",
+        text: `⚠️ VERY LARGE FILES DETECTED (${extremeFiles
+          .map(
+            (f) => `${f.name}: ${(f.size / 1024 / 1024 / 1024).toFixed(2)}GB`
+          )
+          .join(
+            ", "
+          )}). Upload will take a long time and may timeout. Please ensure stable internet connection.`,
       });
     } else if (largeFiles.length > 0) {
       setMessage({
-        type: "error", 
-        text: `Large files detected (${largeFiles.map(f => `${f.name}: ${(f.size / 1024 / 1024).toFixed(0)}MB`).join(', ')}). Previews will be skipped to prevent browser crashes.`
+        type: "error",
+        text: `Large files detected (${largeFiles
+          .map((f) => `${f.name}: ${(f.size / 1024 / 1024).toFixed(0)}MB`)
+          .join(", ")}). Previews will be skipped to prevent browser crashes.`,
       });
     }
 
@@ -443,10 +471,14 @@ export default function AdminPage() {
             // Skip preview generation for large files to prevent crashes
             if (file.size > LARGE_FILE_THRESHOLD) {
               // Add a placeholder for large files
-              if (file.type.startsWith('video/')) {
-                newPreviewUrls.push('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMzUgMjVMMzUgNzVMNzUgNTBMMzUgMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==');
+              if (file.type.startsWith("video/")) {
+                newPreviewUrls.push(
+                  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMzUgMjVMMzUgNzVMNzUgNTBMMzUgMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg=="
+                );
               } else {
-                newPreviewUrls.push('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMjUgMjVIMzVWNzVIMjVWMjVaTTQwIDI1SDUwVjc1SDQwVjI1Wk01NSAyNUg2NVY3NUg1NVYyNVpNNzAgMjVIODBWNzVINzBWMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==');
+                newPreviewUrls.push(
+                  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMjUgMjVIMzVWNzVIMjVWMjVaTTQwIDI1SDUwVjc1SDQwVjI1Wk01NSAyNUg2NVY3NUg1NVYyNVpNNzAgMjVIODBWNzVINzBWMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg=="
+                );
               }
             } else {
               // Generate preview for smaller files
@@ -461,7 +493,9 @@ export default function AdminPage() {
           } catch (error) {
             console.error("Error reading file:", file.name, error);
             // Add error placeholder
-            newPreviewUrls.push('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNEQzI2MjYiLz48cGF0aCBkPSJNMjUgMjVMNzUgNzVNNzUgMjVMMjUgNzUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg==');
+            newPreviewUrls.push(
+              "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNEQzI2MjYiLz48cGF0aCBkPSJNMjUgMjVMNzUgNzVNNzUgMjVMMjUgNzUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg=="
+            );
           }
         }
 
@@ -610,35 +644,39 @@ export default function AdminPage() {
 
       let imageUrls: string[] = [];
       if (selectedFiles.length > 0) {
-        setMessage({ 
-          type: "success", 
-          text: `Uploading ${selectedFiles.length} file(s)... This may take a while for large files.` 
+        setMessage({
+          type: "success",
+          text: `Uploading ${selectedFiles.length} file(s)... This may take a while for large files.`,
         });
-        
+
         // Upload files one by one to prevent timeouts and show progress
         imageUrls = [];
         for (let i = 0; i < selectedFiles.length; i++) {
           const file = selectedFiles[i];
           setUploadingFileName(file.name);
           setUploadProgress(Math.round(((i + 1) / selectedFiles.length) * 100));
-          
+
           try {
             const fileUrls = await EventsService.uploadImages([file]);
             imageUrls.push(...fileUrls);
-            setMessage({ 
-              type: "success", 
-              text: `Uploaded ${i + 1}/${selectedFiles.length}: ${file.name} (${(file.size / 1024 / 1024).toFixed(1)}MB)` 
+            setMessage({
+              type: "success",
+              text: `Uploaded ${i + 1}/${selectedFiles.length}: ${
+                file.name
+              } (${(file.size / 1024 / 1024).toFixed(1)}MB)`,
             });
           } catch (error) {
             console.error(`Failed to upload ${file.name}:`, error);
-            setMessage({ 
-              type: "error", 
-              text: `Failed to upload ${file.name}. ${error instanceof Error ? error.message : 'Please try again.'}` 
+            setMessage({
+              type: "error",
+              text: `Failed to upload ${file.name}. ${
+                error instanceof Error ? error.message : "Please try again."
+              }`,
             });
             // Continue with other files instead of stopping completely
           }
         }
-        
+
         setUploadingFileName("");
         setUploadProgress(100);
       }

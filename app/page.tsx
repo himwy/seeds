@@ -1110,7 +1110,7 @@ export default function Home() {
                                                 playsInline
                                                 poster=""
                                                 style={{
-                                                  backgroundColor: '#1f2937'
+                                                  backgroundColor: "#1f2937",
                                                 }}
                                               />
                                               {/* Video Play Overlay */}
