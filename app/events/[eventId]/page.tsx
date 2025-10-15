@@ -52,6 +52,34 @@ export default function EventDetailPage() {
     null
   );
 
+  // Function to clean URLs and remove transformation parameters
+  const cleanImageUrl = (url: string) => {
+    try {
+      // If it's not an Appwrite URL, return as is
+      if (!url.includes("cloud.appwrite.io")) {
+        return url;
+      }
+
+      // Parse the URL
+      const urlObj = new URL(url);
+      
+      // Remove ALL query parameters to avoid transformations
+      urlObj.search = '';
+      
+      // If it has /preview in path, convert to /view for direct access
+      let cleanPath = urlObj.pathname;
+      if (cleanPath.includes('/preview')) {
+        cleanPath = cleanPath.replace('/preview', '/view');
+      }
+      
+      // Reconstruct clean URL without any parameters
+      return `${urlObj.origin}${cleanPath}`;
+    } catch (error) {
+      console.error('Error cleaning URL:', error);
+      return url;
+    }
+  };
+
   const isVideoUrl = (url: string) => {
     // Check file extension and URL patterns
     const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
@@ -236,7 +264,9 @@ export default function EventDetailPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {event.images.map((mediaUrl, index) => (
+                {event.images.map((mediaUrl, index) => {
+                  const cleanUrl = cleanImageUrl(mediaUrl);
+                  return (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -246,10 +276,10 @@ export default function EventDetailPage() {
                     className="aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
                     onClick={() => openImageModal(index)}
                   >
-                    {isVideoUrl(mediaUrl) ? (
+                    {isVideoUrl(cleanUrl) ? (
                       <div className="relative w-full h-full bg-gray-100">
                         <video
-                          src={mediaUrl}
+                          src={cleanUrl}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                           muted
                           preload="auto"
@@ -274,7 +304,7 @@ export default function EventDetailPage() {
                       </div>
                     ) : (
                       <img
-                        src={mediaUrl}
+                        src={cleanUrl}
                         alt={`${
                           language === "zh-HK" ? event.chineseName : event.name
                         } - Media ${index + 1}`}
@@ -284,7 +314,8 @@ export default function EventDetailPage() {
                       />
                     )}
                   </motion.div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </motion.div>
@@ -338,25 +369,28 @@ export default function EventDetailPage() {
             )}
 
             {/* Media Content */}
-            {isVideoUrl(event.images[selectedImageIndex]) ? (
-              <video
-                src={event.images[selectedImageIndex]}
-                className="max-w-full max-h-full object-contain"
-                controls
-                autoPlay
-                muted
-                onClick={(e) => e.stopPropagation()}
-              />
-            ) : (
-              <img
-                src={event.images[selectedImageIndex]}
-                alt={`${
-                  language === "zh-HK" ? event.chineseName : event.name
-                } - Media ${selectedImageIndex + 1}`}
-                className="max-w-full max-h-full object-contain"
-                onClick={(e) => e.stopPropagation()}
-              />
-            )}
+            {(() => {
+              const modalCleanUrl = cleanImageUrl(event.images[selectedImageIndex]);
+              return isVideoUrl(modalCleanUrl) ? (
+                <video
+                  src={modalCleanUrl}
+                  className="max-w-full max-h-full object-contain"
+                  controls
+                  autoPlay
+                  muted
+                  onClick={(e) => e.stopPropagation()}
+                />
+              ) : (
+                <img
+                  src={modalCleanUrl}
+                  alt={`${
+                    language === "zh-HK" ? event.chineseName : event.name
+                  } - Media ${selectedImageIndex + 1}`}
+                  className="max-w-full max-h-full object-contain"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              );
+            })()}
 
             {/* Image Counter */}
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
