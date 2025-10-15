@@ -355,9 +355,7 @@ export default function EventDetailPage() {
             {/* Media Content */}
             {isVideoUrl(event.images[selectedImageIndex]) ? (
               <video
-                src={EventsService.convertUrlToDirectView(
-                  event.images[selectedImageIndex]
-                )}
+                src={event.images[selectedImageIndex]}
                 className="max-w-full max-h-full object-contain"
                 controls
                 autoPlay
@@ -366,9 +364,7 @@ export default function EventDetailPage() {
               />
             ) : (
               <img
-                src={EventsService.convertUrlToDirectView(
-                  event.images[selectedImageIndex]
-                )}
+                src={event.images[selectedImageIndex]}
                 alt={`${
                   language === "zh-HK" ? event.chineseName : event.name
                 } - Media ${selectedImageIndex + 1}`}

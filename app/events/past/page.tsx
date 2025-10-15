@@ -236,30 +236,11 @@ export default function PastEventsPage() {
                                 src={event.images[0]}
                                 className="w-full h-full object-cover"
                                 muted
-                                preload="metadata"
+                                preload="auto"
                                 playsInline
-                                onLoadedData={(e) => {
-                                  // Try to capture first frame as thumbnail
-                                  e.currentTarget.currentTime = 0.1;
-                                }}
-                                onError={(e) => {
-                                  // If video fails to load, show fallback
-                                  e.currentTarget.style.display = 'none';
-                                  const parent = e.currentTarget.parentElement;
-                                  if (parent) {
-                                    parent.innerHTML = `
-                                      <div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                                        <div class="text-center text-white">
-                                          <div class="bg-white/20 backdrop-blur-sm rounded-full p-4 mb-2 mx-auto w-16 h-16 flex items-center justify-center">
-                                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                              <path d="M8 5v10l8-5-8-5z"/>
-                                            </svg>
-                                          </div>
-                                          <p class="text-white/90 text-xs font-medium">Video</p>
-                                        </div>
-                                      </div>
-                                    `;
-                                  }
+                                poster=""
+                                style={{
+                                  backgroundColor: '#1f2937'
                                 }}
                               />
                               {/* Video Play Overlay */}

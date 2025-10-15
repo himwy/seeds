@@ -197,7 +197,7 @@ export default function PastEventsPage() {
                       {event.images && event.images.length > 0 ? (
                         <>
                           <img
-                            src={EventsService.convertUrlToDirectView(event.images[0])}
+                            src={event.images[0]}
                             alt={
                               language === "zh-HK"
                                 ? event.chineseName
