@@ -51,6 +51,7 @@ export default function EventDetailPage() {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
   );
+  const [videoIndices, setVideoIndices] = useState<Set<number>>(new Set());
 
   // Function to clean URLs and remove transformation parameters
   const cleanImageUrl = (url: string) => {
@@ -99,31 +100,24 @@ export default function EventDetailPage() {
   };
 
   const isVideoUrl = (url: string) => {
-    // Only rely on explicit video file extensions and patterns
-    const videoExtensions = [
-      ".mp4",
-      ".mov",
-      ".avi",
-      ".webm",
-      ".mkv",
-      ".m4v",
-      ".MP4",
-      ".MOV",
-      ".AVI",
-    ];
+    // Check for explicit video file extensions
+    const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
     const lowerUrl = url.toLowerCase();
 
-    // Check for explicit video file extensions
-    if (videoExtensions.some((ext) => lowerUrl.includes(ext.toLowerCase()))) {
+    // Method 1: Check file extensions (case-insensitive)
+    if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
       return true;
     }
 
-    // Check for video keyword in filename or URL path (not entire URL to avoid false positives)
-    const urlPath = url.split("?")[0]; // Get path without query params
-    if (
-      urlPath.toLowerCase().includes("/video") ||
-      urlPath.toLowerCase().match(/video[_-]/)
-    ) {
+    // Method 2: Check for "video" in the URL path or as a query parameter
+    // This covers cases where video files might be marked with ?type=video or similar
+    if (lowerUrl.includes("video")) {
+      return true;
+    }
+
+    // Method 3: For Appwrite files, check if we stored the file type in URL
+    // Some systems add metadata like &mimeType=video or similar
+    if (lowerUrl.includes("mimetype=video") || lowerUrl.includes("type=video")) {
       return true;
     }
 
@@ -291,7 +285,7 @@ export default function EventDetailPage() {
                       className="aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
                       onClick={() => openImageModal(index)}
                     >
-                      {isVideoUrl(cleanUrl) ? (
+                      {isVideoUrl(cleanUrl) || videoIndices.has(index) ? (
                         <div className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900">
                           {/* Video Placeholder - Don't load video until clicked */}
                           <div className="absolute inset-0 flex items-center justify-center">
@@ -355,20 +349,13 @@ export default function EventDetailPage() {
                               }
                             }}
                             onError={(e) => {
-                              console.error("Image failed to load:", cleanUrl);
-                              const parent = e.currentTarget.parentElement;
-                              if (parent) {
-                                parent.innerHTML = `
-                                  <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-                                    <div class="text-center text-gray-500">
-                                      <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                      </svg>
-                                      <p class="text-xs">Failed to load</p>
-                                    </div>
-                                  </div>
-                                `;
-                              }
+                              console.log("Image failed to load, trying as video:", cleanUrl);
+                              // Mark this index as a video and re-render
+                              setVideoIndices(prev => {
+                                const newSet = new Set(prev);
+                                newSet.add(index);
+                                return newSet;
+                              });
                             }}
                           />
                         </div>
@@ -433,7 +420,7 @@ export default function EventDetailPage() {
               const modalCleanUrl = cleanImageUrl(
                 event.images[selectedImageIndex]
               );
-              return isVideoUrl(modalCleanUrl) ? (
+              return isVideoUrl(modalCleanUrl) || videoIndices.has(selectedImageIndex) ? (
                 <video
                   src={modalCleanUrl}
                   className="max-w-full max-h-full object-contain"
@@ -450,6 +437,14 @@ export default function EventDetailPage() {
                   } - Media ${selectedImageIndex + 1}`}
                   className="max-w-full max-h-full object-contain"
                   onClick={(e) => e.stopPropagation()}
+                  onError={() => {
+                    // If image fails in modal, mark as video
+                    setVideoIndices(prev => {
+                      const newSet = new Set(prev);
+                      newSet.add(selectedImageIndex);
+                      return newSet;
+                    });
+                  }}
                 />
               );
             })()}
