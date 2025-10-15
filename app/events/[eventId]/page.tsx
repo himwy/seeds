@@ -60,6 +60,19 @@ export default function EventDetailPage() {
         return url;
       }
 
+      // If URL doesn't have transformation parameters, return as is
+      const hasTransformParams =
+        url.includes("width=") ||
+        url.includes("height=") ||
+        url.includes("quality=") ||
+        url.includes("format=") ||
+        url.includes("output=") ||
+        url.includes("gravity=");
+
+      if (!hasTransformParams && !url.includes("/preview")) {
+        return url; // Already clean, don't modify
+      }
+
       // Parse the URL
       const urlObj = new URL(url);
 
@@ -282,23 +295,26 @@ export default function EventDetailPage() {
                       onClick={() => openImageModal(index)}
                     >
                       {isVideoUrl(cleanUrl) ? (
-                        <div className="relative w-full h-full bg-gray-100">
+                        <div className="relative w-full h-full bg-gray-900">
                           <video
                             src={cleanUrl}
-                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                            className="w-full h-full object-cover"
                             muted
-                            preload="auto"
+                            preload="metadata"
                             playsInline
-                            poster=""
                             style={{
                               backgroundColor: "#1f2937",
                             }}
+                            onError={(e) => {
+                              console.error("Video failed to load:", cleanUrl);
+                              e.currentTarget.style.display = "none";
+                            }}
                           />
                           {/* Video Play Overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
-                            <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
+                          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 flex items-center justify-center">
+                            <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
                               <svg
-                                className="w-5 h-5 text-gray-800"
+                                className="w-6 h-6 text-gray-800"
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                               >
@@ -318,6 +334,22 @@ export default function EventDetailPage() {
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                           loading="lazy"
                           decoding="async"
+                          onError={(e) => {
+                            console.error("Image failed to load:", cleanUrl);
+                            e.currentTarget.style.display = "none";
+                            if (e.currentTarget.parentElement) {
+                              e.currentTarget.parentElement.innerHTML = `
+                                <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                  <div class="text-center text-gray-500">
+                                    <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <p class="text-xs">Failed to load</p>
+                                  </div>
+                                </div>
+                              `;
+                            }
+                          }}
                         />
                       )}
                     </motion.div>
