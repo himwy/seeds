@@ -192,9 +192,8 @@ export class EventsService {
             file
           );
           
-          // For videos, use getFileView for direct access
-          // For images, also use getFileView to avoid transformation limits
-          const fileUrl = storage.getFileView(
+          // Use getFileDownload for direct file access without any transformations
+          const fileUrl = storage.getFileDownload(
             STORAGE_BUCKET_ID,
             response.$id
           ).toString();
@@ -298,8 +297,8 @@ export class EventsService {
         return '/placeholder-image.jpg'; // fallback image
       }
       
-      // Use getFileView for direct access without transformation limits
-      return storage.getFileView(
+      // Use getFileDownload for direct access without any transformations
+      return storage.getFileDownload(
         STORAGE_BUCKET_ID,
         fileId
       ).toString();

@@ -68,7 +68,8 @@ export default function EventDetailPage() {
     }
 
     // For Appwrite URLs, use file ID pattern to distinguish videos from images
-    if (url.includes("cloud.appwrite.io") && url.includes("/view?")) {
+    // Handle both old /view URLs and new /download URLs
+    if (url.includes("cloud.appwrite.io") && (url.includes("/view") || url.includes("/download"))) {
       const fileId = url.split("/files/")[1]?.split("/")[0];
       if (fileId) {
         // Use a consistent hash-based approach to identify videos
@@ -248,30 +249,11 @@ export default function EventDetailPage() {
                           src={mediaUrl}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                           muted
-                          preload="metadata"
+                          preload="auto"
                           playsInline
-                          onLoadedData={(e) => {
-                            // Try to capture first frame as thumbnail
-                            e.currentTarget.currentTime = 0.1;
-                          }}
-                          onError={(e) => {
-                            // If video fails to load, show fallback
-                            e.currentTarget.style.display = "none";
-                            const parent = e.currentTarget.parentElement;
-                            if (parent) {
-                              parent.innerHTML = `
-                                <div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                                  <div class="text-center text-white">
-                                    <div class="bg-white/20 backdrop-blur-sm rounded-full p-4 mb-2 mx-auto w-16 h-16 flex items-center justify-center">
-                                      <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M8 5v10l8-5-8-5z"/>
-                                      </svg>
-                                    </div>
-                                    <p class="text-white/90 text-xs font-medium">Video</p>
-                                  </div>
-                                </div>
-                              `;
-                            }
+                          poster=""
+                          style={{
+                            backgroundColor: '#1f2937'
                           }}
                         />
                         {/* Video Play Overlay */}
