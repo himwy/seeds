@@ -295,62 +295,86 @@ export default function EventDetailPage() {
                       onClick={() => openImageModal(index)}
                     >
                       {isVideoUrl(cleanUrl) ? (
-                        <div className="relative w-full h-full bg-gray-900">
-                          <video
-                            src={cleanUrl}
-                            className="w-full h-full object-cover"
-                            muted
-                            preload="metadata"
-                            playsInline
-                            style={{
-                              backgroundColor: "#1f2937",
-                            }}
-                            onError={(e) => {
-                              console.error("Video failed to load:", cleanUrl);
-                              e.currentTarget.style.display = "none";
-                            }}
-                          />
-                          {/* Video Play Overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 flex items-center justify-center">
-                            <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
-                              <svg
-                                className="w-6 h-6 text-gray-800"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path d="M8 5v10l8-5-8-5z" />
-                              </svg>
+                        <div className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900">
+                          {/* Video Placeholder - Don't load video until clicked */}
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="text-center">
+                              <div className="bg-white/90 backdrop-blur-sm rounded-full p-6 shadow-lg mb-3 inline-block">
+                                <svg
+                                  className="w-10 h-10 text-gray-800"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M8 5v10l8-5-8-5z" />
+                                </svg>
+                              </div>
+                              <p className="text-white/90 text-sm font-medium">
+                                Click to play video
+                              </p>
                             </div>
                           </div>
                         </div>
                       ) : (
-                        <img
-                          src={cleanUrl}
-                          alt={`${
-                            language === "zh-HK"
-                              ? event.chineseName
-                              : event.name
-                          } - Media ${index + 1}`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          loading="lazy"
-                          decoding="async"
-                          onError={(e) => {
-                            console.error("Image failed to load:", cleanUrl);
-                            e.currentTarget.style.display = "none";
-                            if (e.currentTarget.parentElement) {
-                              e.currentTarget.parentElement.innerHTML = `
-                                <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-                                  <div class="text-center text-gray-500">
-                                    <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                                    <p class="text-xs">Failed to load</p>
+                        <div className="relative w-full h-full bg-gray-100">
+                          {/* Loading placeholder */}
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="animate-pulse">
+                              <svg
+                                className="w-12 h-12 text-gray-300"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                ></path>
+                              </svg>
+                            </div>
+                          </div>
+                          <img
+                            src={cleanUrl}
+                            alt={`${
+                              language === "zh-HK"
+                                ? event.chineseName
+                                : event.name
+                            } - Media ${index + 1}`}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 relative z-10"
+                            loading="lazy"
+                            decoding="async"
+                            onLoad={(e) => {
+                              // Hide loading spinner when image loads
+                              const parent = e.currentTarget.parentElement;
+                              if (parent) {
+                                const spinner =
+                                  parent.querySelector(".animate-pulse");
+                                if (spinner) {
+                                  (
+                                    spinner.parentElement as HTMLElement
+                                  ).style.display = "none";
+                                }
+                              }
+                            }}
+                            onError={(e) => {
+                              console.error("Image failed to load:", cleanUrl);
+                              const parent = e.currentTarget.parentElement;
+                              if (parent) {
+                                parent.innerHTML = `
+                                  <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                    <div class="text-center text-gray-500">
+                                      <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                      </svg>
+                                      <p class="text-xs">Failed to load</p>
+                                    </div>
                                   </div>
-                                </div>
-                              `;
-                            }
-                          }}
-                        />
+                                `;
+                              }
+                            }}
+                          />
+                        </div>
                       )}
                     </motion.div>
                   );
