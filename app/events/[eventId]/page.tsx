@@ -100,7 +100,17 @@ export default function EventDetailPage() {
 
   const isVideoUrl = (url: string) => {
     // Only rely on explicit video file extensions and patterns
-    const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v", ".MP4", ".MOV", ".AVI"];
+    const videoExtensions = [
+      ".mp4",
+      ".mov",
+      ".avi",
+      ".webm",
+      ".mkv",
+      ".m4v",
+      ".MP4",
+      ".MOV",
+      ".AVI",
+    ];
     const lowerUrl = url.toLowerCase();
 
     // Check for explicit video file extensions
@@ -109,8 +119,11 @@ export default function EventDetailPage() {
     }
 
     // Check for video keyword in filename or URL path (not entire URL to avoid false positives)
-    const urlPath = url.split('?')[0]; // Get path without query params
-    if (urlPath.toLowerCase().includes("/video") || urlPath.toLowerCase().match(/video[_-]/)) {
+    const urlPath = url.split("?")[0]; // Get path without query params
+    if (
+      urlPath.toLowerCase().includes("/video") ||
+      urlPath.toLowerCase().match(/video[_-]/)
+    ) {
       return true;
     }
 
