@@ -102,8 +102,11 @@ export default function RecentEventsPage() {
     }
 
     // For Appwrite URLs, use file ID pattern to distinguish videos from images
-    // Handle both old /view URLs and new /download URLs  
-    if (url.includes("cloud.appwrite.io") && (url.includes("/view") || url.includes("/download"))) {
+    // Handle both old /view URLs and new /download URLs
+    if (
+      url.includes("cloud.appwrite.io") &&
+      (url.includes("/view") || url.includes("/download"))
+    ) {
       const fileId = url.split("/files/")[1]?.split("/")[0];
       if (fileId) {
         // Use a consistent hash-based approach to identify videos

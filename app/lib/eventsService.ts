@@ -1,5 +1,11 @@
-import { databases, DATABASE_ID, EVENTS_TABLE_ID, storage, STORAGE_BUCKET_ID } from './appwrite';
-import { ID, Query } from 'appwrite';
+import {
+  databases,
+  DATABASE_ID,
+  EVENTS_TABLE_ID,
+  storage,
+  STORAGE_BUCKET_ID,
+} from "./appwrite";
+import { ID, Query } from "appwrite";
 
 export interface Event {
   $id?: string;
@@ -7,32 +13,34 @@ export interface Event {
   chineseName: string; // Chinese name
   images: string[]; // Array of image URLs
   date: string;
-  category: 'recent' | 'past'; // Simple category
+  category: "recent" | "past"; // Simple category
 }
 
 export class EventsService {
   // Get events by category
-  static async getEventsByCategory(category: 'recent' | 'past'): Promise<Event[]> {
+  static async getEventsByCategory(
+    category: "recent" | "past"
+  ): Promise<Event[]> {
     try {
       const response = await databases.listDocuments(
         DATABASE_ID,
         EVENTS_TABLE_ID,
         [
-          Query.equal('category', category),
-          Query.orderDesc('date'),
-          Query.limit(100)
+          Query.equal("category", category),
+          Query.orderDesc("date"),
+          Query.limit(100),
         ]
       );
-      return response.documents.map(doc => ({
+      return response.documents.map((doc) => ({
         $id: doc.$id,
         name: doc.name,
         chineseName: doc.chineseName,
         date: doc.date,
         category: doc.category,
-        images: JSON.parse(doc.images || '[]')
+        images: JSON.parse(doc.images || "[]"),
       })) as Event[];
     } catch (error) {
-      console.error('Error fetching events:', error);
+      console.error("Error fetching events:", error);
       throw error;
     }
   }
@@ -43,21 +51,18 @@ export class EventsService {
       const response = await databases.listDocuments(
         DATABASE_ID,
         EVENTS_TABLE_ID,
-        [
-          Query.orderDesc('date'),
-          Query.limit(150)
-        ]
+        [Query.orderDesc("date"), Query.limit(150)]
       );
-      return response.documents.map(doc => ({
+      return response.documents.map((doc) => ({
         $id: doc.$id,
         name: doc.name,
         chineseName: doc.chineseName,
         date: doc.date,
         category: doc.category,
-        images: JSON.parse(doc.images || '[]')
+        images: JSON.parse(doc.images || "[]"),
       })) as Event[];
     } catch (error) {
-      console.error('Error fetching events:', error);
+      console.error("Error fetching events:", error);
       throw error;
     }
   }
@@ -70,20 +75,23 @@ export class EventsService {
         EVENTS_TABLE_ID,
         id
       );
-      
+
       // Handle different types of image data from database
       let images: string[] = [];
       if (response.images) {
         if (Array.isArray(response.images)) {
           // Already an array
           images = response.images;
-        } else if (typeof response.images === 'string') {
+        } else if (typeof response.images === "string") {
           // Check if it's a JSON string or a single URL
-          if (response.images.startsWith('[') || response.images.startsWith('{')) {
+          if (
+            response.images.startsWith("[") ||
+            response.images.startsWith("{")
+          ) {
             try {
               images = JSON.parse(response.images);
             } catch (parseError) {
-              console.warn('Failed to parse images as JSON:', parseError);
+              console.warn("Failed to parse images as JSON:", parseError);
               // If JSON parsing fails, treat as single URL
               images = [response.images];
             }
@@ -93,23 +101,23 @@ export class EventsService {
           }
         }
       }
-      
+
       return {
         $id: response.$id,
         name: response.name,
         chineseName: response.chineseName,
         date: response.date,
         category: response.category,
-        images
+        images,
       } as Event;
     } catch (error) {
-      console.error('Error fetching event:', error);
+      console.error("Error fetching event:", error);
       throw error;
     }
   }
 
   // Create new event
-  static async createEvent(eventData: Omit<Event, '$id'>): Promise<Event> {
+  static async createEvent(eventData: Omit<Event, "$id">): Promise<Event> {
     try {
       const response = await databases.createDocument(
         DATABASE_ID,
@@ -117,7 +125,7 @@ export class EventsService {
         ID.unique(),
         {
           ...eventData,
-          images: JSON.stringify(eventData.images)
+          images: JSON.stringify(eventData.images),
         }
       );
       return {
@@ -126,39 +134,42 @@ export class EventsService {
         chineseName: response.chineseName,
         date: response.date,
         category: response.category,
-        images: JSON.parse(response.images || '[]')
+        images: JSON.parse(response.images || "[]"),
       } as Event;
     } catch (error) {
-      console.error('Error creating event:', error);
+      console.error("Error creating event:", error);
       throw error;
     }
   }
 
   // Update event
-  static async updateEvent(id: string, eventData: Partial<Event>): Promise<Event> {
+  static async updateEvent(
+    id: string,
+    eventData: Partial<Event>
+  ): Promise<Event> {
     try {
       const updateData: Record<string, unknown> = { ...eventData };
       if (updateData.images) {
         updateData.images = JSON.stringify(updateData.images);
       }
-      
+
       const response = await databases.updateDocument(
         DATABASE_ID,
         EVENTS_TABLE_ID,
         id,
         updateData
       );
-      
+
       return {
         $id: response.$id,
         name: response.name,
         chineseName: response.chineseName,
         date: response.date,
         category: response.category,
-        images: JSON.parse(response.images || '[]')
+        images: JSON.parse(response.images || "[]"),
       } as Event;
     } catch (error) {
-      console.error('Error updating event:', error);
+      console.error("Error updating event:", error);
       throw error;
     }
   }
@@ -166,13 +177,9 @@ export class EventsService {
   // Delete event
   static async deleteEvent(id: string): Promise<void> {
     try {
-      await databases.deleteDocument(
-        DATABASE_ID,
-        EVENTS_TABLE_ID,
-        id
-      );
+      await databases.deleteDocument(DATABASE_ID, EVENTS_TABLE_ID, id);
     } catch (error) {
-      console.error('Error deleting event:', error);
+      console.error("Error deleting event:", error);
       throw error;
     }
   }
@@ -181,7 +188,9 @@ export class EventsService {
   static async uploadImages(files: File[]): Promise<string[]> {
     try {
       if (!STORAGE_BUCKET_ID) {
-        throw new Error('Storage bucket ID is not configured. Please check your environment variables.');
+        throw new Error(
+          "Storage bucket ID is not configured. Please check your environment variables."
+        );
       }
 
       const uploadPromises = files.map(async (file) => {
@@ -191,24 +200,31 @@ export class EventsService {
             ID.unique(),
             file
           );
-          
+
           // Use getFileDownload for direct file access without any transformations
-          const fileUrl = storage.getFileDownload(
-            STORAGE_BUCKET_ID,
-            response.$id
-          ).toString();
+          const fileUrl = storage
+            .getFileDownload(STORAGE_BUCKET_ID, response.$id)
+            .toString();
           return fileUrl;
         } catch (error: unknown) {
           console.error(`Error uploading file ${file.name}:`, error);
-          
+
           // Provide more specific error messages
           const errorObj = error as { code?: number; message?: string };
           if (errorObj.code === 404) {
-            throw new Error(`Storage bucket not found. Please verify bucket ID: ${STORAGE_BUCKET_ID}`);
+            throw new Error(
+              `Storage bucket not found. Please verify bucket ID: ${STORAGE_BUCKET_ID}`
+            );
           } else if (errorObj.code === 401) {
-            throw new Error('Unauthorized to upload files. Please check storage permissions.');
+            throw new Error(
+              "Unauthorized to upload files. Please check storage permissions."
+            );
           } else {
-            throw new Error(`Failed to upload ${file.name}: ${errorObj.message || 'Unknown error'}`);
+            throw new Error(
+              `Failed to upload ${file.name}: ${
+                errorObj.message || "Unknown error"
+              }`
+            );
           }
         }
       });
@@ -216,7 +232,7 @@ export class EventsService {
       const results = await Promise.all(uploadPromises);
       return results;
     } catch (error) {
-      console.error('Error uploading images:', error);
+      console.error("Error uploading images:", error);
       throw error;
     }
   }
@@ -226,7 +242,7 @@ export class EventsService {
     try {
       await storage.deleteFile(STORAGE_BUCKET_ID, fileId);
     } catch (error) {
-      console.error('Error deleting image file:', error);
+      console.error("Error deleting image file:", error);
       // Don't throw, allow event/image update to continue
     }
   }
@@ -247,7 +263,7 @@ export class EventsService {
       // Delete event document
       await this.deleteEvent(eventId);
     } catch (error) {
-      console.error('Error deleting event and images:', error);
+      console.error("Error deleting event and images:", error);
       throw error;
     }
   }
@@ -255,29 +271,29 @@ export class EventsService {
   // Validate configuration
   static validateConfiguration(): { isValid: boolean; errors: string[] } {
     const errors: string[] = [];
-    
+
     if (!DATABASE_ID) {
-      errors.push('Database ID is missing from environment variables');
+      errors.push("Database ID is missing from environment variables");
     }
-    
+
     if (!EVENTS_TABLE_ID) {
-      errors.push('Events table ID is missing from environment variables');
+      errors.push("Events table ID is missing from environment variables");
     }
-    
+
     if (!STORAGE_BUCKET_ID) {
-      errors.push('Storage bucket ID is missing from environment variables');
+      errors.push("Storage bucket ID is missing from environment variables");
     }
-    
+
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
   // Get count of events by category
-  static async getEventsCount(category?: 'recent' | 'past'): Promise<number> {
+  static async getEventsCount(category?: "recent" | "past"): Promise<number> {
     try {
-      const queries = category ? [Query.equal('category', category)] : [];
+      const queries = category ? [Query.equal("category", category)] : [];
       const response = await databases.listDocuments(
         DATABASE_ID,
         EVENTS_TABLE_ID,
@@ -285,7 +301,7 @@ export class EventsService {
       );
       return response.total;
     } catch (error) {
-      console.error('Error counting events:', error);
+      console.error("Error counting events:", error);
       return 0;
     }
   }
@@ -294,17 +310,14 @@ export class EventsService {
   static getImageUrl(fileId: string): string {
     try {
       if (!STORAGE_BUCKET_ID || !fileId) {
-        return '/placeholder-image.jpg'; // fallback image
+        return "/placeholder-image.jpg"; // fallback image
       }
-      
+
       // Use getFileDownload for direct access without any transformations
-      return storage.getFileDownload(
-        STORAGE_BUCKET_ID,
-        fileId
-      ).toString();
+      return storage.getFileDownload(STORAGE_BUCKET_ID, fileId).toString();
     } catch (error) {
-      console.error('Error generating image URL:', error);
-      return '/placeholder-image.jpg'; // fallback image
+      console.error("Error generating image URL:", error);
+      return "/placeholder-image.jpg"; // fallback image
     }
   }
 
@@ -312,23 +325,23 @@ export class EventsService {
   static convertUrlToDirectView(url: string): string {
     try {
       // If it's already a direct view URL, return as is
-      if (url.includes('/view') && !url.includes('/preview')) {
+      if (url.includes("/view") && !url.includes("/preview")) {
         return url;
       }
-      
+
       // If it's a transformation URL (contains /preview), convert to /view
-      if (url.includes('/preview')) {
+      if (url.includes("/preview")) {
         // Extract file ID from the URL
-        const urlParts = url.split('/');
-        const filesIndex = urlParts.indexOf('files');
+        const urlParts = url.split("/");
+        const filesIndex = urlParts.indexOf("files");
         if (filesIndex !== -1 && urlParts[filesIndex + 1]) {
           const fileId = urlParts[filesIndex + 1];
           const bucketId = urlParts[filesIndex - 1];
-          
+
           // Reconstruct as direct view URL and preserve query parameters
-          const baseUrl = url.split('/v1/')[0];
+          const baseUrl = url.split("/v1/")[0];
           const urlObj = new URL(url);
-          const projectParam = urlObj.searchParams.get('project');
+          const projectParam = urlObj.searchParams.get("project");
           let newUrl = `${baseUrl}/v1/storage/buckets/${bucketId}/files/${fileId}/view`;
           if (projectParam) {
             newUrl += `?project=${projectParam}`;
@@ -336,11 +349,11 @@ export class EventsService {
           return newUrl;
         }
       }
-      
+
       // If we can't convert it, return the original (might be external URL)
       return url;
     } catch (error) {
-      console.error('Error converting URL:', error);
+      console.error("Error converting URL:", error);
       return url;
     }
   }
@@ -349,17 +362,17 @@ export class EventsService {
   static convertUrlToDirectDownload(url: string): string {
     try {
       // If it's an Appwrite URL, convert to download endpoint
-      if (url.includes('cloud.appwrite.io') && url.includes('/files/')) {
-        const urlParts = url.split('/');
-        const filesIndex = urlParts.indexOf('files');
+      if (url.includes("cloud.appwrite.io") && url.includes("/files/")) {
+        const urlParts = url.split("/");
+        const filesIndex = urlParts.indexOf("files");
         if (filesIndex !== -1 && urlParts[filesIndex + 1]) {
           const fileId = urlParts[filesIndex + 1];
           const bucketId = urlParts[filesIndex - 1];
-          
+
           // Reconstruct as download URL and preserve query parameters
-          const baseUrl = url.split('/v1/')[0];
+          const baseUrl = url.split("/v1/")[0];
           const urlObj = new URL(url);
-          const projectParam = urlObj.searchParams.get('project');
+          const projectParam = urlObj.searchParams.get("project");
           let downloadUrl = `${baseUrl}/v1/storage/buckets/${bucketId}/files/${fileId}/download`;
           if (projectParam) {
             downloadUrl += `?project=${projectParam}`;
@@ -367,11 +380,11 @@ export class EventsService {
           return downloadUrl;
         }
       }
-      
+
       // If we can't convert it, return the original
       return url;
     } catch (error) {
-      console.error('Error converting download URL:', error);
+      console.error("Error converting download URL:", error);
       return url;
     }
   }

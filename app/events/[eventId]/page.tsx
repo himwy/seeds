@@ -69,7 +69,10 @@ export default function EventDetailPage() {
 
     // For Appwrite URLs, use file ID pattern to distinguish videos from images
     // Handle both old /view URLs and new /download URLs
-    if (url.includes("cloud.appwrite.io") && (url.includes("/view") || url.includes("/download"))) {
+    if (
+      url.includes("cloud.appwrite.io") &&
+      (url.includes("/view") || url.includes("/download"))
+    ) {
       const fileId = url.split("/files/")[1]?.split("/")[0];
       if (fileId) {
         // Use a consistent hash-based approach to identify videos
@@ -253,7 +256,7 @@ export default function EventDetailPage() {
                           playsInline
                           poster=""
                           style={{
-                            backgroundColor: '#1f2937'
+                            backgroundColor: "#1f2937",
                           }}
                         />
                         {/* Video Play Overlay */}
