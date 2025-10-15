@@ -99,38 +99,22 @@ export default function EventDetailPage() {
   };
 
   const isVideoUrl = (url: string) => {
-    // Check file extension and URL patterns
-    const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
+    // Only rely on explicit video file extensions and patterns
+    const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v", ".MP4", ".MOV", ".AVI"];
     const lowerUrl = url.toLowerCase();
 
-    // First check for explicit video file extensions
-    if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
+    // Check for explicit video file extensions
+    if (videoExtensions.some((ext) => lowerUrl.includes(ext.toLowerCase()))) {
       return true;
     }
 
-    // Check for video keyword in URL
-    if (lowerUrl.includes("video")) {
+    // Check for video keyword in filename or URL path (not entire URL to avoid false positives)
+    const urlPath = url.split('?')[0]; // Get path without query params
+    if (urlPath.toLowerCase().includes("/video") || urlPath.toLowerCase().match(/video[_-]/)) {
       return true;
     }
 
-    // For Appwrite URLs, use file ID pattern to distinguish videos from images
-    // Handle both old /view URLs and new /download URLs
-    if (
-      url.includes("cloud.appwrite.io") &&
-      (url.includes("/view") || url.includes("/download"))
-    ) {
-      const fileId = url.split("/files/")[1]?.split("/")[0];
-      if (fileId) {
-        // Use a consistent hash-based approach to identify videos
-        const hash = fileId.split("").reduce((acc, char) => {
-          return acc + char.charCodeAt(0);
-        }, 0);
-
-        // Treat files with odd hash values as videos, even hash as images
-        return hash % 2 === 1;
-      }
-    }
-
+    // Default to false - treat as image unless we're certain it's a video
     return false;
   };
 
