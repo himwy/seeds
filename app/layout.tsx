@@ -14,11 +14,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Seeds Financial Group | Risk and Asset Management",
+  title: "Seeds Financial Group | Wealth and Asset Management",
   description:
-    "Seeds Financial Group provides advisory services using a wide range of risk management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
+    "Seeds Financial Group provides advisory services using a wide range of wealth management, strategy and asset allocation plans, enabling our clients to achieve their financial goals and future needs.",
   keywords:
-    "financial planning, risk management, asset allocation, insurance, Hong Kong, CFP, financial advisor",
+    "financial planning, wealth management, asset allocation, insurance, Hong Kong, CFP, financial advisor",
   authors: [{ name: "Seeds Financial Group" }],
   creator: "Seeds Financial Group",
   publisher: "Seeds Financial Group",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     apple: "/assets/Seeds_Icon_Trans.png",
   },
   openGraph: {
-    title: "Seeds Financial Group | Risk and Asset Management",
+    title: "Seeds Financial Group | Wealth and Asset Management",
     description: "Professional financial advisory services in Hong Kong",
     url: "https://seedsfinancial.com",
     siteName: "Seeds Financial Group",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Seeds Financial Group | Risk and Asset Management",
+    title: "Seeds Financial Group | Wealth and Asset Management",
     description: "Professional financial advisory services in Hong Kong",
     images: ["/assets/Seeds_Icon_Trans.png"],
   },
