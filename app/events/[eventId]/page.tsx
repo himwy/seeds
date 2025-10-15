@@ -62,20 +62,20 @@ export default function EventDetailPage() {
 
       // Parse the URL
       const urlObj = new URL(url);
-      
+
       // Remove ALL query parameters to avoid transformations
-      urlObj.search = '';
-      
+      urlObj.search = "";
+
       // If it has /preview in path, convert to /view for direct access
       let cleanPath = urlObj.pathname;
-      if (cleanPath.includes('/preview')) {
-        cleanPath = cleanPath.replace('/preview', '/view');
+      if (cleanPath.includes("/preview")) {
+        cleanPath = cleanPath.replace("/preview", "/view");
       }
-      
+
       // Reconstruct clean URL without any parameters
       return `${urlObj.origin}${cleanPath}`;
     } catch (error) {
-      console.error('Error cleaning URL:', error);
+      console.error("Error cleaning URL:", error);
       return url;
     }
   };
@@ -267,53 +267,55 @@ export default function EventDetailPage() {
                 {event.images.map((mediaUrl, index) => {
                   const cleanUrl = cleanImageUrl(mediaUrl);
                   return (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, delay: index * 0.05 }}
-                    viewport={{ once: true }}
-                    className="aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
-                    onClick={() => openImageModal(index)}
-                  >
-                    {isVideoUrl(cleanUrl) ? (
-                      <div className="relative w-full h-full bg-gray-100">
-                        <video
-                          src={cleanUrl}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          muted
-                          preload="auto"
-                          playsInline
-                          poster=""
-                          style={{
-                            backgroundColor: "#1f2937",
-                          }}
-                        />
-                        {/* Video Play Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
-                          <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
-                            <svg
-                              className="w-5 h-5 text-gray-800"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path d="M8 5v10l8-5-8-5z" />
-                            </svg>
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.4, delay: index * 0.05 }}
+                      viewport={{ once: true }}
+                      className="aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
+                      onClick={() => openImageModal(index)}
+                    >
+                      {isVideoUrl(cleanUrl) ? (
+                        <div className="relative w-full h-full bg-gray-100">
+                          <video
+                            src={cleanUrl}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                            muted
+                            preload="auto"
+                            playsInline
+                            poster=""
+                            style={{
+                              backgroundColor: "#1f2937",
+                            }}
+                          />
+                          {/* Video Play Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
+                            <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
+                              <svg
+                                className="w-5 h-5 text-gray-800"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M8 5v10l8-5-8-5z" />
+                              </svg>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ) : (
-                      <img
-                        src={cleanUrl}
-                        alt={`${
-                          language === "zh-HK" ? event.chineseName : event.name
-                        } - Media ${index + 1}`}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    )}
-                  </motion.div>
+                      ) : (
+                        <img
+                          src={cleanUrl}
+                          alt={`${
+                            language === "zh-HK"
+                              ? event.chineseName
+                              : event.name
+                          } - Media ${index + 1}`}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
+                    </motion.div>
                   );
                 })}
               </div>
@@ -370,7 +372,9 @@ export default function EventDetailPage() {
 
             {/* Media Content */}
             {(() => {
-              const modalCleanUrl = cleanImageUrl(event.images[selectedImageIndex]);
+              const modalCleanUrl = cleanImageUrl(
+                event.images[selectedImageIndex]
+              );
               return isVideoUrl(modalCleanUrl) ? (
                 <video
                   src={modalCleanUrl}
