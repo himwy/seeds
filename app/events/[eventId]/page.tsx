@@ -117,7 +117,10 @@ export default function EventDetailPage() {
 
     // Method 3: For Appwrite files, check if we stored the file type in URL
     // Some systems add metadata like &mimeType=video or similar
-    if (lowerUrl.includes("mimetype=video") || lowerUrl.includes("type=video")) {
+    if (
+      lowerUrl.includes("mimetype=video") ||
+      lowerUrl.includes("type=video")
+    ) {
       return true;
     }
 
@@ -349,9 +352,12 @@ export default function EventDetailPage() {
                               }
                             }}
                             onError={(e) => {
-                              console.log("Image failed to load, trying as video:", cleanUrl);
+                              console.log(
+                                "Image failed to load, trying as video:",
+                                cleanUrl
+                              );
                               // Mark this index as a video and re-render
-                              setVideoIndices(prev => {
+                              setVideoIndices((prev) => {
                                 const newSet = new Set(prev);
                                 newSet.add(index);
                                 return newSet;
@@ -420,7 +426,8 @@ export default function EventDetailPage() {
               const modalCleanUrl = cleanImageUrl(
                 event.images[selectedImageIndex]
               );
-              return isVideoUrl(modalCleanUrl) || videoIndices.has(selectedImageIndex) ? (
+              return isVideoUrl(modalCleanUrl) ||
+                videoIndices.has(selectedImageIndex) ? (
                 <video
                   src={modalCleanUrl}
                   className="max-w-full max-h-full object-contain"
@@ -439,7 +446,7 @@ export default function EventDetailPage() {
                   onClick={(e) => e.stopPropagation()}
                   onError={() => {
                     // If image fails in modal, mark as video
-                    setVideoIndices(prev => {
+                    setVideoIndices((prev) => {
                       const newSet = new Set(prev);
                       newSet.add(selectedImageIndex);
                       return newSet;

@@ -11,7 +11,7 @@ const translations = {
     backToTeam: "Back to Team",
     title: "Bella",
     subtitle: "Wealth Management Director",
-    chineseName: "貝拉",
+    chineseName: "吴巧玲",
 
     intro:
       "Bella brings over 30 years of extensive experience in the financial industry, having held prominent leadership positions across banking and state-owned enterprises. She has served as branch manager, regional director, department general manager, and chairman of state-owned enterprises, specializing in asset management, corporate finance, and wealth planning.",
@@ -56,7 +56,7 @@ const translations = {
     backToTeam: "返回團隊",
     title: "Bella",
     subtitle: "財富管理總監",
-    chineseName: "貝拉",
+    chineseName: "吴巧玲",
 
     intro:
       "Bella擁有超過30年的金融行業豐富經驗，曾在銀行和國有企業擔任重要領導職位。她曾擔任分行經理、區域總監、部門總經理和國有企業董事長，專門從事資產管理、企業金融和財富規劃。",

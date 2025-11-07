@@ -89,7 +89,7 @@ const translations = {
       {
         id: "bella",
         name: "Bella",
-        chineseName: "貝拉",
+        chineseName: "吴巧玲",
         position: "Wealth Management Director",
         chinesePosition: "財富管理總監",
         specialization: "Banking & Asset Management",
@@ -105,7 +105,7 @@ const translations = {
       {
         id: "karen-wong",
         name: "Karen Wong",
-        chineseName: "黃嘉欣",
+        chineseName: "王慧盈",
         position: "Associate Wealth Management Director",
         chinesePosition: "副財富管理總監",
         specialization: "Dual-qualified Solicitor & Licensed Insurance Agent",
@@ -217,7 +217,7 @@ const translations = {
       {
         id: "bella",
         name: "Bella",
-        chineseName: "貝拉",
+        chineseName: "吴巧玲",
         position: "Wealth Management Director",
         chinesePosition: "財富管理總監",
         specialization: "Banking & Asset Management",
@@ -233,7 +233,7 @@ const translations = {
       {
         id: "karen-wong",
         name: "Karen Wong",
-        chineseName: "黃嘉欣",
+        chineseName: "王慧盈",
         position: "Associate Wealth Management Director",
         chinesePosition: "副財富管理總監",
         specialization: "Dual-qualified Solicitor & Licensed Insurance Agent",

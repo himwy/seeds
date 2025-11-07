@@ -11,7 +11,7 @@ const translations = {
     backToTeam: "Back to Team",
     title: "Karen Wong",
     subtitle: "Associate Wealth Management Director",
-    chineseName: "黃嘉欣",
+    chineseName: "王慧盈",
 
     intro:
       "Karen is a dual-qualified professional - both a solicitor and licensed insurance agent specializing in financial and legal risk management. With extensive expertise in family law, estate planning, conveyancing, and commercial law, she is uniquely positioned to provide comprehensive wealth protection solutions that bridge legal and financial planning.",
@@ -46,7 +46,7 @@ const translations = {
     backToTeam: "返回團隊",
     title: "Karen Wong",
     subtitle: "財富管理副總監",
-    chineseName: "黃嘉欣",
+    chineseName: "王慧盈",
 
     intro:
       "Karen擁有深厚的法律背景，專注於家庭法與商業法，曾在資產保護、遺產規劃及法律爭議方面積累了豐富經驗。作為一名專業律師，她在解決複雜法律問題上以專業和細緻見稱，並深受客戶信任。",

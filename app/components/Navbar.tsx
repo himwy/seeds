@@ -20,6 +20,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [expandedMobileItems, setExpandedMobileItems] = useState<string[]>([]);
+  const [expandedDesktopItems, setExpandedDesktopItems] = useState<string[]>([]);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const { language } = useLanguage();
   const t = translations[language];
@@ -118,9 +119,14 @@ export default function Navbar() {
       ) {
         setIsMenuOpen(false);
       }
+      // Close desktop dropdowns when clicking anywhere
+      if (expandedDesktopItems.length > 0) {
+        setExpandedDesktopItems([]);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
 
     // Lock body scroll when mobile menu is open
     if (isMenuOpen) {
@@ -132,12 +138,23 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
       document.body.style.overflow = "";
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, expandedDesktopItems]);
 
   const toggleMobileSubmenu = (title: string) => {
     setExpandedMobileItems((prev) =>
+      prev.includes(title)
+        ? prev.filter((item) => item !== title)
+        : [...prev, title]
+    );
+  };
+
+  const toggleDesktopSubmenu = (title: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setExpandedDesktopItems((prev) =>
       prev.includes(title)
         ? prev.filter((item) => item !== title)
         : [...prev, title]
@@ -183,10 +200,19 @@ export default function Navbar() {
             {menuItems.map((item) => (
               <div key={item.title} className="relative group">
                 {item.submenu && item.submenu.length > 0 ? (
-                  // Items with dropdown - make parent non-clickable
-                  <div className="flex items-center text-dark-gray hover:text-primary transition-colors py-2 cursor-pointer">
+                  // Items with dropdown - support both hover and click for iPad
+                  <div 
+                    className="flex items-center text-dark-gray hover:text-primary transition-colors py-2 cursor-pointer"
+                    onClick={(e) => toggleDesktopSubmenu(item.title, e)}
+                    onTouchStart={(e) => {
+                      e.stopPropagation();
+                      toggleDesktopSubmenu(item.title, e as any);
+                    }}
+                  >
                     <span className="mr-1">{item.title}</span>
-                    <FaAngleDown className="w-3 h-3" />
+                    <FaAngleDown className={`w-3 h-3 transition-transform duration-300 ${
+                      expandedDesktopItems.includes(item.title) ? 'rotate-180' : ''
+                    }`} />
                   </div>
                 ) : (
                   // Regular items without dropdown - keep clickable
@@ -199,12 +225,17 @@ export default function Navbar() {
                 )}
 
                 {item.submenu && item.submenu.length > 0 && (
-                  <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                  <div className={`absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50 transition-all duration-300 ${
+                    expandedDesktopItems.includes(item.title) 
+                      ? 'opacity-100 visible' 
+                      : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'
+                  }`}>
                     {item.submenu.map((subItem) => (
                       <Link
                         key={subItem.title}
                         href={subItem.path}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary"
+                        onClick={() => setExpandedDesktopItems([])}
                       >
                         {subItem.title}
                       </Link>
