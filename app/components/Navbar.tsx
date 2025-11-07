@@ -20,7 +20,9 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [expandedMobileItems, setExpandedMobileItems] = useState<string[]>([]);
-  const [expandedDesktopItems, setExpandedDesktopItems] = useState<string[]>([]);
+  const [expandedDesktopItems, setExpandedDesktopItems] = useState<string[]>(
+    []
+  );
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const { language } = useLanguage();
   const t = translations[language];
@@ -111,7 +113,7 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
 
     // Close mobile menu when clicking outside
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: Event) => {
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target as Node) &&
@@ -201,7 +203,7 @@ export default function Navbar() {
               <div key={item.title} className="relative group">
                 {item.submenu && item.submenu.length > 0 ? (
                   // Items with dropdown - support both hover and click for iPad
-                  <div 
+                  <div
                     className="flex items-center text-dark-gray hover:text-primary transition-colors py-2 cursor-pointer"
                     onClick={(e) => toggleDesktopSubmenu(item.title, e)}
                     onTouchStart={(e) => {
@@ -210,9 +212,13 @@ export default function Navbar() {
                     }}
                   >
                     <span className="mr-1">{item.title}</span>
-                    <FaAngleDown className={`w-3 h-3 transition-transform duration-300 ${
-                      expandedDesktopItems.includes(item.title) ? 'rotate-180' : ''
-                    }`} />
+                    <FaAngleDown
+                      className={`w-3 h-3 transition-transform duration-300 ${
+                        expandedDesktopItems.includes(item.title)
+                          ? "rotate-180"
+                          : ""
+                      }`}
+                    />
                   </div>
                 ) : (
                   // Regular items without dropdown - keep clickable
@@ -225,11 +231,13 @@ export default function Navbar() {
                 )}
 
                 {item.submenu && item.submenu.length > 0 && (
-                  <div className={`absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50 transition-all duration-300 ${
-                    expandedDesktopItems.includes(item.title) 
-                      ? 'opacity-100 visible' 
-                      : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'
-                  }`}>
+                  <div
+                    className={`absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50 transition-all duration-300 ${
+                      expandedDesktopItems.includes(item.title)
+                        ? "opacity-100 visible"
+                        : "opacity-0 invisible group-hover:opacity-100 group-hover:visible"
+                    }`}
+                  >
                     {item.submenu.map((subItem) => (
                       <Link
                         key={subItem.title}
