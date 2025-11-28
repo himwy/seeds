@@ -238,10 +238,11 @@ export default function PastEventsPage() {
                                 src={event.images[0]}
                                 className="w-full h-full object-cover"
                                 muted
-                                preload="metadata"
                                 playsInline
-                                style={{
-                                  backgroundColor: "#1f2937",
+                                preload="auto"
+                                onLoadedMetadata={(e) => {
+                                  const video = e.target as HTMLVideoElement;
+                                  video.currentTime = 0.1;
                                 }}
                               />
                               {/* Video Play Overlay */}
