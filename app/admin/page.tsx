@@ -59,6 +59,7 @@ export default function AdminPage() {
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [existingThumbnail, setExistingThumbnail] = useState<string | null>(null);
+  const [isVideoEvent, setIsVideoEvent] = useState(false);
   const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(
     null
   );
@@ -708,6 +709,7 @@ export default function AdminPage() {
           ? [...editingEvent.images, ...imageUrls]
           : imageUrls,
         thumbnail: thumbnailUrl,
+        isVideo: isVideoEvent,
       };
 
       if (editingEvent) {
@@ -756,6 +758,8 @@ export default function AdminPage() {
     setExistingThumbnail(event.thumbnail || null);
     setThumbnailFile(null);
     setThumbnailPreview(null);
+    // Load isVideo flag
+    setIsVideoEvent(event.isVideo || false);
     setShowForm(true);
   };
 
@@ -791,6 +795,7 @@ export default function AdminPage() {
     setThumbnailFile(null);
     setThumbnailPreview(null);
     setExistingThumbnail(null);
+    setIsVideoEvent(false);
     setShowForm(false);
     setEditingEvent(null);
     setUploadProgress(0);
@@ -1290,6 +1295,23 @@ export default function AdminPage() {
                     </p>
                   </div>
                 )}
+              </div>
+
+              {/* Is Video Event Checkbox */}
+              <div className="flex items-start space-x-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <input
+                  type="checkbox"
+                  id="isVideoEventAdmin"
+                  checked={isVideoEvent}
+                  onChange={(e) => setIsVideoEvent(e.target.checked)}
+                  className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <div>
+                  <label htmlFor="isVideoEventAdmin" className="block text-sm font-medium text-gray-700 cursor-pointer">
+                    This is a video event
+                  </label>
+                  <p className="text-xs text-gray-500 mt-1">Check this if the main media is a video file. This ensures proper display even if video detection fails.</p>
+                </div>
               </div>
 
               {/* Action Buttons */}

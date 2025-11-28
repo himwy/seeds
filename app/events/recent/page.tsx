@@ -87,12 +87,17 @@ export default function RecentEventsPage() {
   };
 
   const isVideoUrl = (url: string) => {
-    // Only detect videos by actual file extensions
+    // Check for video file extensions in the URL (including query params)
     const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
     const lowerUrl = url.toLowerCase();
 
-    // Check for video file extensions
+    // Check for video file extensions anywhere in URL
     if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
+      return true;
+    }
+
+    // Check for video MIME type indicators in URL
+    if (lowerUrl.includes("video/") || lowerUrl.includes("video%2f")) {
       return true;
     }
 
@@ -209,7 +214,7 @@ export default function RecentEventsPage() {
                     <div className="relative h-64 overflow-hidden">
                       {event.images && event.images.length > 0 ? (
                         <>
-                          {/* If thumbnail exists, always use it (for video events) */}
+                          {/* If thumbnail exists, use it; otherwise check isVideo flag or isVideoUrl */}
                           {event.thumbnail ? (
                             <div className="relative w-full h-full bg-gray-900">
                               <img
@@ -225,7 +230,7 @@ export default function RecentEventsPage() {
                                 </div>
                               </div>
                             </div>
-                          ) : isVideoUrl(event.images[0]) ? (
+                          ) : (event.isVideo || isVideoUrl(event.images[0])) ? (
                             <div className="relative w-full h-full bg-gray-900">
                               <video
                                 src={event.images[0]}
@@ -261,7 +266,7 @@ export default function RecentEventsPage() {
 
                           {/* Media Count Badge */}
                           <div className="absolute top-4 right-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
-                            {(event.thumbnail || isVideoUrl(event.images[0])) ? (
+                            {(event.thumbnail || event.isVideo || isVideoUrl(event.images[0])) ? (
                               <FaPlay className="text-xs" />
                             ) : (
                               <FaImages className="text-xs" />

@@ -13,6 +13,7 @@ export interface Event {
   chineseName: string; // Chinese name
   images: string[]; // Array of image URLs
   thumbnail?: string; // Optional thumbnail URL for video events
+  isVideo?: boolean; // Whether this event contains video content
   date: string;
   category: "recent" | "past"; // Simple category
 }
@@ -63,6 +64,7 @@ export class EventsService {
         category: doc.category,
         images: JSON.parse(doc.images || "[]"),
         thumbnail: doc.thumbnail || undefined,
+        isVideo: doc.isVideo || false,
       })) as Event[];
     } catch (error) {
       console.error("Error fetching events:", error);
@@ -113,6 +115,7 @@ export class EventsService {
         category: response.category,
         images,
         thumbnail: response.thumbnail || undefined,
+        isVideo: response.isVideo || false,
       } as Event;
     } catch (error) {
       console.error("Error fetching event:", error);
@@ -131,6 +134,7 @@ export class EventsService {
           ...eventData,
           images: JSON.stringify(eventData.images),
           thumbnail: eventData.thumbnail || null,
+          isVideo: eventData.isVideo || false,
         }
       );
       return {
@@ -141,6 +145,7 @@ export class EventsService {
         category: response.category,
         images: JSON.parse(response.images || "[]"),
         thumbnail: response.thumbnail || undefined,
+        isVideo: response.isVideo || false,
       } as Event;
     } catch (error) {
       console.error("Error creating event:", error);
@@ -178,6 +183,7 @@ export class EventsService {
         category: response.category,
         images: JSON.parse(response.images || "[]"),
         thumbnail: response.thumbnail || undefined,
+        isVideo: response.isVideo || false,
       } as Event;
     } catch (error) {
       console.error("Error updating event:", error);

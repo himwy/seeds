@@ -33,6 +33,8 @@ const translations = {
     uploadThumbnail: "Upload Thumbnail (Optional)",
     uploadThumbnailHint: "Upload a custom thumbnail image for video events. If not provided, the video will be used directly.",
     removeThumbnail: "Remove thumbnail",
+    isVideoEvent: "This is a video event",
+    isVideoEventHint: "Check this if the main media is a video file",
 
     categoryRecent: "Recent Events",
     categoryPast: "Past Events",
@@ -69,6 +71,8 @@ const translations = {
     uploadThumbnail: "上傳縮圖（可選）",
     uploadThumbnailHint: "為影片活動上傳自定義縮圖。如果未提供，將直接使用影片。",
     removeThumbnail: "移除縮圖",
+    isVideoEvent: "這是影片活動",
+    isVideoEventHint: "如果主要媒體是影片文件，請勾選此項",
 
     categoryRecent: "最近活動",
     categoryPast: "過往活動",
@@ -108,6 +112,7 @@ export default function CreateEventPage() {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
+  const [isVideoEvent, setIsVideoEvent] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -355,6 +360,7 @@ export default function CreateEventPage() {
         category: formData.category,
         images: imageUrls,
         thumbnail: thumbnailUrl,
+        isVideo: isVideoEvent,
       });
 
       setMessage({ type: "success", text: t.success });
@@ -659,6 +665,23 @@ export default function CreateEventPage() {
                   </label>
                 </div>
               )}
+            </div>
+
+            {/* Is Video Event Checkbox */}
+            <div className="flex items-start space-x-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <input
+                type="checkbox"
+                id="isVideoEvent"
+                checked={isVideoEvent}
+                onChange={(e) => setIsVideoEvent(e.target.checked)}
+                className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <div>
+                <label htmlFor="isVideoEvent" className="block text-sm font-medium text-gray-700 cursor-pointer">
+                  {t.isVideoEvent}
+                </label>
+                <p className="text-xs text-gray-500 mt-1">{t.isVideoEventHint}</p>
+              </div>
             </div>
 
             {/* Action Buttons */}
