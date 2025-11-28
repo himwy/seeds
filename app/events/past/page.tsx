@@ -68,10 +68,33 @@ export default function PastEventsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<string>("newest");
+  const [mediaTypes, setMediaTypes] = useState<Record<string, 'video' | 'image' | 'loading'>>({});
 
   useEffect(() => {
     loadEvents();
   }, []);
+
+  // Auto-detect if URL is video or image by trying to load it
+  const detectMediaType = (url: string, eventId: string) => {
+    if (mediaTypes[eventId] && mediaTypes[eventId] !== 'loading') return;
+    
+    setMediaTypes(prev => ({ ...prev, [eventId]: 'loading' }));
+    
+    // Try loading as video first
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+    
+    video.onloadedmetadata = () => {
+      setMediaTypes(prev => ({ ...prev, [eventId]: 'video' }));
+    };
+    
+    video.onerror = () => {
+      // If video fails, it's an image
+      setMediaTypes(prev => ({ ...prev, [eventId]: 'image' }));
+    };
+    
+    video.src = url;
+  };
 
   const loadEvents = async () => {
     try {
@@ -86,24 +109,6 @@ export default function PastEventsPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const isVideoUrl = (url: string) => {
-    // Check for video file extensions in the URL (including query params)
-    const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
-    const lowerUrl = url.toLowerCase();
-
-    // Check for video file extensions anywhere in URL
-    if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
-      return true;
-    }
-
-    // Check for video MIME type indicators in URL
-    if (lowerUrl.includes("video/") || lowerUrl.includes("video%2f")) {
-      return true;
-    }
-
-    return false;
   };
 
   const formatDate = (dateString: string) => {
@@ -216,7 +221,7 @@ export default function PastEventsPage() {
                     <div className="relative h-64 overflow-hidden">
                       {event.images && event.images.length > 0 ? (
                         <>
-                          {/* If thumbnail exists, use it; otherwise check isVideo flag or isVideoUrl */}
+                          {/* If thumbnail exists, use it */}
                           {event.thumbnail ? (
                             <div className="relative w-full h-full bg-gray-900">
                               <img
@@ -232,8 +237,18 @@ export default function PastEventsPage() {
                                 </div>
                               </div>
                             </div>
-                          ) : (event.isVideo || isVideoUrl(event.images[0])) ? (
+                          ) : (
+                            // Auto-detect: try video first, fall back to image
                             <div className="relative w-full h-full bg-gray-900">
+                              {(() => {
+                                // Trigger detection if not yet done
+                                if (!mediaTypes[event.$id!]) {
+                                  detectMediaType(event.images[0], event.$id!);
+                                }
+                                return null;
+                              })()}
+                              
+                              {/* Show video element - it will display first frame if it's a video */}
                               <video
                                 src={event.images[0]}
                                 className="w-full h-full object-cover"
@@ -244,31 +259,47 @@ export default function PastEventsPage() {
                                   const video = e.target as HTMLVideoElement;
                                   video.currentTime = 0.1;
                                 }}
+                                onError={(e) => {
+                                  // If video fails to load, hide it and show image instead
+                                  (e.target as HTMLVideoElement).style.display = 'none';
+                                  const img = (e.target as HTMLVideoElement).nextElementSibling as HTMLImageElement;
+                                  if (img) img.style.display = 'block';
+                                }}
+                                onLoadedData={(e) => {
+                                  // Video loaded successfully, hide the fallback image
+                                  const img = (e.target as HTMLVideoElement).nextElementSibling as HTMLImageElement;
+                                  if (img) img.style.display = 'none';
+                                }}
                               />
-                              {/* Video Play Overlay */}
-                              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
-                                <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
-                                  <FaPlay className="text-2xl text-gray-800" />
+                              {/* Fallback image (hidden by default, shown if video fails) */}
+                              <img
+                                src={event.images[0]}
+                                alt={language === "zh-HK" ? event.chineseName : event.name}
+                                className="w-full h-full object-cover absolute inset-0"
+                                style={{ display: 'none' }}
+                                loading="lazy"
+                                onLoad={(e) => {
+                                  // If image loads and video hasn't, show image
+                                  const video = (e.target as HTMLImageElement).previousElementSibling as HTMLVideoElement;
+                                  if (video && video.readyState === 0) {
+                                    (e.target as HTMLImageElement).style.display = 'block';
+                                  }
+                                }}
+                              />
+                              {/* Video Play Overlay - only show if it's detected as video */}
+                              {mediaTypes[event.$id!] === 'video' && (
+                                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
+                                  <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
+                                    <FaPlay className="text-2xl text-gray-800" />
+                                  </div>
                                 </div>
-                              </div>
+                              )}
                             </div>
-                          ) : (
-                            <img
-                              src={event.images[0]}
-                              alt={
-                                language === "zh-HK"
-                                  ? event.chineseName
-                                  : event.name
-                              }
-                              className="w-full h-full object-cover"
-                              loading="lazy"
-                              decoding="async"
-                            />
                           )}
 
                           {/* Media Count Badge */}
                           <div className="absolute top-4 right-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
-                            {(event.thumbnail || event.isVideo || isVideoUrl(event.images[0])) ? (
+                            {(event.thumbnail || mediaTypes[event.$id!] === 'video') ? (
                               <FaPlay className="text-xs" />
                             ) : (
                               <FaImages className="text-xs" />
