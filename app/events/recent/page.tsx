@@ -233,16 +233,17 @@ export default function RecentEventsPage() {
                       {event.images && event.images.length > 0 ? (
                         <>
                           {isVideoUrl(event.images[0]) ? (
-                            <div className="relative w-full h-full bg-gray-100">
+                            <div className="relative w-full h-full bg-gray-900">
                               <video
                                 src={event.images[0]}
                                 className="w-full h-full object-cover"
                                 muted
-                                preload="auto"
+                                preload="metadata"
                                 playsInline
-                                poster=""
-                                style={{
-                                  backgroundColor: "#1f2937",
+                                onLoadedMetadata={(e) => {
+                                  // Seek to first frame for faster thumbnail
+                                  const video = e.currentTarget;
+                                  video.currentTime = 0.1;
                                 }}
                               />
                               {/* Video Play Overlay */}
