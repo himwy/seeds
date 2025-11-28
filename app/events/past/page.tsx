@@ -237,16 +237,11 @@ export default function PastEventsPage() {
                           {isVideoUrl(event.images[0]) ? (
                             <div className="relative w-full h-full bg-gray-900 flex items-center justify-center">
                               <video
-                                src={event.images[0]}
+                                src={`${event.images[0]}#t=0.1`}
                                 className="w-full h-full object-cover absolute inset-0"
                                 muted
                                 preload="metadata"
                                 playsInline
-                                onLoadedMetadata={(e) => {
-                                  // Seek to first frame for faster thumbnail
-                                  const video = e.currentTarget;
-                                  video.currentTime = 0.1;
-                                }}
                               />
                               {/* Video Play Overlay - always visible as fallback */}
                               <div className="absolute inset-0 flex items-center justify-center">
