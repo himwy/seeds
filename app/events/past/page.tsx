@@ -238,9 +238,8 @@ export default function PastEventsPage() {
                                 src={event.images[0]}
                                 className="w-full h-full object-cover"
                                 muted
-                                preload="auto"
+                                preload="metadata"
                                 playsInline
-                                poster=""
                                 style={{
                                   backgroundColor: "#1f2937",
                                 }}
