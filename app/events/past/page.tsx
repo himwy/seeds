@@ -89,36 +89,13 @@ export default function PastEventsPage() {
   };
 
   const isVideoUrl = (url: string) => {
-    // Check file extension and URL patterns for video files
+    // Only detect videos by actual file extensions
     const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
     const lowerUrl = url.toLowerCase();
 
-    // Check for video file extensions first
+    // Check for video file extensions
     if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
       return true;
-    }
-
-    // Check for video keyword in URL
-    if (lowerUrl.includes("video")) {
-      return true;
-    }
-
-    // For Appwrite URLs, use file ID pattern to distinguish videos from images
-    // Handle both old /view URLs and new /download URLs
-    if (
-      url.includes("cloud.appwrite.io") &&
-      (url.includes("/view") || url.includes("/download"))
-    ) {
-      const fileId = url.split("/files/")[1]?.split("/")[0];
-      if (fileId) {
-        // Use a consistent hash-based approach to identify videos
-        const hash = fileId.split("").reduce((acc, char) => {
-          return acc + char.charCodeAt(0);
-        }, 0);
-
-        // Treat roughly 50% as videos for better testing
-        return hash % 2 === 1;
-      }
     }
 
     return false;
@@ -234,29 +211,35 @@ export default function PastEventsPage() {
                     <div className="relative h-64 overflow-hidden">
                       {event.images && event.images.length > 0 ? (
                         <>
-                          {isVideoUrl(event.images[0]) ? (
+                          {/* If thumbnail exists, always use it (for video events) */}
+                          {event.thumbnail ? (
                             <div className="relative w-full h-full bg-gray-900">
-                              {/* Use thumbnail if available, otherwise load video */}
-                              {event.thumbnail ? (
-                                <img
-                                  src={event.thumbnail}
-                                  alt={language === "zh-HK" ? event.chineseName : event.name}
-                                  className="w-full h-full object-cover"
-                                  loading="lazy"
-                                />
-                              ) : (
-                                <video
-                                  src={event.images[0]}
-                                  className="w-full h-full object-cover"
-                                  muted
-                                  preload="auto"
-                                  playsInline
-                                  poster=""
-                                  style={{
-                                    backgroundColor: "#1f2937",
-                                  }}
-                                />
-                              )}
+                              <img
+                                src={event.thumbnail}
+                                alt={language === "zh-HK" ? event.chineseName : event.name}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                              />
+                              {/* Video Play Overlay */}
+                              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
+                                <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
+                                  <FaPlay className="text-2xl text-gray-800" />
+                                </div>
+                              </div>
+                            </div>
+                          ) : isVideoUrl(event.images[0]) ? (
+                            <div className="relative w-full h-full bg-gray-900">
+                              <video
+                                src={event.images[0]}
+                                className="w-full h-full object-cover"
+                                muted
+                                preload="auto"
+                                playsInline
+                                poster=""
+                                style={{
+                                  backgroundColor: "#1f2937",
+                                }}
+                              />
                               {/* Video Play Overlay */}
                               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
                                 <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
@@ -280,7 +263,7 @@ export default function PastEventsPage() {
 
                           {/* Media Count Badge */}
                           <div className="absolute top-4 right-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
-                            {isVideoUrl(event.images[0]) ? (
+                            {(event.thumbnail || isVideoUrl(event.images[0])) ? (
                               <FaPlay className="text-xs" />
                             ) : (
                               <FaImages className="text-xs" />
