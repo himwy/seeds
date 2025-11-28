@@ -30,6 +30,9 @@ const translations = {
     eventCategory: "Event Category",
     uploadPhotos: "Upload Event Media",
     uploadHint: "Select multiple photos and videos for this event (JPG, PNG, GIF, MP4, MOV, etc.)",
+    uploadThumbnail: "Upload Thumbnail (Optional)",
+    uploadThumbnailHint: "Upload a custom thumbnail image for video events. If not provided, the video will be used directly.",
+    removeThumbnail: "Remove thumbnail",
 
     categoryRecent: "Recent Events",
     categoryPast: "Past Events",
@@ -63,6 +66,9 @@ const translations = {
     eventCategory: "活動類別",
     uploadPhotos: "上傳活動媒體",
     uploadHint: "為此活動選擇多張相片和影片（JPG、PNG、GIF、MP4、MOV等）",
+    uploadThumbnail: "上傳縮圖（可選）",
+    uploadThumbnailHint: "為影片活動上傳自定義縮圖。如果未提供，將直接使用影片。",
+    removeThumbnail: "移除縮圖",
 
     categoryRecent: "最近活動",
     categoryPast: "過往活動",
@@ -100,6 +106,8 @@ export default function CreateEventPage() {
 
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -330,6 +338,13 @@ export default function CreateEventPage() {
       // Upload images first
       setUploading(true);
       const imageUrls = await EventsService.uploadImages(selectedFiles);
+      
+      // Upload thumbnail if provided
+      let thumbnailUrl: string | undefined;
+      if (thumbnailFile) {
+        const thumbnailUrls = await EventsService.uploadImages([thumbnailFile]);
+        thumbnailUrl = thumbnailUrls[0];
+      }
       setUploading(false);
 
       // Create event
@@ -339,6 +354,7 @@ export default function CreateEventPage() {
         date: formData.date,
         category: formData.category,
         images: imageUrls,
+        thumbnail: thumbnailUrl,
       });
 
       setMessage({ type: "success", text: t.success });
@@ -588,6 +604,62 @@ export default function CreateEventPage() {
                 </div>
               </div>
             )}
+
+            {/* Thumbnail Upload Section (Optional) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t.uploadThumbnail}
+                <span className="text-gray-400 ml-1 text-xs">({t.optional})</span>
+              </label>
+              <p className="text-sm text-gray-500 mb-4">{t.uploadThumbnailHint}</p>
+
+              {thumbnailPreview ? (
+                <div className="relative inline-block">
+                  <img
+                    src={thumbnailPreview}
+                    alt="Thumbnail preview"
+                    className="w-48 h-32 object-cover rounded-lg border border-gray-200"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setThumbnailFile(null);
+                      setThumbnailPreview(null);
+                    }}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
+                    title={t.removeThumbnail}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              ) : (
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center bg-gray-50 hover:border-blue-400 transition-colors">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setThumbnailFile(file);
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                          setThumbnailPreview(ev.target?.result as string);
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="hidden"
+                    id="thumbnail-upload"
+                  />
+                  <label
+                    htmlFor="thumbnail-upload"
+                    className="text-blue-600 hover:text-blue-700 cursor-pointer text-sm"
+                  >
+                    Click to upload thumbnail image
+                  </label>
+                </div>
+              )}
+            </div>
 
             {/* Action Buttons */}
             <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">

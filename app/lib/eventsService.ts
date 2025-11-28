@@ -12,6 +12,7 @@ export interface Event {
   name: string; // English name
   chineseName: string; // Chinese name
   images: string[]; // Array of image URLs
+  thumbnail?: string; // Optional thumbnail URL for video events
   date: string;
   category: "recent" | "past"; // Simple category
 }
@@ -38,6 +39,7 @@ export class EventsService {
         date: doc.date,
         category: doc.category,
         images: JSON.parse(doc.images || "[]"),
+        thumbnail: doc.thumbnail || undefined,
       })) as Event[];
     } catch (error) {
       console.error("Error fetching events:", error);
@@ -60,6 +62,7 @@ export class EventsService {
         date: doc.date,
         category: doc.category,
         images: JSON.parse(doc.images || "[]"),
+        thumbnail: doc.thumbnail || undefined,
       })) as Event[];
     } catch (error) {
       console.error("Error fetching events:", error);
@@ -109,6 +112,7 @@ export class EventsService {
         date: response.date,
         category: response.category,
         images,
+        thumbnail: response.thumbnail || undefined,
       } as Event;
     } catch (error) {
       console.error("Error fetching event:", error);
@@ -126,6 +130,7 @@ export class EventsService {
         {
           ...eventData,
           images: JSON.stringify(eventData.images),
+          thumbnail: eventData.thumbnail || null,
         }
       );
       return {
@@ -135,6 +140,7 @@ export class EventsService {
         date: response.date,
         category: response.category,
         images: JSON.parse(response.images || "[]"),
+        thumbnail: response.thumbnail || undefined,
       } as Event;
     } catch (error) {
       console.error("Error creating event:", error);
@@ -152,6 +158,10 @@ export class EventsService {
       if (updateData.images) {
         updateData.images = JSON.stringify(updateData.images);
       }
+      // Handle thumbnail - use null for empty string to clear it
+      if ('thumbnail' in updateData) {
+        updateData.thumbnail = updateData.thumbnail || null;
+      }
 
       const response = await databases.updateDocument(
         DATABASE_ID,
@@ -167,6 +177,7 @@ export class EventsService {
         date: response.date,
         category: response.category,
         images: JSON.parse(response.images || "[]"),
+        thumbnail: response.thumbnail || undefined,
       } as Event;
     } catch (error) {
       console.error("Error updating event:", error);

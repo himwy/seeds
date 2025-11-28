@@ -233,18 +233,28 @@ export default function RecentEventsPage() {
                       {event.images && event.images.length > 0 ? (
                         <>
                           {isVideoUrl(event.images[0]) ? (
-                            <div className="relative w-full h-full bg-gray-100">
-                              <video
-                                src={event.images[0]}
-                                className="w-full h-full object-cover"
-                                muted
-                                preload="auto"
-                                playsInline
-                                poster=""
-                                style={{
-                                  backgroundColor: "#1f2937",
-                                }}
-                              />
+                            <div className="relative w-full h-full bg-gray-900">
+                              {/* Use thumbnail if available, otherwise load video */}
+                              {event.thumbnail ? (
+                                <img
+                                  src={event.thumbnail}
+                                  alt={language === "zh-HK" ? event.chineseName : event.name}
+                                  className="w-full h-full object-cover"
+                                  loading="lazy"
+                                />
+                              ) : (
+                                <video
+                                  src={event.images[0]}
+                                  className="w-full h-full object-cover"
+                                  muted
+                                  preload="auto"
+                                  playsInline
+                                  poster=""
+                                  style={{
+                                    backgroundColor: "#1f2937",
+                                  }}
+                                />
+                              )}
                               {/* Video Play Overlay */}
                               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
                                 <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
