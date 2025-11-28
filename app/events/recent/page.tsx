@@ -233,10 +233,10 @@ export default function RecentEventsPage() {
                       {event.images && event.images.length > 0 ? (
                         <>
                           {isVideoUrl(event.images[0]) ? (
-                            <div className="relative w-full h-full bg-gray-900">
+                            <div className="relative w-full h-full bg-gray-900 flex items-center justify-center">
                               <video
                                 src={event.images[0]}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover absolute inset-0"
                                 muted
                                 preload="metadata"
                                 playsInline
@@ -246,8 +246,8 @@ export default function RecentEventsPage() {
                                   video.currentTime = 0.1;
                                 }}
                               />
-                              {/* Video Play Overlay */}
-                              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
+                              {/* Video Play Overlay - always visible as fallback */}
+                              <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
                                   <FaPlay className="text-2xl text-gray-800" />
                                 </div>
