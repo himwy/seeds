@@ -56,6 +56,9 @@ export default function AdminPage() {
   });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
+  const [existingThumbnail, setExistingThumbnail] = useState<string | null>(null);
   const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(
     null
   );
@@ -681,6 +684,21 @@ export default function AdminPage() {
         setUploadProgress(100);
       }
 
+      // Handle thumbnail upload
+      let thumbnailUrl: string | undefined = existingThumbnail || undefined;
+      if (thumbnailFile) {
+        try {
+          const thumbnailUrls = await EventsService.uploadImages([thumbnailFile]);
+          thumbnailUrl = thumbnailUrls[0];
+        } catch (error) {
+          console.error("Failed to upload thumbnail:", error);
+          setMessage({
+            type: "error",
+            text: "Failed to upload thumbnail. Event will be saved without thumbnail.",
+          });
+        }
+      }
+
       const eventData = {
         name: formData.name,
         chineseName: formData.chineseName,
@@ -689,6 +707,7 @@ export default function AdminPage() {
         images: editingEvent
           ? [...editingEvent.images, ...imageUrls]
           : imageUrls,
+        thumbnail: thumbnailUrl,
       };
 
       if (editingEvent) {
@@ -707,6 +726,9 @@ export default function AdminPage() {
       });
       setSelectedFiles([]);
       setPreviewUrls([]);
+      setThumbnailFile(null);
+      setThumbnailPreview(null);
+      setExistingThumbnail(null);
       setShowForm(false);
       setEditingEvent(null);
 
@@ -730,6 +752,10 @@ export default function AdminPage() {
       date: event.date,
       category: event.category,
     });
+    // Load existing thumbnail if present
+    setExistingThumbnail(event.thumbnail || null);
+    setThumbnailFile(null);
+    setThumbnailPreview(null);
     setShowForm(true);
   };
 
@@ -762,6 +788,9 @@ export default function AdminPage() {
     });
     setSelectedFiles([]);
     setPreviewUrls([]);
+    setThumbnailFile(null);
+    setThumbnailPreview(null);
+    setExistingThumbnail(null);
     setShowForm(false);
     setEditingEvent(null);
     setUploadProgress(0);
@@ -1192,6 +1221,76 @@ export default function AdminPage() {
                   </div>
                 </div>
               )}
+
+              {/* Thumbnail Upload Section (Optional) */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-800 mb-2">
+                  Custom Thumbnail (Optional)
+                  <span className="text-gray-400 ml-2 text-xs font-normal">For video events - loads faster than video</span>
+                </label>
+                
+                {(thumbnailPreview || existingThumbnail) ? (
+                  <div className="relative inline-block">
+                    <img
+                      src={thumbnailPreview || existingThumbnail || ''}
+                      alt="Thumbnail preview"
+                      className="w-48 h-32 object-cover rounded-lg border-2 border-gray-200"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setThumbnailFile(null);
+                        setThumbnailPreview(null);
+                        setExistingThumbnail(null);
+                      }}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
+                      title="Remove thumbnail"
+                    >
+                      <FaTimes />
+                    </button>
+                    {existingThumbnail && !thumbnailPreview && (
+                      <span className="absolute bottom-1 left-1 bg-green-500 text-white text-xs px-2 py-0.5 rounded">
+                        Current
+                      </span>
+                    )}
+                    {thumbnailPreview && (
+                      <span className="absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-2 py-0.5 rounded">
+                        New
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center bg-gray-50 hover:border-blue-400 transition-colors">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setThumbnailFile(file);
+                          const reader = new FileReader();
+                          reader.onload = (ev) => {
+                            setThumbnailPreview(ev.target?.result as string);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="hidden"
+                      id="thumbnail-upload-admin"
+                    />
+                    <label
+                      htmlFor="thumbnail-upload-admin"
+                      className="text-blue-600 hover:text-blue-700 cursor-pointer text-sm flex items-center justify-center gap-2"
+                    >
+                      <FaImage className="text-lg" />
+                      Click to upload thumbnail image
+                    </label>
+                    <p className="text-xs text-gray-400 mt-2">
+                      Recommended for video events. Shows instantly instead of loading video.
+                    </p>
+                  </div>
+                )}
+              </div>
 
               {/* Action Buttons */}
               <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200">
