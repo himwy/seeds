@@ -91,65 +91,17 @@ export default function RecentEventsPage() {
     const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
     const lowerUrl = url.toLowerCase();
 
-    // Check for video file extensions first
+    // Check for video file extensions
     if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
       return true;
     }
 
-    // Check for video keyword in URL
-    if (lowerUrl.includes("video")) {
+    // Check for video keyword in URL path
+    if (lowerUrl.includes("/video/") || lowerUrl.includes("type=video")) {
       return true;
     }
 
-    // For Appwrite URLs, use file ID pattern to distinguish videos from images
-    // Handle both old /view URLs and new /download URLs
-    if (
-      url.includes("cloud.appwrite.io") &&
-      (url.includes("/view") || url.includes("/download"))
-    ) {
-      const fileId = url.split("/files/")[1]?.split("/")[0];
-      if (fileId) {
-        // Use a consistent hash-based approach to identify videos
-        const hash = fileId.split("").reduce((acc, char) => {
-          return acc + char.charCodeAt(0);
-        }, 0);
-
-        // Treat roughly 50% as videos for better testing
-        return hash % 2 === 1;
-      }
-    }
-
     return false;
-  };
-
-  // Get video thumbnail using Appwrite preview (only for videos to save quota)
-  const getVideoThumbnail = (url: string) => {
-    try {
-      if (url.includes("cloud.appwrite.io") && url.includes("/files/")) {
-        // Extract file ID and bucket ID from URL
-        const urlParts = url.split("/");
-        const filesIndex = urlParts.indexOf("files");
-        if (filesIndex !== -1 && urlParts[filesIndex + 1]) {
-          const fileId = urlParts[filesIndex + 1];
-          const bucketId = urlParts[filesIndex - 1];
-          const baseUrl = url.split("/v1/")[0];
-          
-          // Get project param
-          const urlObj = new URL(url);
-          const projectParam = urlObj.searchParams.get("project");
-          
-          // Use preview endpoint with small dimensions for fast loading
-          let previewUrl = `${baseUrl}/v1/storage/buckets/${bucketId}/files/${fileId}/preview?width=400&height=300`;
-          if (projectParam) {
-            previewUrl += `&project=${projectParam}`;
-          }
-          return previewUrl;
-        }
-      }
-      return null; // Return null if can't generate preview URL
-    } catch {
-      return null;
-    }
   };
 
   const formatDate = (dateString: string) => {
@@ -264,16 +216,12 @@ export default function RecentEventsPage() {
                         <>
                           {isVideoUrl(event.images[0]) ? (
                             <div className="relative w-full h-full bg-gray-900 flex items-center justify-center">
-                              {/* Use Appwrite preview for video thumbnail */}
-                              <img
-                                src={getVideoThumbnail(event.images[0]) || event.images[0]}
-                                alt={language === "zh-HK" ? event.chineseName : event.name}
+                              <video
+                                src={`${event.images[0]}#t=0.1`}
                                 className="w-full h-full object-cover absolute inset-0"
-                                loading="lazy"
-                                onError={(e) => {
-                                  // Hide broken image, fallback will show
-                                  e.currentTarget.style.display = 'none';
-                                }}
+                                muted
+                                preload="metadata"
+                                playsInline
                               />
                               {/* Video Play Overlay - always visible */}
                               <div className="absolute inset-0 flex items-center justify-center">
