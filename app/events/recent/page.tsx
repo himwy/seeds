@@ -87,38 +87,29 @@ export default function RecentEventsPage() {
   };
 
   const isVideoUrl = (url: string) => {
-    // Check file extension and URL patterns for video files
+    // Check for explicit video file extensions
     const videoExtensions = [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"];
     const lowerUrl = url.toLowerCase();
 
-    // Check for video file extensions first
+    // Method 1: Check file extensions (case-insensitive)
     if (videoExtensions.some((ext) => lowerUrl.includes(ext))) {
       return true;
     }
 
-    // Check for video keyword in URL
+    // Method 2: Check for "video" in the URL path or as a query parameter
     if (lowerUrl.includes("video")) {
       return true;
     }
 
-    // For Appwrite URLs, use file ID pattern to distinguish videos from images
-    // Handle both old /view URLs and new /download URLs
+    // Method 3: Check for video mime type markers in URL
     if (
-      url.includes("cloud.appwrite.io") &&
-      (url.includes("/view") || url.includes("/download"))
+      lowerUrl.includes("mimetype=video") ||
+      lowerUrl.includes("type=video")
     ) {
-      const fileId = url.split("/files/")[1]?.split("/")[0];
-      if (fileId) {
-        // Use a consistent hash-based approach to identify videos
-        const hash = fileId.split("").reduce((acc, char) => {
-          return acc + char.charCodeAt(0);
-        }, 0);
-
-        // Treat roughly 50% as videos for better testing
-        return hash % 2 === 1;
-      }
+      return true;
     }
 
+    // Default to false - treat as image unless we're certain it's a video
     return false;
   };
 
@@ -233,16 +224,17 @@ export default function RecentEventsPage() {
                       {event.images && event.images.length > 0 ? (
                         <>
                           {isVideoUrl(event.images[0]) ? (
-                            <div className="relative w-full h-full bg-gray-100">
+                            <div className="relative w-full h-full bg-gray-900">
                               <video
                                 src={event.images[0]}
                                 className="w-full h-full object-cover"
                                 muted
-                                preload="auto"
+                                preload="metadata"
                                 playsInline
-                                poster=""
-                                style={{
-                                  backgroundColor: "#1f2937",
+                                onLoadedMetadata={(e) => {
+                                  // Seek to first frame for thumbnail
+                                  const video = e.currentTarget;
+                                  video.currentTime = 0.1;
                                 }}
                               />
                               {/* Video Play Overlay */}
