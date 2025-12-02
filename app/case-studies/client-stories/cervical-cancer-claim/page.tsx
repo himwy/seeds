@@ -17,8 +17,8 @@ import Link from "next/link";
 
 const translations = {
   en: {
-    title: "Critical Illness Insurance Claim Resolution",
-    subtitle: "How AIA's Customer-Centric Approach Made the Difference",
+    title: "Navigating Critical Illness Claims",
+    subtitle: "How Different Insurers Respond When Medical Reports Conflict",
     backToStories: "Back to Case Studies",
     overview: "Case Overview",
     challenge: "The Challenge",
@@ -32,7 +32,7 @@ const translations = {
     services: "Services",
 
     caseDetailsInfo: {
-      client: "Cervical Cancer Patient",
+      client: "Cancer Patient",
       industry: "Healthcare & Insurance",
       duration: "6 months",
       services: "Critical Illness Insurance Claims",
@@ -42,67 +42,67 @@ const translations = {
       background: {
         title: "The Diagnosis",
         content:
-          "Wendy has a client who is a cervical cancer patient. This type of cancer kills thousands of people in the world every year, with more than 570k new cases over the past year. She was worried when she was told that she had cancer. Having that said, having faith in modern medical technology, she knew that doctors could help her. She needed to have faith.",
+          "Our client received a cervical cancer diagnosis—a condition affecting hundreds of thousands globally each year. While the news was naturally concerning, she maintained hope in modern medical treatment and the expertise of her healthcare team.",
       },
 
       firstExamination: {
-        title: "Initial Medical Examination",
+        title: "Initial Medical Assessment",
         content:
-          "The first thing that doctors could do was to examine the cancer cells in her body. They conducted an in-vivo cell extraction, in a private hospital. When the medical report was out, she was devastated as the cancer cells were showing aggressiveness, which indicates a more severe type of cancer. Doctor's advice was to conduct a medical surgery and remove the tissue.",
+          "The medical team conducted an in-vivo cell extraction at a private hospital. The results indicated aggressive cancer cells, suggesting a more serious form of the disease. Based on this assessment, her physicians recommended surgical intervention to remove the affected tissue.",
       },
 
       surgery: {
-        title: "The Surgery and Shocking Discovery",
+        title: "Post-Surgery Findings",
         content:
-          "The operation was a success. She could finally be a bit relieved. After the removal, a second cell extraction was conducted in a public hospital, and the result was dramatic. Medical report showed no aggressiveness from the cancer cells, which means the removal surgery was superfluous. She was stunned when she heard that. All the pain that she suffered, all the worrying from her family, all the medical expenses were induced by a medical error. She was furious as she felt like being tricked by all the medical staff in the hospital.",
+          "The surgery was successful, providing initial relief. However, a subsequent cell extraction at a public hospital revealed surprising results—no signs of aggressive cancer cells. This contradictory finding suggested the initial assessment may have been inaccurate, raising questions about the necessity of the procedure she had undergone.",
       },
 
       insuranceDilemma: {
-        title: "The Insurance Coverage Challenge",
+        title: "The Insurance Challenge",
         content:
-          "Another issue came, medical insurance coverage. At that time she was holding two critical illness insurance policies from AIA and M company respectively. When it comes to claiming the sum insured in a policy, both companies require aggressive cancer with medical proof. The issue is that she had got two conflicting medical reports, so which one would insurance companies rely on when she makes her claims? There is a hidden rule in the industry that companies would treat their old customers more leniently when it comes to claiming.",
+          "The conflicting medical reports created a complex insurance situation. Both her critical illness policies—one with AIA and one with another major insurer—required medical evidence of aggressive cancer for claim approval. With two contradictory reports, the outcome would depend entirely on each company's approach to such ambiguous situations.",
       },
 
       unexpectedOutcome: {
-        title: "Unexpected Results",
+        title: "Contrasting Responses",
         content:
-          "She had been a customer of M company for over two decades, while she had purchased a critical illness policy from AIA for no more than a few years. Therefore, she went to M Company first. The thing did not turn out as she had expected. AIA granted the claim, while M Company rejected.",
+          "Despite being a customer of the other insurer for over two decades compared to only a few years with AIA, the results were unexpected. AIA approved the claim, while the long-standing insurer declined it.",
       },
 
       explanation: {
-        title: "The Corporate Philosophy Difference",
+        title: "Understanding the Difference",
         content:
-          "She called on M Company's service agent and asked for an explanation. She was then told that M Company had relied on the second medical report which showed a negative result on the aggressiveness of the cancer cells thus rejected the claim. AIA, to the contrary, allowed the claim once there was a single medical report, whatever and whenever it had been made, which showed aggressiveness of cancer cells. The corporate objective of AIA is to serve and to protect. Despite all the complexities in the terms and conditions of the insurance policy, AIA does not want to use them as a tool to reject claims. It is the trust and confidence from our customers that keep AIA thriving and achieving in this industry throughout all these years.",
+          "The difference came down to corporate philosophy. The declining insurer relied solely on the second report showing no aggressive cells. AIA, however, took a customer-centric approach: if any valid medical report indicated aggressive cancer cells, the claim would be honoured. This reflects AIA's commitment to serving and protecting clients rather than using policy technicalities to deny legitimate claims.",
       },
     },
 
     outcomes: [
-      "AIA granted the claim despite being the newer insurance relationship",
-      "Customer received full financial support during medical treatment",
-      "Trust and confidence in AIA's commitment to customer protection reinforced",
-      "Demonstrated AIA's principle of not using policy complexities to reject claims",
+      "AIA approved the claim based on customer-first principles",
+      "Client received full financial support during her treatment",
+      "The case reinforced trust in AIA's commitment to client protection",
+      "Demonstrated that corporate philosophy directly impacts claim outcomes",
     ],
 
     learnings: [
-      "Customer-centric approach trumps relationship tenure in insurance claims",
-      "Clear, transparent claim policies build stronger customer trust",
-      "Corporate philosophy directly impacts customer experience and satisfaction",
-      "Serving and protecting customers should be the priority over policy technicalities",
+      "A customer-centric approach is more valuable than relationship tenure",
+      "Transparent claim policies build stronger client trust",
+      "Corporate philosophy directly influences customer experience",
+      "Client protection should take priority over policy technicalities",
     ],
 
     caseConclusion:
-      "This case demonstrates how corporate philosophy and customer-centric approaches can make a significant difference in critical moments. When conflicting medical reports created uncertainty, two insurance companies with different philosophies responded very differently, showcasing the importance of putting customer protection first.",
+      "This case illustrates how different corporate philosophies lead to vastly different outcomes. When faced with ambiguous medical evidence, the approach an insurer takes—whether customer-centric or strictly technical—can make all the difference in a client's time of need.",
   },
 
   "zh-HK": {
-    title: "危疾保險理賠解決方案",
-    subtitle: "友邦保險以客戶為中心的方法如何發揮作用",
+    title: "危疾保險理賠案例分析",
+    subtitle: "當醫療報告出現分歧時，不同保險公司如何應對",
     backToStories: "返回案例研究",
     overview: "案例概覽",
     challenge: "挑戰",
     solution: "我們的方法",
     outcome: "結果",
-    keyLearnings: "重要學習",
+    keyLearnings: "重要啟示",
     caseDetails: "案例詳情",
     client: "客戶",
     industry: "行業",
@@ -110,7 +110,7 @@ const translations = {
     services: "服務",
 
     caseDetailsInfo: {
-      client: "子宮頸癌患者",
+      client: "癌症患者",
       industry: "醫療保健與保險",
       duration: "6個月",
       services: "危疾保險理賠",
@@ -120,56 +120,56 @@ const translations = {
       background: {
         title: "診斷",
         content:
-          "Wendy有一位客戶是子宮頸癌患者。這種癌症每年在世界各地奪去數千人的生命，過去一年有超過57萬新病例。當她被告知患有癌症時，她很擔心。話雖如此，對現代醫療技術有信心，她知道醫生可以幫助她。她需要有信心。",
+          "我們的客戶被診斷患有子宮頸癌——這是一種每年影響全球數十萬人的疾病。雖然這個消息令人擔憂，但她對現代醫療技術和醫療團隊的專業能力保持信心。",
       },
 
       firstExamination: {
-        title: "初步醫學檢查",
+        title: "初步醫學評估",
         content:
-          "醫生能做的第一件事就是檢查她體內的癌細胞。他們在私家醫院進行了活體細胞提取。當醫療報告出來時，她感到沮喪，因為癌細胞顯示出侵襲性，這表明是一種更嚴重的癌症類型。醫生的建議是進行醫療手術並切除組織。",
+          "醫療團隊在私家醫院進行了活體細胞提取。結果顯示癌細胞具有侵襲性，表明這是一種較嚴重的疾病形式。根據這項評估，醫生建議進行手術切除受影響的組織。",
       },
 
       surgery: {
-        title: "手術和驚人發現",
+        title: "術後發現",
         content:
-          "手術成功了。她終於可以稍微安心了。手術後，在公立醫院進行了第二次細胞提取，結果很戲劇性。醫療報告顯示癌細胞沒有侵襲性，這意味著切除手術是多餘的。當她聽到這個消息時，她感到震驚。她所遭受的所有痛苦，家人的所有擔憂，所有醫療費用都是由醫療錯誤引起的。她很憤怒，因為她覺得被醫院的所有醫務人員欺騙了。",
+          "手術成功，讓人初步鬆了一口氣。然而，在公立醫院進行的後續細胞提取卻顯示了令人意外的結果——沒有侵襲性癌細胞的跡象。這一矛盾的發現表明初始評估可能不準確，對她所接受手術的必要性提出了疑問。",
       },
 
       insuranceDilemma: {
-        title: "保險覆蓋挑戰",
+        title: "保險挑戰",
         content:
-          "另一個問題出現了，醫療保險覆蓋。當時她分別持有友邦保險和M公司的兩份危疾保險單。在申請保單中的保額時，兩家公司都要求提供侵襲性癌症的醫療證明。問題是她得到了兩份相互矛盾的醫療報告，那麼當她申請理賠時，保險公司會依賴哪一份？業內有一個潛規則，公司在理賠時會對老客戶更寬鬆。",
+          "相互矛盾的醫療報告造成了複雜的保險情況。她的兩份危疾保險——一份來自友邦保險，一份來自另一家主要保險公司——都需要侵襲性癌症的醫療證明才能批准理賠。面對兩份相互矛盾的報告，結果將完全取決於每家公司處理此類模糊情況的方式。",
       },
 
       unexpectedOutcome: {
-        title: "意外結果",
+        title: "截然不同的回應",
         content:
-          "她已經是M公司二十多年的客戶，而她從友邦保險購買危疾保險單不到幾年。因此，她首先去了M公司。事情沒有按她預期的發展。友邦保險批准了理賠，而M公司拒絕了。",
+          "儘管她是另一家保險公司二十多年的客戶，而只是友邦保險幾年的客戶，結果卻出人意料。友邦保險批准了理賠，而那家長期合作的保險公司卻拒絕了。",
       },
 
       explanation: {
-        title: "企業理念的差異",
+        title: "理解差異",
         content:
-          "她致電M公司的服務代理並要求解釋。她被告知M公司依據的是第二份醫療報告，該報告顯示癌細胞侵襲性呈陰性結果，因此拒絕了理賠。相反，友邦保險允許理賠，只要有一份醫療報告，無論何時製作，顯示癌細胞的侵襲性。友邦保險的企業目標是服務和保護。儘管保險單條款和條件複雜，友邦保險不想將其用作拒絕理賠的工具。正是客戶的信任和信心讓友邦保險在這個行業中多年來蓬勃發展並取得成就。",
+          "差異歸結於企業理念。拒絕理賠的保險公司僅依據第二份顯示無侵襲性細胞的報告。然而，友邦保險採取了以客戶為中心的方法：只要有任何有效的醫療報告顯示癌細胞具有侵襲性，理賠就會獲得批准。這反映了友邦保險致力於服務和保護客戶的承諾，而不是利用保單技術細節來拒絕合理的理賠。",
       },
     },
 
     outcomes: [
-      "友邦保險批准了理賠，儘管是較新的保險關係",
-      "客戶在醫療治療期間獲得全面財務支持",
-      "對友邦保險客戶保護承諾的信任和信心得到加強",
-      "展示了友邦保險不使用保單複雜性拒絕理賠的原則",
+      "友邦保險基於客戶至上原則批准理賠",
+      "客戶在治療期間獲得全面財務支持",
+      "此案例加強了對友邦保險客戶保護承諾的信任",
+      "證明企業理念直接影響理賠結果",
     ],
 
     learnings: [
-      "以客戶為中心的方法在保險理賠中勝過關係任期",
-      "清晰、透明的理賠政策建立更強的客戶信任",
-      "企業理念直接影響客戶體驗和滿意度",
-      "服務和保護客戶應該優先於保單技術細節",
+      "以客戶為中心的方法比關係年限更有價值",
+      "透明的理賠政策建立更強的客戶信任",
+      "企業理念直接影響客戶體驗",
+      "客戶保護應優先於保單技術細節",
     ],
 
     caseConclusion:
-      "這個案例展示了企業理念和以客戶為中心的方法如何在關鍵時刻產生重大差異。當相互矛盾的醫療報告造成不確定性時，兩家具有不同理念的保險公司的反應截然不同，突顯了將客戶保護放在首位的重要性。",
+      "此案例說明不同的企業理念如何導致截然不同的結果。當面對模糊的醫療證據時，保險公司採取的方法——無論是以客戶為中心還是嚴格按技術處理——在客戶最需要幫助的時候會產生天壤之別。",
   },
 };
 

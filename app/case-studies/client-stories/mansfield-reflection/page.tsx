@@ -8,118 +8,118 @@ import Link from "next/link";
 
 const translations = {
   en: {
-    title: "Reflection After Claiming",
-    subtitle: "Mr Mansfield Lai's Words - When Medical Crisis Tests Priorities",
+    title: "When Preparation Meets Emergency",
+    subtitle: "A Financial Planner's Reflection on Protection and Priorities",
     backToStories: "Back to Case Studies",
 
     mansfieldWords: {
-      title: "Mr Mansfield Lai's Words",
+      title: "A Personal Reflection",
 
       crisis: {
         title: "The Midnight Call",
         content:
-          '"I suddenly felt as though I had forgotten what had happened two days ago", said one anxious client of mine calling me by midnight two weeks ago. He was asking for my views and gave me a hint that his condition might be symptoms of a stroke.',
+          '"I suddenly felt as though I had forgotten what had happened two days ago," said an anxious client calling me at midnight two weeks ago. He sought my perspective, sharing concerns that his symptoms might indicate a stroke.',
       },
 
       urgency: {
         title: "Immediate Action Required",
         content:
-          'I urged him to visit the hospital immediately for a check up. In two days\' time the doctors at the hospital were unable to identify the cause of his problems. His condition deteriorated very quickly in a few days and was sent to the intensive care unit ("ICU"). On the first day when he was inpatient, the estimated medical expense was HK$70,000. It was HK$900,000 upon his admission to the ICU.',
+          "I urged him to visit the hospital immediately. Within two days, doctors were unable to identify the cause. His condition deteriorated rapidly, requiring transfer to the intensive care unit (ICU). Initial estimated medical expenses were HK$70,000 on admission day. By ICU admission, costs had escalated to HK$900,000.",
       },
 
       protection: {
-        title: "Insurance Shield in Action",
+        title: "The Value of Forward Planning",
         content:
-          "That unexpected turmoil in life has been shielded by a [Premium Medical Policy], which was prepared by him a decade ago for himself and his family. As his financial planner, I assisted his medical insurance claim procedures. In less than two days, our company has approved his claim and issued the guarantee letter that guarantees his medical expenses are to be covered by his insurance policy. My client and his family were lucky enough to avoid the suffering of keeping an eye on the exorbitant medical expenses and were able to focus on the healthcare and recovery process free from financial pressure.",
+          "This unexpected medical crisis was covered by a comprehensive medical policy he had secured a decade earlier for himself and his family. As his financial planner, I assisted with the claims process. Within two days, the claim was approved and a guarantee letter issued, ensuring all medical expenses would be covered. The family could focus entirely on recovery without financial burden.",
       },
 
       recovery: {
         title: "Recovery and Reflection",
         content:
-          "The client has now largely recovered and his life back on track. I wonder, as financial planners we were often told by clients that they cannot afford to pay the premium given their current expenditure, savings plans or because of other reasons. They nevertheless are always paying for one cup of latte every morning and going to yoga classes every weekend. Some live a fancy lifestyle by going onto overseas vacations several times a year or to purchase a luxury brand handbag every season. What they cannot afford does not appear to be the medical insurance premium itself, but their own lifes. They value their lifestyle more than they do value their own health and the wellbeing of their family.",
+          "The client has since recovered well and resumed normal life. This experience prompts reflection: clients often express that insurance premiums don't fit their current budget, citing existing commitments or savings goals. Yet these same individuals may spend on daily coffee, weekly fitness classes, frequent overseas holidays, or seasonal luxury purchases. Perhaps what feels unaffordable isn't the premium itself—it's the competing demands of lifestyle versus long-term protection. The question becomes: which priorities serve us best when the unexpected occurs?",
       },
 
       conclusion: {
         title: "A Matter of Choice",
-        content: "Afterall, this is really a question of personal choice.",
+        content: "Ultimately, these decisions reflect our personal values and priorities.",
       },
     },
 
     insights: [
-      "Medical emergencies can escalate from HK$70,000 to HK$900,000 in days",
-      "Premium Medical Policy provided complete financial protection for a decade-old investment",
-      "Insurance claim approved and guarantee letter issued within 2 days",
-      "Family could focus on recovery instead of worrying about medical expenses",
+      "Medical costs can escalate from HK$70,000 to HK$900,000 within days",
+      "Decade-old policy provided comprehensive financial protection when needed",
+      "Claims processed and guarantee letter issued within 48 hours",
+      "Family could focus on recovery rather than financial concerns",
     ],
 
     reflections: [
-      "Daily lattes and weekend yoga classes cost more than medical insurance over time",
-      "Luxury purchases and overseas vacations reflect lifestyle priorities over health protection",
-      "What people 'cannot afford' is often about choice, not actual financial capacity",
-      "The real question is whether we value lifestyle more than life itself",
+      "Small daily expenses accumulate to exceed annual insurance costs",
+      "Discretionary spending often takes priority over protection planning",
+      "Affordability is frequently about allocation, not absolute capacity",
+      "True priorities become clear when crisis strikes",
     ],
 
-    dayOneLabel: "Day 1 (Inpatient)",
+    dayOneLabel: "Day 1 (Admission)",
     icuAdmissionLabel: "ICU Admission",
     claimApprovedText:
-      "Claim approved and guarantee letter issued within 2 days",
+      "Claim approved and guarantee letter issued within 48 hours",
   },
 
   "zh-HK": {
-    title: "理賠後的反思",
-    subtitle: "Mansfield Lai先生的話 - 當醫療危機考驗優先順序",
-    backToStories: "返回客戶故事",
+    title: "當準備遇上緊急情況",
+    subtitle: "一位理財規劃師對保障與優先順序的反思",
+    backToStories: "返回案例研究",
 
     mansfieldWords: {
-      title: "Mansfield Lai先生的話",
+      title: "個人反思",
 
       crisis: {
         title: "午夜來電",
         content:
-          "「我突然覺得好像忘記了兩天前發生的事情」，我的一位焦急客戶在兩週前的午夜給我打電話說。他向我尋求意見，並暗示他的狀況可能是中風的症狀。",
+          "「我突然覺得好像忘記了兩天前發生的事情」，兩週前的午夜，一位焦急的客戶這樣告訴我。他向我尋求意見，擔心他的症狀可能是中風的徵兆。",
       },
 
       urgency: {
         title: "需要立即行動",
         content:
-          '我敦促他立即到醫院檢查。兩天內，醫院的醫生無法確定他問題的原因。他的病情在幾天內迅速惡化，被送到重症監護室（"ICU"）。住院第一天，預估醫療費用為港幣7萬元。入住ICU時已達港幣90萬元。',
+          "我敦促他立即前往醫院。兩天內，醫生仍無法確定病因。他的病情迅速惡化，需要轉入深切治療部（ICU）。入院當天預估醫療費用為港幣7萬元。到入住ICU時，費用已升至港幣90萬元。",
       },
 
       protection: {
-        title: "保險盾牌在行動",
+        title: "前瞻規劃的價值",
         content:
-          "生活中這一意外風暴被一份[高端醫療保單]所保護，這是他十年前為自己和家人準備的。作為他的理財規劃師，我協助處理他的醫療保險理賠程序。不到兩天，我們公司就批准了他的理賠並發出了保證函，保證他的醫療費用將由保險單承擔。我的客戶和他的家人很幸運地避免了關注昂貴醫療費用的痛苦，能夠在沒有財務壓力的情況下專注於醫療保健和康復過程。",
+          "這次突發的醫療危機由他十年前為自己和家人購買的全面醫療保險所承保。作為他的理財規劃師，我協助處理理賠程序。不到兩天，理賠獲批並發出保證函，確保所有醫療費用都將獲得承保。家人能夠完全專注於康復，無需承擔財務壓力。",
       },
 
       recovery: {
         title: "康復與反思",
         content:
-          "客戶現在基本康復，生活重回正軌。我想知道，作為理財規劃師，我們經常被客戶告知，由於目前的支出、儲蓄計劃或其他原因，他們負擔不起保費。然而，他們總是每天早上支付一杯拿鐵的費用，每個週末去瑜伽課。一些人過著奢華的生活方式，每年多次海外度假或每季購買奢侈品牌手袋。他們負擔不起的似乎不是醫療保險費本身，而是他們自己的生命。他們更重視自己的生活方式，而不是自己的健康和家人的福祉。",
+          "客戶現已康復良好，恢復正常生活。這次經歷引發反思：客戶經常表示保費不符合他們目前的預算，理由是現有支出或儲蓄目標。然而，這些人可能每天花費在咖啡上、每週參加健身課程、頻繁海外度假或購買時尚奢侈品。也許感覺負擔不起的不是保費本身——而是生活方式與長期保障之間的競爭需求。問題在於：當意外發生時，哪些優先事項最能服務我們？",
       },
 
       conclusion: {
         title: "選擇問題",
-        content: "畢竟，這真的是個人選擇的問題。",
+        content: "最終，這些決定反映了我們的個人價值觀和優先事項。",
       },
     },
 
     insights: [
-      "醫療緊急情況可能在幾天內從港幣7萬元升級到90萬元",
-      "高端醫療保單為十年前的投資提供了完整的財務保護",
-      "保險理賠在2天內獲批並發出保證函",
-      "家人可以專注於康復而不用擔心醫療費用",
+      "醫療費用可在數天內從港幣7萬元升至90萬元",
+      "十年前的保單在需要時提供了全面的財務保障",
+      "理賠在48小時內獲批並發出保證函",
+      "家人能夠專注於康復，而非擔憂財務",
     ],
 
     reflections: [
-      "每日拿鐵和週末瑜伽課程長期成本超過醫療保險",
-      "奢侈品購買和海外度假反映了生活方式優先於健康保護",
-      "人們「負擔不起」的往往是關於選擇，而非實際財務能力",
-      "真正的問題是我們是否更重視生活方式而非生命本身",
+      "日常小額支出累積起來超過年度保險費用",
+      "可支配支出往往優先於保障規劃",
+      "負擔能力通常關乎分配，而非絕對能力",
+      "真正的優先事項在危機來臨時變得清晰",
     ],
 
-    dayOneLabel: "第1天（住院）",
+    dayOneLabel: "第1天（入院）",
     icuAdmissionLabel: "ICU入院",
-    claimApprovedText: "理賠在2天內獲批並發出保證函",
+    claimApprovedText: "理賠在48小時內獲批並發出保證函",
   },
 };
 

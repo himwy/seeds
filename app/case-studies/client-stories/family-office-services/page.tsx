@@ -9,46 +9,46 @@ import Link from "next/link";
 const translations = {
   en: {
     backToStories: "Back to Case Studies",
-    title: "Understanding the Needs of High-End Customers",
-    subtitle: "Family office services for ultra-high-net-worth families",
+    title: "Serving Ultra-High-Net-Worth Families",
+    subtitle: "Comprehensive family office solutions for wealth preservation and legacy planning",
     category: "Wealth Management",
     readTime: "6 min read",
 
     sections: [
       {
-        title: "What Defines a High-End Customer?",
+        title: "Understanding High-Net-Worth Clients",
         content:
-          "What is a high-end customer? Does it mean professionals? Clients of family offices typically have family assets in excess of $100 million. When the accumulation of wealth reaches a certain level, high-end customers have huge financial needs, and they need professional advice and related wealth inheritance plans.",
+          "Family office clients typically manage family assets exceeding US$100 million. At this level of wealth accumulation, financial needs become complex and multifaceted, requiring professional advisory services and comprehensive wealth succession strategies.",
       },
       {
-        title: "The Family Office Business Model",
+        title: "The Family Office Framework",
         content:
-          "The family office business allows high-end clients to properly arrange their assets, and it is also a strong backing for the client's family wealth, which can make them feel at ease and effectively pass on the family wealth across generations. Hong Kong is a place where capitalists are concentrated. With the rapid development of the Greater Bay Area, the family office market has a huge space for development.",
+          "Family office services enable high-net-worth clients to structure their assets strategically, providing robust support for multi-generational wealth preservation and transfer. Hong Kong serves as a significant hub for capital management, and with the Greater Bay Area's continued development, the family office market presents substantial growth opportunities.",
       },
       {
-        title: "Introduction to Family Office Services",
+        title: "Core Service Offerings",
         content:
-          "The business goal of the family office is to allow high-end clients to handle wealth inheritance, succession of family businesses, family spiritual wealth and philanthropy, and can make appropriate recommendations according to the family's own wishes. Traditional businesses include setting up family trusts and family charitable funds, helping high-end clients' assets build firewalls, protecting clients' assets, and avoiding claims from creditors and marital risks.",
+          "Family office services encompass wealth succession, business transition planning, preservation of family values, and philanthropic endeavours—all tailored to each family's specific wishes and objectives. Traditional services include establishing family trusts and charitable foundations, creating asset protection structures, and implementing safeguards against creditor claims and matrimonial risks.",
       },
       {
-        title: "Comprehensive Wealth Management",
+        title: "Holistic Wealth Management",
         content:
-          "Moreover, professionals in the family office business will also help clients manage and arrange suitable overseas asset allocation or alternative investment plans, such as private equity or green investment. Apart from the business of wealth, the family office will also work on the formulation of a family charter. The family constitution refers to the arrangement of family rules, family traditions and property distribution rights within the family, so that the core values and family spirit of the family can be passed on from generation to generation.",
+          "Beyond traditional offerings, family office professionals assist with international asset allocation and alternative investment strategies, including private equity and sustainable investments. Services extend to family governance, including the development of family constitutions that codify family values, traditions, and wealth distribution protocols, ensuring core principles endure across generations.",
       },
       {
-        title: "Cultural and Family Values",
+        title: "Preserving Family Legacy",
         content:
-          "In addition to paying attention to wealth appreciation, the families of high-end customers also attach great importance to the family culture, so there will be various professionals in the market to provide corresponding services.",
+          "High-net-worth families often prioritise cultural heritage and family values alongside wealth growth. This holistic approach requires diverse professional expertise to address both financial and non-financial dimensions of family wealth.",
       },
       {
-        title: "Financial Planners and High-End Clients",
+        title: "Expanding Financial Planning Capabilities",
         content:
-          "The financial-related services provided by general financial planners revolve around insurance/savings/funds, and will not provide other more complex services, such as the establishment of family trusts mentioned above. However, in the huge capital market of Hong Kong, clients around financial planners also need family trusts. Since financial planners are restricted by their own business, they must rely on a good network of professional relationships to meet the needs of high-end clients.",
+          "While traditional financial planning focuses on insurance, savings, and investment products, clients with substantial assets often require more sophisticated solutions such as trust structures. Effective service delivery requires established professional networks that can address these comprehensive needs.",
       },
       {
-        title: "Seeds Financial Group's Expertise",
+        title: "Our Expertise and Approach",
         content:
-          "Wendy Lee and Mansfield Lai of Seeds Financial Group have served in the insurance industry for many years and have accumulated and established a mature and reliable relationship network to meet the needs of team clients. Seeds Financial Group sees the development potential of the Greater Bay Area and knows that the wealth management needs of high-end customers will only increase in the next 10 years. Therefore, we have made adequate preparations to meet the opportunities in the financial market.",
+          "Our leadership team brings extensive insurance industry experience and has cultivated reliable professional networks to serve our clients' diverse requirements. Recognising the Greater Bay Area's growth trajectory and the increasing complexity of high-net-worth client needs, we have positioned ourselves to address the evolving demands of this market segment.",
       },
     ],
 
@@ -64,46 +64,46 @@ const translations = {
   },
   "zh-HK": {
     backToStories: "返回案例研究",
-    title: "家族辦公室了解高端客戶的需要",
-    subtitle: "為超高淨值家族提供的家族辦公室服務",
+    title: "服務超高淨值家族",
+    subtitle: "全面的家族辦公室解決方案，專注財富保全與傳承規劃",
     category: "財富管理",
     readTime: "6分鐘閱讀",
 
     sections: [
       {
-        title: "什麼是高端客戶？",
+        title: "了解高淨值客戶",
         content:
-          "什麼是高端客戶？是指專業人士嗎？家族辦公室的服務對象一般擁有超過1億美元的家族資產。當財富的累積達到一定水平，高端客戶的理財需要龐大，他們需要專業的顧問意見以及相關的財富傳承方案安排。",
+          "家族辦公室的服務對象通常管理超過1億美元的家族資產。在這個財富累積水平，理財需求變得複雜且多元化，需要專業的顧問服務和全面的財富傳承策略。",
       },
       {
-        title: "家族辦公室的商業模式",
+        title: "家族辦公室架構",
         content:
-          "家族辦公室的業務讓高端客戶妥當的安排他們的資產，也是客戶家族財富的強大後盾，可以令他們安心將家族財富有效跨代傳承下去。香港是一個資本家的集中地，在大灣區的高速發展之下，家族辦公室市場的發展空間非常巨大。",
+          "家族辦公室服務讓高淨值客戶能夠策略性地安排資產，為多代財富保全和轉移提供穩固支持。香港是重要的資本管理中心，隨著大灣區持續發展，家族辦公室市場呈現可觀的增長機遇。",
       },
       {
-        title: "家族辦公室簡介",
+        title: "核心服務範疇",
         content:
-          "家族辦公室的業務目標是讓高端客戶處理財富的傳承、家族企業的接班、家族精神財富與慈善事業可以根據家族其本身的意願，作出合適的建議。傳統的業務包括成立家族信託與家族慈善基金，幫助高端客戶的資產築起防火牆，保護客戶的資產，避免債權人的追討以及婚姻風險的索償。",
+          "家族辦公室服務涵蓋財富傳承、企業交接規劃、家族價值保存及慈善事業——全部根據每個家族的具體意願和目標度身定制。傳統服務包括成立家族信託和慈善基金、建立資產保護架構，以及實施防範債權人追索和婚姻風險的保障措施。",
       },
       {
-        title: "全面的財富管理",
+        title: "全方位財富管理",
         content:
-          "而且，家族辦公室業務的專業人士也會幫助客戶管理以及安排合適的海外資産配置或另類投方案.，例如私募股權或綠色投資等。除了關於財富的業務以外，家族辦公室也會著手擬家族憲章的訂立。家族憲章是指家族裡面的家規、家風以及財產分配權的安排，使家族的核心價值及家族精神得以代代傳承。",
+          "除傳統服務外，家族辦公室專業人士協助進行國際資產配置和另類投資策略，包括私募股權和可持續投資。服務延伸至家族治理，包括制定家族憲章，將家族價值觀、傳統和財富分配協議規範化，確保核心原則代代相傳。",
       },
       {
-        title: "文化與家族價值",
+        title: "保存家族傳承",
         content:
-          "高端客戶的家庭除了關注財富增值以外，他們對家族的文化也非常的重視，因此市場上也會有各種專業人士提供相應的服務。",
+          "高淨值家族往往在追求財富增長的同時，也重視文化傳承和家族價值。這種全面的方法需要多元化的專業知識，以處理家族財富的財務和非財務層面。",
       },
       {
-        title: "財務策劃師與高端客戶",
+        title: "拓展財務規劃能力",
         content:
-          "一般的財務策劃員所提供的金融相關服務都是圍繞著保險/ 儲蓄/ 基金，並不會提供其他更複雜的服務，比如以上所說的成立家族信託。但是在香港這一個龐大的資本市場，財務策劃師身邊的客戶也有需要家族信託的需求。既然財務策劃員受制與自身業務所限，就必須依靠良好的專業關係網絡來滿足高端客戶的需求。",
+          "傳統財務規劃側重於保險、儲蓄和投資產品，而擁有大量資產的客戶往往需要更複雜的解決方案，如信託架構。有效的服務交付需要建立專業網絡，以滿足這些全面的需求。",
       },
       {
-        title: "Seeds Financial Group的專業能力",
+        title: "我們的專業與方法",
         content:
-          "Seeds Financial Group 的Wendy Lee與 Mansfield Lai在保險業服務多年，已經累積與建立了成熟可靠的關係網絡，讓團隊客戶的需求能夠得到滿足。Seeds Financial Group看準了大灣區的發展潛力，知道未來10年高端客戶的理財需求只會有增無減，因此我們已經做好了充足的準備，迎接金融市場的機遇。",
+          "我們的領導團隊擁有豐富的保險行業經驗，並已建立可靠的專業網絡，以服務客戶的多元需求。認識到大灣區的增長軌跡和高淨值客戶需求日益複雜，我們已做好準備，應對這個市場領域不斷演變的需求。",
       },
     ],
 

@@ -14,70 +14,70 @@ import Link from "next/link";
 
 const translations = {
   en: {
-    title: "Ms Wendy Lee's Words",
-    subtitle: "In Memory of Joshua - A Client Who Changed Everything",
+    title: "A Legacy of Trust",
+    subtitle: "In Memory of Joshua - A Client Who Inspired a Career of Service",
     backToStories: "Back to Case Studies",
-    videoTitle: "Joshua's Wife Shares Her Thoughts",
+    videoTitle: "A Message from Joshua's Family",
     videoDescription:
-      "Hope this can bring a positive message to everyone about insurance and hope all the financial planners will be proud of what they do.",
+      "An inspiring message about the true value of insurance and dedicated financial planning.",
 
     wendyWords: {
       opening:
-        "My client, Joshua, he changed my life, although he passed away, his legend lasts!",
+        "Some client relationships transcend business and become life-changing experiences. Joshua was one such client whose impact continues to resonate.",
 
       character:
-        "Joshua is a very reasonable guy. I'm the type of person who does not allow myself to make mistakes, unfortunately, I did come across some mistakes when I handled Joshua's case. However, he just reminded me to be very careful next time. After that, he continued to buy insurance from me and never mentioned it again.",
+        "Joshua exemplified extraordinary understanding and grace. When occasional administrative oversights occurred in managing his portfolio, he responded not with frustration, but with gentle guidance. His continued trust and loyalty spoke volumes about his character, and he never dwelt on past matters once resolved.",
 
       memories:
-        'I still remember the time he called me before he left Hong Kong; I still remember the time his wife told me that before he left, the only message on his phone was "AIA Wendy".',
+        "The depth of our professional relationship became evident in his final days. His wife shared that among his last communications was a message addressed to me—a testament to the trust we had built over the years.",
 
       lesson:
-        'Never underestimate the effort you bring to the world. "To the world you may be one person, but to one person you may be a world."',
+        "This experience taught me a profound truth: never underestimate the impact of dedicated service. As the saying goes, 'To the world you may be one person, but to one person you may be the world.'",
 
       bibleVerse: {
-        intro: "In memory of Joshua, I would like to quote a bible verse.",
+        intro: "In honour of Joshua's memory, I find meaning in this verse:",
         reference: "John 12:24",
         text: "Very truly I tell you, unless a kernel of wheat falls to the ground and dies, it remains only a single seed. But if it dies, it produces many seeds.",
       },
 
-      closing: "I should be one of the seeds.",
+      closing: "His legacy inspires me to continue planting seeds of trust and service.",
 
       videoIntro:
-        "Joshua's wife in the below video will share with us her thoughts on insurance, hope this can bring a positive message to everyone about insurance and hope all the financial planners will be proud of what they do.",
+        "Joshua's wife graciously shares her perspective on insurance and financial planning, offering an inspiring message for both clients and financial professionals alike.",
     },
   },
 
   "zh-HK": {
-    title: "Wendy Lee女士的話",
-    subtitle: "紀念Joshua - 一位改變一切的客戶",
-    backToStories: "返回客戶故事",
-    videoTitle: "Joshua的妻子分享她的想法",
+    title: "信任的傳承",
+    subtitle: "紀念Joshua - 一位啟發服務精神的客戶",
+    backToStories: "返回案例研究",
+    videoTitle: "來自Joshua家人的分享",
     videoDescription:
-      "希望這能為每個人帶來關於保險的正面信息，並希望所有理財規劃師都為自己的工作感到自豪。",
+      "關於保險真正價值和專業理財規劃的啟發性分享。",
 
     wendyWords: {
       opening:
-        "我的客戶Joshua，他改變了我的生活，雖然他已經離世，但他的傳奇永存！",
+        "有些客戶關係超越了業務本身，成為改變生命的經歷。Joshua正是這樣一位客戶，他的影響至今仍在迴響。",
 
       character:
-        "Joshua是一個非常講道理的人。我是那種不允許自己犯錯的人，不幸的是，在處理Joshua的案件時我確實犯了一些錯誤。然而，他只是提醒我下次要更加小心。之後，他繼續向我購買保險，再也沒有提及此事。",
+        "Joshua展現了非凡的理解力和風度。當處理他的投資組合時偶爾出現行政疏漏，他不是以沮喪回應，而是給予溫和的指導。他持續的信任和忠誠充分說明了他的品格，問題解決後他從不再提起。",
 
       memories:
-        "我仍然記得他離開香港前給我打電話的時候；我仍然記得他妻子告訴我，在他離開前，他手機上唯一的信息是「友邦保險Wendy」。",
+        "我們專業關係的深度在他最後的日子裡變得明顯。他的妻子告訴我，在他最後的通訊中有一條是給我的信息——這見證了我們多年來建立的信任。",
 
       lesson:
-        "永遠不要低估你為世界帶來的努力。「對世界而言，你可能只是一個人，但對一個人而言，你可能就是整個世界。」",
+        "這段經歷教會了我一個深刻的道理：永遠不要低估專業服務的影響力。正如一句話所說：「對世界而言，你可能只是一個人，但對一個人而言，你可能就是整個世界。」",
 
       bibleVerse: {
-        intro: "紀念Joshua，我想引用一段聖經經文。",
+        intro: "為紀念Joshua，我在這段經文中找到意義：",
         reference: "約翰福音12:24",
         text: "我實實在在地告訴你們，一粒麥子不落在地裡死了，仍舊是一粒，若是死了，就結出許多子粒來。",
       },
 
-      closing: "我應該成為其中一粒種子。",
+      closing: "他的傳承激勵我繼續播下信任與服務的種子。",
 
       videoIntro:
-        "在下面的視頻中，Joshua的妻子將與我們分享她對保險的看法，希望這能為每個人帶來關於保險的正面信息，並希望所有理財規劃師都為自己的工作感到自豪。",
+        "Joshua的妻子分享她對保險和理財規劃的看法，為客戶和理財專業人士提供啟發性的信息。",
     },
   },
 };

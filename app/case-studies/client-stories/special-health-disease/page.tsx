@@ -9,93 +9,88 @@ import Link from "next/link";
 const translations = {
   en: {
     backToStories: "Back to Case Studies",
-    title: "Special Health Disease Case - Lacrimal Gland Cancer",
+    title: "When Time Doesn't Define Limits",
     subtitle:
-      "A rare cancer case and the importance of remembering insurance claims",
+      "A rare illness, a forgotten claim, and the unexpected outcome a decade later",
     category: "Rare Disease Claims",
     readTime: "8 min read",
 
     sections: [
       {
-        title: "The Rarity of the Disease",
+        title: "Understanding Rare Conditions",
         content:
-          "Steve Jobs once said that when he was told that he got pancreatic cancer, he didn't even know what a pancreas is. Believe it or not, critical illnesses are far more complicated than we have ever imagined. Until this day, scientists are still discovering new illnesses that people are suffering from. Lacrimal gland cancer is an extremely rare illness. The chance of getting this sickness is nearly one of a hundred thousand. Wendy has a friend, and he was one of the people that wasn't fortunate enough to avoid this rare disease.",
+          "Steve Jobs famously noted that upon receiving his pancreatic cancer diagnosis, he didn't even know what a pancreas was. Critical illnesses are often more complex than we imagine, and medical science continues to identify conditions affecting people worldwide. Lacrimal gland cancer—affecting approximately three in one hundred thousand individuals—represents one such rare condition. One of our close contacts became one of the few to face this uncommon diagnosis.",
       },
       {
         title: "Early Detection and Recovery",
         content:
-          "He was lucky, an early discovery of the cancer has bought him time for effective medical treatments. Thanks to the medical technology and doctor's effort, he defeated the cancer and recovered after receiving medical care. 10 years later after his victorious battle against the illness, he had an afternoon tea appointment with Wendy, and he shared his experience with her fighting cancer.",
+          "Fortunately, the cancer was detected early, providing valuable time for effective treatment. Thanks to advances in medical technology and dedicated healthcare professionals, he overcame the disease and recovered fully. A decade after his successful treatment, during a casual conversation, he shared his experience navigating this challenging journey.",
       },
       {
-        title: "The Forgotten Claim",
+        title: "A Forgotten Policy",
         content:
-          "When Wendy asked him about his medical expenditure, it struck him a little bit odd as he finally realized that he forgot about the medical claims! Years ago he purchased a medical insurance policy from P Company, a claim should not be available anymore theoretically due to the contractual restrictions of the policy. Wendy recommended him to give it a try. No loss, afterall. She accompanied him to P Company's office and filled in all the required documents for the claiming procedures.",
+          "When asked about his medical expenses, he paused—suddenly realising he had never filed a claim on a critical illness policy purchased years earlier. Years had passed since the purchase, and without anyone to remind him, the claim process had simply been overlooked. Despite policy time limitations that typically require claims within a specific period, we encouraged him to attempt the claim regardless. With nothing to lose, we accompanied him to complete the necessary documentation.",
       },
       {
-        title: "The Successful Outcome",
+        title: "An Unexpected Outcome",
         content:
-          "The paperwork was not too complicated, whether he can make the delayed claim successfully did not depend on how good was his reasons for the delay, but on the leniency and the attitude that an insurance company had when serving their customers. A few weeks later Wendy received a phone call. Her friend got the claim approved and received an amount of 800k HKD. He said he never expected such an amount of money after all these years. He thanked Wendy for her advice and expressed his excitement after getting the money. This amount later became his education fund and he used that to pay off tuition fees for his master degree.",
+          "The paperwork proved straightforward. Whether the delayed claim would succeed depended entirely on the insurer's approach to serving their customers. Several weeks later came unexpected news: the claim had been approved, resulting in a payout exceeding HK$800,000. Having never anticipated such an outcome after so many years, he expressed genuine gratitude. This unexpected sum ultimately funded his master's degree studies—an investment in his future that stemmed from forward planning made years before.",
       },
       {
-        title: "Industry Insights",
+        title: "Reconsidering Industry Perceptions",
         content:
-          "City dwellers often have different kinds of misconceptions and misbeliefs over insurance companies, seeing them as companies only maximize their profits and always exploiting customer's interest. Many of these beliefs are merely myths in the industry, yet not many people would have a chance to know more about the truth. We need protection, insurance companies provide us a medium, a method to transfer some of the risk from ourselves to the insurance companies. Despite being a commercial institution, the mission of an insurance company is not exploiting customers, but to offer them quality service and protection, such that the business can thrive in a sustainable and healthy manner.",
+          "Many hold misconceptions about insurance companies, viewing them primarily as profit-driven entities. In reality, these organisations exist to provide protection—offering a mechanism to transfer certain risks and provide security when needed. While operating as commercial institutions, successful insurers understand that sustainable growth comes from delivering genuine value and protection to customers. This case illustrates how customer-focused practices can create meaningful outcomes, even in unexpected circumstances.",
       },
     ],
 
     keyOutcome:
-      "Successfully recovered HK$800,000+ claim after 10 years, funding master's degree studies",
+      "Successfully recovered HK$800,000+ claim after 10 years, funding postgraduate education",
 
     tags: [
       "Critical Illness",
       "Insurance Claims",
       "Medical Recovery",
-      "Education Funding",
+      "Education Investment",
     ],
   },
   "zh-HK": {
     backToStories: "返回案例研究",
-    title: "特殊健康疾病案例",
-    subtitle: "罕見癌症案例及記住保險理賠的重要性",
+    title: "當時間不再是限制",
+    subtitle: "一種罕見疾病、一份被遺忘的保單，以及十年後的意外結果",
     category: "罕見疾病理賠",
     readTime: "8分鐘閱讀",
 
     sections: [
       {
-        title: "疾病的罕見性",
+        title: "了解罕見疾病",
         content:
-          "特殊健康疾病淚管癌，一種罕見的癌症，大概每十萬人才有三個人確診。喬布斯曾經講過，當醫生告訴他他患有胰臟癌的時候，他連胰臟在哪裏也不知道。是的，這個世界有太多疾病，太多可能性， 但偏偏有些人就是會患上這一些你連聽都沒有聽過的疾病。",
+          "喬布斯曾提到，當醫生告知他患有胰臟癌時，他甚至不知道胰臟在哪裏。危疾往往比我們想像的更為複雜，醫學界也持續發現影響人們的各種疾病。淚腺癌——大約每十萬人中有三人患病——就是這樣一種罕見疾病。我們的一位朋友成為了少數面對這種罕見診斷的人之一。",
       },
       {
         title: "早期發現與康復",
         content:
-          "故事的主角很幸運，十年前他的淚管癌發現得早，經過治療後康復出院。近日與Wendy的一次閒談中，Wendy問起他的健康狀況，他說上天保佑，幸好現在醫療發達，之前連癌症也能醫治得好。",
+          "幸運的是，癌症發現得早，為有效治療爭取了寶貴時間。得益於醫療技術的進步和醫護人員的專業付出，他戰勝了疾病並完全康復。在成功治療十年後的一次閒談中，他分享了這段充滿挑戰的經歷。",
       },
       {
-        title: "被遺忘的理賠",
+        title: "被遺忘的保單",
         content:
-          "問他醫療費用事項，才發現他沒有就危疾保險向公司申請賠償，當年前在保X公司買了保險，中介人沒有再管保單，也不知道他到哪裏去了，沒有人提醒他，就忘記了申請賠償。Wendy建議他照樣去保險公司索償，雖然有機會被拒絕賠償， 但是該總要去碰一碰運氣的，於是說要陪伴他去填表格、查詢相關程序。",
+          "當問及他的醫療費用時，他停頓了一下——突然意識到他從未就多年前購買的危疾保險提出理賠。時間流逝，沒有人提醒他，理賠程序就這樣被遺忘了。儘管保單通常設有時限規定，我們仍鼓勵他嘗試申請。既然沒有損失，我們陪同他完成了必要的文件。",
       },
       {
-        title: "成功的結果",
+        title: "意外的結果",
         content:
-          "朋友初時拒絕，怕會麻煩到Wendy。Wendy知道他不懂程序，當初連申請賠償也能忘記，生怕他又會出什麼岔子，堅持陪他一起去。很多時保險公司在保單條款上設有時限申報，一般為1-3個月。當時也沒有說要非得要拿到賠償的，始終已經過了十年，被保險公司拒絕也是有相當大的可能性的，因此他們二人都沒有抱著過大的期望。索償程序並不複雜，能否追回賠償就在於保險公司是否願意幫這個客人一把。",
+          "申請程序相當簡單。延遲的理賠能否成功，完全取決於保險公司服務客戶的態度。幾週後傳來了意外的消息：理賠獲得批准，賠償金額超過80萬港元。他從未想過這麼多年後還能獲得這樣的結果，表達了真摯的感謝。這筆意外之財最終資助了他的碩士學位學業——一項源於多年前前瞻規劃的未來投資。",
       },
       {
-        title: "意外的收穫",
+        title: "重新審視行業認知",
         content:
-          "幾星期後Wendy收到了一通電話，朋友打過來告訴她保險賠償獲得批准了，80多萬，連番感謝的說話過後，說他從來都沒有想過患病多年後還可以獲得賠償，不知道該說是保險公司佛心，還是說上天要獎賞他努力治好危疾。這一筆錢後來成為了他修讀碩士的資金，當初的以小博大，在十年之後為他創造了一筆讓他可以繼續進修的財富。",
-      },
-      {
-        title: "行業啟示",
-        content:
-          "很多都市人對保險有着各種迷思、誤解，視保險公司為洪水猛獸，以為他們只管收取保費，並盡可能避免一切賠償。事實上我們每一個人都有自己的保障需要，而保險公司作為提供保障的媒介，很多時候盡可能都會讓受保人獲得幫助。雖然是一個商業營運機構，但是始終為客人帶來保障才是保險公司的真正使命，正因為秉持着使命和理念，保險行業才能夠在這一百多年來發展成現今金融產業的其中一個支柱，行業增長率更一直以指數增長。",
+          "許多人對保險公司存有誤解，認為它們主要以盈利為導向。事實上，這些機構的存在是為了提供保障——提供一種轉移風險並在需要時提供保障的機制。雖然作為商業機構運營，成功的保險公司深知可持續增長來自於為客戶提供真正的價值和保障。這個案例說明了以客戶為中心的做法如何能在意想不到的情況下創造有意義的結果。",
       },
     ],
 
-    keyOutcome: "成功追回十年後80多萬港元理賠，成為修讀碩士的資金",
+    keyOutcome: "成功追回十年後80多萬港元理賠，資助研究生教育",
 
-    tags: ["危疾保險", "保險理賠", "醫療康復", "教育資助"],
+    tags: ["危疾保險", "保險理賠", "醫療康復", "教育投資"],
   },
 };
 

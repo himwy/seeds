@@ -9,97 +9,87 @@ import Link from "next/link";
 const translations = {
   en: {
     backToStories: "Back to Case Studies",
-    title: "When Adversity Strikes the Unprepared",
-    subtitle: "How a successful investment banker faced her greatest challenge",
+    title: "When Personal Crisis Meets Professional Life",
+    subtitle: "How comprehensive coverage provides stability in unexpected moments",
     category: "Medical Emergency",
     readTime: "7 min read",
 
     sections: [
       {
-        title: "The Successful Executive",
+        title: "A High-Achieving Professional",
         content:
-          "A high-earning female executive in investment banking, earning HK$200,000 monthly, faced her biggest challenge when her husband was diagnosed with a brain tumor. She was used to handling financial crises at work with a clear mind and unshakeable composure, but personal adversity revealed a completely different side.",
+          "A senior executive in investment banking, earning HK$200,000 monthly, had built her career on composure under pressure—the ability to navigate financial crises with clarity and calm. Her professional reputation was built on being unshakeable in challenging situations. Yet personal adversity would soon test her in ways no boardroom ever had.",
       },
       {
-        title: "When Crisis Hits Home",
+        title: "When the Unexpected Strikes",
         content:
-          "Investment bankers are the invincibles, at least this has been what people are saying among the financial industry. The fact is, people do not seem to realize how vulnerable they are until disaster strikes. The wife had a mental breakdown when her husband was sent to the hospital. The things that she had to worry about were just too much. She was completely overstretched by the medical procedures, projects back in the office and giving care to her husband.",
+          "Financial professionals often project an image of invincibility. The reality is that personal vulnerability emerges when crisis strikes closest to home. When her husband was diagnosed with a brain tumour, she found herself facing multiple overwhelming concerns simultaneously—medical procedures, work obligations, and caregiving responsibilities—all competing for attention she didn't have to give.",
       },
       {
-        title: "The Breakdown",
+        title: "The Human Response",
         content:
-          "At one point, she did not seem like an investment banker, but simply a wife who was so panicked and relentlessly called Wendy to ask for insurance claims. In fact, when it comes to claiming medical expenses at hospital, insurance companies usually need a certain period of time to pass all required documents to the underwriting department before the claim can be granted.",
+          "In those moments, professional composure gave way to raw human emotion. She reached out repeatedly, seeking reassurance about the claims process. Understanding this response is important: when medical claims are needed, processing does require time for documentation and underwriting review. Yet in crisis moments, clients need more than procedural explanations.",
       },
       {
-        title: "Professional Support",
+        title: "Compassionate Professional Support",
         content:
-          "With years of experience working in this industry, Wendy understood what the wife was going through and she was sympathetic to her situation. The wife was not the first client, nor she would be the last client who went out of her mind in case of critical circumstances. Wendy knew that all they needed was more care and professional service. She didn't argue with the wife regarding the claiming procedures because it would not be very helpful considering the circumstances back then.",
+          "With experience supporting clients through difficult circumstances, we understood what she was experiencing. She would not be the first—nor the last—client to need extra support during critical moments. What matters most in these situations is providing genuine care alongside professional service, recognising that clients need emotional support as much as claims expertise.",
       },
       {
         title: "The Resolution",
         content:
-          "A few weeks later, a one million HKD cheque was handed to the couple, the case was settled. This substantial claim allowed the family to focus entirely on the husband's recovery without the additional stress of mounting medical bills.",
+          "Several weeks later, HK$1,000,000 in medical insurance claims was processed and approved. This substantial coverage allowed the family to focus entirely on recovery without the additional burden of mounting medical expenses. Their forward planning with comprehensive medical coverage provided the financial stability they needed during the most challenging period of their lives.",
       },
     ],
 
     keyOutcome:
-      "Received HK$1,000,000 in medical insurance claims, allowing focus on recovery rather than finances",
+      "HK$1,000,000 in claims processed, allowing family to focus on recovery rather than finances",
 
     tags: [
       "Medical Emergency",
       "Critical Illness",
-      "Professional Support",
-      "Family Crisis",
+      "Compassionate Support",
+      "Family Protection",
     ],
   },
   "zh-HK": {
     backToStories: "返回案例研究",
-    title: "意外來臨的無助",
-    subtitle: "成功的投資銀行家如何面對她最大的挑戰",
+    title: "當個人危機遇上職業生涯",
+    subtitle: "全面保障如何在意想不到的時刻提供穩定",
     category: "醫療緊急情況",
     readTime: "7分鐘閱讀",
 
     sections: [
       {
-        title: "成功的女高管",
+        title: "卓越的專業人士",
         content:
-          "月薪20萬的女強人在投行裡面呼風喚雨，擔當起多少金融才俊夢寐以求的職業，她同時是一名妻子，與丈夫幸福地過著平靜的都市生活。當一個金融業精英可不容易，清晰的頭腦固然是不可或缺，更重要的是臨危不懼、處變不驚的能力。",
+          "一位投資銀行的高級管理人員，月薪20萬港元，她的事業建立在壓力下的冷靜——以清晰和沉著應對金融危機的能力。她的專業聲譽建立在面對挑戰時的沉穩。然而，個人逆境即將以任何會議室都無法比擬的方式考驗她。",
       },
       {
-        title: "危機降臨",
+        title: "當意外來襲",
         content:
-          "她在投資團隊有著舉足輕重的地位，平時穿著行政套裝，舉手投足都能讓人感覺到一份沈實與穩定，彷彿再大的風浪都不能擱倒這個女人。以為一切事物都在掌握之中，可是世事無常，腦腫瘤疾病在無聲無息中襲向這對夫婦，患病的是丈夫。",
+          "金融專業人士常給人一種無懈可擊的印象。現實是，當危機在最親近的地方發生時，個人的脆弱性便會顯現。當丈夫被診斷患有腦腫瘤時，她發現自己同時面對多重壓力——醫療程序、工作義務和照顧責任——所有這些都在爭奪她無法分配的注意力。",
       },
       {
-        title: "生活的徹底改變",
+        title: "人性的反應",
         content:
-          "夫婦的平靜生活一夜間被徹底打破，兩人滿腦子都在想如何對抗病魔？醫藥費怎麼辦？手頭上的工作怎辦？唯一可幸的是他們都買了至尊醫療保險，算是在漆黑中讓他們堅持下去的一點微光。Wendy得知事情後很是替妻子擔心，知道她需要兼顧日常繁忙工作，並且要獨自承擔起照顧丈夫的責任，當中要承受的壓力非同小可。",
+          "在那些時刻，專業的鎮定讓位於真實的人類情感。她多次聯繫我們，尋求關於理賠程序的保證。理解這種反應很重要：當需要醫療理賠時，處理確實需要時間進行文件審核和核保。然而在危機時刻，客戶需要的不僅是程序說明。",
       },
       {
-        title: "情緒的崩潰",
+        title: "富有同理心的專業支援",
         content:
-          "專業人士給人的感覺一般是沉着冷靜，處事態度理性。不過，人脆弱的一面往往在人生低谷中展現，在丈夫需要住院的那一天，妻子徹底崩潰了。她自從那天起每分每秒都要擔心丈夫的身體狀況，既要照顧丈夫，又要兼顧繁重的工作，住院費賬單成為了她情緒崩潰的導火線。",
+          "憑藉支援客戶度過困難時期的經驗，我們理解她正在經歷什麼。她不會是第一個——也不會是最後一個——在關鍵時刻需要額外支援的客戶。在這些情況下最重要的是在提供專業服務的同時給予真誠的關懷，認識到客戶需要情感支持與理賠專業知識同樣重要。",
       },
       {
-        title: "專業的關懷",
+        title: "最終解決",
         content:
-          "這位別人眼中女強人一夜之間變得歇斯底里，幾天之間打了數十通電話給Wendy，只求保險公司盡快賠償住院費醫藥費等款項。一般而言客人入院後保險公司核對費用需時，但是在此時此刻，她沒有要理會正常的索償程序、也沒有要查詢甚麼醫療費用可獲賠償，她感到徬徨、無助和擔憂，在這一刻她不再是什麼金融大鱷，她只是一個平凡而會為丈夫感到憂心的妻子。",
-      },
-      {
-        title: "最終的解決",
-        content:
-          "多年的經驗讓Wendy理解並同情妻子的行為，她不是第一個；亦不會是最後一個客人因為憂心身邊至愛而抓狂。Wendy並沒有跟她作過多的理論，因為她知道妻子在此時此刻最需要的是關懷和安慰，而不是與保險公司糾纏。這對夫婦最終得到了所有賠償，共賠了100萬，在遞上支票之後，Wendy暗暗地為夫婦二人感到慶幸，慶幸他們二人都有購買至尊醫療保險，在身患危疾的生死時刻， 尚可以抓緊最後一根稻草，令自己不至墮入財務失算、工作和健康雙失的困境。",
-      },
-      {
-        title: "人生的啟示",
-        content:
-          "很多人以為自己能夠妥善處理逆境，但是我們往往太過高估自己，當災難來臨，其實很多人都會變得不知所措、求助無門。",
+          "幾週後，100萬港元的醫療保險理賠獲得處理和批准。這筆可觀的保障讓家庭能夠完全專注於康復，而無需承擔不斷增加的醫療費用的額外負擔。他們對全面醫療保障的前瞻規劃，在人生最具挑戰的時期提供了所需的財務穩定。",
       },
     ],
 
-    keyOutcome: "獲得100萬港元醫療保險理賠，讓家庭專注於康復而非財務壓力",
+    keyOutcome: "處理100萬港元理賠，讓家庭專注於康復而非財務",
 
-    tags: ["醫療緊急情況", "危疾保險", "專業支援", "家庭危機"],
+    tags: ["醫療緊急情況", "危疾保險", "關懷支援", "家庭保障"],
   },
 };
 
