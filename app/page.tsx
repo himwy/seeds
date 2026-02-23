@@ -31,29 +31,12 @@ const isVideoUrl = (url: string) => {
     return true;
   }
 
-  // Check for video keyword in URL
-  if (lowerUrl.includes("video")) {
+  // Check for explicit video MIME type markers in URL
+  if (lowerUrl.includes("mimetype=video") || lowerUrl.includes("type=video")) {
     return true;
   }
 
-  // For Appwrite URLs, use file ID pattern to distinguish videos from images
-  // Handle both old /view URLs and new /download URLs
-  if (
-    url.includes("cloud.appwrite.io") &&
-    (url.includes("/view") || url.includes("/download"))
-  ) {
-    const fileId = url.split("/files/")[1]?.split("/")[0];
-    if (fileId) {
-      // Use a consistent hash-based approach to identify videos
-      const hash = fileId.split("").reduce((acc, char) => {
-        return acc + char.charCodeAt(0);
-      }, 0);
-
-      // Treat roughly 50% as videos for better testing
-      return hash % 2 === 1;
-    }
-  }
-
+  // Default: treat as image unless we have clear evidence it's a video
   return false;
 };
 

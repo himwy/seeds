@@ -218,9 +218,10 @@ export class EventsService {
             file
           );
 
-          // Use getFileDownload for direct file access without any transformations
+          // Use /view endpoint for direct file access without transformations
+          // /view serves raw files and does NOT count against Appwrite transformation quotas
           const fileUrl = storage
-            .getFileDownload(STORAGE_BUCKET_ID, response.$id)
+            .getFileView(STORAGE_BUCKET_ID, response.$id)
             .toString();
           return fileUrl;
         } catch (error: unknown) {
@@ -330,12 +331,22 @@ export class EventsService {
         return "/placeholder-image.jpg"; // fallback image
       }
 
-      // Use getFileDownload for direct access without any transformations
-      return storage.getFileDownload(STORAGE_BUCKET_ID, fileId).toString();
+      // Use /view for direct access without any transformations (no quota usage)
+      return storage.getFileView(STORAGE_BUCKET_ID, fileId).toString();
     } catch (error) {
       console.error("Error generating image URL:", error);
       return "/placeholder-image.jpg"; // fallback image
     }
+  }
+
+  /**
+   * Convert an Appwrite URL to use the image proxy for better caching/speed.
+   * The proxy adds aggressive Cache-Control headers and in-memory caching.
+   * Use this for thumbnail/gallery display; skip for downloads/fullscreen.
+   */
+  static getProxiedUrl(url: string): string {
+    if (!url || !url.includes('appwrite.io')) return url;
+    return `/api/image?url=${encodeURIComponent(url)}`;
   }
 
   // Convert old transformation URLs to direct view URLs to avoid transformation limits
