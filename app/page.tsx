@@ -401,7 +401,10 @@ export default function Home() {
   const [recentEvents, setRecentEvents] = useState<Event[]>([]);
 
   const recentEventsPreview = useMemo(
-    () => recentEvents.slice(0, HOME_RECENT_EVENTS_PREVIEW),
+    () => 
+      recentEvents
+        .filter((event) => !event.isVideo)
+        .slice(0, HOME_RECENT_EVENTS_PREVIEW),
     [recentEvents],
   );
 
