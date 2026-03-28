@@ -291,14 +291,14 @@ export default function WealthManagementDirectorPage() {
                   <p className="text-gray-600 mb-6">{t.applyDescription}</p>
                   <div className="space-y-4">
                     <a
-                      href="mailto:hr@actiondoitnow.com"
+                      href="mailto:wendylee@actiondoitnow.com"
                       className="w-full px-6 py-3 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2"
                     >
                       <FaPaperPlane className="text-white" />
                       {t.applyNow}
                     </a>
                     <a
-                      href="mailto:hr@actiondoitnow.com"
+                      href="mailto:wendylee@actiondoitnow.com"
                       className="w-full px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-gray-400 transition-all duration-300 flex items-center justify-center gap-2"
                     >
                       <FaEnvelope className="text-gray-700" />

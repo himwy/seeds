@@ -58,10 +58,12 @@ export default function AdminPage() {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
-  const [existingThumbnail, setExistingThumbnail] = useState<string | null>(null);
+  const [existingThumbnail, setExistingThumbnail] = useState<string | null>(
+    null,
+  );
   const [isVideoEvent, setIsVideoEvent] = useState(false);
   const [draggedImageIndex, setDraggedImageIndex] = useState<number | null>(
-    null
+    null,
   );
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -78,7 +80,7 @@ export default function AdminPage() {
         setMessage({
           type: "error",
           text: `Configuration Error: ${validation.errors.join(
-            ", "
+            ", ",
           )}. Please check your .env file.`,
         });
         return;
@@ -223,7 +225,7 @@ export default function AdminPage() {
       const acc = account as unknown as {
         createEmailSession?: (
           email: string,
-          password: string
+          password: string,
         ) => Promise<unknown>;
       };
       if (!existingUser) {
@@ -305,7 +307,7 @@ export default function AdminPage() {
 
     const largeFiles = files.filter((file) => file.size > LARGE_FILE_THRESHOLD);
     const extremeFiles = files.filter(
-      (file) => file.size > EXTREME_FILE_THRESHOLD
+      (file) => file.size > EXTREME_FILE_THRESHOLD,
     );
 
     if (extremeFiles.length > 0) {
@@ -313,10 +315,10 @@ export default function AdminPage() {
         type: "error",
         text: `⚠️ VERY LARGE FILES DETECTED (${extremeFiles
           .map(
-            (f) => `${f.name}: ${(f.size / 1024 / 1024 / 1024).toFixed(2)}GB`
+            (f) => `${f.name}: ${(f.size / 1024 / 1024 / 1024).toFixed(2)}GB`,
           )
           .join(
-            ", "
+            ", ",
           )}). Upload will take a long time and may timeout. Please ensure stable internet connection.`,
       });
     } else if (largeFiles.length > 0) {
@@ -341,11 +343,11 @@ export default function AdminPage() {
             // Add a placeholder for large files
             if (file.type.startsWith("video/")) {
               newPreviewUrls.push(
-                "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMzUgMjVMMzUgNzVMNzUgNTBMMzUgMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg=="
+                "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMzUgMjVMMzUgNzVMNzUgNTBMMzUgMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==",
               );
             } else {
               newPreviewUrls.push(
-                "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMjUgMjVIMzVWNzVIMjVWMjVaTTQwIDI1SDUwVjc1SDQwVjI1Wk01NSAyNUg2NVY3NUg1NVYyNVpNNzAgMjVIODBWNzVINzBWMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg=="
+                "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMjUgMjVIMzVWNzVIMjVWMjVaTTQwIDI1SDUwVjc1SDQwVjI1Wk01NSAyNUg2NVY3NUg1NVYyNVpNNzAgMjVIODBWNzVINzBWMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==",
               );
             }
           } else {
@@ -362,7 +364,7 @@ export default function AdminPage() {
           console.error("Error reading file:", file.name, error);
           // Add error placeholder
           newPreviewUrls.push(
-            "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNEQzI2MjYiLz48cGF0aCBkPSJNMjUgMjVMNzUgNzVNNzUgMjVMMjUgNzUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg=="
+            "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNEQzI2MjYiLz48cGF0aCBkPSJNMjUgMjVMNzUgNzVNNzUgMjVMMjUgNzUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg==",
           );
         }
       }
@@ -415,11 +417,12 @@ export default function AdminPage() {
     console.log(
       "Dropped files:",
       files.length,
-      files.map((f) => f.name)
+      files.map((f) => f.name),
     );
 
     const mediaFiles = files.filter(
-      (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
+      (file) =>
+        file.type.startsWith("image/") || file.type.startsWith("video/"),
     );
 
     // Check for very large files that might cause browser issues
@@ -427,10 +430,10 @@ export default function AdminPage() {
     const EXTREME_FILE_THRESHOLD = 2 * 1024 * 1024 * 1024; // 2GB threshold for timeout warning
 
     const largeFiles = mediaFiles.filter(
-      (file) => file.size > LARGE_FILE_THRESHOLD
+      (file) => file.size > LARGE_FILE_THRESHOLD,
     );
     const extremeFiles = mediaFiles.filter(
-      (file) => file.size > EXTREME_FILE_THRESHOLD
+      (file) => file.size > EXTREME_FILE_THRESHOLD,
     );
 
     if (extremeFiles.length > 0) {
@@ -438,10 +441,10 @@ export default function AdminPage() {
         type: "error",
         text: `⚠️ VERY LARGE FILES DETECTED (${extremeFiles
           .map(
-            (f) => `${f.name}: ${(f.size / 1024 / 1024 / 1024).toFixed(2)}GB`
+            (f) => `${f.name}: ${(f.size / 1024 / 1024 / 1024).toFixed(2)}GB`,
           )
           .join(
-            ", "
+            ", ",
           )}). Upload will take a long time and may timeout. Please ensure stable internet connection.`,
       });
     } else if (largeFiles.length > 0) {
@@ -456,7 +459,7 @@ export default function AdminPage() {
     console.log(
       "Valid media files:",
       mediaFiles.length,
-      mediaFiles.map((f) => f.name)
+      mediaFiles.map((f) => f.name),
     );
 
     if (mediaFiles.length > 0) {
@@ -477,11 +480,11 @@ export default function AdminPage() {
               // Add a placeholder for large files
               if (file.type.startsWith("video/")) {
                 newPreviewUrls.push(
-                  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMzUgMjVMMzUgNzVMNzUgNTBMMzUgMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg=="
+                  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMzUgMjVMMzUgNzVMNzUgNTBMMzUgMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==",
                 );
               } else {
                 newPreviewUrls.push(
-                  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMjUgMjVIMzVWNzVIMjVWMjVaTTQwIDI1SDUwVjc1SDQwVjI1Wk01NSAyNUg2NVY3NUg1NVYyNVpNNzAgMjVIODBWNzVINzBWMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg=="
+                  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzNzQxNTEiLz48cGF0aCBkPSJNMjUgMjVIMzVWNzVIMjVWMjVaTTQwIDI1SDUwVjc1SDQwVjI1Wk01NSAyNUg2NVY3NUg1NVYyNVpNNzAgMjVIODBWNzVINzBWMjVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==",
                 );
               }
             } else {
@@ -498,7 +501,7 @@ export default function AdminPage() {
             console.error("Error reading file:", file.name, error);
             // Add error placeholder
             newPreviewUrls.push(
-              "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNEQzI2MjYiLz48cGF0aCBkPSJNMjUgMjVMNzUgNzVNNzUgMjVMMjUgNzUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg=="
+              "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNEQzI2MjYiLz48cGF0aCBkPSJNMjUgMjVMNzUgNzVNNzUgMjVMMjUgNzUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg==",
             );
           }
         }
@@ -543,7 +546,7 @@ export default function AdminPage() {
         await EventsService.deleteImageFile(fileId);
       }
       const updatedImages = currentEventImages.filter(
-        (img) => img !== imageUrl
+        (img) => img !== imageUrl,
       );
       await EventsService.updateEvent(editingEvent.$id!, {
         ...editingEvent,
@@ -689,7 +692,9 @@ export default function AdminPage() {
       let thumbnailUrl: string | undefined = existingThumbnail || undefined;
       if (thumbnailFile) {
         try {
-          const thumbnailUrls = await EventsService.uploadImages([thumbnailFile]);
+          const thumbnailUrls = await EventsService.uploadImages([
+            thumbnailFile,
+          ]);
           thumbnailUrl = thumbnailUrls[0];
         } catch (error) {
           console.error("Failed to upload thumbnail:", error);
@@ -766,7 +771,7 @@ export default function AdminPage() {
   const handleDelete = async (eventId: string) => {
     if (
       confirm(
-        "Are you sure you want to permanently delete this event? This action cannot be undone."
+        "Are you sure you want to permanently delete this event? This action cannot be undone.",
       )
     ) {
       try {
@@ -806,48 +811,45 @@ export default function AdminPage() {
   if (!isLoggedIn) {
     return (
       <div
-        className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4"
+        className="min-h-screen bg-slate-50 flex items-center justify-center p-4"
         style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
       >
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-100"
         >
           {/* Header */}
-          <div className="bg-gray-900 px-8 py-6 text-center">
+          <div className="bg-slate-900 px-8 py-8 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 to-amber-600"></div>
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/20 backdrop-blur-sm"
             >
-              <FaLock className="w-8 h-8 text-gray-900" />
+              <FaLock className="w-6 h-6 text-white" />
             </motion.div>
-            <h1 className="text-2xl font-bold text-white mb-2">Admin Portal</h1>
-            <p className="text-gray-300">Seeds Financial Group</p>
+            <h1 className="text-2xl font-bold text-white mb-1 tracking-wide">
+              Admin Portal
+            </h1>
+            <p className="text-slate-400 text-sm uppercase tracking-widest">
+              Seeds Financial Group
+            </p>
           </div>
           {/* Login Form */}
           <div className="p-8">
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
-                Secure Access
-              </h2>
-              <p className="text-gray-600 text-sm">
-                Enter credentials to access the management system
-              </p>
-            </div>
             <AnimatePresence>
               {message && (
                 <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
                   className={`mb-6 p-4 rounded-lg text-sm font-medium ${
                     message.type === "error"
-                      ? "bg-red-50 text-red-700 border border-red-200"
-                      : "bg-green-50 text-green-700 border border-green-200"
+                      ? "bg-red-50 text-red-700 border border-red-100"
+                      : "bg-emerald-50 text-emerald-700 border border-emerald-100"
                   }`}
                 >
                   <div className="flex items-center">
@@ -861,49 +863,50 @@ export default function AdminPage() {
                 </motion.div>
               )}
             </AnimatePresence>
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form onSubmit={handleLogin} className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  Email
+                <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">
+                  Email Address
                 </label>
-                <div className="relative">
-                  <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <div className="relative group">
+                  <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-slate-700 transition-colors" />
                   <input
                     type="email"
-                    placeholder="Enter email"
+                    placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all bg-white text-gray-900"
+                    className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all bg-slate-50 focus:bg-white text-slate-900"
                     required
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">
                   Password
                 </label>
-                <div className="relative">
-                  <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <div className="relative group">
+                  <FaLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-slate-700 transition-colors" />
                   <input
                     type="password"
-                    placeholder="Enter password"
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all bg-white text-gray-900"
+                    className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all bg-slate-50 focus:bg-white text-slate-900"
                     required
                   />
                 </div>
               </div>
               <button
                 type="submit"
-                className="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center shadow-sm"
+                className="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg mt-4"
               >
-                <FaUser className="mr-2" />
                 Access Dashboard
               </button>
             </form>
-            <div className="mt-6 text-center text-xs text-gray-500">
-              Authorized personnel only • All access monitored
+            <div className="mt-8 text-center">
+              <p className="text-xs text-slate-400 flex items-center justify-center gap-1">
+                <FaLock className="w-3 h-3" /> Secure connection
+              </p>
             </div>
           </div>
         </motion.div>
@@ -913,56 +916,58 @@ export default function AdminPage() {
 
   return (
     <div
-      className="min-h-screen bg-gray-50"
+      className="min-h-screen bg-slate-50"
       style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
     >
       {/* Mobile-First Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-4">
+      <div className="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
             {/* Mobile Menu Button */}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="lg:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors"
             >
-              <FaBars className="w-5 h-5 text-gray-600" />
+              <FaBars className="w-5 h-5" />
             </button>
 
             {/* Header Content */}
-            <div className="flex items-center">
-              <div className="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center mr-3">
-                <FaCog className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center shadow-inner">
+                <FaCog className="w-5 h-5 text-amber-500" />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-gray-900">
+                <h1 className="text-xl font-bold text-slate-900 tracking-tight">
                   Admin Portal
                 </h1>
-                <p className="text-sm text-gray-600">Events Management</p>
+                <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">
+                  Events Management
+                </p>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <Link
                 href="/admin/contacts"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
+                className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 shadow-sm"
               >
-                <FaInbox className="w-4 h-4" />
+                <FaInbox className="w-4 h-4 text-slate-500" />
                 <span className="hidden sm:inline">Messages</span>
               </Link>
               <button
                 onClick={() => setShowForm(true)}
-                className="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
+                className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 shadow-md"
               >
-                <FaPlus className="w-4 h-4" />
+                <FaPlus className="w-4 h-4 text-amber-500" />
                 <span className="hidden sm:inline">Add Event</span>
               </button>
               <button
                 onClick={() => handleLogout()}
-                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
+                className="text-slate-500 hover:text-red-600 p-2 rounded-lg transition-colors ml-2"
+                title="Logout"
               >
-                <FaSignOutAlt className="w-4 h-4" />
-                <span className="hidden sm:inline">Logout</span>
+                <FaSignOutAlt className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -1231,13 +1236,15 @@ export default function AdminPage() {
               <div>
                 <label className="block text-sm font-semibold text-gray-800 mb-2">
                   Custom Thumbnail (Optional)
-                  <span className="text-gray-400 ml-2 text-xs font-normal">For video events - loads faster than video</span>
+                  <span className="text-gray-400 ml-2 text-xs font-normal">
+                    For video events - loads faster than video
+                  </span>
                 </label>
-                
-                {(thumbnailPreview || existingThumbnail) ? (
+
+                {thumbnailPreview || existingThumbnail ? (
                   <div className="relative inline-block">
                     <img
-                      src={thumbnailPreview || existingThumbnail || ''}
+                      src={thumbnailPreview || existingThumbnail || ""}
                       alt="Thumbnail preview"
                       className="w-48 h-32 object-cover rounded-lg border-2 border-gray-200"
                     />
@@ -1291,7 +1298,8 @@ export default function AdminPage() {
                       Click to upload thumbnail image
                     </label>
                     <p className="text-xs text-gray-400 mt-2">
-                      Recommended for video events. Shows instantly instead of loading video.
+                      Recommended for video events. Shows instantly instead of
+                      loading video.
                     </p>
                   </div>
                 )}
@@ -1307,10 +1315,16 @@ export default function AdminPage() {
                   className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 />
                 <div>
-                  <label htmlFor="isVideoEventAdmin" className="block text-sm font-medium text-gray-700 cursor-pointer">
+                  <label
+                    htmlFor="isVideoEventAdmin"
+                    className="block text-sm font-medium text-gray-700 cursor-pointer"
+                  >
                     This is a video event
                   </label>
-                  <p className="text-xs text-gray-500 mt-1">Check this if the main media is a video file. This ensures proper display even if video detection fails.</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Check this if the main media is a video file. This ensures
+                    proper display even if video detection fails.
+                  </p>
                 </div>
               </div>
 
@@ -1358,122 +1372,127 @@ export default function AdminPage() {
       )}
 
       {/* Sophisticated Events Grid */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
-          <div className="bg-gradient-to-r from-primary to-secondary px-8 py-6 text-white">
-            <h2 className="text-2xl font-bold flex items-center">
-              <FaImages className="mr-3 text-white" />
-              Events Gallery ({events.length} total)
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-slate-900 px-8 py-6 text-white relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 to-amber-600"></div>
+            <h2 className="text-xl font-bold flex items-center tracking-wide">
+              <FaImages className="mr-3 text-amber-500" />
+              Events Gallery
+              <span className="ml-3 bg-white/10 text-white text-xs py-1 px-3 rounded-full border border-white/20">
+                {events.length} Total
+              </span>
             </h2>
-            <p className="text-white/90 mt-1 font-medium">
-              Manage your event portfolio with ease
-            </p>
           </div>
 
           {loading ? (
-            <div className="p-16 text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-primary mx-auto mb-6"></div>
-              <p className="text-gray-600 text-lg font-medium">
-                Loading events...
+            <div className="p-20 text-center">
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-slate-900 mx-auto mb-4"></div>
+              <p className="text-slate-500 font-medium">
+                Loading events portfolio...
               </p>
             </div>
           ) : events.length === 0 ? (
-            <div className="p-16 text-center">
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
-                <FaCalendarAlt className="text-4xl text-primary" />
+            <div className="p-20 text-center">
+              <div className="bg-slate-50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 border border-slate-100">
+                <FaCalendarAlt className="text-3xl text-slate-300" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              <h3 className="text-xl font-bold text-slate-900 mb-2">
                 No events found
               </h3>
-              <p className="text-gray-600 mb-8 text-lg">
-                Start building your event portfolio by creating your first
-                event.
+              <p className="text-slate-500 mb-8 max-w-md mx-auto">
+                Start building your corporate event portfolio by creating your
+                first event entry.
               </p>
               <button
                 onClick={() => setShowForm(true)}
-                className="bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-md inline-flex items-center"
               >
-                <FaPlus className="mr-2" />
+                <FaPlus className="mr-2 text-amber-500" />
                 Add Your First Event
               </button>
             </div>
           ) : (
-            <div className="p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="p-8 bg-slate-50/50">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {events.map((event) => (
                   <div
                     key={event.$id}
-                    className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-primary/20 transform hover:-translate-y-1"
+                    className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-slate-200 group flex flex-col"
                   >
                     {/* Event Image */}
-                    <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200">
+                    <div className="relative h-48 bg-slate-100 overflow-hidden">
                       {event.images && event.images.length > 0 ? (
                         <Image
                           src={event.images[0]}
                           alt={event.name}
                           fill
-                          className="object-cover"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <FaImage className="text-gray-400 text-4xl" />
+                          <FaImage className="text-slate-300 text-4xl" />
                         </div>
                       )}
-                      <div className="absolute top-3 right-3">
+                      <div className="absolute top-3 right-3 flex gap-2">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          className={`px-3 py-1 rounded-md text-xs font-bold tracking-wider uppercase shadow-sm ${
                             event.category === "recent"
-                              ? "bg-green-500 text-white"
-                              : "bg-blue-500 text-white"
+                              ? "bg-emerald-500/90 text-white backdrop-blur-sm"
+                              : "bg-slate-800/90 text-white backdrop-blur-sm"
                           }`}
                         >
-                          {event.category === "recent" ? "最近" : "過往"}
+                          {event.category === "recent" ? "Recent" : "Past"}
                         </span>
                       </div>
                     </div>
 
                     {/* Event Details */}
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
+                    <div className="p-5 flex flex-col flex-grow">
+                      <h3 className="text-lg font-bold text-slate-900 mb-1 line-clamp-1">
                         {event.name}
                       </h3>
-                      <p className="text-gray-600 mb-4 line-clamp-1">
+                      <p className="text-slate-500 text-sm mb-4 line-clamp-1">
                         {event.chineseName}
                       </p>
 
-                      <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
+                      <div className="flex items-center justify-between text-xs font-medium text-slate-400 mb-6 bg-slate-50 p-3 rounded-lg border border-slate-100">
                         <div className="flex items-center">
-                          <FaCalendarAlt className="mr-2" />
-                          {new Date(event.date).toLocaleDateString()}
+                          <FaCalendarAlt className="mr-2 text-slate-400" />
+                          {new Date(event.date).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })}
                         </div>
                         <div className="flex items-center">
-                          <FaImages className="mr-2" />
-                          {event.images?.length || 0} photos
+                          <FaImages className="mr-2 text-slate-400" />
+                          {event.images?.length || 0} media
                         </div>
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex space-x-2">
+                      <div className="flex space-x-2 mt-auto">
                         <button
                           onClick={() => openImageManager(event)}
-                          className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center justify-center shadow-md"
-                          title="Manage Images"
+                          className="flex-1 bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 px-3 py-2 rounded-lg text-sm font-semibold transition-all flex items-center justify-center"
+                          title="Manage Media"
                         >
-                          <FaImages className="mr-2" />
-                          Images
+                          <FaImages className="mr-2 text-slate-400" />
+                          Media
                         </button>
                         <button
                           onClick={() => handleEdit(event)}
-                          className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center justify-center shadow-md"
+                          className="flex-1 bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 px-3 py-2 rounded-lg text-sm font-semibold transition-all flex items-center justify-center"
                           title="Edit Event"
                         >
-                          <FaEdit className="mr-2" />
+                          <FaEdit className="mr-2 text-slate-400" />
                           Edit
                         </button>
                         <button
                           onClick={() => handleDelete(event.$id!)}
-                          className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center justify-center"
+                          className="bg-white border border-red-100 hover:bg-red-50 text-red-600 px-3 py-2 rounded-lg text-sm font-semibold transition-all flex items-center justify-center"
                           title="Delete Event"
                         >
                           <FaTrash />
@@ -1529,7 +1548,7 @@ export default function AdminPage() {
                     const mediaFiles = files.filter(
                       (file) =>
                         file.type.startsWith("image/") ||
-                        file.type.startsWith("video/")
+                        file.type.startsWith("video/"),
                     );
 
                     if (mediaFiles.length > 0) {
@@ -1623,7 +1642,7 @@ export default function AdminPage() {
                               onError={(e) => {
                                 console.error(
                                   "Video failed to load:",
-                                  mediaUrl
+                                  mediaUrl,
                                 );
                                 const target = e.target as HTMLVideoElement;
                                 target.style.display = "none";
@@ -1648,7 +1667,7 @@ export default function AdminPage() {
                               onError={(e) => {
                                 console.error(
                                   "Image failed to load:",
-                                  mediaUrl
+                                  mediaUrl,
                                 );
                                 const target = e.target as HTMLImageElement;
                                 target.style.display = "none";

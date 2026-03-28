@@ -416,7 +416,7 @@ export default function Home() {
     const setupAnimations = () => {
       // Observe all elements with animation classes
       const animatedElements = document.querySelectorAll(
-        ".fade-in-up, .fade-in, .slide-in-left, .slide-in-right"
+        ".fade-in-up, .fade-in, .slide-in-left, .slide-in-right",
       );
       animatedElements.forEach((el) => observer.observe(el));
 
@@ -438,7 +438,7 @@ export default function Home() {
     return () => {
       clearTimeout(timeoutId);
       const animatedElements = document.querySelectorAll(
-        ".fade-in-up, .fade-in, .slide-in-left, .slide-in-right"
+        ".fade-in-up, .fade-in, .slide-in-left, .slide-in-right",
       );
       animatedElements.forEach((el) => observer.unobserve(el));
     };
@@ -458,7 +458,7 @@ export default function Home() {
         e.currentTarget.style.borderColor = "white";
       },
     }),
-    []
+    [],
   );
 
   const contactButtonStyle = {
@@ -698,7 +698,7 @@ export default function Home() {
                                       year: "numeric",
                                       month: "long",
                                       day: "numeric",
-                                    }
+                                    },
                                   )}
                                 </span>
                               </div>
@@ -861,7 +861,7 @@ export default function Home() {
               <button
                 onClick={() => {
                   const servicesSection = document.getElementById(
-                    "services-section-desktop"
+                    "services-section-desktop",
                   );
                   if (servicesSection) {
                     servicesSection.scrollIntoView({ behavior: "smooth" });
@@ -1066,7 +1066,7 @@ export default function Home() {
                       // Fill the infinite events array with repeated events
                       for (let i = 0; i < totalSlots; i++) {
                         infiniteEvents.push(
-                          recentEvents[i % originalEventCount]
+                          recentEvents[i % originalEventCount],
                         );
                       }
 
@@ -1090,7 +1090,10 @@ export default function Home() {
                                           {isVideoUrl(event.images[0]) ? (
                                             <div className="relative w-full h-full">
                                               <video
-                                                src={event.images[0]}
+                                                src={event.images[0].replace(
+                                                  /[\)"\]]+$/,
+                                                  "",
+                                                )}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                 muted
                                                 preload="auto"
@@ -1109,7 +1112,10 @@ export default function Home() {
                                             </div>
                                           ) : (
                                             <Image
-                                              src={event.images[0]}
+                                              src={event.images[0].replace(
+                                                /[\)"\]]+$/,
+                                                "",
+                                              )}
                                               alt={
                                                 language === "en"
                                                   ? event.name
@@ -1135,17 +1141,17 @@ export default function Home() {
                                               <div className="text-center">
                                                 <div className="text-primary font-bold text-sm leading-none">
                                                   {new Date(
-                                                    event.date
+                                                    event.date,
                                                   ).getDate()}
                                                 </div>
                                                 <div className="text-gray-600 text-xs font-medium uppercase">
                                                   {new Date(
-                                                    event.date
+                                                    event.date,
                                                   ).toLocaleDateString(
                                                     language === "en"
                                                       ? "en-US"
                                                       : "zh-TW",
-                                                    { month: "short" }
+                                                    { month: "short" },
                                                   )}
                                                 </div>
                                               </div>
@@ -1163,7 +1169,7 @@ export default function Home() {
                                               <FaCalendarAlt className="mr-2 text-white" />
                                               <span className="text-white">
                                                 {new Date(
-                                                  event.date
+                                                  event.date,
                                                 ).toLocaleDateString(
                                                   language === "en"
                                                     ? "en-US"
@@ -1172,7 +1178,7 @@ export default function Home() {
                                                     year: "numeric",
                                                     month: "long",
                                                     day: "numeric",
-                                                  }
+                                                  },
                                                 )}
                                               </span>
                                             </div>

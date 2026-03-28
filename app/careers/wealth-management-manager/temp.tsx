@@ -37,7 +37,7 @@ export default function WealthManagementInternPage() {
       requirements: "Requirements",
       contactUs: "Contact Us",
       emailDescription: "For applications and inquiries, please email:",
-      emailAddress: "hr@actiondoitnow.com",
+      emailAddress: "wendylee@actiondoitnow.com",
       whatWeOffer: "What We Offer",
       responsibilities: [
         "Assist in the analysis and management of client portfolios",
@@ -91,7 +91,7 @@ export default function WealthManagementInternPage() {
       requirements: "要求",
       contactUs: "聯絡我們",
       emailDescription: "申請和查詢，請發送電子郵件至：",
-      emailAddress: "hr@actiondoitnow.com",
+      emailAddress: "wendylee@actiondoitnow.com",
       whatWeOffer: "我們提供什麼",
       responsibilities: [
         "協助分析和管理客戶投資組合",
@@ -270,7 +270,7 @@ export default function WealthManagementInternPage() {
                     {t.emailDescription}
                   </p>
                   <a
-                    href="mailto:hr@actiondoitnow.com"
+                    href="mailto:wendylee@actiondoitnow.com"
                     className="inline-flex items-center gap-2 text-gray-900 font-semibold hover:text-gray-700 transition-colors"
                   >
                     <FaEnvelope />

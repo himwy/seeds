@@ -103,7 +103,7 @@ const ContactPage = () => {
       emailTitle: "Email",
       addressTitle: "Office Address",
       phoneNumber: "(852) 5530-4114",
-      emailValue: "hr@actiondoitnow.com",
+      emailValue: "wendylee@actiondoitnow.com",
       addressValue: "17/F, Caroline Centre, Lee Gardens Two, 28, Yun Ping Road, Causeway Bay, Hong Kong",
       businessHours: "Business Hours",
       weekdays: "Monday - Friday",
@@ -143,7 +143,7 @@ const ContactPage = () => {
       emailTitle: "電子郵件",
       addressTitle: "辦公地址",
       phoneNumber: "(852) 5530-4114",
-      emailValue: "hr@actiondoitnow.com",
+      emailValue: "wendylee@actiondoitnow.com",
       addressValue: "香港銅鑼灣雲平道28號利園二期嘉蘭中心17樓",
       businessHours: "營業時間",
       weekdays: "星期一至五",
@@ -162,12 +162,14 @@ const ContactPage = () => {
 
   return (
     <div
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-slate-50"
       style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
     >
       {/* Hero Section */}
-      <section ref={heroRef} className="relative bg-gray-50 py-24 pt-32">
-        <div className="container mx-auto px-6 text-center relative">
+      <section ref={heroRef} className="relative bg-slate-900 py-28 pt-36 overflow-hidden">
+        {/* Subtle background pattern/gradient */}
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-200 via-slate-900 to-slate-900"></div>
+        <div className="container mx-auto px-6 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={isHeroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
@@ -175,66 +177,51 @@ const ContactPage = () => {
             className="max-w-4xl mx-auto"
           >
             <div className="flex justify-center mb-8">
-              <div className="bg-gray-200 p-4 rounded-lg">
-                <Building2 className="w-12 h-12 text-gray-700" />
+              <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700 backdrop-blur-sm">
+                <Building2 className="w-12 h-12 text-amber-500" />
               </div>
             </div>
             
-            <h1 className="text-5xl font-bold text-gray-900 mb-6 tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
               {t.pageTitle}
             </h1>
             
-            <div className="w-20 h-1 bg-gray-700 mx-auto mb-8"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto mb-8 rounded-full"></div>
             
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-6">
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-6 font-light">
               {t.heroDescription}
             </p>
             
-            <p className="text-lg text-gray-700 font-medium">{t.heroSubtitle}</p>
+            <p className="text-lg text-amber-400 font-medium tracking-wide uppercase text-sm">{t.heroSubtitle}</p>
           </motion.div>
         </div>
       </section>
 
       {/* Contact Information Cards */}
-      <section ref={contactRef} className="py-20 bg-white">
+      <section ref={contactRef} className="py-20 bg-slate-50 relative -mt-10">
         <div className="container mx-auto px-6 max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isContactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              {t.contactInfo}
-            </h2>
-            <div className="w-20 h-1 bg-gray-700 mx-auto mb-8"></div>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              {t.contactDescription}
-            </p>
-          </motion.div>
-
           {/* Contact Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 relative z-20">
             {/* Phone Card */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isContactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              whileHover={{ y: -4 }}
-              className="bg-white rounded-lg border border-gray-200 p-8 text-center shadow-md hover:shadow-lg transition-all duration-300"
+              whileHover={{ y: -8 }}
+              className="bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-xl shadow-slate-200/50 transition-all duration-300"
             >
-              <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-6">
-                <Phone className="w-8 h-8 text-gray-700" />
+              <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-slate-100 shadow-sm">
+                <Phone className="w-8 h-8 text-slate-800" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
+              <h3 className="text-xl font-bold text-slate-900 mb-4 tracking-wide">
                 {t.phoneTitle}
               </h3>
-              <p className="text-2xl font-bold text-gray-900 mb-6 tracking-wide">
+              <p className="text-2xl font-bold text-slate-700 mb-6 tracking-wide">
                 {t.phoneNumber}
               </p>
               <a
                 href={`tel:${t.phoneNumber}`}
-                className="inline-flex items-center gap-2 bg-gray-200 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300 border border-gray-300"
+                className="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-all duration-300 shadow-md hover:shadow-lg w-full justify-center"
               >
                 <Phone className="w-4 h-4" />
                 {t.callNow}
@@ -246,21 +233,22 @@ const ContactPage = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isContactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              whileHover={{ y: -4 }}
-              className="bg-white rounded-lg border border-gray-200 p-8 text-center shadow-md hover:shadow-lg transition-all duration-300"
+              whileHover={{ y: -8 }}
+              className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-center shadow-xl shadow-slate-900/20 transition-all duration-300 relative overflow-hidden group"
             >
-              <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-6">
-                <Mail className="w-8 h-8 text-gray-700" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 to-amber-600"></div>
+              <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-slate-700 shadow-inner">
+                <Mail className="w-8 h-8 text-amber-500" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
+              <h3 className="text-xl font-bold text-white mb-4 tracking-wide">
                 {t.emailTitle}
               </h3>
-              <p className="text-lg font-semibold text-gray-700 mb-6 break-all">
+              <p className="text-lg font-medium text-slate-300 mb-6 break-all">
                 {t.emailValue}
               </p>
               <a
                 href={`mailto:${t.emailValue}`}
-                className="inline-flex items-center gap-2 bg-gray-200 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300 border border-gray-300"
+                className="inline-flex items-center gap-2 bg-amber-500 text-slate-900 px-6 py-3 rounded-lg font-bold hover:bg-amber-400 transition-all duration-300 shadow-md hover:shadow-lg w-full justify-center"
               >
                 <Mail className="w-4 h-4" />
                 {t.sendEmail}
@@ -272,23 +260,23 @@ const ContactPage = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isContactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              whileHover={{ y: -4 }}
-              className="bg-white rounded-lg border border-gray-200 p-8 text-center shadow-md hover:shadow-lg transition-all duration-300"
+              whileHover={{ y: -8 }}
+              className="bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-xl shadow-slate-200/50 transition-all duration-300"
             >
-              <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-6">
-                <MapPin className="w-8 h-8 text-gray-700" />
+              <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-slate-100 shadow-sm">
+                <MapPin className="w-8 h-8 text-slate-800" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
+              <h3 className="text-xl font-bold text-slate-900 mb-4 tracking-wide">
                 {t.addressTitle}
               </h3>
-              <p className="text-sm text-gray-700 mb-6 leading-relaxed">
+              <p className="text-sm text-slate-600 mb-6 leading-relaxed h-10 flex items-center justify-center">
                 {t.addressValue}
               </p>
               <a
                 href="https://maps.google.com/?q=17F+Caroline+Centre+Lee+Gardens+Two+28+Yun+Ping+Road+Causeway+Bay+Hong+Kong"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-gray-200 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300 border border-gray-300"
+                className="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-all duration-300 shadow-md hover:shadow-lg w-full justify-center mt-2"
               >
                 <MapPin className="w-4 h-4" />
                 {t.getDirections}
@@ -301,35 +289,35 @@ const ContactPage = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isContactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-gray-50 rounded-lg p-8 max-w-4xl mx-auto shadow-md"
+            className="bg-white rounded-2xl p-8 max-w-4xl mx-auto shadow-lg border border-slate-200"
           >
             <div className="text-center mb-8">
-              <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-6 h-6 text-gray-700" />
+              <div className="w-12 h-12 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-100">
+                <Clock className="w-6 h-6 text-amber-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-2xl font-bold text-slate-900">
                 {t.businessHours}
               </h3>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-lg p-6 text-center shadow-sm border border-gray-200">
-                <div className="text-gray-600 font-medium mb-2 text-sm uppercase tracking-wide">
+              <div className="bg-slate-50 rounded-xl p-6 text-center border border-slate-100">
+                <div className="text-slate-500 font-bold mb-2 text-xs uppercase tracking-widest">
                   {t.weekdays}
                 </div>
-                <div className="text-gray-900 font-bold text-lg">{t.weekdayHours}</div>
+                <div className="text-slate-900 font-semibold text-lg">{t.weekdayHours}</div>
               </div>
-              <div className="bg-white rounded-lg p-6 text-center shadow-sm border border-gray-200">
-                <div className="text-gray-600 font-medium mb-2 text-sm uppercase tracking-wide">
+              <div className="bg-slate-50 rounded-xl p-6 text-center border border-slate-100">
+                <div className="text-slate-500 font-bold mb-2 text-xs uppercase tracking-widest">
                   {t.saturday}
                 </div>
-                <div className="text-gray-900 font-bold text-lg">{t.saturdayHours}</div>
+                <div className="text-slate-900 font-semibold text-lg">{t.saturdayHours}</div>
               </div>
-              <div className="bg-white rounded-lg p-6 text-center shadow-sm border border-gray-200">
-                <div className="text-gray-600 font-medium mb-2 text-sm uppercase tracking-wide">
+              <div className="bg-slate-50 rounded-xl p-6 text-center border border-slate-100">
+                <div className="text-slate-500 font-bold mb-2 text-xs uppercase tracking-widest">
                   {t.sunday}
                 </div>
-                <div className="text-gray-700 font-bold text-lg">{t.sundayHours}</div>
+                <div className="text-slate-400 font-semibold text-lg">{t.sundayHours}</div>
               </div>
             </div>
           </motion.div>
@@ -337,7 +325,7 @@ const ContactPage = () => {
       </section>
 
       {/* Contact Form Section */}
-      <section ref={formRef} className="py-20 bg-gray-50">
+      <section ref={formRef} className="py-24 bg-white border-t border-slate-100">
         <div className="container mx-auto px-6 max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -345,20 +333,12 @@ const ContactPage = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <div className="flex justify-center mb-6">
-              <div className="bg-gray-200 p-3 rounded-lg">
-                <MessageSquare className="w-8 h-8 text-gray-700" />
-              </div>
-            </div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-4xl font-bold text-slate-900 mb-6 tracking-tight">
               {t.contactForm}
             </h2>
-            <div className="w-20 h-1 bg-gray-700 mx-auto mb-8"></div>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed mb-4">
+            <div className="w-20 h-1 bg-amber-500 mx-auto mb-8 rounded-full"></div>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mb-4">
               {t.formDescription}
-            </p>
-            <p className="text-sm text-gray-600 bg-gray-100 px-4 py-2 rounded-lg inline-block">
-              {t.formNote}
             </p>
           </motion.div>
 
@@ -366,75 +346,78 @@ const ContactPage = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isFormInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white rounded-lg shadow-lg p-8 md:p-12 border border-gray-200"
+            className="bg-slate-50 rounded-2xl shadow-xl p-8 md:p-12 border border-slate-200 relative overflow-hidden"
           >
+            <div className="absolute top-0 left-0 w-full h-1 bg-slate-900"></div>
             {submitStatus === 'success' ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-12"
               >
-                <div className="w-20 h-20 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle className="w-10 h-10 text-green-600" />
+                <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                  <CheckCircle className="w-10 h-10 text-emerald-600" />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                <h3 className="text-3xl font-bold text-slate-900 mb-4">
                   {t.messageSent}
                 </h3>
-                <p className="text-gray-600 mb-8 text-lg">{t.thankYou}</p>
+                <p className="text-slate-600 mb-8 text-lg">{t.thankYou}</p>
                 <button
                   onClick={() => setSubmitStatus('idle')}
-                  className="bg-gray-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300 shadow-md hover:shadow-lg"
+                  className="bg-slate-900 text-white px-8 py-4 rounded-xl font-semibold hover:bg-slate-800 transition-all duration-300 shadow-md hover:shadow-lg"
                 >
                   {t.sendAnother}
                 </button>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Name Field */}
-                <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide">
-                    {t.fullName} <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative group">
-                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-gray-600 w-5 h-5 transition-colors" />
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      placeholder={t.namePlaceholder}
-                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 transition-all text-gray-900 placeholder-gray-400 bg-gray-50 focus:bg-white"
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Name Field */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">
+                      {t.fullName} <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative group">
+                      <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-amber-600 w-5 h-5 transition-colors" />
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        placeholder={t.namePlaceholder}
+                        className="w-full pl-12 pr-4 py-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-slate-900 placeholder-slate-400 bg-white shadow-sm"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* Email Field */}
-                <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide">
-                    {t.emailAddress} <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-gray-600 w-5 h-5 transition-colors" />
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      placeholder={t.emailPlaceholder}
-                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 transition-all text-gray-900 placeholder-gray-400 bg-gray-50 focus:bg-white"
-                    />
+                  {/* Email Field */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">
+                      {t.emailAddress} <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative group">
+                      <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 group-focus-within:text-amber-600 w-5 h-5 transition-colors" />
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        placeholder={t.emailPlaceholder}
+                        className="w-full pl-12 pr-4 py-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-slate-900 placeholder-slate-400 bg-white shadow-sm"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 {/* Message Field */}
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide">
+                  <label className="block text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">
                     {t.message} <span className="text-red-500">*</span>
                   </label>
                   <div className="relative group">
-                    <MessageSquare className="absolute left-4 top-4 text-gray-400 group-focus-within:text-gray-600 w-5 h-5 transition-colors" />
+                    <MessageSquare className="absolute left-4 top-5 text-slate-400 group-focus-within:text-amber-600 w-5 h-5 transition-colors" />
                     <textarea
                       name="message"
                       value={formData.message}
@@ -442,37 +425,40 @@ const ContactPage = () => {
                       required
                       rows={6}
                       placeholder={t.messagePlaceholder}
-                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 transition-all text-gray-900 placeholder-gray-400 resize-none bg-gray-50 focus:bg-white"
+                      className="w-full pl-12 pr-4 py-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-slate-900 placeholder-slate-400 resize-none bg-white shadow-sm"
                     />
                   </div>
                 </div>
 
                 {/* Submit Button */}
-                <div className="pt-4">
+                <div className="pt-4 flex flex-col items-center">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-gray-900 text-white py-5 px-8 rounded-lg font-bold text-lg hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-3 shadow-md hover:shadow-lg"
+                    className="w-full md:w-auto min-w-[250px] bg-slate-900 text-white py-4 px-8 rounded-xl font-bold text-lg hover:bg-slate-800 disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl hover:-translate-y-1"
                   >
                     {isSubmitting ? (
                       <>
-                        <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                         {t.sending}
                       </>
                     ) : (
                       <>
-                        <Send className="w-6 h-6" />
                         {t.sendMessage}
+                        <Send className="w-5 h-5" />
                       </>
                     )}
                   </button>
+                  <p className="text-xs text-slate-400 mt-4 flex items-center gap-1">
+                    <CheckCircle className="w-3 h-3" /> {t.formNote}
+                  </p>
                 </div>
 
                 {submitStatus === 'error' && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center p-4 bg-red-50 border border-red-200 rounded-lg flex items-center justify-center gap-3"
+                    className="text-center p-4 bg-red-50 border border-red-200 rounded-xl flex items-center justify-center gap-3"
                   >
                     <AlertCircle className="w-5 h-5 text-red-600" />
                     <p className="text-red-600 font-medium">{t.messageError}</p>

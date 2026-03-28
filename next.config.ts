@@ -13,16 +13,8 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 31536000, // Cache optimized images for 1 year
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'cloud.appwrite.io',
-        port: '',
-        pathname: '/v1/storage/buckets/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'fra.cloud.appwrite.io',
-        port: '',
-        pathname: '/v1/storage/buckets/**',
+        protocol: "https",
+        hostname: "**",
       },
     ],
     // unoptimized: false — Next.js will optimize images, convert to WebP/AVIF,
