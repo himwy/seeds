@@ -1,0 +1,9 @@
+{
+  "name": "seeds-scripts",
+  "version": "1.0.0",
+  "description": "Migration and maintenance scripts",
+  "dependencies": {
+    "node-appwrite": "^14.0.0",
+    "dotenv": "^16.3.1"
+  }
+}
