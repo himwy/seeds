@@ -6,42 +6,26 @@ import {
   STORAGE_BUCKET_ID,
 } from "./appwrite";
 import { ID, Query } from "appwrite";
+import type { Event } from "./eventModel";
 
-export interface Event {
-  $id?: string;
-  name: string; // English name
-  chineseName: string; // Chinese name
-  images: string[]; // Array of image URLs
-  thumbnail?: string; // Optional thumbnail URL for video events
-  isVideo?: boolean; // Whether this event contains video content
-  date: string;
-  category: "recent" | "past"; // Simple category
-}
+export type { Event } from "./eventModel";
 
 export class EventsService {
-  // Get events by category
+  // Get events by category (via same-origin API to avoid browser CORS to Appwrite)
   static async getEventsByCategory(
-    category: "recent" | "past"
+    category: "recent" | "past",
   ): Promise<Event[]> {
     try {
-      const response = await databases.listDocuments(
-        DATABASE_ID,
-        EVENTS_TABLE_ID,
-        [
-          Query.equal("category", category),
-          Query.orderDesc("date"),
-          Query.limit(100),
-        ]
+      const res = await fetch(
+        `/api/events?category=${encodeURIComponent(category)}`,
+        { cache: "no-store" },
       );
-      return response.documents.map((doc) => ({
-        $id: doc.$id,
-        name: doc.name,
-        chineseName: doc.chineseName,
-        date: doc.date,
-        category: doc.category,
-        images: JSON.parse(doc.images || "[]"),
-        thumbnail: doc.thumbnail || undefined,
-      })) as Event[];
+      if (!res.ok) {
+        const body = await res.text();
+        throw new Error(body || `Failed to fetch events (${res.status})`);
+      }
+      const data = (await res.json()) as { documents: Event[] };
+      return data.documents;
     } catch (error) {
       console.error("Error fetching events:", error);
       throw error;
@@ -72,51 +56,16 @@ export class EventsService {
     }
   }
 
-  // Get single event
+  // Get single event (same-origin API; avoids CORS)
   static async getEvent(id: string): Promise<Event> {
     try {
-      const response = await databases.getDocument(
-        DATABASE_ID,
-        EVENTS_TABLE_ID,
-        id
-      );
-
-      // Handle different types of image data from database
-      let images: string[] = [];
-      if (response.images) {
-        if (Array.isArray(response.images)) {
-          // Already an array
-          images = response.images;
-        } else if (typeof response.images === "string") {
-          // Check if it's a JSON string or a single URL
-          if (
-            response.images.startsWith("[") ||
-            response.images.startsWith("{")
-          ) {
-            try {
-              images = JSON.parse(response.images);
-            } catch (parseError) {
-              console.warn("Failed to parse images as JSON:", parseError);
-              // If JSON parsing fails, treat as single URL
-              images = [response.images];
-            }
-          } else {
-            // Single URL string
-            images = [response.images];
-          }
-        }
+      const res = await fetch(`/api/events/${encodeURIComponent(id)}`, {
+        cache: "no-store",
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to fetch event (${res.status})`);
       }
-
-      return {
-        $id: response.$id,
-        name: response.name,
-        chineseName: response.chineseName,
-        date: response.date,
-        category: response.category,
-        images,
-        thumbnail: response.thumbnail || undefined,
-        isVideo: response.isVideo || false,
-      } as Event;
+      return (await res.json()) as Event;
     } catch (error) {
       console.error("Error fetching event:", error);
       throw error;

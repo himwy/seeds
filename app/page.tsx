@@ -442,8 +442,8 @@ export default function Home() {
   // Intersection Observer for scroll animations
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px",
+      threshold: 0.08,
+      rootMargin: "0px 0px 80px 0px",
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -454,23 +454,19 @@ export default function Home() {
       });
     }, observerOptions);
 
-    // Small delay to ensure DOM is ready
     const setupAnimations = () => {
-      // Observe all elements with animation classes
       const animatedElements = document.querySelectorAll(
         ".fade-in-up, .fade-in, .slide-in-left, .slide-in-right",
       );
-      animatedElements.forEach((el) => observer.observe(el));
-
-      // For mobile, immediately animate elements that are above the fold
-      if (isMobile) {
-        animatedElements.forEach((el) => {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight && rect.top > -100) {
-            el.classList.add("animate");
-          }
-        });
-      }
+      animatedElements.forEach((el) => {
+        // Reveal anything already in the viewport (fade-in-up defaults to opacity:0 until .animate)
+        const rect = el.getBoundingClientRect();
+        const vh = window.innerHeight;
+        if (rect.top < vh && rect.bottom > 0) {
+          el.classList.add("animate");
+        }
+        observer.observe(el);
+      });
     };
 
     // Run immediately and after a short delay to catch any delayed renders
@@ -484,7 +480,7 @@ export default function Home() {
       );
       animatedElements.forEach((el) => observer.unobserve(el));
     };
-  }, [isMobile]); // Re-run when mobile state changes
+  }, [isMobile]);
 
   // Memoized contact button handlers
   const contactButtonHandlers = useMemo(
@@ -1027,7 +1023,7 @@ export default function Home() {
 
           {recentEventsPreview.length > 0 ? (
             <>
-              <div className="fade-in-up grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-10">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-10">
                 {recentEventsPreview.map((event) => (
                   <HomeRecentEventCard
                     key={event.$id}

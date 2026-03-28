@@ -1,5 +1,4 @@
-import { databases, DATABASE_ID } from './appwrite';
-import { ID } from 'appwrite';
+import { databases, DATABASE_ID } from "./appwrite";
 
 // Contact table ID - you'll need to create this collection in Appwrite
 export const CONTACTS_TABLE_ID = process.env.NEXT_PUBLIC_APPWRITE_CONTACTS_TABLE_ID || '';
@@ -12,22 +11,25 @@ export interface ContactFormData {
 }
 
 export const contactService = {
-  // Submit contact form to Appwrite
+  /** Submits via /api/contact so production is not blocked by Appwrite CORS. */
   async submitContactForm(formData: ContactFormData) {
     try {
-      const response = await databases.createDocument(
-        DATABASE_ID,
-        CONTACTS_TABLE_ID,
-        ID.unique(),
-        {
-          ...formData,
-          isRead: false,
-          isArchived: false
-        }
-      );
-      return { success: true, data: response };
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        return {
+          success: false,
+          error: err.error || response.statusText,
+        };
+      }
+      const data = await response.json();
+      return { success: true, data: data.data };
     } catch (error) {
-      console.error('Error submitting contact form:', error);
+      console.error("Error submitting contact form:", error);
       return { success: false, error };
     }
   },
