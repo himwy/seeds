@@ -14,7 +14,9 @@ export async function GET(
     const event = await getEventServer(eventId);
     return NextResponse.json(event, {
       headers: {
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+        // Short TTL so admin edits (e.g. uploading a thumbnail) appear
+        // on the public album page within seconds instead of after a minute.
+        "Cache-Control": "public, s-maxage=5, stale-while-revalidate=30",
       },
     });
   } catch (e) {

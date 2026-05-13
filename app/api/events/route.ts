@@ -16,7 +16,8 @@ export async function GET(request: NextRequest) {
       { documents },
       {
         headers: {
-          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+          // Short TTL so newly-added/edited events surface fast.
+          "Cache-Control": "public, s-maxage=5, stale-while-revalidate=30",
         },
       },
     );
