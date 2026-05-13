@@ -95,9 +95,7 @@ export default function AdminPage() {
     try {
       const userData = await account.get();
       const ud = userData as { labels?: string[]; email?: string };
-      const isAdmin =
-        (Array.isArray(ud.labels) && ud.labels.includes("admin")) ||
-        ud.email === "admin@seeds.com";
+      const isAdmin = Array.isArray(ud.labels) && ud.labels.includes("admin");
 
       if (isAdmin) {
         setIsLoggedIn(true);
@@ -228,9 +226,7 @@ export default function AdminPage() {
       const userData = existingUser ?? (await account.get());
       // Narrow the shape before accessing optional properties
       const ud = userData as { labels?: string[]; email?: string };
-      const isAdmin =
-        (Array.isArray(ud.labels) && ud.labels.includes("admin")) ||
-        ud.email === "admin@seeds.com";
+      const isAdmin = Array.isArray(ud.labels) && ud.labels.includes("admin");
       if (!isAdmin) {
         setMessage({
           type: "error",

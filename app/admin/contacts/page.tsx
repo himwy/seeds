@@ -60,9 +60,7 @@ export default function ContactMessagesPage() {
       try {
         const userData = await account.get();
         const ud = userData as { labels?: string[]; email?: string };
-        const isAdmin =
-          (Array.isArray(ud.labels) && ud.labels.includes("admin")) ||
-          ud.email === "admin@seeds.com";
+        const isAdmin = Array.isArray(ud.labels) && ud.labels.includes("admin");
         if (cancelled) return;
         if (!isAdmin) {
           router.replace("/admin");
