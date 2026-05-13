@@ -99,7 +99,7 @@ export default function RecentEventsPage() {
     });
   };
 
-  const sortedEvents = events.sort((a, b) => {
+  const sortedEvents = [...events].sort((a, b) => {
     const dateA = new Date(a.date).getTime();
     const dateB = new Date(b.date).getTime();
     return sortOrder === "newest" ? dateB - dateA : dateA - dateB;

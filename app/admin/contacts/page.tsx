@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { account } from "../../lib/appwrite";
 import {
   FaEnvelope,
   FaUser,
@@ -29,6 +31,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
 export default function ContactMessagesPage() {
+  const router = useRouter();
+  const [authChecked, setAuthChecked] = useState(false);
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(
@@ -48,6 +52,31 @@ export default function ContactMessagesPage() {
   });
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+
+  // Verify an admin session before rendering anything sensitive.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const userData = await account.get();
+        const ud = userData as { labels?: string[]; email?: string };
+        const isAdmin =
+          (Array.isArray(ud.labels) && ud.labels.includes("admin")) ||
+          ud.email === "admin@seeds.com";
+        if (cancelled) return;
+        if (!isAdmin) {
+          router.replace("/admin");
+          return;
+        }
+        setAuthChecked(true);
+      } catch {
+        if (!cancelled) router.replace("/admin");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   // Load messages
   const loadMessages = async () => {
@@ -69,8 +98,23 @@ export default function ContactMessagesPage() {
   };
 
   useEffect(() => {
+    if (!authChecked) return;
     loadMessages();
-  }, [filters]);
+  }, [filters, authChecked]);
+
+  if (!authChecked) {
+    return (
+      <div
+        className="min-h-screen bg-stone-50 flex flex-col items-center justify-center"
+        style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
+      >
+        <div className="w-10 h-10 border-2 border-stone-300 border-t-stone-900 rounded-full animate-spin" />
+        <p className="mt-6 text-xs uppercase tracking-[0.3em] text-stone-500">
+          Verifying access
+        </p>
+      </div>
+    );
+  }
 
   // Filter messages by search term
   const filteredMessages = messages.filter(

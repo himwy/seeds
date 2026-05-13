@@ -222,36 +222,8 @@ export default function AdminPage() {
         }
       }
 
-      // Use SDK method if available (newer Appwrite SDKs).
-      const acc = account as unknown as {
-        createEmailSession?: (
-          email: string,
-          password: string,
-        ) => Promise<unknown>;
-      };
       if (!existingUser) {
-        if (typeof acc.createEmailSession === "function") {
-          await acc.createEmailSession(email, password);
-        } else {
-          // Fallback: call Appwrite REST endpoint for email/password sessions.
-          const endpoint =
-            process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT ||
-            "https://cloud.appwrite.io/v1";
-          const project = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "";
-          const res = await fetch(`${endpoint}/account/sessions/email`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-Appwrite-Project": project,
-            },
-            body: JSON.stringify({ email, password }),
-            credentials: "include",
-          });
-          if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            throw new Error(err?.message || `Login failed (${res.status})`);
-          }
-        }
+        await account.createEmailPasswordSession(email, password);
       }
       const userData = existingUser ?? (await account.get());
       // Narrow the shape before accessing optional properties
@@ -299,36 +271,52 @@ export default function AdminPage() {
     }
   };
 
+  // Upload limits — client-side defense. Bucket-side limits in Appwrite are the
+  // real enforcement, but we want to reject obvious garbage before it hits the wire.
+  const MAX_FILE_COUNT = 50;
+  const MAX_FILE_BYTES = 500 * 1024 * 1024; // 500MB per file
+  const LARGE_FILE_THRESHOLD = 200 * 1024 * 1024; // > 200MB: skip preview generation (browser crash risk)
+
+  const validateBatch = (
+    incoming: File[],
+    alreadyCount: number,
+  ): { ok: File[]; rejected: string[] } => {
+    const ok: File[] = [];
+    const rejected: string[] = [];
+    let remaining = Math.max(0, MAX_FILE_COUNT - alreadyCount);
+    for (const f of incoming) {
+      if (!f.type.startsWith("image/") && !f.type.startsWith("video/")) {
+        rejected.push(`${f.name}: unsupported type (${f.type || "unknown"})`);
+        continue;
+      }
+      if (f.size > MAX_FILE_BYTES) {
+        rejected.push(
+          `${f.name}: ${(f.size / 1024 / 1024).toFixed(0)}MB exceeds ${MAX_FILE_BYTES / 1024 / 1024}MB limit`,
+        );
+        continue;
+      }
+      if (remaining <= 0) {
+        rejected.push(`${f.name}: over ${MAX_FILE_COUNT}-file limit per event`);
+        continue;
+      }
+      ok.push(f);
+      remaining--;
+    }
+    return { ok, rejected };
+  };
+
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-
-    // Check for very large files that might cause browser issues
-    const LARGE_FILE_THRESHOLD = 500 * 1024 * 1024; // 500MB threshold for preview generation
-    const EXTREME_FILE_THRESHOLD = 2 * 1024 * 1024 * 1024; // 2GB threshold for timeout warning
-
-    const largeFiles = files.filter((file) => file.size > LARGE_FILE_THRESHOLD);
-    const extremeFiles = files.filter(
-      (file) => file.size > EXTREME_FILE_THRESHOLD,
-    );
-
-    if (extremeFiles.length > 0) {
+    const raw = Array.from(e.target.files || []);
+    const { ok: files, rejected } = validateBatch(raw, selectedFiles.length);
+    if (rejected.length > 0) {
       setMessage({
         type: "error",
-        text: `⚠️ VERY LARGE FILES DETECTED (${extremeFiles
-          .map(
-            (f) => `${f.name}: ${(f.size / 1024 / 1024 / 1024).toFixed(2)}GB`,
-          )
-          .join(
-            ", ",
-          )}). Upload will take a long time and may timeout. Please ensure stable internet connection.`,
+        text: `Rejected ${rejected.length} file(s): ${rejected.slice(0, 3).join("; ")}${rejected.length > 3 ? "…" : ""}`,
       });
-    } else if (largeFiles.length > 0) {
-      setMessage({
-        type: "error",
-        text: `Large files detected (${largeFiles
-          .map((f) => `${f.name}: ${(f.size / 1024 / 1024).toFixed(0)}MB`)
-          .join(", ")}). Previews will be skipped to prevent browser crashes.`,
-      });
+    }
+    if (files.length === 0) {
+      e.target.value = "";
+      return;
     }
 
     setSelectedFiles((prev) => [...prev, ...files]);
@@ -414,61 +402,17 @@ export default function AdminPage() {
     e.preventDefault();
     setIsDragOver(false);
 
-    const files = Array.from(e.dataTransfer.files);
-    console.log(
-      "Dropped files:",
-      files.length,
-      files.map((f) => f.name),
-    );
-
-    const mediaFiles = files.filter(
-      (file) =>
-        file.type.startsWith("image/") || file.type.startsWith("video/"),
-    );
-
-    // Check for very large files that might cause browser issues
-    const LARGE_FILE_THRESHOLD = 500 * 1024 * 1024; // 500MB threshold for preview generation
-    const EXTREME_FILE_THRESHOLD = 2 * 1024 * 1024 * 1024; // 2GB threshold for timeout warning
-
-    const largeFiles = mediaFiles.filter(
-      (file) => file.size > LARGE_FILE_THRESHOLD,
-    );
-    const extremeFiles = mediaFiles.filter(
-      (file) => file.size > EXTREME_FILE_THRESHOLD,
-    );
-
-    if (extremeFiles.length > 0) {
+    const raw = Array.from(e.dataTransfer.files);
+    const { ok: mediaFiles, rejected } = validateBatch(raw, selectedFiles.length);
+    if (rejected.length > 0) {
       setMessage({
         type: "error",
-        text: `⚠️ VERY LARGE FILES DETECTED (${extremeFiles
-          .map(
-            (f) => `${f.name}: ${(f.size / 1024 / 1024 / 1024).toFixed(2)}GB`,
-          )
-          .join(
-            ", ",
-          )}). Upload will take a long time and may timeout. Please ensure stable internet connection.`,
-      });
-    } else if (largeFiles.length > 0) {
-      setMessage({
-        type: "error",
-        text: `Large files detected (${largeFiles
-          .map((f) => `${f.name}: ${(f.size / 1024 / 1024).toFixed(0)}MB`)
-          .join(", ")}). Previews will be skipped to prevent browser crashes.`,
+        text: `Rejected ${rejected.length} file(s): ${rejected.slice(0, 3).join("; ")}${rejected.length > 3 ? "…" : ""}`,
       });
     }
 
-    console.log(
-      "Valid media files:",
-      mediaFiles.length,
-      mediaFiles.map((f) => f.name),
-    );
-
     if (mediaFiles.length > 0) {
-      setSelectedFiles((prev) => {
-        const newFiles = [...prev, ...mediaFiles];
-        console.log("Total files after adding:", newFiles.length);
-        return newFiles;
-      });
+      setSelectedFiles((prev) => [...prev, ...mediaFiles]);
 
       // Process files sequentially to maintain order, but skip previews for large files
       const processFiles = async () => {
@@ -540,9 +484,7 @@ export default function AdminPage() {
     if (!editingEvent) return;
     try {
       setLoading(true);
-      // Extract file ID from Appwrite preview URL (assumes /buckets/{bucketId}/files/{fileId}/...)
-      const match = imageUrl.match(/\/files\/(.*?)\//);
-      const fileId = match ? match[1] : null;
+      const fileId = EventsService.extractFileId(imageUrl);
       if (fileId) {
         await EventsService.deleteImageFile(fileId);
       }
@@ -622,9 +564,18 @@ export default function AdminPage() {
   const addImagesToEvent = async (files: File[]) => {
     if (!editingEvent || files.length === 0) return;
 
+    const { ok, rejected } = validateBatch(files, currentEventImages.length);
+    if (rejected.length > 0) {
+      setMessage({
+        type: "error",
+        text: `Rejected ${rejected.length} file(s): ${rejected.slice(0, 3).join("; ")}${rejected.length > 3 ? "…" : ""}`,
+      });
+    }
+    if (ok.length === 0) return;
+
     try {
       setLoading(true);
-      const newImageUrls = await EventsService.uploadImages(files);
+      const newImageUrls = await EventsService.uploadImages(ok);
       const updatedImages = [...currentEventImages, ...newImageUrls];
 
       await EventsService.updateEvent(editingEvent.$id!, {

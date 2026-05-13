@@ -11,11 +11,11 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000, // Cache optimized images for 1 year
+    // Only allow images from Appwrite. Wildcards here turn the Next.js image
+    // optimizer into a public proxy for any host on the internet.
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
+      { protocol: "https", hostname: "cloud.appwrite.io" },
+      { protocol: "https", hostname: "*.appwrite.io" },
     ],
     // unoptimized: false — Next.js will optimize images, convert to WebP/AVIF,
     // and cache them. This does NOT use Appwrite transformations since we use /view URLs.

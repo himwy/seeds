@@ -214,18 +214,37 @@ export class EventsService {
     }
   }
 
+  // Extract the Appwrite file ID from a /storage/buckets/<bucket>/files/<id>/(view|download|preview) URL.
+  // Uses real URL parsing so query strings or extra path segments don't break it
+  // the way the previous /\/files\/(.*?)\// regex did.
+  static extractFileId(rawUrl: string): string | null {
+    try {
+      const u = new URL(rawUrl);
+      const segments = u.pathname.split("/").filter(Boolean);
+      const filesIdx = segments.indexOf("files");
+      if (filesIdx === -1) return null;
+      const id = segments[filesIdx + 1];
+      return id || null;
+    } catch {
+      return null;
+    }
+  }
+
   // Delete event and all associated images from Appwrite storage
   static async deleteEventWithImages(eventId: string): Promise<void> {
     try {
-      // Get event
       const event = await this.getEvent(eventId);
-      // Delete all images
-      for (const imageUrl of event.images) {
-        const match = imageUrl.match(/\/files\/(.*?)\//);
-        const fileId = match ? match[1] : null;
-        if (fileId) {
-          await this.deleteImageFile(fileId);
-        }
+      // Delete all media files (parallel, but don't fail the whole op on one stuck file)
+      await Promise.allSettled(
+        event.images.map((imageUrl) => {
+          const fileId = this.extractFileId(imageUrl);
+          return fileId ? this.deleteImageFile(fileId) : Promise.resolve();
+        }),
+      );
+      // Also drop the thumbnail file if there was one
+      if (event.thumbnail) {
+        const thumbId = this.extractFileId(event.thumbnail);
+        if (thumbId) await this.deleteImageFile(thumbId);
       }
       // Delete event document
       await this.deleteEvent(eventId);

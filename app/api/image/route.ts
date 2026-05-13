@@ -42,6 +42,28 @@ function cleanMemoryCache() {
   }
 }
 
+// Allowlist of hostnames we will proxy. Substring matching is unsafe (SSRF):
+// `?url=https://attacker.com/?x=appwrite.io` would have passed an `includes` check.
+const ALLOWED_HOSTS = new Set(["cloud.appwrite.io"]);
+
+function isAllowedAppwriteUrl(raw: string): URL | null {
+  let parsed: URL;
+  try {
+    parsed = new URL(raw);
+  } catch {
+    return null;
+  }
+  if (parsed.protocol !== "https:") return null;
+  const host = parsed.hostname.toLowerCase();
+  if (ALLOWED_HOSTS.has(host)) return parsed;
+  // Allow any *.appwrite.io subdomain in case of region-specific endpoints,
+  // but require the suffix match (not substring) so attacker.com.appwrite.io
+  // is also caught by the explicit endsWith check (it would match — that's
+  // why the suffix must be ".appwrite.io" with the leading dot).
+  if (host === "appwrite.io" || host.endsWith(".appwrite.io")) return parsed;
+  return null;
+}
+
 export async function GET(request: NextRequest) {
   const url = request.nextUrl.searchParams.get("url");
 
@@ -49,9 +71,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Missing url parameter" }, { status: 400 });
   }
 
-  // Validate the URL is from Appwrite
-  if (!url.includes("cloud.appwrite.io") && !url.includes("appwrite.io")) {
-    return NextResponse.json({ error: "Only Appwrite URLs are allowed" }, { status: 403 });
+  // Strict hostname allowlist — closes the SSRF hole that a substring check left open.
+  const parsed = isAllowedAppwriteUrl(url);
+  if (!parsed) {
+    return NextResponse.json({ error: "URL not allowed" }, { status: 403 });
   }
 
   try {
@@ -71,13 +94,15 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Fetch from Appwrite
-    const response = await fetch(url, {
+    // Fetch from Appwrite with a short timeout so slow/hung upstreams can't
+    // tie up the route handler. redirect:"manual" prevents a 302 from
+    // bouncing us to an unallowed host post-validation.
+    const response = await fetch(parsed.toString(), {
       headers: {
         "Accept": "image/webp,image/avif,image/*,*/*",
       },
-      // Allow fetch to follow redirects
-      redirect: "follow",
+      redirect: "manual",
+      signal: AbortSignal.timeout(15_000),
     });
 
     if (!response.ok) {
