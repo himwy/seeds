@@ -1118,14 +1118,14 @@ export default function AdminPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Event Media (Photos & Videos)
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-3">
+                  Event Media · Photos & Videos
                 </label>
                 <div
-                  className={`border-2 border-dashed rounded-lg p-8 transition-all duration-200 cursor-pointer ${
+                  className={`relative border-2 border-dashed rounded-2xl p-10 md:p-14 transition-all duration-200 cursor-pointer ${
                     isDragOver
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-300 hover:border-blue-400 hover:bg-gray-50"
+                      ? "border-blue-500 bg-blue-50/60"
+                      : "border-slate-300 hover:border-blue-500 hover:bg-slate-50"
                   }`}
                   onDragOver={handleFileUploadDragOver}
                   onDragLeave={handleFileUploadDragLeave}
@@ -1134,23 +1134,19 @@ export default function AdminPage() {
                     document.getElementById("file-upload")?.click()
                   }
                 >
-                  <div className="text-center">
+                  <div className="flex flex-col items-center text-center">
                     <FaCloudUploadAlt
-                      className={`mx-auto h-16 w-16 mb-4 transition-colors ${
-                        isDragOver ? "text-blue-500" : "text-gray-400"
+                      className={`h-14 w-14 mb-5 transition-colors ${
+                        isDragOver ? "text-blue-600" : "text-slate-400"
                       }`}
                     />
-                    <h3
-                      className={`text-lg font-medium mb-2 ${
-                        isDragOver ? "text-blue-700" : "text-gray-700"
-                      }`}
-                    >
+                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
                       {isDragOver
-                        ? "Drop your files here!"
-                        : "Drag & Drop your files here"}
+                        ? "Drop to upload"
+                        : "Drag files here, or click to browse"}
                     </h3>
-                    <p className="text-gray-500 text-sm mb-4">
-                      Drag and drop images or videos here, or click to select
+                    <p className="text-slate-500 text-sm mb-6">
+                      JPG, PNG, GIF, MP4, MOV, AVI · up to 10MB each
                     </p>
                     <input
                       id="file-upload"
@@ -1162,13 +1158,15 @@ export default function AdminPage() {
                     />
                     <button
                       type="button"
-                      className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold ring-1 ring-amber-500/30 transition-all duration-300"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        document.getElementById("file-upload")?.click();
+                      }}
+                      className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold px-8 py-4 rounded-xl shadow-md transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
                     >
-                      Select Files
+                      <FaPlus className="text-sm" />
+                      Choose Files
                     </button>
-                    <p className="text-gray-400 text-xs mt-3">
-                      Supports: JPG, PNG, GIF, MP4, MOV, AVI (Max 10MB each)
-                    </p>
                   </div>
                 </div>
               </div>
@@ -1567,10 +1565,10 @@ export default function AdminPage() {
                   Add New Media
                 </h4>
                 <div
-                  className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 cursor-pointer ${
+                  className={`relative border-2 border-dashed rounded-2xl p-10 md:p-12 text-center transition-all duration-200 cursor-pointer ${
                     isDragOver
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-300 hover:border-slate-700 hover:bg-gray-50"
+                      ? "border-blue-500 bg-blue-50/60"
+                      : "border-slate-300 hover:border-blue-500 hover:bg-slate-50"
                   }`}
                   onDragOver={handleFileUploadDragOver}
                   onDragLeave={handleFileUploadDragLeave}
@@ -1603,18 +1601,17 @@ export default function AdminPage() {
                   }
                 >
                   <FaCloudUploadAlt
-                    className={`text-4xl mx-auto mb-4 transition-colors ${
-                      isDragOver ? "text-blue-500" : "text-gray-400"
+                    className={`h-14 w-14 mx-auto mb-5 transition-colors ${
+                      isDragOver ? "text-blue-600" : "text-slate-400"
                     }`}
                   />
-                  <p
-                    className={`mb-4 transition-colors ${
-                      isDragOver ? "text-blue-700" : "text-gray-600"
-                    }`}
-                  >
+                  <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
                     {isDragOver
-                      ? "Drop your files here!"
-                      : "Drag and drop images or videos here, or click to select"}
+                      ? "Drop to upload"
+                      : "Drag files here, or click to browse"}
+                  </h3>
+                  <p className="text-slate-500 text-sm mb-6">
+                    Add photos or videos to this album
                   </p>
                   <input
                     type="file"
@@ -1631,9 +1628,11 @@ export default function AdminPage() {
                   />
                   <label
                     htmlFor="image-upload"
-                    className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold ring-1 ring-amber-500/30 cursor-pointer transition-all duration-300"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold px-8 py-4 rounded-xl shadow-md cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
                   >
-                    Select Media
+                    <FaPlus className="text-sm" />
+                    Choose Files
                   </label>
                 </div>
               </div>

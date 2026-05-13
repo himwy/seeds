@@ -192,7 +192,7 @@ export default function RecentEventsPage() {
             <p className="text-stone-500">{t.stayTuned}</p>
           </div>
         ) : (
-          <ol className="divide-y divide-stone-200">
+          <ol className="divide-y divide-stone-200 border-y border-stone-200">
             {sortedEvents.map((event, index) => {
               const firstMedia = event.images?.[0];
               const isVideoEvent =
@@ -200,7 +200,6 @@ export default function RecentEventsPage() {
               const posterSrc =
                 event.thumbnail || (isVideoEvent ? null : firstMedia);
               const indexLabel = String(index + 1).padStart(2, "0");
-              const totalLabel = String(sortedEvents.length).padStart(2, "0");
               const title =
                 language === "zh-HK" ? event.chineseName : event.name;
               const subtitle =
@@ -209,95 +208,88 @@ export default function RecentEventsPage() {
               return (
                 <motion.li
                   key={event.$id}
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
+                  viewport={{ once: true, margin: "-40px" }}
                   transition={{
-                    duration: 0.6,
-                    delay: Math.min(index * 0.04, 0.24),
+                    duration: 0.4,
+                    delay: Math.min(index * 0.02, 0.2),
                   }}
                 >
                   <Link
                     href={`/events/${event.$id}`}
-                    className="group block py-14 md:py-20 first:pt-0 outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-4 focus-visible:ring-offset-stone-50"
+                    className="group flex items-stretch gap-5 md:gap-8 py-5 md:py-6 outline-none focus-visible:bg-stone-100/60 transition-colors hover:bg-stone-100/40 -mx-3 px-3 rounded-sm"
                   >
-                    {/* Meta row — index + title */}
-                    <div className="grid grid-cols-12 gap-6 md:gap-10 items-baseline mb-8 md:mb-10">
-                      <div className="col-span-3 md:col-span-2">
-                        <span className="block text-3xl md:text-5xl font-bold text-stone-900 tabular-nums leading-none">
-                          {indexLabel}
-                        </span>
-                        <span className="block mt-2 text-[10px] uppercase tracking-[0.3em] text-stone-400 tabular-nums">
-                          / {totalLabel}
-                        </span>
-                      </div>
-                      <div className="col-span-9 md:col-span-10">
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-5 text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-500">
-                          <span className="h-px w-8 bg-amber-500" />
-                          <time dateTime={event.date}>
-                            {formatDate(event.date)}
-                          </time>
-                          <span className="text-stone-300">·</span>
-                          <span className="inline-flex items-center gap-2">
-                            {isVideoEvent ? (
-                              <FaPlay className="text-[8px] text-amber-600" />
-                            ) : (
-                              <span className="block h-1 w-1 rounded-full bg-stone-400" />
-                            )}
-                            {event.images.length}{" "}
-                            {isVideoEvent ? t.videosCount : t.photosCount}
-                          </span>
-                        </div>
-                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.05] text-stone-900 transition-colors group-hover:text-stone-700 mb-2">
-                          {title}
-                        </h2>
-                        {subtitle && (
-                          <p className="text-lg md:text-2xl text-stone-500 italic">
-                            {subtitle}
-                          </p>
-                        )}
-                      </div>
+                    {/* Index */}
+                    <div className="hidden md:flex flex-col items-end justify-center w-12 shrink-0 text-stone-400">
+                      <span className="text-xl font-bold tabular-nums">
+                        {indexLabel}
+                      </span>
                     </div>
 
-                    {/* Image */}
-                    <div className="relative aspect-[16/9] overflow-hidden bg-stone-900">
+                    {/* Thumbnail */}
+                    <div className="relative w-28 h-28 md:w-40 md:h-28 shrink-0 overflow-hidden bg-stone-900">
                       {posterSrc ? (
                         <>
                           <img
                             src={posterSrc}
                             alt={title}
-                            className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.03]"
+                            className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                             loading="lazy"
                             decoding="async"
                           />
                           {isVideoEvent && (
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-opacity duration-500 group-hover:bg-black/30">
-                              <div className="rounded-full bg-stone-50/95 backdrop-blur p-5 shadow-lg transition-transform duration-500 group-hover:scale-105">
-                                <FaPlay className="text-stone-900 text-xl" />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/15">
+                              <div className="rounded-full bg-stone-50/95 backdrop-blur p-2.5 shadow-md">
+                                <FaPlay className="text-stone-900 text-[10px] md:text-xs" />
                               </div>
                             </div>
                           )}
-                          {/* Top-right index for emphasis */}
-                          <div className="absolute top-4 right-4 text-[10px] uppercase tracking-[0.3em] text-white/90 bg-black/40 backdrop-blur-sm px-3 py-1.5">
-                            {indexLabel}
-                          </div>
                         </>
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-stone-800 to-stone-950">
-                          <div className="rounded-full bg-stone-50/95 backdrop-blur p-5">
-                            <FaPlay className="text-stone-900 text-xl" />
+                          <div className="rounded-full bg-stone-50/95 backdrop-blur p-2.5">
+                            <FaPlay className="text-stone-900 text-[10px] md:text-xs" />
                           </div>
                         </div>
                       )}
                     </div>
 
-                    {/* CTA row */}
-                    <div className="mt-6 md:mt-8 flex items-center gap-6">
-                      <div className="hidden md:block flex-1 h-px bg-stone-200 transition-colors duration-500 group-hover:bg-stone-900" />
-                      <span className="inline-flex items-center gap-3 text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-stone-900">
-                        {t.exploreEvent}
-                        <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-                      </span>
+                    {/* Body */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-center">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2 text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-stone-500">
+                        <span className="md:hidden font-bold tabular-nums text-stone-400">
+                          {indexLabel}
+                        </span>
+                        <span className="md:hidden text-stone-300">·</span>
+                        <span className="h-px w-6 bg-amber-500" />
+                        <time dateTime={event.date}>
+                          {formatDate(event.date)}
+                        </time>
+                        <span className="text-stone-300">·</span>
+                        <span className="inline-flex items-center gap-1.5">
+                          {isVideoEvent ? (
+                            <FaPlay className="text-[7px] text-amber-600" />
+                          ) : (
+                            <span className="block h-1 w-1 rounded-full bg-stone-400" />
+                          )}
+                          {event.images.length}{" "}
+                          {isVideoEvent ? t.videosCount : t.photosCount}
+                        </span>
+                      </div>
+                      <h2 className="text-lg md:text-2xl font-bold leading-snug text-stone-900 transition-colors group-hover:text-stone-700 line-clamp-2">
+                        {title}
+                      </h2>
+                      {subtitle && (
+                        <p className="hidden md:block text-sm md:text-base text-stone-500 italic line-clamp-1 mt-1">
+                          {subtitle}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Arrow */}
+                    <div className="hidden md:flex items-center text-stone-400 group-hover:text-stone-900 transition-colors">
+                      <FaArrowRight className="text-sm transition-transform duration-300 group-hover:translate-x-1" />
                     </div>
                   </Link>
                 </motion.li>
