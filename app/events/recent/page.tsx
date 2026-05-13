@@ -246,6 +246,24 @@ export default function RecentEventsPage() {
                             </div>
                           )}
                         </>
+                      ) : firstMedia ? (
+                        <>
+                          <video
+                            src={firstMedia}
+                            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                            muted
+                            playsInline
+                            preload="metadata"
+                            onLoadedMetadata={(e) => {
+                              e.currentTarget.currentTime = 0.1;
+                            }}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                            <div className="rounded-full bg-stone-50/95 backdrop-blur p-2.5 shadow-md">
+                              <FaPlay className="text-stone-900 text-[10px] md:text-xs" />
+                            </div>
+                          </div>
+                        </>
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-stone-800 to-stone-950">
                           <div className="rounded-full bg-stone-50/95 backdrop-blur p-2.5">

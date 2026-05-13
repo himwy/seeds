@@ -90,14 +90,27 @@ function HomeRecentEventCard({
                 </div>
               )}
             </>
-          ) : isVideoEvent ? (
-            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
-              <div className="rounded-full bg-white/95 p-5 shadow-lg backdrop-blur-sm">
-                <svg className="h-6 w-6 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M8 5v10l8-5-8-5z" />
-                </svg>
+          ) : isVideoEvent && firstMedia ? (
+            <>
+              <video
+                src={firstMedia}
+                className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+                muted
+                playsInline
+                preload="metadata"
+                onLoadedMetadata={(e) => {
+                  // Nudge so browsers paint the first frame as a still
+                  e.currentTarget.currentTime = 0.1;
+                }}
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                <div className="rounded-full bg-white/95 p-4 shadow-lg backdrop-blur-sm">
+                  <svg className="h-5 w-5 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M8 5v10l8-5-8-5z" />
+                  </svg>
+                </div>
               </div>
-            </div>
+            </>
           ) : null}
         </div>
         <div className="flex flex-1 flex-col p-5 md:p-6">

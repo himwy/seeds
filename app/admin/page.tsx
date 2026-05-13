@@ -922,80 +922,69 @@ export default function AdminPage() {
 
   return (
     <div
-      className="min-h-screen bg-slate-50"
+      className="min-h-screen bg-stone-50 text-stone-900"
       style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
     >
-      {/* Mobile-First Header */}
-      <div className="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Minimal header */}
+      <div className="bg-stone-50/85 backdrop-blur supports-[backdrop-filter]:bg-stone-50/70 border-b border-stone-200 sticky top-0 z-40">
+        <div className="max-w-6xl mx-auto px-6 lg:px-10">
           <div className="flex items-center justify-between h-16">
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors"
+              className="lg:hidden p-2 -ml-2 text-stone-500 hover:text-stone-900 transition-colors"
+              aria-label="Menu"
             >
-              <FaBars className="w-5 h-5" />
+              <FaBars className="w-4 h-4" />
             </button>
 
-            {/* Header Content */}
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center shadow-inner">
-                <FaCog className="w-5 h-5 text-amber-500" />
-              </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-                  Admin Portal
-                </h1>
-                <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">
-                  Events Management
-                </p>
-              </div>
+            <div className="flex items-center gap-3">
+              <span className="h-px w-6 bg-amber-500" />
+              <span className="text-[10px] uppercase tracking-[0.35em] text-stone-500">
+                Admin / Events
+              </span>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <Link
                 href="/admin/contacts"
-                className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 shadow-sm"
+                className="hidden sm:inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-stone-500 hover:text-stone-900 transition-colors px-3 py-2"
               >
-                <FaInbox className="w-4 h-4 text-slate-500" />
-                <span className="hidden sm:inline">Messages</span>
+                <FaInbox className="w-3.5 h-3.5" />
+                Messages
               </Link>
               <button
                 onClick={() => setShowForm(true)}
-                className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 shadow-md"
+                className="inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs uppercase tracking-[0.2em] font-semibold px-4 py-2.5 transition-colors"
               >
-                <FaPlus className="w-4 h-4 text-amber-500" />
-                <span className="hidden sm:inline">Add Event</span>
+                <FaPlus className="w-3 h-3" />
+                <span className="hidden sm:inline">New Event</span>
               </button>
               <button
                 onClick={() => handleLogout()}
-                className="text-slate-500 hover:text-red-600 p-2 rounded-lg transition-colors ml-2"
+                className="text-stone-400 hover:text-stone-900 p-2 transition-colors"
                 title="Logout"
               >
-                <FaSignOutAlt className="w-5 h-5" />
+                <FaSignOutAlt className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Duplicate toolbar removed; top-right header controls are retained */}
-
-      {/* Status Messages */}
+      {/* Status messages — minimal, no shouting colors */}
       <AnimatePresence>
         {message && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="px-4 sm:px-6 lg:px-8 pt-4"
+            exit={{ opacity: 0, y: -12 }}
+            className="max-w-6xl mx-auto px-6 lg:px-10 pt-6"
           >
             <div
-              className={`p-4 rounded-lg shadow-sm ${
+              className={`px-5 py-3 border-l-2 ${
                 message?.type === "error"
-                  ? "bg-red-50 text-red-700 border border-red-200"
-                  : "bg-green-50 text-green-700 border border-green-200"
+                  ? "border-stone-900 bg-stone-100/70 text-stone-900"
+                  : "border-amber-500 bg-stone-100/70 text-stone-700"
               }`}
             >
               <div className="flex items-center">
@@ -1018,23 +1007,24 @@ export default function AdminPage() {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-slate-900 to-slate-800 px-8 py-6 text-white relative">
-              <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-amber-400 to-amber-600"></div>
+            <div className="px-8 py-6 border-b border-stone-200 relative">
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-amber-500"></div>
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-2xl font-bold flex items-center">
-                    <FaCalendarAlt className="mr-3 text-amber-400" />
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="h-px w-6 bg-amber-500" />
+                    <span className="text-[10px] uppercase tracking-[0.35em] text-stone-500">
+                      {editingEvent ? "Edit Entry" : "New Entry"}
+                    </span>
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-stone-900">
                     {editingEvent ? "Edit Event" : "Add New Event"}
                   </h2>
-                  <p className="text-white/90 mt-1">
-                    {editingEvent
-                      ? "Update event details"
-                      : "Create a new event entry"}
-                  </p>
                 </div>
                 <button
                   onClick={resetForm}
-                  className="text-white hover:bg-white/20 p-2 rounded-lg transition-colors"
+                  className="text-stone-400 hover:text-stone-900 p-2 transition-colors"
+                  aria-label="Close"
                 >
                   <FaTimes className="text-xl" />
                 </button>
@@ -1054,7 +1044,7 @@ export default function AdminPage() {
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, name: e.target.value }))
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none text-gray-800 bg-white transition-colors"
+                    className="w-full px-0 py-3 border-b border-stone-300 focus:border-stone-900 outline-none text-stone-900 bg-transparent transition-colors text-base"
                     placeholder="Enter event name in English"
                     required
                   />
@@ -1073,7 +1063,7 @@ export default function AdminPage() {
                         chineseName: e.target.value,
                       }))
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none text-gray-800 bg-white transition-colors"
+                    className="w-full px-0 py-3 border-b border-stone-300 focus:border-stone-900 outline-none text-stone-900 bg-transparent transition-colors text-base"
                     placeholder="Enter event name in Chinese"
                     required
                   />
@@ -1091,7 +1081,7 @@ export default function AdminPage() {
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, date: e.target.value }))
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none text-gray-800 bg-white transition-colors"
+                    className="w-full px-0 py-3 border-b border-stone-300 focus:border-stone-900 outline-none text-stone-900 bg-transparent transition-colors text-base"
                     required
                   />
                 </div>
@@ -1108,7 +1098,7 @@ export default function AdminPage() {
                         category: e.target.value as "recent" | "past",
                       }))
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none text-gray-800 bg-white transition-colors"
+                    className="w-full px-0 py-3 border-b border-stone-300 focus:border-stone-900 outline-none text-stone-900 bg-transparent transition-colors text-base"
                     required
                   >
                     <option value="recent">最近活動 (Recent Events)</option>
@@ -1124,8 +1114,8 @@ export default function AdminPage() {
                 <div
                   className={`relative border-2 border-dashed rounded-2xl p-10 md:p-14 transition-all duration-200 cursor-pointer ${
                     isDragOver
-                      ? "border-blue-500 bg-blue-50/60"
-                      : "border-slate-300 hover:border-blue-500 hover:bg-slate-50"
+                      ? "border-stone-900 bg-stone-100/70"
+                      : "border-stone-300 hover:border-stone-900 hover:bg-stone-100/40"
                   }`}
                   onDragOver={handleFileUploadDragOver}
                   onDragLeave={handleFileUploadDragLeave}
@@ -1137,7 +1127,7 @@ export default function AdminPage() {
                   <div className="flex flex-col items-center text-center">
                     <FaCloudUploadAlt
                       className={`h-14 w-14 mb-5 transition-colors ${
-                        isDragOver ? "text-blue-600" : "text-slate-400"
+                        isDragOver ? "text-stone-900" : "text-stone-400"
                       }`}
                     />
                     <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
@@ -1162,7 +1152,7 @@ export default function AdminPage() {
                         e.stopPropagation();
                         document.getElementById("file-upload")?.click();
                       }}
-                      className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold px-8 py-4 rounded-xl shadow-md transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                      className="inline-flex items-center gap-3 bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs uppercase tracking-[0.2em] font-semibold px-8 py-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
                     >
                       <FaPlus className="text-sm" />
                       Choose Files
@@ -1338,14 +1328,14 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-8 py-3 border-2 border-gray-400 bg-gray-100 hover:bg-gray-200 rounded-xl text-gray-800 font-semibold transition-colors shadow-md"
+                  className="px-7 py-3 text-xs uppercase tracking-[0.2em] font-semibold text-stone-500 hover:text-stone-900 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center shadow-lg ring-1 ring-amber-500/40"
+                  className="px-8 py-3.5 bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs uppercase tracking-[0.2em] font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-3"
                 >
                   {loading ? (
                     <>
@@ -1378,156 +1368,151 @@ export default function AdminPage() {
 
       {/* Sophisticated Events Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-          <div className="bg-slate-900 px-8 py-6 text-white relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 to-amber-600"></div>
-            <h2 className="text-xl font-bold flex items-center tracking-wide">
-              <FaImages className="mr-3 text-amber-500" />
-              Events Gallery
-              <span className="ml-3 bg-white/10 text-white text-xs py-1 px-3 rounded-full border border-white/20">
-                {events.length} Total
-              </span>
-            </h2>
+        <div>
+          <div className="flex items-baseline justify-between gap-6 pb-4 mb-8 border-b border-stone-200">
+            <div className="flex items-center gap-3">
+              <span className="h-px w-6 bg-amber-500" />
+              <h2 className="text-[10px] md:text-xs uppercase tracking-[0.35em] text-stone-500">
+                Events Gallery
+              </h2>
+            </div>
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-400 tabular-nums">
+              {String(events.length).padStart(2, "0")} TOTAL
+            </span>
           </div>
 
           {loading ? (
-            <div className="p-20 text-center">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-slate-900 mx-auto mb-4"></div>
-              <p className="text-slate-500 font-medium">
-                Loading events portfolio...
+            <div className="py-24 text-center">
+              <div className="w-10 h-10 border-2 border-stone-300 border-t-stone-900 rounded-full animate-spin mx-auto mb-5" />
+              <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
+                Loading
               </p>
             </div>
           ) : events.length === 0 ? (
-            <div className="p-20 text-center">
-              <div className="bg-slate-50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 border border-slate-100">
-                <FaCalendarAlt className="text-3xl text-slate-300" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">
-                No events found
+            <div className="py-24 text-center">
+              <h3 className="text-2xl md:text-3xl font-bold text-stone-900 mb-3">
+                No events yet
               </h3>
-              <p className="text-slate-500 mb-8 max-w-md mx-auto">
-                Start building your corporate event portfolio by creating your
-                first event entry.
+              <p className="text-stone-500 mb-8 max-w-md mx-auto">
+                Create your first event to start the chronicle.
               </p>
               <button
                 onClick={() => setShowForm(true)}
-                className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-md inline-flex items-center"
+                className="inline-flex items-center gap-3 bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs uppercase tracking-[0.2em] font-semibold px-7 py-3.5 transition-colors"
               >
-                <FaPlus className="mr-2 text-amber-500" />
-                Add Your First Event
+                <FaPlus className="text-xs" />
+                New Event
               </button>
             </div>
           ) : (
-            <div className="p-8 bg-slate-50/50">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {events.map((event) => (
-                  <div
-                    key={event.$id}
-                    className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-slate-200 group flex flex-col"
-                  >
-                    {/* Event Image */}
-                    <div className="relative h-48 bg-slate-100 overflow-hidden">
-                      {(() => {
-                        if (!event.images || event.images.length === 0) {
-                          return (
-                            <div className="w-full h-full flex items-center justify-center">
-                              <FaImage className="text-slate-300 text-4xl" />
-                            </div>
-                          );
-                        }
-                        const firstMedia = event.images[0];
-                        const isVideoFirst = event.isVideo || isVideoUrl(firstMedia);
-                        const posterSrc = event.thumbnail || (isVideoFirst ? null : firstMedia);
-                        if (!posterSrc) {
-                          return (
-                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
-                              <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
-                                <FaPlay className="text-xl text-slate-800" />
-                              </div>
-                            </div>
-                          );
-                        }
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+              {events.map((event) => (
+                <div
+                  key={event.$id}
+                  className="group flex flex-col"
+                >
+                  {/* Event Image */}
+                  <div className="relative aspect-[4/3] bg-stone-900 overflow-hidden mb-4">
+                    {(() => {
+                      if (!event.images || event.images.length === 0) {
+                        return (
+                          <div className="w-full h-full flex items-center justify-center bg-stone-100">
+                            <FaImage className="text-stone-300 text-3xl" />
+                          </div>
+                        );
+                      }
+                      const firstMedia = event.images[0];
+                      const isVideoFirst = event.isVideo || isVideoUrl(firstMedia);
+                      const posterSrc = event.thumbnail || (isVideoFirst ? null : firstMedia);
+                      if (!posterSrc) {
                         return (
                           <>
-                            <Image
-                              src={posterSrc}
-                              alt={event.name}
-                              fill
-                              className="object-cover transition-transform duration-500 group-hover:scale-105"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            <video
+                              src={firstMedia}
+                              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                              muted
+                              playsInline
+                              preload="metadata"
+                              onLoadedMetadata={(e) => {
+                                e.currentTarget.currentTime = 0.1;
+                              }}
                             />
-                            {isVideoFirst && (
-                              <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                                <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
-                                  <FaPlay className="text-lg text-slate-800" />
-                                </div>
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                              <div className="rounded-full bg-stone-50/95 p-3 shadow-md">
+                                <FaPlay className="text-stone-900 text-sm" />
                               </div>
-                            )}
+                            </div>
                           </>
                         );
-                      })()}
-                      <div className="absolute top-3 right-3 flex gap-2">
-                        <span
-                          className={`px-3 py-1 rounded-md text-xs font-bold tracking-wider uppercase shadow-sm ${
-                            event.category === "recent"
-                              ? "bg-emerald-500/90 text-white backdrop-blur-sm"
-                              : "bg-slate-800/90 text-white backdrop-blur-sm"
-                          }`}
-                        >
-                          {event.category === "recent" ? "Recent" : "Past"}
-                        </span>
-                      </div>
+                      }
+                      return (
+                        <>
+                          <Image
+                            src={posterSrc}
+                            alt={event.name}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                          {isVideoFirst && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/15">
+                              <div className="rounded-full bg-stone-50/95 p-3 shadow-md">
+                                <FaPlay className="text-stone-900 text-sm" />
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
+                    <div className="absolute top-3 left-3">
+                      <span className="text-[9px] uppercase tracking-[0.3em] text-white/90 bg-black/40 backdrop-blur-sm px-2.5 py-1">
+                        {event.category === "recent" ? "Recent" : "Past"}
+                      </span>
                     </div>
+                  </div>
 
-                    {/* Event Details */}
-                    <div className="p-5 flex flex-col flex-grow">
-                      <h3 className="text-lg font-bold text-slate-900 mb-1 line-clamp-1">
-                        {event.name}
-                      </h3>
-                      <p className="text-slate-500 text-sm mb-4 line-clamp-1">
-                        {event.chineseName}
-                      </p>
+                  {/* Event Details */}
+                  <div className="flex flex-col flex-grow">
+                    <div className="flex items-center gap-2 mb-2 text-[10px] uppercase tracking-[0.25em] text-stone-500">
+                      <time>
+                        {new Date(event.date).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </time>
+                      <span className="text-stone-300">·</span>
+                      <span>{event.images?.length || 0} media</span>
+                    </div>
+                    <h3 className="text-lg font-bold text-stone-900 leading-snug line-clamp-2 mb-1">
+                      {event.name}
+                    </h3>
+                    <p className="text-sm text-stone-500 italic line-clamp-1 mb-5">
+                      {event.chineseName}
+                    </p>
 
-                      <div className="flex items-center justify-between text-xs font-medium text-slate-400 mb-6 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                        <div className="flex items-center">
-                          <FaCalendarAlt className="mr-2 text-slate-400" />
-                          {new Date(event.date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </div>
-                        <div className="flex items-center">
-                          <FaImages className="mr-2 text-slate-400" />
-                          {event.images?.length || 0} media
-                        </div>
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="flex space-x-2 mt-auto">
-                        <button
-                          onClick={() => openImageManager(event)}
-                          className="flex-1 bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 px-3 py-2 rounded-lg text-sm font-semibold transition-all flex items-center justify-center"
-                          title="Manage Media"
-                        >
-                          <FaImages className="mr-2 text-slate-400" />
-                          Media
-                        </button>
-                        <button
-                          onClick={() => handleEdit(event)}
-                          className="flex-1 bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 px-3 py-2 rounded-lg text-sm font-semibold transition-all flex items-center justify-center"
-                          title="Edit Event"
-                        >
-                          <FaEdit className="mr-2 text-slate-400" />
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(event.$id!)}
-                          className="bg-white border border-red-100 hover:bg-red-50 text-red-600 px-3 py-2 rounded-lg text-sm font-semibold transition-all flex items-center justify-center"
-                          title="Delete Event"
-                        >
-                          <FaTrash />
-                        </button>
+                    {/* Action Buttons */}
+                    <div className="flex items-center gap-4 mt-auto pt-4 border-t border-stone-200 text-[10px] uppercase tracking-[0.25em] font-semibold">
+                      <button
+                        onClick={() => openImageManager(event)}
+                        className="text-stone-700 hover:text-stone-900 transition-colors"
+                      >
+                        Media
+                      </button>
+                      <span className="text-stone-300">·</span>
+                      <button
+                        onClick={() => handleEdit(event)}
+                        className="text-stone-700 hover:text-stone-900 transition-colors"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(event.$id!)}
+                        className="ml-auto text-stone-400 hover:text-stone-900 transition-colors"
+                        title="Delete Event"
+                      >
+                        <FaTrash className="text-xs" />
+                      </button>
                       </div>
                     </div>
                   </div>
@@ -1542,16 +1527,27 @@ export default function AdminPage() {
       {showImageManager && editingEvent && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl">
-            <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-8 py-6 relative">
-              <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-amber-400 to-amber-600"></div>
+            <div className="px-8 py-6 border-b border-stone-200 relative">
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-amber-500"></div>
               <div className="flex justify-between items-center">
                 <div>
-                  <h3 className="text-2xl font-bold">Manage Album</h3>
-                  <p className="text-slate-300">{editingEvent?.name ?? ""}</p>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="h-px w-6 bg-amber-500" />
+                    <span className="text-[10px] uppercase tracking-[0.35em] text-stone-500">
+                      Album
+                    </span>
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-stone-900">
+                    Manage Album
+                  </h3>
+                  <p className="text-sm text-stone-500 italic mt-1">
+                    {editingEvent?.name ?? ""}
+                  </p>
                 </div>
                 <button
                   onClick={() => setShowImageManager(false)}
-                  className="text-white hover:bg-white/20 p-2 rounded-lg transition-colors"
+                  className="text-stone-400 hover:text-stone-900 p-2 transition-colors"
+                  aria-label="Close"
                 >
                   <FaTimes className="text-xl" />
                 </button>
@@ -1567,8 +1563,8 @@ export default function AdminPage() {
                 <div
                   className={`relative border-2 border-dashed rounded-2xl p-10 md:p-12 text-center transition-all duration-200 cursor-pointer ${
                     isDragOver
-                      ? "border-blue-500 bg-blue-50/60"
-                      : "border-slate-300 hover:border-blue-500 hover:bg-slate-50"
+                      ? "border-stone-900 bg-stone-100/70"
+                      : "border-stone-300 hover:border-stone-900 hover:bg-stone-100/40"
                   }`}
                   onDragOver={handleFileUploadDragOver}
                   onDragLeave={handleFileUploadDragLeave}
@@ -1602,7 +1598,7 @@ export default function AdminPage() {
                 >
                   <FaCloudUploadAlt
                     className={`h-14 w-14 mx-auto mb-5 transition-colors ${
-                      isDragOver ? "text-blue-600" : "text-slate-400"
+                      isDragOver ? "text-stone-900" : "text-stone-400"
                     }`}
                   />
                   <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">
@@ -1629,7 +1625,7 @@ export default function AdminPage() {
                   <label
                     htmlFor="image-upload"
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold px-8 py-4 rounded-xl shadow-md cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-3 bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs uppercase tracking-[0.2em] font-semibold px-8 py-4 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
                   >
                     <FaPlus className="text-sm" />
                     Choose Files

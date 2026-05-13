@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
@@ -10,6 +11,9 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  // Admin gets its own chrome — no public navbar/footer
+  const hideChrome = pathname?.startsWith("/admin") ?? false;
 
   useEffect(() => {
     setMounted(true);
@@ -46,9 +50,9 @@ export default function MainLayout({
 
   return (
     <div className="flex flex-col min-h-screen w-full overflow-x-hidden bg-white">
-      <Navbar />
+      {!hideChrome && <Navbar />}
       <main className="flex-grow w-full overflow-x-hidden">{children}</main>
-      <Footer />
+      {!hideChrome && <Footer />}
     </div>
   );
 }
