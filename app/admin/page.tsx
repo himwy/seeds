@@ -954,7 +954,7 @@ export default function AdminPage() {
               </Link>
               <button
                 onClick={() => setShowForm(true)}
-                className="inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs uppercase tracking-[0.2em] font-semibold px-4 py-2.5 transition-colors"
+                className="inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 text-white text-xs uppercase tracking-[0.2em] font-semibold px-4 py-2.5 transition-colors"
               >
                 <FaPlus className="w-3 h-3" />
                 <span className="hidden sm:inline">New Event</span>
@@ -1152,7 +1152,7 @@ export default function AdminPage() {
                         e.stopPropagation();
                         document.getElementById("file-upload")?.click();
                       }}
-                      className="inline-flex items-center gap-3 bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs uppercase tracking-[0.2em] font-semibold px-8 py-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                      className="inline-flex items-center gap-3 bg-stone-900 hover:bg-stone-800 text-white text-xs uppercase tracking-[0.2em] font-semibold px-8 py-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
                     >
                       <FaPlus className="text-sm" />
                       Choose Files
@@ -1335,7 +1335,7 @@ export default function AdminPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-8 py-3.5 bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs uppercase tracking-[0.2em] font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-3"
+                  className="px-8 py-3.5 bg-stone-900 hover:bg-stone-800 text-white text-xs uppercase tracking-[0.2em] font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-3"
                 >
                   {loading ? (
                     <>
@@ -1398,7 +1398,7 @@ export default function AdminPage() {
               </p>
               <button
                 onClick={() => setShowForm(true)}
-                className="inline-flex items-center gap-3 bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs uppercase tracking-[0.2em] font-semibold px-7 py-3.5 transition-colors"
+                className="inline-flex items-center gap-3 bg-stone-900 hover:bg-stone-800 text-white text-xs uppercase tracking-[0.2em] font-semibold px-7 py-3.5 transition-colors"
               >
                 <FaPlus className="text-xs" />
                 New Event
@@ -1624,7 +1624,7 @@ export default function AdminPage() {
                   <label
                     htmlFor="image-upload"
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-3 bg-stone-900 hover:bg-stone-800 text-stone-50 text-xs uppercase tracking-[0.2em] font-semibold px-8 py-4 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-3 bg-stone-900 hover:bg-stone-800 text-white text-xs uppercase tracking-[0.2em] font-semibold px-8 py-4 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
                   >
                     <FaPlus className="text-sm" />
                     Choose Files
