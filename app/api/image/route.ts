@@ -87,8 +87,32 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const arrayBuffer = await response.arrayBuffer();
+    // Reject large responses so the proxy can't be used to pull multi-MB videos
+    // through our server. 25MB cap — generous for images, blocks abuse.
+    const MAX_BYTES = 25 * 1024 * 1024;
+    const declaredLength = Number(response.headers.get("content-length") || 0);
+    if (declaredLength && declaredLength > MAX_BYTES) {
+      return NextResponse.json(
+        { error: "Resource too large for proxy" },
+        { status: 413 }
+      );
+    }
     const contentType = response.headers.get("content-type") || "image/jpeg";
+    // Only proxy image content types — videos / arbitrary blobs should hit Appwrite directly
+    if (!contentType.startsWith("image/")) {
+      return NextResponse.json(
+        { error: "Only image content types are proxied" },
+        { status: 415 }
+      );
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    if (arrayBuffer.byteLength > MAX_BYTES) {
+      return NextResponse.json(
+        { error: "Resource too large for proxy" },
+        { status: 413 }
+      );
+    }
 
     // Store in memory cache
     cleanMemoryCache();

@@ -5,12 +5,7 @@ import { useLanguage } from "../../components/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
-  FaCalendarAlt,
-  FaImages,
-  FaEye,
-  // FaArrowRight,
-  FaFilter,
-  FaHistory,
+  FaArrowRight,
   FaPlay,
 } from "react-icons/fa";
 import { EventsService, Event } from "../../lib/eventsService";
@@ -68,32 +63,17 @@ export default function PastEventsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<string>("newest");
-  const [mediaTypes, setMediaTypes] = useState<Record<string, 'video' | 'image' | 'loading'>>({});
 
   useEffect(() => {
     loadEvents();
   }, []);
 
-  // Auto-detect if URL is video or image by trying to load it
-  const detectMediaType = (url: string, eventId: string) => {
-    if (mediaTypes[eventId] && mediaTypes[eventId] !== 'loading') return;
-    
-    setMediaTypes(prev => ({ ...prev, [eventId]: 'loading' }));
-    
-    // Try loading as video first
-    const video = document.createElement('video');
-    video.preload = 'metadata';
-    
-    video.onloadedmetadata = () => {
-      setMediaTypes(prev => ({ ...prev, [eventId]: 'video' }));
-    };
-    
-    video.onerror = () => {
-      // If video fails, it's an image
-      setMediaTypes(prev => ({ ...prev, [eventId]: 'image' }));
-    };
-    
-    video.src = url;
+  const isVideoUrl = (url: string) => {
+    if (!url) return false;
+    const lower = url.toLowerCase();
+    return [".mp4", ".mov", ".avi", ".webm", ".mkv", ".m4v"].some((ext) =>
+      lower.includes(ext)
+    ) || lower.includes("video");
   };
 
   const loadEvents = async () => {
@@ -128,225 +108,204 @@ export default function PastEventsPage() {
 
   return (
     <div
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-stone-50 text-stone-900"
       style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
     >
-      {/* Hero Section */}
-      <section className="relative bg-gray-50 py-20 pt-32">
-        <div className="container mx-auto px-8 text-center">
+      {/* ─── Masthead ─────────────────────────────────────── */}
+      <section className="border-b border-stone-200/70">
+        <div className="mx-auto max-w-6xl px-6 lg:px-10 pt-32 md:pt-40 pb-16 md:pb-24">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-5xl mx-auto"
           >
-            <h1 className="text-6xl font-bold text-gray-900 mb-6">
+            <div className="flex items-center gap-4 mb-10 text-[10px] md:text-xs uppercase tracking-[0.35em] text-stone-500">
+              <span className="h-px w-10 bg-amber-500" />
+              <span>Archive / {t.recentActivity}</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[0.95] tracking-tight text-stone-900">
               {t.pageTitle}
             </h1>
-
-            <div className="w-32 h-1 bg-gray-900 mx-auto mb-8"></div>
-
-            <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-12">
-              {t.heroDescription}
-            </p>
-
-            <p className="text-lg text-gray-600 italic">{t.heroSubtitle}</p>
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10">
+              <p className="md:col-span-7 text-lg md:text-xl text-stone-600 leading-relaxed">
+                {t.heroDescription}
+              </p>
+              <p className="md:col-span-5 italic text-stone-500 md:text-right">
+                — {t.heroSubtitle}
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Events Content */}
-      <section className="py-16 px-8">
-        <div className="container mx-auto">
-          {loading ? (
-            <div className="flex flex-col items-center justify-center py-24">
-              <div className="w-16 h-16 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin"></div>
-              <p className="text-gray-600 mt-6 text-lg">{t.loading}</p>
+      {/* ─── Sticky meta bar ──────────────────────────────── */}
+      {!loading && !error && events.length > 0 && (
+        <div className="sticky top-0 z-30 border-b border-stone-200 bg-stone-50/85 backdrop-blur supports-[backdrop-filter]:bg-stone-50/70">
+          <div className="mx-auto max-w-6xl px-6 lg:px-10 py-4 flex items-center justify-between gap-4">
+            <div className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-500 tabular-nums">
+              {sortedEvents.length}{" "}
+              {sortedEvents.length === 1 ? "entry" : "entries"}
             </div>
-          ) : error ? (
-            <div className="text-center py-24">
-              <div className="text-2xl font-medium text-red-600 mb-6">
-                {t.error}
-              </div>
-              <button
-                onClick={loadEvents}
-                className="px-8 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200"
+            <div className="flex items-center gap-3">
+              <span className="hidden sm:inline text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-500">
+                {t.sortBy}
+              </span>
+              <select
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+                className="bg-transparent border-b border-stone-300 px-1 py-1 text-sm text-stone-900 focus:outline-none focus:border-stone-900 cursor-pointer"
               >
-                {t.tryAgain}
-              </button>
+                <option value="newest">{t.sortNewest}</option>
+                <option value="oldest">{t.sortOldest}</option>
+              </select>
             </div>
-          ) : events.length === 0 ? (
-            <div className="text-center py-24">
-              <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-8">
-                <FaHistory className="text-3xl text-gray-600" />
-              </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                {t.noEvents}
-              </h3>
-              <p className="text-gray-600 text-lg">{t.stayTuned}</p>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Body ────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-6 lg:px-10 py-16 md:py-24">
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-32">
+            <div className="w-12 h-12 border-2 border-stone-300 border-t-stone-900 rounded-full animate-spin" />
+            <p className="mt-6 text-xs uppercase tracking-[0.3em] text-stone-500">
+              {t.loading}
+            </p>
+          </div>
+        ) : error ? (
+          <div className="py-32 text-center">
+            <p className="text-3xl font-bold text-stone-900 mb-6">{t.error}</p>
+            <button
+              onClick={loadEvents}
+              className="px-8 py-3 bg-stone-900 text-white text-sm uppercase tracking-[0.2em] hover:bg-stone-800 transition-colors"
+            >
+              {t.tryAgain}
+            </button>
+          </div>
+        ) : events.length === 0 ? (
+          <div className="py-32 text-center">
+            <div className="text-[10px] uppercase tracking-[0.35em] text-stone-500 mb-6">
+              {t.recentActivity}
             </div>
-          ) : (
-            <>
-              {/* Header with Sort */}
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
-                <div>
-                  <h2 className="text-4xl font-bold text-gray-900 mb-2">
-                    {t.eventsTitle}
-                  </h2>
-                  <div className="w-20 h-1 bg-gray-900"></div>
-                </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-stone-900 mb-4">
+              {t.noEvents}
+            </h2>
+            <p className="text-stone-500">{t.stayTuned}</p>
+          </div>
+        ) : (
+          <ol className="divide-y divide-stone-200">
+            {sortedEvents.map((event, index) => {
+              const firstMedia = event.images?.[0];
+              const isVideoEvent =
+                event.isVideo || (firstMedia ? isVideoUrl(firstMedia) : false);
+              const posterSrc =
+                event.thumbnail || (isVideoEvent ? null : firstMedia);
+              const indexLabel = String(index + 1).padStart(2, "0");
+              const totalLabel = String(sortedEvents.length).padStart(2, "0");
+              const title =
+                language === "zh-HK" ? event.chineseName : event.name;
+              const subtitle =
+                language === "zh-HK" ? event.name : event.chineseName;
 
-                <div className="flex items-center gap-3">
-                  <FaFilter className="text-gray-600" />
-                  <span className="text-gray-600 font-medium">{t.sortBy}:</span>
-                  <select
-                    value={sortOrder}
-                    onChange={(e) => setSortOrder(e.target.value)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900"
+              return (
+                <motion.li
+                  key={event.$id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{
+                    duration: 0.6,
+                    delay: Math.min(index * 0.04, 0.24),
+                  }}
+                >
+                  <Link
+                    href={`/events/${event.$id}`}
+                    className="group block py-14 md:py-20 first:pt-0 outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-4 focus-visible:ring-offset-stone-50"
                   >
-                    <option value="newest">{t.sortNewest}</option>
-                    <option value="oldest">{t.sortOldest}</option>
-                  </select>
-                </div>
-              </div>
+                    {/* Meta row — index + title */}
+                    <div className="grid grid-cols-12 gap-6 md:gap-10 items-baseline mb-8 md:mb-10">
+                      <div className="col-span-3 md:col-span-2">
+                        <span className="block text-3xl md:text-5xl font-bold text-stone-900 tabular-nums leading-none">
+                          {indexLabel}
+                        </span>
+                        <span className="block mt-2 text-[10px] uppercase tracking-[0.3em] text-stone-400 tabular-nums">
+                          / {totalLabel}
+                        </span>
+                      </div>
+                      <div className="col-span-9 md:col-span-10">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-5 text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-500">
+                          <span className="h-px w-8 bg-amber-500" />
+                          <time dateTime={event.date}>
+                            {formatDate(event.date)}
+                          </time>
+                          <span className="text-stone-300">·</span>
+                          <span className="inline-flex items-center gap-2">
+                            {isVideoEvent ? (
+                              <FaPlay className="text-[8px] text-amber-600" />
+                            ) : (
+                              <span className="block h-1 w-1 rounded-full bg-stone-400" />
+                            )}
+                            {event.images.length}{" "}
+                            {isVideoEvent ? t.videosCount : t.photosCount}
+                          </span>
+                        </div>
+                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.05] text-stone-900 transition-colors group-hover:text-stone-700 mb-2">
+                          {title}
+                        </h2>
+                        {subtitle && (
+                          <p className="text-lg md:text-2xl text-stone-500 italic">
+                            {subtitle}
+                          </p>
+                        )}
+                      </div>
+                    </div>
 
-              {/* Events Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {sortedEvents.map((event, index) => (
-                  <article
-                    key={event.$id}
-                    className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
-                  >
-                    {/* Image Container */}
-                    <div className="relative h-64 overflow-hidden">
-                      {event.images && event.images.length > 0 ? (
+                    {/* Image */}
+                    <div className="relative aspect-[16/9] overflow-hidden bg-stone-900">
+                      {posterSrc ? (
                         <>
-                          {/* If thumbnail exists, use it */}
-                          {event.thumbnail ? (
-                            <div className="relative w-full h-full bg-gray-900">
-                              <img
-                                src={event.thumbnail}
-                                alt={language === "zh-HK" ? event.chineseName : event.name}
-                                className="w-full h-full object-cover"
-                                loading="lazy"
-                              />
-                              {/* Video Play Overlay */}
-                              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
-                                <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
-                                  <FaPlay className="text-2xl text-gray-800" />
-                                </div>
+                          <img
+                            src={posterSrc}
+                            alt={title}
+                            className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.03]"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          {isVideoEvent && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-opacity duration-500 group-hover:bg-black/30">
+                              <div className="rounded-full bg-stone-50/95 backdrop-blur p-5 shadow-lg transition-transform duration-500 group-hover:scale-105">
+                                <FaPlay className="text-stone-900 text-xl" />
                               </div>
                             </div>
-                          ) : (
-                            // Auto-detect: try video first, fall back to image
-                            <div className="relative w-full h-full bg-gray-900">
-                              {(() => {
-                                // Trigger detection if not yet done
-                                if (!mediaTypes[event.$id!]) {
-                                  detectMediaType(event.images[0], event.$id!);
-                                }
-                                return null;
-                              })()}
-                              
-                              {/* Show video element - it will display first frame if it's a video */}
-                              <video
-                                src={event.images[0]}
-                                className="w-full h-full object-cover"
-                                muted
-                                playsInline
-                                preload="auto"
-                                onLoadedMetadata={(e) => {
-                                  const video = e.target as HTMLVideoElement;
-                                  video.currentTime = 0.1;
-                                }}
-                                onError={(e) => {
-                                  // If video fails to load, hide it and show image instead
-                                  (e.target as HTMLVideoElement).style.display = 'none';
-                                  const img = (e.target as HTMLVideoElement).nextElementSibling as HTMLImageElement;
-                                  if (img) img.style.display = 'block';
-                                }}
-                                onLoadedData={(e) => {
-                                  // Video loaded successfully, hide the fallback image
-                                  const img = (e.target as HTMLVideoElement).nextElementSibling as HTMLImageElement;
-                                  if (img) img.style.display = 'none';
-                                }}
-                              />
-                              {/* Fallback image (hidden by default, shown if video fails) */}
-                              <img
-                                src={event.images[0]}
-                                alt={language === "zh-HK" ? event.chineseName : event.name}
-                                className="w-full h-full object-cover absolute inset-0"
-                                style={{ display: 'none' }}
-                                loading="lazy"
-                                onLoad={(e) => {
-                                  // If image loads and video hasn't, show image
-                                  const video = (e.target as HTMLImageElement).previousElementSibling as HTMLVideoElement;
-                                  if (video && video.readyState === 0) {
-                                    (e.target as HTMLImageElement).style.display = 'block';
-                                  }
-                                }}
-                              />
-                              {/* Video Play Overlay - only show if it's detected as video */}
-                              {mediaTypes[event.$id!] === 'video' && (
-                                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 flex items-center justify-center">
-                                  <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
-                                    <FaPlay className="text-2xl text-gray-800" />
-                                  </div>
-                                </div>
-                              )}
-                            </div>
                           )}
-
-                          {/* Media Count Badge */}
-                          <div className="absolute top-4 right-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-medium flex items-center gap-2">
-                            {(event.thumbnail || mediaTypes[event.$id!] === 'video') ? (
-                              <FaPlay className="text-xs" />
-                            ) : (
-                              <FaImages className="text-xs" />
-                            )}
-                            {event.images.length}
-                          </div>
-
-                          {/* Date Badge */}
-                          <div className="absolute bottom-4 left-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-medium">
-                            {formatDate(event.date)}
+                          {/* Top-right index for emphasis */}
+                          <div className="absolute top-4 right-4 text-[10px] uppercase tracking-[0.3em] text-white/90 bg-black/40 backdrop-blur-sm px-3 py-1.5">
+                            {indexLabel}
                           </div>
                         </>
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                          <FaImages className="text-4xl text-gray-400" />
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-stone-800 to-stone-950">
+                          <div className="rounded-full bg-stone-50/95 backdrop-blur p-5">
+                            <FaPlay className="text-stone-900 text-xl" />
+                          </div>
                         </div>
                       )}
                     </div>
 
-                    {/* Content */}
-                    <div className="p-6 flex flex-col min-h-[140px]">
-                      {/* Title with flexible height */}
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3 flex-grow">
-                        {language === "zh-HK" ? event.chineseName : event.name}
-                      </h3>
-
-                      {/* Bottom section with consistent positioning */}
-                      <div className="flex items-center justify-between mt-auto">
-                        <div className="flex items-center text-gray-600 text-sm">
-                          <FaCalendarAlt className="mr-2" />
-                          <span>{formatDate(event.date)}</span>
-                        </div>
-
-                        <Link href={`/events/${event.$id}`}>
-                          <button className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors duration-200">
-                            <FaEye className="text-white" />
-                            <span>{t.viewGallery}</span>
-                          </button>
-                        </Link>
-                      </div>
+                    {/* CTA row */}
+                    <div className="mt-6 md:mt-8 flex items-center gap-6">
+                      <div className="hidden md:block flex-1 h-px bg-stone-200 transition-colors duration-500 group-hover:bg-stone-900" />
+                      <span className="inline-flex items-center gap-3 text-xs md:text-sm uppercase tracking-[0.25em] font-semibold text-stone-900">
+                        {t.exploreEvent}
+                        <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+                      </span>
                     </div>
-                  </article>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+                  </Link>
+                </motion.li>
+              );
+            })}
+          </ol>
+        )}
       </section>
     </div>
   );

@@ -555,18 +555,6 @@ export default function CreateEventPage() {
               </div>
             </div>
 
-            {/* Debug Info */}
-            <div className="text-sm text-gray-500 p-4 bg-gray-100 rounded-lg">
-              <p><strong>Debug Info:</strong></p>
-              <p>Selected Files: {selectedFiles.length}</p>
-              <p>Preview URLs: {previewUrls.length}</p>
-              <p>Pending Files: {pendingFiles.length}</p>
-              <p>Files: {selectedFiles.map(f => f.name).join(', ')}</p>
-              {pendingFiles.length > 0 && (
-                <p>Pending: {pendingFiles.map(f => f.name).join(', ')}</p>
-              )}
-            </div>
-
             {/* Photo Previews */}
             {previewUrls.length > 0 && (
               <div>

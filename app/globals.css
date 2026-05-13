@@ -20,7 +20,18 @@
   }
 }
 
-/* Remove problematic @theme rule and replace with standard CSS */
+/*
+ * Register brand colors with Tailwind v4 so `bg-primary`, `from-primary`,
+ * `focus:ring-primary`, `border-primary` etc. resolve. The manual `.text-primary`
+ * `!important` rules later in this file still win for text color, so nothing
+ * that was rendering before changes — but previously broken backgrounds,
+ * gradients, rings, and borders now render correctly.
+ */
+@theme {
+  --color-primary: #1a5276;
+  --color-secondary: #2980b9;
+  --color-accent: #f39c12;
+}
 
 @media (prefers-color-scheme: dark) {
   :root {

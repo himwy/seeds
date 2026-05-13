@@ -205,21 +205,34 @@ export default function EventDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-xl text-gray-600">{t.loading}</div>
+      <div
+        className="min-h-screen bg-stone-50 flex flex-col items-center justify-center"
+        style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
+      >
+        <div className="w-12 h-12 border-2 border-stone-300 border-t-stone-900 rounded-full animate-spin" />
+        <p className="mt-6 text-xs uppercase tracking-[0.3em] text-stone-500">
+          {t.loading}
+        </p>
       </div>
     );
   }
 
   if (error || !event) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div
+        className="min-h-screen bg-stone-50 flex items-center justify-center px-6"
+        style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
+      >
         <div className="text-center">
-          <div className="text-xl text-red-600 mb-4">{error || t.notFound}</div>
-          <Link href={getBackUrl()}>
-            <span className="text-teal-600 hover:underline">
-              {t.backToEvents}
-            </span>
+          <p className="text-3xl font-bold text-stone-900 mb-6">
+            {error || t.notFound}
+          </p>
+          <Link
+            href={getBackUrl()}
+            className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.25em] font-semibold text-stone-900 hover:text-stone-600 transition-colors"
+          >
+            <FaArrowLeft />
+            {t.backToEvents}
           </Link>
         </div>
       </div>
@@ -227,48 +240,61 @@ export default function EventDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-20">
-      <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
+    <div
+      className="min-h-screen bg-stone-50 text-stone-900"
+      style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
+    >
+      {/* ─── Masthead ─────────────────────────────────────── */}
+      <section className="border-b border-stone-200/70">
+        <div className="mx-auto max-w-6xl px-6 lg:px-10 pt-32 md:pt-40 pb-12 md:pb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-8"
           >
-            <Link href={getBackUrl()}>
-              <span className="inline-flex items-center text-teal-600 hover:text-teal-700 font-medium mb-4">
-                <FaArrowLeft className="mr-2" />
-                {t.backToEvents}
-              </span>
+            <Link
+              href={getBackUrl()}
+              className="inline-flex items-center gap-3 text-[10px] md:text-xs uppercase tracking-[0.3em] font-semibold text-stone-500 hover:text-stone-900 transition-colors mb-10"
+            >
+              <FaArrowLeft />
+              {t.backToEvents}
             </Link>
 
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+            <div className="flex items-center gap-4 mb-6 text-[10px] md:text-xs uppercase tracking-[0.35em] text-stone-500">
+              <span className="h-px w-10 bg-amber-500" />
+              <time dateTime={event.date}>{formatDate(event.date)}</time>
+              <span className="text-stone-300">·</span>
+              <span>
+                {event.images.length}{" "}
+                {event.images.length === 1 ? "item" : "items"}
+              </span>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.02] tracking-tight text-stone-900 mb-3">
               {language === "zh-HK" ? event.chineseName : event.name}
             </h1>
-
-            <div className="flex items-center text-gray-600 mb-4">
-              <FaCalendarAlt className="mr-2" />
-              {formatDate(event.date)}
-            </div>
-
-            <div className="text-gray-600">
-              {event.images.length}{" "}
-              {event.images.length === 1 ? "item" : "items"}
-            </div>
+            <p className="text-lg md:text-2xl text-stone-500 italic">
+              {language === "zh-HK" ? event.name : event.chineseName}
+            </p>
           </motion.div>
+        </div>
+      </section>
 
-          {/* Media Gallery */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white rounded-xl shadow-lg p-8"
-          >
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
-              Media Gallery
+      {/* ─── Gallery ─────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-6 lg:px-10 py-16 md:py-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+        >
+          <div className="flex items-baseline justify-between gap-6 mb-10 pb-4 border-b border-stone-200">
+            <h2 className="text-[10px] md:text-xs uppercase tracking-[0.35em] text-stone-500">
+              {t.photoGallery}
             </h2>
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-400 tabular-nums">
+              {String(event.images.length).padStart(2, "0")} ITEMS
+            </span>
+          </div>
 
             {event.images.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
@@ -283,31 +309,56 @@ export default function EventDetailPage() {
                       key={index}
                       initial={{ opacity: 0, scale: 0.9 }}
                       whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.4, delay: index * 0.05 }}
+                      transition={{ duration: 0.4, delay: Math.min(index * 0.03, 0.3) }}
                       viewport={{ once: true }}
                       className="aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
                       onClick={() => openImageModal(index)}
                     >
                       {isVideoUrl(cleanUrl) || videoIndices.has(index) ? (
-                        <div className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900">
-                          {/* Video Placeholder - Don't load video until clicked */}
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-center">
-                              <div className="bg-white/90 backdrop-blur-sm rounded-full p-6 shadow-lg mb-3 inline-block">
+                        event.thumbnail ? (
+                          <div className="relative w-full h-full bg-gray-900">
+                            <img
+                              src={event.thumbnail}
+                              alt={`${
+                                language === "zh-HK" ? event.chineseName : event.name
+                              } - Video ${index + 1}`}
+                              className="w-full h-full object-cover"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                              <div className="bg-white/90 backdrop-blur-sm rounded-full p-5 shadow-lg">
                                 <svg
-                                  className="w-10 h-10 text-gray-800"
+                                  className="w-8 h-8 text-gray-800"
                                   fill="currentColor"
                                   viewBox="0 0 20 20"
                                 >
                                   <path d="M8 5v10l8-5-8-5z" />
                                 </svg>
                               </div>
-                              <p className="text-white/90 text-sm font-medium">
-                                Click to play video
-                              </p>
                             </div>
                           </div>
-                        </div>
+                        ) : (
+                          <div className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900">
+                            {/* Video Placeholder - Don't load video until clicked */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="text-center">
+                                <div className="bg-white/90 backdrop-blur-sm rounded-full p-6 shadow-lg mb-3 inline-block">
+                                  <svg
+                                    className="w-10 h-10 text-gray-800"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                  >
+                                    <path d="M8 5v10l8-5-8-5z" />
+                                  </svg>
+                                </div>
+                                <p className="text-white/90 text-sm font-medium">
+                                  Click to play video
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )
                       ) : (
                         <div className="relative w-full h-full bg-gray-100">
                           {/* Loading placeholder */}
@@ -371,9 +422,8 @@ export default function EventDetailPage() {
                 })}
               </div>
             )}
-          </motion.div>
-        </div>
-      </div>
+        </motion.div>
+      </section>
 
       {/* Image Modal */}
       {selectedImageIndex !== null && (

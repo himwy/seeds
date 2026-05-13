@@ -21,6 +21,7 @@ import {
   FaDownload,
   FaGripVertical,
   FaInbox,
+  FaPlay,
   // FaEye,
   // FaChevronDown,
 } from "react-icons/fa";
@@ -661,11 +662,16 @@ export default function AdminPage() {
         for (let i = 0; i < selectedFiles.length; i++) {
           const file = selectedFiles[i];
           setUploadingFileName(file.name);
-          setUploadProgress(Math.round(((i + 1) / selectedFiles.length) * 100));
+          // Show progress for *completed* files, not the in-flight one,
+          // so the bar can't jump to 100% while the last file is still uploading.
+          setUploadProgress(Math.round((i / selectedFiles.length) * 100));
 
           try {
             const fileUrls = await EventsService.uploadImages([file]);
             imageUrls.push(...fileUrls);
+            setUploadProgress(
+              Math.round(((i + 1) / selectedFiles.length) * 100),
+            );
             setMessage({
               type: "success",
               text: `Uploaded ${i + 1}/${selectedFiles.length}: ${
@@ -1012,11 +1018,12 @@ export default function AdminPage() {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-primary to-secondary px-8 py-6 text-white">
+            <div className="bg-gradient-to-r from-slate-900 to-slate-800 px-8 py-6 text-white relative">
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-amber-400 to-amber-600"></div>
               <div className="flex justify-between items-center">
                 <div>
                   <h2 className="text-2xl font-bold flex items-center">
-                    <FaCalendarAlt className="mr-3 text-white" />
+                    <FaCalendarAlt className="mr-3 text-amber-400" />
                     {editingEvent ? "Edit Event" : "Add New Event"}
                   </h2>
                   <p className="text-white/90 mt-1">
@@ -1047,7 +1054,7 @@ export default function AdminPage() {
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, name: e.target.value }))
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none text-gray-800 bg-white transition-colors"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none text-gray-800 bg-white transition-colors"
                     placeholder="Enter event name in English"
                     required
                   />
@@ -1066,7 +1073,7 @@ export default function AdminPage() {
                         chineseName: e.target.value,
                       }))
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none text-gray-800 bg-white transition-colors"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none text-gray-800 bg-white transition-colors"
                     placeholder="Enter event name in Chinese"
                     required
                   />
@@ -1084,7 +1091,7 @@ export default function AdminPage() {
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, date: e.target.value }))
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none text-gray-800 bg-white transition-colors"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none text-gray-800 bg-white transition-colors"
                     required
                   />
                 </div>
@@ -1101,7 +1108,7 @@ export default function AdminPage() {
                         category: e.target.value as "recent" | "past",
                       }))
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none text-gray-800 bg-white transition-colors"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none text-gray-800 bg-white transition-colors"
                     required
                   >
                     <option value="recent">最近活動 (Recent Events)</option>
@@ -1155,7 +1162,7 @@ export default function AdminPage() {
                     />
                     <button
                       type="button"
-                      className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-lg font-semibold hover:from-secondary hover:to-primary transition-all duration-300"
+                      className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold ring-1 ring-amber-500/30 transition-all duration-300"
                     >
                       Select Files
                     </button>
@@ -1340,7 +1347,7 @@ export default function AdminPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center shadow-lg"
+                  className="px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center shadow-lg ring-1 ring-amber-500/40"
                 >
                   {loading ? (
                     <>
@@ -1422,19 +1429,45 @@ export default function AdminPage() {
                   >
                     {/* Event Image */}
                     <div className="relative h-48 bg-slate-100 overflow-hidden">
-                      {event.images && event.images.length > 0 ? (
-                        <Image
-                          src={event.images[0]}
-                          alt={event.name}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <FaImage className="text-slate-300 text-4xl" />
-                        </div>
-                      )}
+                      {(() => {
+                        if (!event.images || event.images.length === 0) {
+                          return (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <FaImage className="text-slate-300 text-4xl" />
+                            </div>
+                          );
+                        }
+                        const firstMedia = event.images[0];
+                        const isVideoFirst = event.isVideo || isVideoUrl(firstMedia);
+                        const posterSrc = event.thumbnail || (isVideoFirst ? null : firstMedia);
+                        if (!posterSrc) {
+                          return (
+                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
+                              <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 shadow-lg">
+                                <FaPlay className="text-xl text-slate-800" />
+                              </div>
+                            </div>
+                          );
+                        }
+                        return (
+                          <>
+                            <Image
+                              src={posterSrc}
+                              alt={event.name}
+                              fill
+                              className="object-cover transition-transform duration-500 group-hover:scale-105"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            />
+                            {isVideoFirst && (
+                              <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
+                                  <FaPlay className="text-lg text-slate-800" />
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
                       <div className="absolute top-3 right-3 flex gap-2">
                         <span
                           className={`px-3 py-1 rounded-md text-xs font-bold tracking-wider uppercase shadow-sm ${
@@ -1511,11 +1544,12 @@ export default function AdminPage() {
       {showImageManager && editingEvent && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl">
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-6">
+            <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-8 py-6 relative">
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-amber-400 to-amber-600"></div>
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="text-2xl font-bold">Manage Album</h3>
-                  <p className="text-blue-100">{editingEvent?.name ?? ""}</p>
+                  <p className="text-slate-300">{editingEvent?.name ?? ""}</p>
                 </div>
                 <button
                   onClick={() => setShowImageManager(false)}
@@ -1536,7 +1570,7 @@ export default function AdminPage() {
                   className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 cursor-pointer ${
                     isDragOver
                       ? "border-blue-500 bg-blue-50"
-                      : "border-gray-300 hover:border-primary hover:bg-gray-50"
+                      : "border-gray-300 hover:border-slate-700 hover:bg-gray-50"
                   }`}
                   onDragOver={handleFileUploadDragOver}
                   onDragLeave={handleFileUploadDragLeave}
@@ -1597,7 +1631,7 @@ export default function AdminPage() {
                   />
                   <label
                     htmlFor="image-upload"
-                    className="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-lg font-semibold cursor-pointer hover:from-secondary hover:to-primary transition-all duration-300"
+                    className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold ring-1 ring-amber-500/30 cursor-pointer transition-all duration-300"
                   >
                     Select Media
                   </label>

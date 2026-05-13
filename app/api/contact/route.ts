@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { name, email, message, createdAt } = body;
+  const { name, email, message } = body;
   if (
     typeof name !== "string" ||
     typeof email !== "string" ||
@@ -27,6 +27,19 @@ export async function POST(request: NextRequest) {
   ) {
     return NextResponse.json(
       { error: "name, email, and message are required" },
+      { status: 400 },
+    );
+  }
+
+  // Length limits to prevent abuse / DB bloat
+  const trimmedName = name.trim().slice(0, 200);
+  const trimmedEmail = email.trim().slice(0, 320);
+  const trimmedMessage = message.trim().slice(0, 5000);
+
+  // Basic email shape check
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+    return NextResponse.json(
+      { error: "Invalid email address" },
       { status: 400 },
     );
   }
@@ -45,10 +58,11 @@ export async function POST(request: NextRequest) {
       CONTACTS_TABLE_ID,
       ID.unique(),
       {
-        name: name.trim(),
-        email: email.trim(),
-        message: message.trim(),
-        createdAt: createdAt || new Date().toISOString(),
+        name: trimmedName,
+        email: trimmedEmail,
+        message: trimmedMessage,
+        // Server-controlled timestamp — do NOT accept from client
+        createdAt: new Date().toISOString(),
         isRead: false,
         isArchived: false,
       },

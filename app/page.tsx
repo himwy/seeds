@@ -51,7 +51,9 @@ function HomeRecentEventCard({
 }) {
   const title = language === "en" ? event.name : event.chineseName;
   const rawMedia = event.images?.[0];
-  const mediaUrl = rawMedia ? rawMedia.replace(/[\)"\]]+$/, "") : null;
+  const firstMedia = rawMedia ? rawMedia.replace(/[\)"\]]+$/, "") : null;
+  const isVideoEvent = event.isVideo || (firstMedia ? isVideoUrl(firstMedia) : false);
+  const posterSrc = event.thumbnail || (isVideoEvent ? null : firstMedia);
   const formatted = new Date(event.date).toLocaleDateString(
     language === "en" ? "en-US" : "zh-TW",
     { year: "numeric", month: "long", day: "numeric" },
@@ -64,19 +66,10 @@ function HomeRecentEventCard({
     >
       <article className="flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md">
         <div className="relative aspect-[4/3] bg-gray-100">
-          {mediaUrl &&
-            (isVideoUrl(mediaUrl) ? (
-              <video
-                src={mediaUrl}
-                className="h-full w-full object-cover"
-                muted
-                playsInline
-                preload="metadata"
-                aria-label={title}
-              />
-            ) : (
+          {posterSrc ? (
+            <>
               <Image
-                src={mediaUrl}
+                src={posterSrc}
                 alt={title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
@@ -85,7 +78,25 @@ function HomeRecentEventCard({
                 placeholder="blur"
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5p2HaH9bcfaSXWGaRmknyztP9jvKf/2Q=="
               />
-            ))}
+              {isVideoEvent && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/15">
+                  <div className="rounded-full bg-white/95 p-4 shadow-lg backdrop-blur-sm">
+                    <svg className="h-5 w-5 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M8 5v10l8-5-8-5z" />
+                    </svg>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : isVideoEvent ? (
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
+              <div className="rounded-full bg-white/95 p-5 shadow-lg backdrop-blur-sm">
+                <svg className="h-6 w-6 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M8 5v10l8-5-8-5z" />
+                </svg>
+              </div>
+            </div>
+          ) : null}
         </div>
         <div className="flex flex-1 flex-col p-5 md:p-6">
           <time
@@ -401,9 +412,15 @@ export default function Home() {
   const [recentEvents, setRecentEvents] = useState<Event[]>([]);
 
   const recentEventsPreview = useMemo(
-    () => 
+    () =>
       recentEvents
-        .filter((event) => !event.isVideo)
+        // Only hide video events that have neither a thumbnail nor a usable poster image.
+        .filter((event) => {
+          if (!event.isVideo) return true;
+          if (event.thumbnail) return true;
+          const first = event.images?.[0];
+          return !!first && !isVideoUrl(first);
+        })
         .slice(0, HOME_RECENT_EVENTS_PREVIEW),
     [recentEvents],
   );
@@ -557,7 +574,7 @@ export default function Home() {
         </section>
 
         {/* Mobile Highlight Section */}
-        <section className="py-10 px-6 bg-gradient-to-r from-primary to-secondary w-full">
+        <section className="py-10 px-6 w-full">
           <div className="fade-in-up">
             <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
               {/* Header */}
@@ -874,7 +891,7 @@ export default function Home() {
       </section>
 
       {/* Desktop Highlight Section */}
-      <section className="py-12 md:py-16 bg-gradient-to-r from-primary to-secondary w-full">
+      <section className="py-12 md:py-16 w-full">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto fade-in-up">
             <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">

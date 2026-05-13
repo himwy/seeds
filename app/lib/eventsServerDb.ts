@@ -12,8 +12,9 @@ function mapListDoc(doc: Record<string, unknown>): Event {
     chineseName: doc.chineseName as string,
     date: doc.date as string,
     category: doc.category as Event["category"],
-    images: JSON.parse((doc.images as string) || "[]"),
+    images: parseImagesField(doc.images),
     thumbnail: (doc.thumbnail as string) || undefined,
+    isVideo: Boolean(doc.isVideo),
   };
 }
 
