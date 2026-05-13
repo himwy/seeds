@@ -50,10 +50,12 @@ function HomeRecentEventCard({
   className?: string;
 }) {
   const title = language === "en" ? event.name : event.chineseName;
+  const stripTrail = (u: string) => u.replace(/[\)"\]]+$/, "");
   const rawMedia = event.images?.[0];
-  const firstMedia = rawMedia ? rawMedia.replace(/[\)"\]]+$/, "") : null;
+  const firstMedia = rawMedia ? stripTrail(rawMedia) : null;
+  const rawThumb = event.thumbnail ? stripTrail(event.thumbnail) : null;
   const isVideoEvent = event.isVideo || (firstMedia ? isVideoUrl(firstMedia) : false);
-  const posterSrc = event.thumbnail || (isVideoEvent ? null : firstMedia);
+  const posterSrc = rawThumb || (isVideoEvent ? null : firstMedia);
   const formatted = new Date(event.date).toLocaleDateString(
     language === "en" ? "en-US" : "zh-TW",
     { year: "numeric", month: "long", day: "numeric" },
@@ -412,16 +414,7 @@ export default function Home() {
   const [recentEvents, setRecentEvents] = useState<Event[]>([]);
 
   const recentEventsPreview = useMemo(
-    () =>
-      recentEvents
-        // Only hide video events that have neither a thumbnail nor a usable poster image.
-        .filter((event) => {
-          if (!event.isVideo) return true;
-          if (event.thumbnail) return true;
-          const first = event.images?.[0];
-          return !!first && !isVideoUrl(first);
-        })
-        .slice(0, HOME_RECENT_EVENTS_PREVIEW),
+    () => recentEvents.slice(0, HOME_RECENT_EVENTS_PREVIEW),
     [recentEvents],
   );
 
