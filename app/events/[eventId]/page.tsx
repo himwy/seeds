@@ -339,22 +339,26 @@ export default function EventDetailPage() {
                             </div>
                           </div>
                         ) : (
-                          <div className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900">
-                            {/* Video Placeholder - Don't load video until clicked */}
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="text-center">
-                                <div className="bg-white/90 backdrop-blur-sm rounded-full p-6 shadow-lg mb-3 inline-block">
-                                  <svg
-                                    className="w-10 h-10 text-gray-800"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path d="M8 5v10l8-5-8-5z" />
-                                  </svg>
-                                </div>
-                                <p className="text-white/90 text-sm font-medium">
-                                  Click to play video
-                                </p>
+                          <div className="relative w-full h-full bg-stone-900">
+                            <video
+                              src={cleanUrl}
+                              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                              muted
+                              playsInline
+                              preload="metadata"
+                              onLoadedMetadata={(e) => {
+                                e.currentTarget.currentTime = 0.1;
+                              }}
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/25">
+                              <div className="bg-white/95 backdrop-blur-sm rounded-full p-5 shadow-lg">
+                                <svg
+                                  className="w-8 h-8 text-stone-900"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M8 5v10l8-5-8-5z" />
+                                </svg>
                               </div>
                             </div>
                           </div>
