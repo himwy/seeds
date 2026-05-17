@@ -26,6 +26,7 @@ import {
   // FaChevronDown,
 } from "react-icons/fa";
 import { EventsService, Event } from "../lib/eventsService";
+import { generateVideoThumbnail } from "../lib/videoThumbnail";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -69,6 +70,12 @@ export default function AdminPage() {
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadingFileName, setUploadingFileName] = useState<string>("");
+  const [backfillState, setBackfillState] = useState<{
+    running: boolean;
+    done: number;
+    total: number;
+    failed: number;
+  }>({ running: false, done: 0, total: 0, failed: 0 });
 
   useEffect(() => {
     checkExistingSession();
@@ -378,6 +385,72 @@ export default function AdminPage() {
     );
   };
 
+  // Backfill: walk events that are videos without a thumbnail, generate
+  // a JPEG poster from the first video frame, upload it, and patch the event.
+  // One at a time so a single bad video doesn't tank the whole batch and the
+  // browser doesn't try to seek 30 videos in parallel.
+  const handleBackfillThumbnails = async () => {
+    if (backfillState.running) return;
+    const targets = events.filter(
+      (e) =>
+        !e.thumbnail &&
+        e.images &&
+        e.images.length > 0 &&
+        (e.isVideo || e.images.some((u) => isVideoUrl(u))),
+    );
+    if (targets.length === 0) {
+      setMessage({
+        type: "success",
+        text: "All video events already have thumbnails.",
+      });
+      return;
+    }
+    if (
+      !window.confirm(
+        `Generate thumbnails for ${targets.length} video event(s)? This runs in your browser and may take a minute.`,
+      )
+    ) {
+      return;
+    }
+    setBackfillState({
+      running: true,
+      done: 0,
+      total: targets.length,
+      failed: 0,
+    });
+    let failed = 0;
+    for (let i = 0; i < targets.length; i++) {
+      const event = targets[i];
+      const videoUrl = event.images.find((u) => isVideoUrl(u)) ?? event.images[0];
+      try {
+        const { file } = await generateVideoThumbnail(videoUrl);
+        const [thumbnailUrl] = await EventsService.uploadImages([file]);
+        await EventsService.updateEvent(event.$id!, { thumbnail: thumbnailUrl });
+      } catch (error) {
+        failed += 1;
+        console.error(
+          `Backfill failed for event ${event.$id} (${event.name}):`,
+          error,
+        );
+      }
+      setBackfillState({
+        running: true,
+        done: i + 1,
+        total: targets.length,
+        failed,
+      });
+    }
+    setBackfillState((s) => ({ ...s, running: false }));
+    setMessage({
+      type: failed === 0 ? "success" : "error",
+      text:
+        failed === 0
+          ? `Generated ${targets.length} thumbnail${targets.length === 1 ? "" : "s"}.`
+          : `Done. ${targets.length - failed} succeeded, ${failed} failed (see console).`,
+    });
+    loadEvents();
+  };
+
   const removeFile = (index: number) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
     setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
@@ -655,6 +728,31 @@ export default function AdminPage() {
             type: "error",
             text: "Failed to upload thumbnail. Event will be saved without thumbnail.",
           });
+        }
+      }
+
+      // Auto-generate a thumbnail for video events that don't have one.
+      // Mobile browsers throttle <video preload="metadata"> hard, so a real
+      // image poster loads much faster than the seek-and-paint trick.
+      if (!thumbnailUrl && isVideoEvent) {
+        const firstVideoFile = selectedFiles.find((f) => isVideo(f));
+        const firstVideoUrl =
+          !firstVideoFile && editingEvent
+            ? editingEvent.images.find((u) => isVideoUrl(u))
+            : undefined;
+        const source = firstVideoFile ?? firstVideoUrl;
+        if (source) {
+          try {
+            setUploadingFileName("Generating video thumbnail…");
+            const { file } = await generateVideoThumbnail(source);
+            const [generatedUrl] = await EventsService.uploadImages([file]);
+            thumbnailUrl = generatedUrl;
+          } catch (error) {
+            console.error("Auto thumbnail generation failed:", error);
+            // Non-fatal — fall back to the existing client-side video poster trick.
+          } finally {
+            setUploadingFileName("");
+          }
         }
       }
 
@@ -1323,9 +1421,21 @@ export default function AdminPage() {
                 Events Gallery
               </h2>
             </div>
-            <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-400 tabular-nums">
-              {String(events.length).padStart(2, "0")} TOTAL
-            </span>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={handleBackfillThumbnails}
+                disabled={backfillState.running || loading}
+                className="text-[10px] md:text-xs uppercase tracking-[0.2em] font-semibold text-stone-700 hover:text-stone-900 disabled:opacity-50 disabled:cursor-not-allowed border-b border-stone-300 hover:border-stone-900 pb-0.5 transition-colors"
+                title="Generate thumbnails for video events that don't have one yet"
+              >
+                {backfillState.running
+                  ? `Generating ${backfillState.done}/${backfillState.total}…`
+                  : "Generate Video Thumbnails"}
+              </button>
+              <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-400 tabular-nums">
+                {String(events.length).padStart(2, "0")} TOTAL
+              </span>
+            </div>
           </div>
 
           {loading ? (
