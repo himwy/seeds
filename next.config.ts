@@ -30,6 +30,16 @@ const nextConfig: NextConfig = {
   // Output configuration for deployment
   output: "standalone",
 
+  async redirects() {
+    return [
+      {
+        source: "/6-13-form",
+        destination: "https://forms.gle/7tt55tSQ7A68b1ZU9",
+        permanent: false,
+      },
+    ];
+  },
+
   // Security and caching headers
   async headers() {
     return [
