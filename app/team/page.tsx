@@ -119,19 +119,19 @@ const translations = {
         phone: "+852 5530-4114",
       },
       {
-        id: "annie",
-        name: "Annie",
-        chineseName: "Annie",
-        position: "Financial Advisor",
-        chinesePosition: "財務顧問",
-        specialization: "Supply Chain Management & Client Relations",
-        chineseSpecialization: "供應鏈管理及客戶關係",
-        experience: "10+ years",
+        id: "li-hao",
+        name: "Li Hao",
+        chineseName: "李浩",
+        position: "Business Partner",
+        chinesePosition: "業務夥伴",
+        specialization: "Biomedical Engineering & Wealth Planning",
+        chineseSpecialization: "生物醫學工程及財富策劃",
+        experience: "PhD Candidate",
         description:
-          "Annie holds a degree in Global Supply Chain Management from PolyU and served as a general manager in logistics. She transitioned to insurance after experiencing firsthand the importance of protection during her travels.",
+          "Li Hao is pursuing a PhD in Biomedical Engineering at City University of Hong Kong after earning degrees at UC Santa Barbara and Oxford. He moved into wealth planning for a career that rewards initiative and stays flexible around his studies, signing roughly a third of his university cohort as clients within his first six months.",
         chineseDescription:
-          "Annie持有理工大學全球供應鏈管理學位，曾擔任物流業總經理。在旅行中親身體驗到保障的重要性後，她轉入保險行業。",
-        email: "annie@seedsfinancial.com",
+          "Li Hao 於加州大學聖塔芭芭拉分校及牛津大學畢業後，現於香港城市大學攻讀生物醫學工程博士學位。他轉投財富策劃，正是看重這個行業能回報個人努力並配合學業彈性安排；入行首六個月，他已簽下約三分之一的大學同窗成為客戶。",
+        email: "li.hao@seedsfinancial.com",
         phone: "+852 5530-4114",
       },
     ],
@@ -247,19 +247,19 @@ const translations = {
         phone: "+852 5530-4114",
       },
       {
-        id: "annie",
-        name: "Annie",
-        chineseName: "Annie",
-        position: "Financial Advisor",
-        chinesePosition: "財務顧問",
-        specialization: "Supply Chain Management & Client Relations",
-        chineseSpecialization: "供應鏈管理及客戶關係",
-        experience: "10+ 年",
+        id: "li-hao",
+        name: "Li Hao",
+        chineseName: "李浩",
+        position: "Business Partner",
+        chinesePosition: "業務夥伴",
+        specialization: "Biomedical Engineering & Wealth Planning",
+        chineseSpecialization: "生物醫學工程及財富策劃",
+        experience: "博士研究生",
         description:
-          "Annie持有理工大學全球供應鏈管理學位，曾擔任物流業總經理。在旅行中親身體驗到保障的重要性後，她轉入保險行業。",
+          "Li Hao is pursuing a PhD in Biomedical Engineering at City University of Hong Kong after earning degrees at UC Santa Barbara and Oxford. He moved into wealth planning for a career that rewards initiative and stays flexible around his studies, signing roughly a third of his university cohort as clients within his first six months.",
         chineseDescription:
-          "Annie持有理工大學全球供應鏈管理學位，曾擔任物流業總經理。在旅行中親身體驗到保障的重要性後，她轉入保險行業。",
-        email: "annie@seedsfinancial.com",
+          "Li Hao 於加州大學聖塔芭芭拉分校及牛津大學畢業後，現於香港城市大學攻讀生物醫學工程博士學位。他轉投財富策劃，正是看重這個行業能回報個人努力並配合學業彈性安排；入行首六個月，他已簽下約三分之一的大學同窗成為客戶。",
+        email: "li.hao@seedsfinancial.com",
         phone: "+852 5530-4114",
       },
     ],
@@ -365,9 +365,9 @@ export default function TeamPage() {
                             fill
                             className="object-cover object-top"
                           />
-                        ) : member.id === "annie" ? (
+                        ) : member.id === "li-hao" ? (
                           <Image
-                            src="/assets/annie/anniepfp.jpg"
+                            src="/assets/lihao/lihao.jpg"
                             alt={`${member.name} - ${member.position}`}
                             fill
                             className="object-cover"
