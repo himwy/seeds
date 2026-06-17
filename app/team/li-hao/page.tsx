@@ -64,9 +64,6 @@ const translations = {
     goalsText:
       "Li Hao plans to keep expanding his COI network across Hong Kong, the mainland, and overseas while completing his PhD, building a practice that pairs analytical rigor with genuine, long-term care for his clients.",
 
-    quote:
-      "The best plans, like the best research, reward those who start early and stay disciplined.",
-
     achievements: [
       "BSc, University of California, Santa Barbara",
       "MSc, University of Oxford",
@@ -99,8 +96,6 @@ const translations = {
     goalsTitle: "展望未來",
     goalsText:
       "Li Hao 計劃在完成博士學位的同時，繼續拓展其遍及香港、內地及海外的 COI 網絡，建立一個既具分析嚴謹性、又對客戶長遠真誠關懷的事業。",
-
-    quote: "最好的規劃，如同最好的研究，總是回報那些及早起步、堅持到底的人。",
 
     achievements: [
       "加州大學聖塔芭芭拉分校 理學士",
@@ -230,20 +225,6 @@ export default function LiHaoPage() {
           </section>
         </div>
 
-        {/* Inspirational Quote */}
-        <section className="mb-8">
-          <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-50 to-indigo-50 p-10 rounded-2xl shadow-md text-center">
-            <span className="block text-6xl leading-none text-blue-300 mb-2 font-serif">
-              &ldquo;
-            </span>
-            <blockquote className="text-2xl sm:text-3xl font-semibold text-gray-800 italic leading-snug">
-              {t.quote}
-            </blockquote>
-            <p className="mt-6 text-sm uppercase tracking-widest text-gray-500">
-              {t.title} · {t.chineseName}
-            </p>
-          </div>
-        </section>
       </article>
     </div>
   );
