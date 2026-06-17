@@ -121,7 +121,7 @@ const translations = {
       {
         id: "li-hao",
         name: "Li Hao",
-        chineseName: "李浩",
+        chineseName: "李好",
         position: "Business Partner",
         chinesePosition: "業務夥伴",
         specialization: "Biomedical Engineering & Wealth Planning",
@@ -249,7 +249,7 @@ const translations = {
       {
         id: "li-hao",
         name: "Li Hao",
-        chineseName: "李浩",
+        chineseName: "李好",
         position: "Business Partner",
         chinesePosition: "業務夥伴",
         specialization: "Biomedical Engineering & Wealth Planning",

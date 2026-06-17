@@ -42,7 +42,7 @@ const translations = {
     backToTeam: "Back to Team",
     title: "Li Hao",
     subtitle: "From the Laboratory to Wealth Planning",
-    chineseName: "李浩",
+    chineseName: "李好",
 
     videoTitle: "Interview",
     videoDescription: "Hear Li Hao share his journey in his own words.",
@@ -75,7 +75,7 @@ const translations = {
     backToTeam: "返回團隊",
     title: "Li Hao",
     subtitle: "從實驗室走進財富策劃",
-    chineseName: "李浩",
+    chineseName: "李好",
 
     videoTitle: "專訪",
     videoDescription: "聽 Li Hao 親述他的故事。",
