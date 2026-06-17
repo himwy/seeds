@@ -1,10 +1,41 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useLanguage } from "../../components/LanguageContext";
 import Link from "next/link";
 import Image from "next/image";
 import { FaArrowLeft, FaPlay } from "react-icons/fa";
+
+/**
+ * Hero portrait that gracefully falls back to a monogram if the photo
+ * file is missing (lihao.jpg has not been added yet), so the page never
+ * shows a broken image.
+ */
+function HeroPortrait({ initials }: { initials: string }) {
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <div className="relative w-56 h-56 sm:w-64 sm:h-64 mx-auto mb-8">
+      <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100" />
+      <div className="relative w-full h-full rounded-full overflow-hidden shadow-xl ring-4 ring-white">
+        {failed ? (
+          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gray-800 to-gray-600 text-5xl font-bold tracking-wide text-white">
+            {initials}
+          </div>
+        ) : (
+          <Image
+            src="/assets/lihao/lihao.jpg"
+            alt="Li Hao - Team Member"
+            fill
+            sizes="256px"
+            className="object-cover"
+            onError={() => setFailed(true)}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
 
 const translations = {
   en: {
@@ -106,106 +137,111 @@ export default function LiHaoPage() {
       <article className="max-w-6xl mx-auto px-8 py-12">
         {/* Hero Section */}
         <header className="text-center mb-16">
-          <div className="relative w-56 h-56 sm:w-64 sm:h-64 mx-auto mb-6 rounded-full overflow-hidden shadow-lg">
-            <Image
-              src="/assets/lihao/lihao.jpg"
-              alt="Li Hao - Team Member"
-              fill
-              className="object-cover"
-            />
-          </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">{t.title}</h1>
-          <p className="text-xl text-gray-600 mb-4">{t.subtitle}</p>
+          <HeroPortrait initials="LH" />
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-1">
+            {t.title}
+          </h1>
+          <p className="text-2xl text-gray-400 mb-3">{t.chineseName}</p>
+          <p className="text-xl text-gray-600 mb-5">{t.subtitle}</p>
           <div className="w-24 h-1 bg-gray-900 mx-auto"></div>
         </header>
 
-        {/* Interview Video */}
+        {/* Interview Video — the centerpiece */}
         <section className="mb-16">
-          <div className="bg-gray-50 rounded-lg p-6 border border-gray-200 shadow-md">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-              <FaPlay className="text-gray-700 mr-3" />
+          <div className="max-w-4xl mx-auto text-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2 inline-flex items-center">
+              <FaPlay className="text-blue-600 mr-3 text-2xl" />
               {t.videoTitle}
             </h2>
-            <p className="text-gray-600 mb-6">{t.videoDescription}</p>
+            <p className="text-gray-600">{t.videoDescription}</p>
+          </div>
 
-            {/* Video Player — drop the final interview file at the path below */}
-            <div className="relative bg-black rounded-lg overflow-hidden shadow-lg">
-              <video
-                controls
-                className="w-full h-auto"
-                preload="metadata"
-                poster="/assets/lihao/interview-poster.jpg"
-              >
-                <source src="/assets/lihao/interview.mp4" type="video/mp4" />
-                {t.videoComingSoon}
-              </video>
+          {/* Video Player — hosted on YouTube, embedded like the other team pages */}
+          <div className="max-w-4xl mx-auto">
+            <div className="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl ring-1 ring-gray-900/10">
+              <iframe
+                src="https://www.youtube.com/embed/GgeUEtULjmI"
+                title="Li Hao Interview"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="absolute top-0 left-0 w-full h-full"
+              ></iframe>
             </div>
           </div>
         </section>
 
         {/* Achievements Section */}
         <section className="mb-16">
-          <div className="bg-gray-50 border border-gray-200 p-8 rounded-lg shadow-md">
-            <div className="text-gray-800 leading-relaxed text-base">
+          <div className="max-w-4xl mx-auto bg-gray-50 border border-gray-200 p-8 rounded-xl shadow-md">
+            <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
               {t.achievements.map((achievement, index) => (
-                <p key={index} className="mb-2 font-medium">
+                <li
+                  key={index}
+                  className="flex items-start text-gray-800 font-medium"
+                >
+                  <span className="mt-2 mr-3 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-600" />
                   {achievement}
-                </p>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 
-        {/* Academic Background */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-            {t.backgroundTitle}
-          </h2>
-          <div className="w-16 h-1 bg-gray-900 mb-8"></div>
-          <p className="text-gray-700 leading-relaxed mb-6">
-            {t.backgroundText}
-          </p>
-        </section>
+        <div className="max-w-3xl mx-auto">
+          {/* Academic Background */}
+          <section className="mb-14">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              {t.backgroundTitle}
+            </h2>
+            <div className="w-16 h-1 bg-gray-900 mb-6"></div>
+            <p className="text-gray-700 leading-relaxed text-lg">
+              {t.backgroundText}
+            </p>
+          </section>
 
-        {/* Reason for Transition */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-            {t.transitionTitle}
-          </h2>
-          <div className="w-16 h-1 bg-gray-900 mb-8"></div>
-          <p className="text-gray-700 leading-relaxed mb-6">
-            {t.transitionText}
-          </p>
-        </section>
+          {/* Reason for Transition */}
+          <section className="mb-14">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              {t.transitionTitle}
+            </h2>
+            <div className="w-16 h-1 bg-gray-900 mb-6"></div>
+            <p className="text-gray-700 leading-relaxed text-lg">
+              {t.transitionText}
+            </p>
+          </section>
 
-        {/* Early Momentum */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-            {t.earlyTitle}
-          </h2>
-          <div className="w-16 h-1 bg-gray-900 mb-8"></div>
-          <p className="text-gray-700 leading-relaxed mb-6">{t.earlyText}</p>
-        </section>
+          {/* Early Momentum */}
+          <section className="mb-14">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              {t.earlyTitle}
+            </h2>
+            <div className="w-16 h-1 bg-gray-900 mb-6"></div>
+            <p className="text-gray-700 leading-relaxed text-lg">{t.earlyText}</p>
+          </section>
 
-        {/* Looking Ahead */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-            {t.goalsTitle}
-          </h2>
-          <div className="w-16 h-1 bg-gray-900 mb-8"></div>
-          <p className="text-gray-700 leading-relaxed mb-6">{t.goalsText}</p>
-        </section>
+          {/* Looking Ahead */}
+          <section className="mb-14">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              {t.goalsTitle}
+            </h2>
+            <div className="w-16 h-1 bg-gray-900 mb-6"></div>
+            <p className="text-gray-700 leading-relaxed text-lg">{t.goalsText}</p>
+          </section>
+        </div>
 
         {/* Inspirational Quote */}
-        <section className="mb-16">
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              {language === "zh-HK" ? "金句" : "Inspirational Quote"}
-            </h2>
-            <div className="w-16 h-1 bg-blue-600 mb-6"></div>
-            <blockquote className="text-2xl font-semibold text-gray-800 italic text-center">
-              &ldquo;{t.quote}&rdquo;
+        <section className="mb-8">
+          <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-50 to-indigo-50 p-10 rounded-2xl shadow-md text-center">
+            <span className="block text-6xl leading-none text-blue-300 mb-2 font-serif">
+              &ldquo;
+            </span>
+            <blockquote className="text-2xl sm:text-3xl font-semibold text-gray-800 italic leading-snug">
+              {t.quote}
             </blockquote>
+            <p className="mt-6 text-sm uppercase tracking-widest text-gray-500">
+              {t.title} · {t.chineseName}
+            </p>
           </div>
         </section>
       </article>
