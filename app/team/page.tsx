@@ -128,9 +128,9 @@ const translations = {
         chineseSpecialization: "生物醫學工程及財富策劃",
         experience: "PhD Candidate",
         description:
-          "Li Hao is pursuing a PhD in Biomedical Engineering at City University of Hong Kong after earning degrees at UC Santa Barbara and Oxford. He moved into wealth planning for a career that rewards initiative and stays flexible around his studies, signing roughly a third of his university cohort as clients within his first six months.",
+          "Li Hao is pursuing a PhD in Biomedical Engineering at City University of Hong Kong after earning a bachelor's degree at UC Santa Barbara and a master's degree at the University of Oxford. He moved into wealth planning for a career that rewards initiative and stays flexible around his studies, signing roughly a third of his university cohort as clients within his first six months.",
         chineseDescription:
-          "Li Hao 於加州大學聖塔芭芭拉分校及牛津大學畢業後，現於香港城市大學攻讀生物醫學工程博士學位。他轉投財富策劃，正是看重這個行業能回報個人努力並配合學業彈性安排；入行首六個月，他已簽下約三分之一的大學同窗成為客戶。",
+          "Li Hao 於加州大學聖塔芭芭拉分校取得學士學位、並於牛津大學取得碩士學位後，現於香港城市大學攻讀生物醫學工程博士學位。他轉投財富策劃，正是看重這個行業能回報個人努力並配合學業彈性安排；入行首六個月，他已簽下約三分之一的大學同窗成為客戶。",
         email: "li.hao@seedsfinancial.com",
         phone: "+852 5530-4114",
       },
@@ -256,9 +256,9 @@ const translations = {
         chineseSpecialization: "生物醫學工程及財富策劃",
         experience: "博士研究生",
         description:
-          "Li Hao is pursuing a PhD in Biomedical Engineering at City University of Hong Kong after earning degrees at UC Santa Barbara and Oxford. He moved into wealth planning for a career that rewards initiative and stays flexible around his studies, signing roughly a third of his university cohort as clients within his first six months.",
+          "Li Hao is pursuing a PhD in Biomedical Engineering at City University of Hong Kong after earning a bachelor's degree at UC Santa Barbara and a master's degree at the University of Oxford. He moved into wealth planning for a career that rewards initiative and stays flexible around his studies, signing roughly a third of his university cohort as clients within his first six months.",
         chineseDescription:
-          "Li Hao 於加州大學聖塔芭芭拉分校及牛津大學畢業後，現於香港城市大學攻讀生物醫學工程博士學位。他轉投財富策劃，正是看重這個行業能回報個人努力並配合學業彈性安排；入行首六個月，他已簽下約三分之一的大學同窗成為客戶。",
+          "Li Hao 於加州大學聖塔芭芭拉分校取得學士學位、並於牛津大學取得碩士學位後，現於香港城市大學攻讀生物醫學工程博士學位。他轉投財富策劃，正是看重這個行業能回報個人努力並配合學業彈性安排；入行首六個月，他已簽下約三分之一的大學同窗成為客戶。",
         email: "li.hao@seedsfinancial.com",
         phone: "+852 5530-4114",
       },
