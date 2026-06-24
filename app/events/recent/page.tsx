@@ -75,6 +75,23 @@ export default function RecentEventsPage() {
     ) || lower.includes("video");
   };
 
+  // Thumbnails load via the cached image proxy (/api/image) for fast, reliable
+  // delivery. If the proxy fails, fall back to the direct Appwrite URL; if that
+  // also fails, hide the broken image so the dark placeholder (with the play
+  // icon for videos) shows instead of a broken-image icon.
+  const handleThumbnailError = (
+    e: React.SyntheticEvent<HTMLImageElement>,
+    directUrl: string
+  ) => {
+    const img = e.currentTarget;
+    if (img.dataset.fallback === "direct") {
+      img.style.display = "none";
+    } else {
+      img.dataset.fallback = "direct";
+      img.src = directUrl;
+    }
+  };
+
   const loadEvents = async () => {
     try {
       setLoading(true);
@@ -232,11 +249,12 @@ export default function RecentEventsPage() {
                       {posterSrc ? (
                         <>
                           <img
-                            src={posterSrc}
+                            src={EventsService.getProxiedUrl(posterSrc)}
                             alt={title}
                             className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                             loading="lazy"
                             decoding="async"
+                            onError={(e) => handleThumbnailError(e, posterSrc)}
                           />
                           {isVideoEvent && (
                             <div className="absolute inset-0 flex items-center justify-center bg-black/15">
