@@ -49,7 +49,6 @@ export default function CareersPage() {
       internSharingDescription: "Discover what it's like to be part of our team through the experiences of our interns and members.",
       internshipHighlightTitle: "Internship Highlight",
       internshipHighlightDescription: "A featured spotlight on the Seeds internship experience — a closer look at what our programme is all about.",
-      internshipHighlightBadge: "Featured",
       wendySharingTitle: "Wendy's Sharing",
       wendySharingDescription: "Learn from Wendy's extensive experience and insights in the insurance and wealth management industry.",
       swipeHint: "Swipe left or right to navigate videos",
@@ -157,7 +156,6 @@ export default function CareersPage() {
       internSharingDescription: "通過我們實習生和成員的經驗，了解成為我們團隊一員的感受。",
       internshipHighlightTitle: "實習亮點",
       internshipHighlightDescription: "重點呈現 Seeds 實習體驗 — 深入了解我們實習計劃的精彩之處。",
-      internshipHighlightBadge: "焦點",
       wendySharingTitle: "Wendy 分享",
       wendySharingDescription: "從 Wendy 在保險和財富管理行業的豐富經驗和見解中學習。",
       swipeHint: "左右滑動以瀏覽視頻",
@@ -428,6 +426,22 @@ export default function CareersPage() {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, []);
 
+  // Gracefully handle YouTube thumbnails that fail to load (e.g. a freshly
+  // uploaded video whose static thumbnail images haven't propagated yet):
+  // try hqdefault, then hide the broken image so the play-icon placeholder shows.
+  const handleThumbnailError = (
+    e: React.SyntheticEvent<HTMLImageElement>,
+    videoId: string
+  ) => {
+    const img = e.currentTarget;
+    if (img.dataset.fallback === "hq") {
+      img.style.display = "none";
+    } else {
+      img.dataset.fallback = "hq";
+      img.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+    }
+  };
+
   const reasonsWithIcons = [
     { icon: FaHeart, ...t.reasons[0] },
     { icon: FaRocket, ...t.reasons[1] },
@@ -578,6 +592,7 @@ export default function CareersPage() {
                         src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
                         alt={video.title}
                         className="w-full h-full object-cover"
+                        onError={(e) => handleThumbnailError(e, video.id)}
                       />
                       <FaPlay className="absolute text-white text-xs opacity-80" />
                     </div>
@@ -621,12 +636,6 @@ export default function CareersPage() {
             transition={{ duration: 0.6 }}
             className="max-w-6xl mx-auto text-center mb-12 md:mb-16"
           >
-            <div className="mb-4">
-              <span className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-full text-sm font-medium tracking-wide">
-                <FaStar className="w-3 h-3" />
-                {t.internshipHighlightBadge}
-              </span>
-            </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 md:mb-8">
               {t.internshipHighlightTitle}
             </h2>
@@ -736,6 +745,7 @@ export default function CareersPage() {
                         src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
                         alt={video.title}
                         className="w-full h-full object-cover"
+                        onError={(e) => handleThumbnailError(e, video.id)}
                       />
                       <FaPlay className="absolute text-white text-xs opacity-80" />
                     </div>
