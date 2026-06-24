@@ -47,6 +47,9 @@ export default function CareersPage() {
       apply: "",
       internSharingTitle: "Intern/Members Sharing Experience",
       internSharingDescription: "Discover what it's like to be part of our team through the experiences of our interns and members.",
+      internshipHighlightTitle: "Internship Highlight",
+      internshipHighlightDescription: "A featured spotlight on the Seeds internship experience — a closer look at what our programme is all about.",
+      internshipHighlightBadge: "Featured",
       wendySharingTitle: "Wendy's Sharing",
       wendySharingDescription: "Learn from Wendy's extensive experience and insights in the insurance and wealth management industry.",
       swipeHint: "Swipe left or right to navigate videos",
@@ -152,6 +155,9 @@ export default function CareersPage() {
       apply: "",
       internSharingTitle: "實習生/成員經驗分享",
       internSharingDescription: "通過我們實習生和成員的經驗，了解成為我們團隊一員的感受。",
+      internshipHighlightTitle: "實習亮點",
+      internshipHighlightDescription: "重點呈現 Seeds 實習體驗 — 深入了解我們實習計劃的精彩之處。",
+      internshipHighlightBadge: "焦點",
       wendySharingTitle: "Wendy 分享",
       wendySharingDescription: "從 Wendy 在保險和財富管理行業的豐富經驗和見解中學習。",
       swipeHint: "左右滑動以瀏覽視頻",
@@ -247,6 +253,21 @@ export default function CareersPage() {
   // Video data for the carousel
   const videos = [
     {
+      id: "h5uJjUokGaI",
+      title: "Intern Sharing — Featured",
+      description: "Main intern sharing video"
+    },
+    {
+      id: "olaLALV5nJQ",
+      title: "Intern Sharing 2",
+      description: "Intern sharing experience"
+    },
+    {
+      id: "lAMl3y3EGfE",
+      title: "Intern Sharing 3",
+      description: "Intern sharing experience"
+    },
+    {
       id: "ugKwnuLrD7I",
       title: "Original Intern Experience",
       description: "The original intern sharing experience video"
@@ -311,6 +332,9 @@ export default function CareersPage() {
       description: "Insurance experience journey"
     }
   ];
+
+  // Internship Highlight (single featured video)
+  const internshipHighlightVideoId = "t0QcyMb_hv4";
 
   // State for video carousel
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
@@ -577,6 +601,56 @@ export default function CareersPage() {
             </div>
           </motion.div>
           
+          {/* Decorative Separator */}
+          <div className="flex justify-center mt-12">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-px bg-gray-400"></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+              <div className="w-16 h-px bg-gray-400"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Internship Highlight Section (Single Featured Video) */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-6xl mx-auto text-center mb-12 md:mb-16"
+          >
+            <div className="mb-4">
+              <span className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-full text-sm font-medium tracking-wide">
+                <FaStar className="w-3 h-3" />
+                {t.internshipHighlightBadge}
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 md:mb-8">
+              {t.internshipHighlightTitle}
+            </h2>
+            <p className="text-base md:text-lg text-gray-600 mb-8 md:mb-12 leading-relaxed px-4">
+              {t.internshipHighlightDescription}
+            </p>
+
+            {/* Featured Video */}
+            <div className="max-w-4xl mx-auto">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl bg-black">
+                <iframe
+                  width="100%"
+                  height="500"
+                  src={`https://www.youtube.com/embed/${internshipHighlightVideoId}`}
+                  title={t.internshipHighlightTitle}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-[300px] md:h-[400px] lg:h-[500px]"
+                ></iframe>
+              </div>
+            </div>
+          </motion.div>
+
           {/* Decorative Separator */}
           <div className="flex justify-center mt-12">
             <div className="flex items-center space-x-4">
