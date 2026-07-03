@@ -199,7 +199,7 @@ export default function MansfieldReflectionPage() {
                 {t.mansfieldWords.urgency.content}
               </p>
               <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                <div className="grid grid-cols-2 gap-6 text-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
                   <div>
                     <p className="text-sm text-gray-600 mb-2">
                       {t.dayOneLabel}
@@ -265,7 +265,7 @@ export default function MansfieldReflectionPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="grid md:grid-cols-2 gap-8"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-8"
             >
               {/* Financial Insights */}
               <div className="bg-gray-50 rounded-lg p-8 border border-gray-200">

@@ -102,7 +102,7 @@ export default function IIQEPage() {
     >
       {/* Header */}
       <section className="bg-gradient-to-r from-gray-50 to-gray-100 py-20 pt-32">
-        <div className="container mx-auto px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -122,7 +122,7 @@ export default function IIQEPage() {
                 </span>
               </div>
 
-              <h1 className="text-5xl font-bold text-gray-900 mb-4">IIQE</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">IIQE</h1>
 
               <p className="text-lg text-gray-500 mb-6 font-medium">
                 {t.pageSubtitle}
@@ -134,7 +134,7 @@ export default function IIQEPage() {
 
       {/* Main Content */}
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
               <motion.div
@@ -142,7 +142,7 @@ export default function IIQEPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
                   {t.examRequirementsTitle}
                 </h2>
                 <div className="prose prose-lg text-gray-600 space-y-6">

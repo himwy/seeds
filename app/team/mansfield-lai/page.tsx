@@ -298,7 +298,7 @@ export default function MansfieldLaiPage() {
 
           {/* Certificates side by side */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
-            <div className="relative h-96 rounded-lg overflow-hidden shadow-md">
+            <div className="relative h-64 sm:h-80 md:h-96 rounded-lg overflow-hidden shadow-md">
               <Image
                 src="/assets/mansfield/WhatsApp Image 2022-04-04 at 4.59.17 PM.jpeg"
                 alt="Mansfield Lai Certificate 1"
@@ -306,7 +306,7 @@ export default function MansfieldLaiPage() {
                 className="object-contain"
               />
             </div>
-            <div className="relative h-96 rounded-lg overflow-hidden shadow-md">
+            <div className="relative h-64 sm:h-80 md:h-96 rounded-lg overflow-hidden shadow-md">
               <Image
                 src="/assets/mansfield/WhatsApp Image 2022-04-04 at 5.00.15 PM.jpeg"
                 alt="Mansfield Lai Certificate 2"

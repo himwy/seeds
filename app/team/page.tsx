@@ -320,9 +320,9 @@ export default function TeamPage() {
                   className="group"
                 >
                   <div className="bg-gray-50 rounded-lg border border-gray-200 shadow-lg overflow-hidden">
-                    <div className="grid lg:grid-cols-3 gap-0">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0">
                       {/* Member Image */}
-                      <div className="relative h-80 lg:h-auto">
+                      <div className="relative h-64 sm:h-auto">
                         {member.id === "wendy-lee" ? (
                           <Image
                             src="/assets/wendy/Wendy lee.jpg"
@@ -390,7 +390,7 @@ export default function TeamPage() {
                       </div>
 
                       {/* Member Info */}
-                      <div className="lg:col-span-2 p-12 flex flex-col justify-center">
+                      <div className="sm:col-span-1 lg:col-span-2 p-12 flex flex-col justify-center">
                         <div className="mb-6">
                           <h2 className="text-3xl font-bold text-gray-900 mb-2">
                             {member.name}

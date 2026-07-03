@@ -223,7 +223,6 @@ export default function SeedsStoryPage() {
   const t = translations[language] || translations.en; // Fallback to English if language not found
   const [currentEpisode, setCurrentEpisode] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [fullscreenZoom, setFullscreenZoom] = useState(1);
@@ -233,14 +232,6 @@ export default function SeedsStoryPage() {
     ...ep,
     images: generateEpisodeImages(ep.id),
   }));
-
-  // Mobile detection
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   // Reset loading state when episode or slide changes
   useEffect(() => {
@@ -370,9 +361,10 @@ export default function SeedsStoryPage() {
 
   const currentEp = episodes[currentEpisode];
 
-  if (isMobile) {
-    return (
-      <div className="w-full overflow-x-hidden pb-16">
+  return (
+    <>
+      {/* Mobile Version */}
+      <div className="block md:hidden w-full overflow-x-hidden pb-16">
         {/* Clean Professional Header */}
         <section className="relative bg-white py-16 mt-16 border-b border-gray-200">
           <div className="container mx-auto px-6 text-center">
@@ -503,12 +495,9 @@ export default function SeedsStoryPage() {
           </div>
         </section>
       </div>
-    );
-  }
 
-  // Desktop Version
-  return (
-    <div className="w-full overflow-x-hidden pb-16">
+      {/* Desktop Version */}
+      <div className="hidden md:block w-full overflow-x-hidden pb-16">
       {/* Clean Professional Header */}
       <section className="relative bg-white py-20 mt-16 border-b border-gray-200">
         <div className="container mx-auto px-6 text-center">
@@ -934,6 +923,7 @@ export default function SeedsStoryPage() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+      </div>
+    </>
   );
 }

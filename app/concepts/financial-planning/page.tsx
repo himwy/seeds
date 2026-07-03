@@ -54,7 +54,7 @@ interface SectionCardProps {
   section: Section;
   index: number;
   t: Translation;
-  isMobile: boolean;
+  idPrefix?: string;
 }
 
 interface TableOfContentsProps {
@@ -437,7 +437,7 @@ const translations = {
 const SectionCard: React.FC<SectionCardProps> = ({
   section,
   index,
-  isMobile,
+  idPrefix = "",
 }) => {
   const sectionConfig = sectionIcons[section.id];
   const bgColor = sectionBgColors[section.id];
@@ -457,10 +457,8 @@ const SectionCard: React.FC<SectionCardProps> = ({
     <motion.div
       {...getAnimationProps()}
       whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-      className={`scroll-mt-24 p-${isMobile ? "4" : "6"} sm:p-${
-        isMobile ? "5" : "8"
-      } rounded-2xl ${bgColor} shadow-sm hover:shadow-md w-full overflow-hidden transition-shadow duration-300`}
-      id={section.id}
+      className={`scroll-mt-24 p-4 sm:p-5 md:p-8 rounded-2xl ${bgColor} shadow-sm hover:shadow-md w-full overflow-hidden transition-shadow duration-300`}
+      id={`${idPrefix}${section.id}`}
       style={{
         // Fallback visibility
         opacity: 1,
@@ -475,11 +473,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
         >
           <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
         </motion.div>
-        <h2
-          className={`text-xl sm:text-2xl ${
-            isMobile ? "lg:text-2xl" : "lg:text-3xl"
-          } font-bold text-primary`}
-        >
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary">
           {section.title}
         </h2>
       </div>
@@ -577,7 +571,6 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
 export default function FinancialPlanningPage() {
   const { language } = useLanguage();
   const t = translations[language];
-  const [isMobile, setIsMobile] = useState(false);
   const [activeSection, setActiveSection] = useState("what-is");
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -593,25 +586,7 @@ export default function FinancialPlanningPage() {
 
     // Preload immediately
     preloadHeroImage();
-  }, []);
-
-  // Optimized mobile detection
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
     setIsLoaded(true);
-
-    let timeoutId: NodeJS.Timeout;
-    const debouncedResize = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(handleResize, 100);
-    };
-
-    window.addEventListener("resize", debouncedResize);
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener("resize", debouncedResize);
-    };
   }, []);
 
   // Optimized intersection observer
@@ -621,13 +596,14 @@ export default function FinancialPlanningPage() {
     const observerOptions: IntersectionObserverInit = {
       root: null,
       rootMargin: "0px",
-      threshold: isMobile ? 0.1 : 0.3,
+      threshold: 0.1,
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry: IntersectionObserverEntry) => {
         if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
+          // Strip the mobile-tree prefix so the active id matches section.id
+          setActiveSection(entry.target.id.replace(/^m-/, ""));
         }
       });
     };
@@ -637,17 +613,25 @@ export default function FinancialPlanningPage() {
       observerOptions
     );
 
+    // Observe both the mobile (m-) and desktop trees; only the visible one fires
     t.sections.forEach((section: Section) => {
-      const element = document.getElementById(section.id);
-      if (element) observer.observe(element);
+      [`m-${section.id}`, section.id].forEach((domId) => {
+        const element = document.getElementById(domId);
+        if (element) observer.observe(element);
+      });
     });
 
     return () => observer.disconnect();
-  }, [t.sections, isLoaded, isMobile]);
+  }, [t.sections, isLoaded]);
 
   // Smooth scroll handler
   const scrollToSection = useCallback((sectionId: string) => {
-    const element = document.getElementById(sectionId);
+    // Both trees are mounted; scroll the one that is currently visible
+    // (a display:none element has a null offsetParent).
+    const desktopEl = document.getElementById(sectionId);
+    const mobileEl = document.getElementById(`m-${sectionId}`);
+    const element =
+      desktopEl && desktopEl.offsetParent !== null ? desktopEl : mobileEl;
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
       setActiveSection(sectionId);
@@ -668,10 +652,11 @@ export default function FinancialPlanningPage() {
     [t.sections, activeSection]
   );
 
-  if (isMobile) {
-    return (
+  return (
+    <>
+      {/* Mobile view */}
       <div
-        className="w-full overflow-x-hidden pb-16"
+        className="block md:hidden w-full overflow-x-hidden pb-16"
         style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
       >
         {/* Hero Section - Clean like team page, NO background image */}
@@ -715,7 +700,7 @@ export default function FinancialPlanningPage() {
                 section={section}
                 index={index}
                 t={t}
-                isMobile={true}
+                idPrefix="m-"
               />
             ))}
           </div>
@@ -724,15 +709,12 @@ export default function FinancialPlanningPage() {
           </div>
         </section>
       </div>
-    );
-  }
 
-  // Desktop view
-  return (
-    <div
-      className="w-full overflow-x-hidden"
-      style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
-    >
+      {/* Desktop view */}
+      <div
+        className="hidden md:block w-full overflow-x-hidden"
+        style={{ fontFamily: "'Times New Roman', Georgia, serif" }}
+      >
       {/* Hero Section - Clean like team page, NO background image */}
       <section className="relative bg-gray-50 py-12 sm:py-16 lg:py-20 pt-20 sm:pt-24 lg:pt-32">
         <div className="container mx-auto px-6 sm:px-8 text-center">
@@ -782,7 +764,6 @@ export default function FinancialPlanningPage() {
                     section={section}
                     index={index}
                     t={t}
-                    isMobile={false}
                   />
                 ))}
               </div>
@@ -793,6 +774,7 @@ export default function FinancialPlanningPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -278,9 +278,6 @@ export default function EventsPage() {
                       <h3 className="text-xl font-bold text-gray-900 mb-3">
                         {language === "zh-HK" ? event.chineseName : event.name}
                       </h3>
-                      <p className="text-gray-600 mb-4 line-clamp-2">
-                        {language === "zh-HK" ? event.chineseName : event.name}
-                      </p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-gray-500 text-sm">
                           <FaImages className="mr-1" />
@@ -362,9 +359,6 @@ export default function EventsPage() {
                       <h3 className="text-xl font-bold text-gray-900 mb-3">
                         {language === "zh-HK" ? event.chineseName : event.name}
                       </h3>
-                      <p className="text-gray-600 mb-4 line-clamp-2">
-                        {language === "zh-HK" ? event.chineseName : event.name}
-                      </p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-gray-500 text-sm">
                           <FaImages className="mr-1" />

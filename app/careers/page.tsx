@@ -251,8 +251,8 @@ export default function CareersPage() {
   // Video data for the carousel
   const videos = [
     {
-      id: "h5uJjUokGaI",
-      title: "Intern Sharing — Featured",
+      id: "t-iqHJJLaBM",
+      title: "SY Internship Class Sharing",
       description: "Main intern sharing video"
     },
     {
@@ -460,7 +460,7 @@ export default function CareersPage() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-gray-50 via-white to-gray-100 py-24 pt-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/5 to-transparent"></div>
-        <div className="container mx-auto px-8 relative z-10">
+        <div className="container mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -520,7 +520,7 @@ export default function CareersPage() {
 
       {/* Wendy's Sharing Video Carousel Section */}
       <section className="py-16 md:py-24 bg-gray-50">
-        <div className="container mx-auto px-4 md:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -629,7 +629,7 @@ export default function CareersPage() {
 
       {/* Internship Highlight Section (Single Featured Video) */}
       <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4 md:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -673,7 +673,7 @@ export default function CareersPage() {
 
       {/* Intern/Members Video Carousel Section */}
       <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4 md:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -782,14 +782,14 @@ export default function CareersPage() {
 
       {/* Introduction Section */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
               {t.whyWealthTitle}
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
@@ -825,14 +825,14 @@ export default function CareersPage() {
 
       {/* Current Opportunities Section */}
       <section id="opportunities-section" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               {t.currentOpportunitiesTitle}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">

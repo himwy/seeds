@@ -343,7 +343,7 @@ export default function WendyLeePage() {
             {t.educationText3}
           </p>
 
-          <div className="float-right ml-6 mb-4 w-96 h-96 relative rounded-lg overflow-hidden shadow-md">
+          <div className="w-full md:w-96 h-60 md:h-96 md:float-right md:ml-6 mb-4 relative rounded-lg overflow-hidden shadow-md">
             <Image
               src="/assets/wendy/李春雷保險AIA - Wendy Lee.jpg"
               alt="Wendy Lee Insurance Professional"
@@ -429,7 +429,7 @@ export default function WendyLeePage() {
             {t.philanthropyText1}
           </p>
 
-          <div className="float-left mr-6 mb-4 w-80 h-60 relative rounded-lg overflow-hidden shadow-md">
+          <div className="w-full md:w-80 h-60 md:float-left md:mr-6 mb-4 relative rounded-lg overflow-hidden shadow-md">
             <Image
               src="/assets/wendy/WendyLee李春雷團隊.jpg"
               alt="Wendy Lee Team"
@@ -458,7 +458,7 @@ export default function WendyLeePage() {
             {t.philanthropyQuote}
           </blockquote>
 
-          <div className="float-right ml-6 mb-4 w-96 h-80 relative rounded-lg overflow-hidden shadow-md">
+          <div className="w-full md:w-96 h-60 md:h-80 md:float-right md:ml-6 mb-4 relative rounded-lg overflow-hidden shadow-md">
             <Image
               src="/assets/wendy/李春雷女士.jpg"
               alt="Wendy Lee Professional"

@@ -50,6 +50,8 @@ function HomeRecentEventCard({
   className?: string;
 }) {
   const title = language === "en" ? event.name : event.chineseName;
+  const imageAlt =
+    title || (language === "en" ? "Seeds Financial Group event" : "Seeds Financial Group 活動");
   const stripTrail = (u: string) => u.replace(/[\)"\]]+$/, "");
   const rawMedia = event.images?.[0];
   const firstMedia = rawMedia ? stripTrail(rawMedia) : null;
@@ -72,7 +74,7 @@ function HomeRecentEventCard({
             <>
               <Image
                 src={posterSrc}
-                alt={title}
+                alt={imageAlt}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                 sizes="(max-width: 768px) 100vw, 33vw"
@@ -423,7 +425,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, t }) => {
 export default function Home() {
   const { language } = useLanguage();
   const t = translations[language];
-  const [isMobile, setIsMobile] = useState(false);
   const [recentEvents, setRecentEvents] = useState<Event[]>([]);
 
   const recentEventsPreview = useMemo(
@@ -442,27 +443,6 @@ export default function Home() {
       }
     };
     loadEvents();
-  }, []);
-
-  // Optimized mobile detection with debounce
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    handleResize();
-
-    let resizeTimeout: NodeJS.Timeout;
-    const debouncedResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(handleResize, 100);
-    };
-
-    window.addEventListener("resize", debouncedResize);
-    return () => {
-      clearTimeout(resizeTimeout);
-      window.removeEventListener("resize", debouncedResize);
-    };
   }, []);
 
   // Intersection Observer for scroll animations
@@ -506,7 +486,7 @@ export default function Home() {
       );
       animatedElements.forEach((el) => observer.unobserve(el));
     };
-  }, [isMobile]);
+  }, []);
 
   // Memoized contact button handlers
   const contactButtonHandlers = useMemo(
@@ -530,10 +510,10 @@ export default function Home() {
     borderColor: "white",
     color: "white",
   };
-  // Mobile view - Fixed to match desktop design exactly
-  if (isMobile) {
-    return (
-      <div className="w-full overflow-x-hidden">
+  return (
+    <>
+      {/* Mobile view - Fixed to match desktop design exactly */}
+      <div className="block md:hidden w-full overflow-x-hidden">
         {/* Mobile Hero Section - Match Desktop */}
         <section
           className="relative min-h-screen flex items-center justify-center text-white w-full overflow-hidden"
@@ -844,13 +824,10 @@ export default function Home() {
           </div>
         </section>
       </div>
-    );
-  }
 
-  // Desktop view
-  return (
-    <div className="overflow-x-hidden w-full">
-      {/* Hero Section */}
+      {/* Desktop view */}
+      <div className="hidden md:block overflow-x-hidden w-full">
+        {/* Hero Section */}
       <section
         className="relative min-h-[90vh] md:min-h-[85vh] flex items-center w-full overflow-hidden"
         style={{
@@ -1071,6 +1048,12 @@ export default function Home() {
                 </Link>
               </div>
             </>
+          ) : recentEvents.length === 0 ? (
+            <div className="py-12 text-center">
+              <p className="text-dark-gray">
+                {language === "en" ? "Loading events..." : "載入活動中..."}
+              </p>
+            </div>
           ) : (
             <div className="py-12 text-center">
               <p className="text-dark-gray">
@@ -1147,6 +1130,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }
