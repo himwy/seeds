@@ -37,6 +37,12 @@ const nextConfig: NextConfig = {
         destination: "https://forms.gle/7tt55tSQ7A68b1ZU9",
         permanent: false,
       },
+      // 未來精英領袖體驗計劃 registration form
+      {
+        source: "/future-leaders",
+        destination: "https://forms.gle/sdSaGpJBNYscidfr9",
+        permanent: false,
+      },
     ];
   },
 
