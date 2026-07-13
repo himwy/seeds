@@ -139,7 +139,7 @@ export default function CeMiLeePage() {
           <div className="max-w-4xl mx-auto">
             <div className="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl ring-1 ring-gray-900/10">
               <iframe
-                src="https://www.youtube.com/embed/TWY5ZBpXFBk"
+                src="https://www.youtube.com/embed/DMIRZVMv9xQ"
                 title="Ce Mi Lee Interview"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

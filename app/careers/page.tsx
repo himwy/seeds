@@ -332,7 +332,7 @@ export default function CareersPage() {
   ];
 
   // Internship Highlight (single featured video)
-  const internshipHighlightVideoId = "t0QcyMb_hv4";
+  const internshipHighlightVideoId = "ILidGQVR31U";
 
   // State for video carousel
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
