@@ -6,7 +6,6 @@ import {
   FaHeart,
   FaArrowLeft,
   FaQuoteLeft,
-  FaPlay,
   FaSeedling,
 } from "react-icons/fa";
 import { useLanguage } from "../../../components/LanguageContext";
@@ -17,9 +16,6 @@ const translations = {
     title: "A Legacy of Trust",
     subtitle: "In Memory of Joshua - A Client Who Inspired a Career of Service",
     backToStories: "Back to Case Studies",
-    videoTitle: "A Message from Joshua's Family",
-    videoDescription:
-      "An inspiring message about the true value of insurance and dedicated financial planning.",
 
     wendyWords: {
       opening:
@@ -41,9 +37,6 @@ const translations = {
       },
 
       closing: "His legacy inspires me to continue planting seeds of trust and service.",
-
-      videoIntro:
-        "Joshua's wife graciously shares her perspective on insurance and financial planning, offering an inspiring message for both clients and financial professionals alike.",
     },
   },
 
@@ -51,9 +44,6 @@ const translations = {
     title: "信任的傳承",
     subtitle: "紀念Joshua - 一位啟發服務精神的客戶",
     backToStories: "返回案例研究",
-    videoTitle: "來自Joshua家人的分享",
-    videoDescription:
-      "關於保險真正價值和專業理財規劃的啟發性分享。",
 
     wendyWords: {
       opening:
@@ -75,9 +65,6 @@ const translations = {
       },
 
       closing: "他的傳承激勵我繼續播下信任與服務的種子。",
-
-      videoIntro:
-        "Joshua的妻子分享她對保險和理財規劃的看法，為客戶和理財專業人士提供啟發性的信息。",
     },
   },
 };
@@ -180,44 +167,6 @@ export default function JoshuaTributePage() {
             <p className="text-2xl font-bold text-gray-800">
               {t.wendyWords.closing}
             </p>
-          </motion.section>
-
-          {/* Video Introduction */}
-          <motion.section
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="bg-white rounded-lg shadow-lg p-8 mb-8 border border-gray-200"
-          >
-            <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              {t.wendyWords.videoIntro}
-            </p>
-
-            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center font-serif">
-                <FaPlay className="text-gray-700 mr-3" />
-                {t.videoTitle}
-              </h3>
-              <p className="text-gray-600 mb-6">{t.videoDescription}</p>
-
-              {/* Video Player */}
-              <div className="relative bg-black rounded-lg overflow-hidden shadow-lg">
-                <video
-                  controls
-                  className="w-full h-auto"
-                  preload="metadata"
-                  poster="/assets/video-poster.jpg"
-                >
-                  <source
-                    src="/assets/Client Claim Sharing.mp4"
-                    type="video/mp4"
-                  />
-                  {language === "en"
-                    ? "Your browser does not support the video tag."
-                    : "您的瀏覽器不支持視頻標籤。"}
-                </video>
-              </div>
-            </div>
           </motion.section>
         </div>
       </div>

@@ -134,6 +134,20 @@ const translations = {
         email: "li.hao@seedsfinancial.com",
         phone: "+852 5530-4114",
       },
+      {
+        id: "ce-mi-lee",
+        name: "Ce Mi Lee",
+        chineseName: "",
+        position: "Wealth Management Manager",
+        chinesePosition: "財富管理經理",
+        specialization: "Economics & Wealth Planning",
+        chineseSpecialization: "經濟學及財富策劃",
+        experience: "Georgetown Graduate",
+        description:
+          "Ce Mi Lee is a Georgetown University Economics graduate who brings an international, multilingual perspective to wealth management. She has hands-on wealth-planning experience in Hong Kong, supporting client consultations and estate-planning seminars, and interned with Lotte in Seoul, where she analyzed a US$1.3 billion alternative-investment portfolio. Fluent in English and Korean with conversational Mandarin, she pairs analytical rigor with a genuine, client-first approach.",
+        chineseDescription:
+          "Ce Mi Lee 畢業於喬治城大學經濟學系，為財富管理帶來國際化及多語言的視野。她在香港擁有財富策劃的實戰經驗，曾協助客戶進行諮詢及主辦遺產規劃講座；亦曾於首爾樂天(Lotte)分析逾13億美元的另類投資組合。她操流利英語及韓語，並具備中文會話能力，將嚴謹的分析思維與以客為先的真誠態度融會貫通。",
+      },
     ],
   },
   "zh-HK": {
@@ -262,6 +276,20 @@ const translations = {
         email: "li.hao@seedsfinancial.com",
         phone: "+852 5530-4114",
       },
+      {
+        id: "ce-mi-lee",
+        name: "Ce Mi Lee",
+        chineseName: "",
+        position: "Wealth Management Manager",
+        chinesePosition: "財富管理經理",
+        specialization: "Economics & Wealth Planning",
+        chineseSpecialization: "經濟學及財富策劃",
+        experience: "喬治城大學畢業生",
+        description:
+          "Ce Mi Lee is a Georgetown University Economics graduate who brings an international, multilingual perspective to wealth management. She has hands-on wealth-planning experience in Hong Kong, supporting client consultations and estate-planning seminars, and interned with Lotte in Seoul, where she analyzed a US$1.3 billion alternative-investment portfolio. Fluent in English and Korean with conversational Mandarin, she pairs analytical rigor with a genuine, client-first approach.",
+        chineseDescription:
+          "Ce Mi Lee 畢業於喬治城大學經濟學系，為財富管理帶來國際化及多語言的視野。她在香港擁有財富策劃的實戰經驗，曾協助客戶進行諮詢及主辦遺產規劃講座；亦曾於首爾樂天(Lotte)分析逾13億美元的另類投資組合。她操流利英語及韓語，並具備中文會話能力，將嚴謹的分析思維與以客為先的真誠態度融會貫通。",
+      },
     ],
   },
 };
@@ -322,7 +350,7 @@ export default function TeamPage() {
                   <div className="bg-gray-50 rounded-lg border border-gray-200 shadow-lg overflow-hidden">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0">
                       {/* Member Image */}
-                      <div className="relative h-64 sm:h-auto">
+                      <div className="relative h-80 sm:h-auto">
                         {member.id === "wendy-lee" ? (
                           <Image
                             src="/assets/wendy/Wendy lee.jpg"
@@ -349,14 +377,14 @@ export default function TeamPage() {
                             src="/assets/andy/andy pfp.jpeg"
                             alt={`${member.name} - ${member.position}`}
                             fill
-                            className="object-cover"
+                            className="object-cover object-top"
                           />
                         ) : member.id === "karen-wong" ? (
                           <Image
                             src="/assets/karen/karen.jpg"
                             alt={`${member.name} - ${member.position}`}
                             fill
-                            className="object-cover"
+                            className="object-cover object-top"
                           />
                         ) : member.id === "bella" ? (
                           <Image
@@ -371,6 +399,13 @@ export default function TeamPage() {
                             alt={`${member.name} - ${member.position}`}
                             fill
                             className="object-cover"
+                          />
+                        ) : member.id === "ce-mi-lee" ? (
+                          <Image
+                            src="/assets/cemi/cemi.jpg"
+                            alt={`${member.name} - ${member.position}`}
+                            fill
+                            className="object-cover object-top"
                           />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
@@ -395,9 +430,11 @@ export default function TeamPage() {
                           <h2 className="text-3xl font-bold text-gray-900 mb-2">
                             {member.name}
                           </h2>
-                          <p className="text-xl text-gray-700 mb-2">
-                            {member.chineseName}
-                          </p>
+                          {member.chineseName && (
+                            <p className="text-xl text-gray-700 mb-2">
+                              {member.chineseName}
+                            </p>
+                          )}
                           <p className="text-lg text-blue-600 font-semibold mb-4">
                             {language === "zh-HK"
                               ? member.chinesePosition
