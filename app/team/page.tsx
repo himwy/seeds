@@ -409,7 +409,7 @@ export default function TeamPage() {
                           />
                         ) : member.id === "karen-wong" ? (
                           <Image
-                            src="/assets/karen/karen.jpg"
+                            src="/assets/karen/karen-v2.jpg"
                             alt={`${member.name} - ${member.position}`}
                             fill
                             className="object-cover object-top"
@@ -437,7 +437,7 @@ export default function TeamPage() {
                           />
                         ) : member.id === "anne" ? (
                           <Image
-                            src="/assets/anne/anne.jpg"
+                            src="/assets/anne/anne-v2.jpg"
                             alt={`${member.name} - ${member.position}`}
                             fill
                             className="object-cover object-top"

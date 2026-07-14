@@ -23,7 +23,7 @@ function HeroPortrait({ initials }: { initials: string }) {
           </div>
         ) : (
           <Image
-            src="/assets/anne/anne.jpg"
+            src="/assets/anne/anne-v2.jpg"
             alt="Anne Chong - Team Member"
             fill
             sizes="256px"

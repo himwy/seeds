@@ -107,7 +107,7 @@ export default function KarenWongPage() {
         <header className="text-center mb-16">
           <div className="relative w-80 h-80 mx-auto mb-8 rounded-full overflow-hidden shadow-lg">
             <Image
-              src="/assets/karen/karen.jpg"
+              src="/assets/karen/karen-v2.jpg"
               alt="Karen Wong - Deputy Director of Wealth Management"
               fill
               className="object-cover"
