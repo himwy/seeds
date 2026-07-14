@@ -148,6 +148,20 @@ const translations = {
         chineseDescription:
           "Ce Mi Lee 畢業於喬治城大學經濟學系，為財富管理帶來國際化及多語言的視野。她在香港擁有財富策劃的實戰經驗，曾協助客戶進行諮詢及主辦遺產規劃講座；亦曾於首爾樂天(Lotte)分析逾13億美元的另類投資組合。她操流利英語及韓語，並具備中文會話能力，將嚴謹的分析思維與以客為先的真誠態度融會貫通。",
       },
+      {
+        id: "anne",
+        name: "Anne Chong",
+        chineseName: "",
+        position: "Wealth Management Manager",
+        chinesePosition: "財富管理經理",
+        specialization: "Cross-Cultural Financial Planning",
+        chineseSpecialization: "跨文化財務策劃",
+        experience: "Neuroscience & Law Graduate",
+        description:
+          "Anne Chong is a Neuroscience and Law graduate who brings a cross-cultural perspective and a deep interest in human behaviour to financial planning. She holds an MSc in Neuroscience (Distinction) from City University of Hong Kong alongside a law degree, and her background spans legal research, journalism, and science communication. Fluent in Mandarin, English, and Cantonese, she helps people across Hong Kong, mainland China, and Malaysia turn 'saving for a rainy day' into thoughtful, actionable plans.",
+        chineseDescription:
+          "Anne Chong 是神經科學及法律畢業生，為財務策劃帶來跨文化的視野及對人類行為的深刻興趣。她於香港城市大學取得神經科學碩士學位（優異），並持有法律學位，背景涵蓋法律研究、新聞及科學傳播。她能操流利普通話、英語及廣東話，協助香港、中國內地及馬來西亞的人們，將「未雨綢繆」化為周全而實際的規劃。",
+      },
     ],
   },
   "zh-HK": {
@@ -290,6 +304,20 @@ const translations = {
         chineseDescription:
           "Ce Mi Lee 畢業於喬治城大學經濟學系，為財富管理帶來國際化及多語言的視野。她在香港擁有財富策劃的實戰經驗，曾協助客戶進行諮詢及主辦遺產規劃講座；亦曾於首爾樂天(Lotte)分析逾13億美元的另類投資組合。她操流利英語及韓語，並具備中文會話能力，將嚴謹的分析思維與以客為先的真誠態度融會貫通。",
       },
+      {
+        id: "anne",
+        name: "Anne Chong",
+        chineseName: "",
+        position: "Wealth Management Manager",
+        chinesePosition: "財富管理經理",
+        specialization: "Cross-Cultural Financial Planning",
+        chineseSpecialization: "跨文化財務策劃",
+        experience: "神經科學及法律畢業生",
+        description:
+          "Anne Chong is a Neuroscience and Law graduate who brings a cross-cultural perspective and a deep interest in human behaviour to financial planning. She holds an MSc in Neuroscience (Distinction) from City University of Hong Kong alongside a law degree, and her background spans legal research, journalism, and science communication. Fluent in Mandarin, English, and Cantonese, she helps people across Hong Kong, mainland China, and Malaysia turn 'saving for a rainy day' into thoughtful, actionable plans.",
+        chineseDescription:
+          "Anne Chong 是神經科學及法律畢業生，為財務策劃帶來跨文化的視野及對人類行為的深刻興趣。她於香港城市大學取得神經科學碩士學位（優異），並持有法律學位，背景涵蓋法律研究、新聞及科學傳播。她能操流利普通話、英語及廣東話，協助香港、中國內地及馬來西亞的人們，將「未雨綢繆」化為周全而實際的規劃。",
+      },
     ],
   },
 };
@@ -403,6 +431,13 @@ export default function TeamPage() {
                         ) : member.id === "ce-mi-lee" ? (
                           <Image
                             src="/assets/cemi/cemi.jpg"
+                            alt={`${member.name} - ${member.position}`}
+                            fill
+                            className="object-cover object-top"
+                          />
+                        ) : member.id === "anne" ? (
+                          <Image
+                            src="/assets/anne/anne.jpg"
                             alt={`${member.name} - ${member.position}`}
                             fill
                             className="object-cover object-top"
