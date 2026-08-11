@@ -435,7 +435,7 @@ export default function EventDetailPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
           onClick={closeImageModal}
           role="dialog"
           aria-modal="true"
@@ -448,7 +448,7 @@ export default function EventDetailPage() {
             {/* Close Button */}
             <button
               onClick={closeImageModal}
-              className="absolute top-4 right-4 text-black hover:text-gray-600 z-10 p-2 transition-all bg-white bg-opacity-80 rounded-full"
+              className="absolute top-4 right-4 text-black hover:text-gray-600 z-10 p-2 transition-all bg-white/80 rounded-full"
               title={t.closeModal}
             >
               <FaTimes size={24} />
@@ -462,7 +462,7 @@ export default function EventDetailPage() {
                     e.stopPropagation();
                     prevImage();
                   }}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-black hover:text-gray-600 z-10 p-3 transition-all bg-white bg-opacity-80 rounded-full"
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-black hover:text-gray-600 z-10 p-3 transition-all bg-white/80 rounded-full"
                   title={t.prevPhoto}
                 >
                   <FaChevronLeft size={24} />
@@ -473,7 +473,7 @@ export default function EventDetailPage() {
                     e.stopPropagation();
                     nextImage();
                   }}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black hover:text-gray-600 z-10 p-3 transition-all bg-white bg-opacity-80 rounded-full"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black hover:text-gray-600 z-10 p-3 transition-all bg-white/80 rounded-full"
                   title={t.nextPhoto}
                 >
                   <FaChevronRight size={24} />
@@ -490,7 +490,7 @@ export default function EventDetailPage() {
                 videoIndices.has(selectedImageIndex) ? (
                 <video
                   src={modalCleanUrl}
-                  className="max-w-full max-h-full object-contain"
+                  className="max-w-full max-h-[calc(100dvh-4rem)] object-contain"
                   controls
                   autoPlay
                   muted
@@ -502,7 +502,7 @@ export default function EventDetailPage() {
                   alt={`${
                     language === "zh-HK" ? event.chineseName : event.name
                   } - Media ${selectedImageIndex + 1}`}
-                  className="max-w-full max-h-full object-contain"
+                  className="max-w-full max-h-[calc(100dvh-4rem)] object-contain"
                   onClick={(e) => e.stopPropagation()}
                   onError={() => {
                     // If image fails in modal, mark as video
@@ -517,7 +517,7 @@ export default function EventDetailPage() {
             })()}
 
             {/* Image Counter */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white bg-black/50 px-3 py-1 rounded-full text-sm pointer-events-none">
               {selectedImageIndex + 1} / {event.images.length}
             </div>
           </div>
