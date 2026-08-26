@@ -162,6 +162,20 @@ const translations = {
         chineseDescription:
           "Anne Chong 是神經科學及法律畢業生，為財務策劃帶來跨文化的視野及對人類行為的深刻興趣。她於香港城市大學取得神經科學碩士學位（優異），並持有法律學位，背景涵蓋法律研究、新聞及科學傳播。她能操流利普通話、英語及廣東話，協助香港、中國內地及馬來西亞的人們，將「未雨綢繆」化為周全而實際的規劃。",
       },
+      {
+        id: "joanne-cheng",
+        name: "Joanne Cheng",
+        chineseName: "程婧雯",
+        position: "Wealth Management Manager",
+        chinesePosition: "財富管理經理",
+        specialization: "Law, Funds & Capital Markets",
+        chineseSpecialization: "法律、基金及資本市場",
+        experience: "Juris Doctor & NY Bar",
+        description:
+          "Joanne Cheng is a US-trained lawyer who brings a legal lens to wealth planning. She holds a Juris Doctor from Temple University's Beasley School of Law, where she was a Conwell Scholar, passed the New York State Bar Examination in 2019, and cleared CFA Level I the same year. Her career spans equity capital markets and fund operations across Hong Kong and mainland China, from IPO and convertible bond issuance to fund structuring and legal review for senior management. She reads the terms before the illustration, so clients understand exactly what they are buying.",
+        chineseDescription:
+          "Joanne Cheng 是美國執業訓練出身的律師，為財富策劃帶來法律視角。她於天普大學 Beasley 法學院取得法學博士(Juris Doctor)學位並獲頒 Conwell 獎學金，2019 年通過紐約州律師資格考試，同年考獲 CFA 一級。她的職涯橫跨香港及中國內地的股票資本市場與基金營運，由 IPO 及可轉換債券發行，到基金架構設計及管理層法律審閱。她習慣先讀條款、後看計劃書，讓客戶清楚知道自己買的到底是什麼。",
+      },
     ],
   },
   "zh-HK": {
@@ -318,6 +332,20 @@ const translations = {
         chineseDescription:
           "Anne Chong 是神經科學及法律畢業生，為財務策劃帶來跨文化的視野及對人類行為的深刻興趣。她於香港城市大學取得神經科學碩士學位（優異），並持有法律學位，背景涵蓋法律研究、新聞及科學傳播。她能操流利普通話、英語及廣東話，協助香港、中國內地及馬來西亞的人們，將「未雨綢繆」化為周全而實際的規劃。",
       },
+      {
+        id: "joanne-cheng",
+        name: "Joanne Cheng",
+        chineseName: "程婧雯",
+        position: "Wealth Management Manager",
+        chinesePosition: "財富管理經理",
+        specialization: "Law, Funds & Capital Markets",
+        chineseSpecialization: "法律、基金及資本市場",
+        experience: "法學博士及紐約律師資格",
+        description:
+          "Joanne Cheng is a US-trained lawyer who brings a legal lens to wealth planning. She holds a Juris Doctor from Temple University's Beasley School of Law, where she was a Conwell Scholar, passed the New York State Bar Examination in 2019, and cleared CFA Level I the same year. Her career spans equity capital markets and fund operations across Hong Kong and mainland China, from IPO and convertible bond issuance to fund structuring and legal review for senior management. She reads the terms before the illustration, so clients understand exactly what they are buying.",
+        chineseDescription:
+          "Joanne Cheng 是美國執業訓練出身的律師，為財富策劃帶來法律視角。她於天普大學 Beasley 法學院取得法學博士(Juris Doctor)學位並獲頒 Conwell 獎學金，2019 年通過紐約州律師資格考試，同年考獲 CFA 一級。她的職涯橫跨香港及中國內地的股票資本市場與基金營運，由 IPO 及可轉換債券發行，到基金架構設計及管理層法律審閱。她習慣先讀條款、後看計劃書，讓客戶清楚知道自己買的到底是什麼。",
+      },
     ],
   },
 };
@@ -438,6 +466,13 @@ export default function TeamPage() {
                         ) : member.id === "anne" ? (
                           <Image
                             src="/assets/anne/anne-v2.jpg"
+                            alt={`${member.name} - ${member.position}`}
+                            fill
+                            className="object-cover object-top"
+                          />
+                        ) : member.id === "joanne-cheng" ? (
+                          <Image
+                            src="/assets/joanne/joanne.jpg"
                             alt={`${member.name} - ${member.position}`}
                             fill
                             className="object-cover object-top"
