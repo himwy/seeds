@@ -30,6 +30,8 @@ const JPEG_QUALITY = 0.82;
 const MAX_DIMENSION = 1280;
 const LOAD_TIMEOUT_MS = 120_000; // 2 min — large videos with trailing moov can take a while
 const SEEK_TIMEOUT_MS = 20_000; // per-seek attempt
+const BLACK_LUMA_THRESHOLD = 24; // mean luma (0-255) below this counts as "black"
+const SAMPLE_FRACTIONS = [0.5, 0.1, 0.25, 0.4, 0.6, 0.75]; // fractions of duration to try
 
 function makeFilename(source: ThumbnailSource): string {
   if (typeof source === "string") {
@@ -81,6 +83,42 @@ function drawFrameToCanvas(video: HTMLVideoElement): {
     width: w,
     height: h,
   };
+}
+
+/** Mean luma (0-255) of a drawable, sampled on a small downscale. */
+function meanLuma(source: CanvasImageSource): number {
+  const c = document.createElement("canvas");
+  c.width = 32;
+  c.height = 32;
+  const ctx = c.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return 255;
+  ctx.drawImage(source, 0, 0, 32, 32);
+  const { data } = ctx.getImageData(0, 0, 32, 32);
+  let sum = 0;
+  for (let i = 0; i < data.length; i += 4) {
+    sum += 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+  }
+  return sum / (data.length / 4);
+}
+
+/**
+ * True if an existing (same-origin / CORS-enabled) image is essentially black.
+ * Resolves false on any load/read failure so we never regenerate on a guess.
+ */
+export function isImageMostlyBlack(url: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      try {
+        resolve(meanLuma(img) < BLACK_LUMA_THRESHOLD);
+      } catch {
+        resolve(false);
+      }
+    };
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
 }
 
 function trySeek(video: HTMLVideoElement, target: number): Promise<void> {
@@ -177,20 +215,41 @@ export async function generateVideoThumbnail(
     video.src = url;
     await ready;
 
-    // Try preferred seek first; fall back to t=0 (current frame) if it stalls.
+    // Many videos fade in from black, so one frame near t=0 is often black.
+    // Try several points and keep the first non-black frame; if all are dark,
+    // keep the brightest.
     const duration = isFinite(video.duration) ? video.duration : 0;
-    const targetSeconds = Math.min(
-      PREFERRED_SEEK_SECONDS,
-      Math.max(0, duration > 0 ? duration / 2 : PREFERRED_SEEK_SECONDS),
-    );
-    try {
-      await trySeek(video, targetSeconds);
-    } catch {
-      // Fallback: don't seek, just grab whatever the current frame is.
-      // Browser is already showing frame 0 once loadeddata fired.
-    }
+    const targets =
+      duration > 0
+        ? SAMPLE_FRACTIONS.map((f) =>
+            f === 0.5
+              ? Math.min(PREFERRED_SEEK_SECONDS, duration / 2)
+              : duration * f,
+          )
+        : [PREFERRED_SEEK_SECONDS];
 
-    const drawn = drawFrameToCanvas(video);
+    let drawn: ReturnType<typeof drawFrameToCanvas> = null;
+    let bestLuma = -1;
+    for (const target of targets) {
+      try {
+        await trySeek(video, target);
+      } catch {
+        // Seek stalled: use whatever frame is currently showing.
+      }
+      const candidate = drawFrameToCanvas(video);
+      if (!candidate) continue;
+      let luma = 255;
+      try {
+        luma = meanLuma(video);
+      } catch {
+        /* tainted canvas: accept the frame; toBlob will report it */
+      }
+      if (luma > bestLuma) {
+        bestLuma = luma;
+        drawn = candidate;
+      }
+      if (luma >= BLACK_LUMA_THRESHOLD) break;
+    }
     if (!drawn) {
       throw new Error("Video has no dimensions or canvas unavailable");
     }

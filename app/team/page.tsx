@@ -64,9 +64,9 @@ const translations = {
         chineseSpecialization: "友邦卓越學院及百萬圓桌會議",
         experience: "7+ years",
         description:
-          "Kimman畢業於中大工商管理學系，在AIA工作7年並成為Premier Academy會員。他努力保持MDRT資格，以MDRT Life Member為長遠目標。",
+          "Kimman畢業於中大工商管理學系，在AIA工作13年並成為Premier Academy會員。他努力保持MDRT資格，以MDRT Life Member為長遠目標。",
         chineseDescription:
-          "Kimman畢業於中大工商管理學系，在AIA工作7年並成為Premier Academy會員。他努力保持MDRT資格，以MDRT Life Member為長遠目標。",
+          "Kimman畢業於中大工商管理學系，在AIA工作13年並成為Premier Academy會員。他努力保持MDRT資格，以MDRT Life Member為長遠目標。",
         email: "kimman.cheung@seedsfinancial.com",
         phone: "+852 5530-4114",
       },
@@ -80,9 +80,9 @@ const translations = {
         chineseSpecialization: "款客服務業管理及財務規劃",
         experience: "3+ years",
         description:
-          "Andy joined AIA in January 2022 after completing his Master's in Hospitality Management in Switzerland. He transitioned from the hospitality industry to financial planning and aims to achieve MDRT and COT this year.",
+          "Andy joined AIA in January 2021 after completing his Master's in Hospitality Management in Switzerland. He transitioned from the hospitality industry to financial planning and aims to achieve MDRT and COT this year.",
         chineseDescription:
-          "Andy於2022年1月加入AIA，在瑞士完成款客服務業管理碩士學位後，從酒店業轉入財務策劃行業，今年目標達到MDRT和COT。",
+          "Andy於2021年1月加入AIA，在瑞士完成款客服務業管理碩士學位後，從酒店業轉入財務策劃行業，今年目標達到MDRT和COT。",
         email: "andy.yiu@seedsfinancial.com",
         phone: "+852 5530-4114",
       },
@@ -220,9 +220,9 @@ const translations = {
         chineseSpecialization: "友邦卓越學院及百萬圓桌會議",
         experience: "7+ 年",
         description:
-          "Kimman畢業於中大工商管理學系，在AIA工作7年並成為Premier Academy會員。他努力保持MDRT資格，以MDRT Life Member為長遠目標。",
+          "Kimman畢業於中大工商管理學系，在AIA工作13年並成為Premier Academy會員。他努力保持MDRT資格，以MDRT Life Member為長遠目標。",
         chineseDescription:
-          "Kimman畢業於中大工商管理學系，在AIA工作7年並成為Premier Academy會員。他努力保持MDRT資格，以MDRT Life Member為長遠目標。",
+          "Kimman畢業於中大工商管理學系，在AIA工作13年並成為Premier Academy會員。他努力保持MDRT資格，以MDRT Life Member為長遠目標。",
         email: "kimman.cheung@seedsfinancial.com",
         phone: "+852 5530-4114",
       },
@@ -236,9 +236,9 @@ const translations = {
         chineseSpecialization: "款客服務業管理及財務規劃",
         experience: "3+ 年",
         description:
-          "Andy於2022年1月加入AIA，在瑞士完成款客服務業管理碩士學位後，從酒店業轉入財務策劃行業，今年目標達到MDRT和COT。",
+          "Andy於2021年1月加入AIA，在瑞士完成款客服務業管理碩士學位後，從酒店業轉入財務策劃行業，今年目標達到MDRT和COT。",
         chineseDescription:
-          "Andy於2022年1月加入AIA，在瑞士完成款客服務業管理碩士學位後，從酒店業轉入財務策劃行業，今年目標達到MDRT和COT。",
+          "Andy於2021年1月加入AIA，在瑞士完成款客服務業管理碩士學位後，從酒店業轉入財務策劃行業，今年目標達到MDRT和COT。",
         email: "andy.yiu@seedsfinancial.com",
         phone: "+852 5530-4114",
       },

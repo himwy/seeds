@@ -26,7 +26,7 @@ import {
   // FaChevronDown,
 } from "react-icons/fa";
 import { EventsService, Event } from "../lib/eventsService";
-import { generateVideoThumbnail } from "../lib/videoThumbnail";
+import { generateVideoThumbnail, isImageMostlyBlack } from "../lib/videoThumbnail";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -391,25 +391,47 @@ export default function AdminPage() {
   // browser doesn't try to seek 30 videos in parallel.
   const handleBackfillThumbnails = async () => {
     if (backfillState.running) return;
-    const targets = events.filter(
-      (e) =>
-        !e.thumbnail &&
-        e.images &&
-        e.images.length > 0 &&
-        (e.isVideo || e.images.some((u) => isVideoUrl(u))),
+    // Appwrite /view URLs have no file extension, so some videos aren't
+    // recognised by URL or the isVideo flag. For events without a thumbnail,
+    // check the real content type of the first file.
+    setBackfillState({ running: true, done: 0, total: events.length, failed: 0 });
+    const probedVideo = await Promise.all(
+      events.map(async (e) => {
+        if (!e.images || e.images.length === 0) return false;
+        if (e.isVideo || e.images.some((u) => isVideoUrl(u))) return true;
+        if (e.thumbnail) return false;
+        try {
+          const r = await fetch(e.images[0], { headers: { Range: "bytes=0-0" } });
+          return (r.headers.get("content-type") || "").startsWith("video/");
+        } catch {
+          return false;
+        }
+      }),
     );
+    const videoEvents = events.filter((_, i) => probedVideo[i]);
+    // Missing thumbnails, plus existing ones that came out black.
+    const blackFlags = await Promise.all(
+      videoEvents.map((e) =>
+        e.thumbnail
+          ? isImageMostlyBlack(EventsService.getProxiedUrl(e.thumbnail))
+          : Promise.resolve(false),
+      ),
+    );
+    const targets = videoEvents.filter((e, i) => !e.thumbnail || blackFlags[i]);
     if (targets.length === 0) {
+      setBackfillState((s) => ({ ...s, running: false }));
       setMessage({
         type: "success",
-        text: "All video events already have thumbnails.",
+        text: "All video events already have non-black thumbnails.",
       });
       return;
     }
     if (
       !window.confirm(
-        `Generate thumbnails for ${targets.length} video event(s)? This runs in your browser and may take a minute.`,
+        `Generate thumbnails for ${targets.length} video event(s) (missing or black)? This runs in your browser and may take a minute.`,
       )
     ) {
+      setBackfillState((s) => ({ ...s, running: false }));
       return;
     }
     setBackfillState({
@@ -425,7 +447,7 @@ export default function AdminPage() {
       try {
         const { file } = await generateVideoThumbnail(videoUrl);
         const [thumbnailUrl] = await EventsService.uploadImages([file]);
-        await EventsService.updateEvent(event.$id!, { thumbnail: thumbnailUrl });
+        await EventsService.updateEvent(event.$id!, { thumbnail: thumbnailUrl, isVideo: true });
       } catch (error) {
         failed += 1;
         console.error(

@@ -16,10 +16,10 @@ const translations = {
     education:
       "Graduated from the Department of Business Administration of CUHK",
     experience:
-      "Worked at AIA for 7 years, and became a member of AIA Premier Academy",
+      "Worked at AIA for 13 years, and became a member of AIA Premier Academy",
 
     description1:
-      "Kimman graduated from the Department of Business Administration of CUHK, worked at AIA for 7 years, and became a member of AIA Premier Academy. He has always adhered to the spirit of mutual assistance of Seeds Financial Group and has become one of the young elite representatives in the team by maintaining good communication with customers and team support.",
+      "Kimman graduated from the Department of Business Administration of CUHK, worked at AIA for 13 years, and became a member of AIA Premier Academy. He has always adhered to the spirit of mutual assistance of Seeds Financial Group and has become one of the young elite representatives in the team by maintaining good communication with customers and team support.",
 
     description2:
       "Kimman also made practical plans for himself. He strives to maintain his MDRT* qualifications, takes MDRT Life Member** as his personal long-term goal, and hopes to make a fortune in the insurance industry.",
@@ -42,10 +42,10 @@ const translations = {
     chineseName: "張劍文",
 
     education: "畢業於中大工商管理學系",
-    experience: "在AIA工作了7年，更成為了AIA Premier Academy會員",
+    experience: "在AIA工作了13年，更成為了AIA Premier Academy會員",
 
     description1:
-      "Kimman畢業於中大工商管理學系，在AIA工作了7年，更成為了AIA Premier Academy會員。他一直秉持著Seeds Financial Group的互助精神，憑著與客户保持良好溝通及團隊支援，成為隊中的年輕精英代表之一。",
+      "Kimman畢業於中大工商管理學系，在AIA工作了13年，更成為了AIA Premier Academy會員。他一直秉持著Seeds Financial Group的互助精神，憑著與客户保持良好溝通及團隊支援，成為隊中的年輕精英代表之一。",
 
     description2:
       "Kimman亦為自己作出實際的未來規劃。他努力保持MDRT*資格，以MDRT Life Member**為個人長遠目標，期望在保險業闖出一片天。",
@@ -56,7 +56,7 @@ const translations = {
     achievements: [
       "AIA Premier Academy會員",
       "MDRT資格",
-      "AIA工作7年+",
+      "AIA工作13年+",
       "中大工商管理學系畢業",
     ],
   },

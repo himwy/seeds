@@ -15,7 +15,7 @@ const translations = {
   sharingTitle: "Andy (Sharing)",
 
     intro:
-      "Andy officially joined AIA in January 2022 and came to the Seeds Financial Group family. As the new blood of the team, he has little experience but is still filled with enthusiasm. He therefore wishes to share his experience of joining AIA.",
+      "Andy officially joined AIA in January 2021 and came to the Seeds Financial Group family. As the new blood of the team, he has little experience but is still filled with enthusiasm. He therefore wishes to share his experience of joining AIA.",
 
     returningTitle: "Returning to Hong Kong",
     returningText:
@@ -43,7 +43,7 @@ const translations = {
     footnote: "*MDRT ranks among the top 1% of global financial advisors",
 
     achievements: [
-      "AIA Member since January 2022",
+      "AIA Member since January 2021",
       "Switzerland Hospitality Management Graduate",
       "Master's in Hospitality Management",
       "Targeting MDRT & COT",
@@ -58,7 +58,7 @@ const translations = {
   sharingTitle: "Andy（分享）",
 
     intro:
-      "Andy 在2022年一月正式加入AIA，來到Seeds Financial Group這一個大家庭。作為一個新進團隊的年輕人，經驗不多，卻滿腔熱情，希望分享一下自己入職AIA的經歷。",
+      "Andy 在2021年一月正式加入AIA，來到Seeds Financial Group這一個大家庭。作為一個新進團隊的年輕人，經驗不多，卻滿腔熱情，希望分享一下自己入職AIA的經歷。",
 
     returningTitle: "回流香港",
     returningText:
@@ -86,7 +86,7 @@ const translations = {
     footnote: "*MDRT為全球理財顧問中排名前1%",
 
     achievements: [
-      "2022年1月加入AIA",
+      "2021年1月加入AIA",
       "瑞士款客服務業管理畢業",
       "款客服務業管理碩士學位",
       "目標MDRT及COT",
