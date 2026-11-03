@@ -45,9 +45,6 @@ const translations = {
     videoTitle: "Interview",
     videoDescription: "Hear Ce Mi share her journey in her own words.",
 
-    introTitle: "Self Introduction",
-    introDescription: "A short introduction from Ce Mi.",
-
     backgroundTitle: "Academic Background",
     backgroundText:
       "Ce Mi Lee graduated from Georgetown University with a Bachelor of Arts in Economics and a minor in Art History, earning First Honors. Before Georgetown, she completed the International Baccalaureate at the Chinese International School (CIS) in Hong Kong, where she was a five-year Head's Commendation recipient. Her studies took her around the world, including exchange terms at Yonsei University in Seoul and a campus in Florence, Italy.",
@@ -73,9 +70,6 @@ const translations = {
 
     videoTitle: "專訪",
     videoDescription: "聽 Ce Mi 親述她的故事。",
-
-    introTitle: "自我介紹",
-    introDescription: "Ce Mi 的簡短自我介紹。",
 
     backgroundTitle: "學術背景",
     backgroundText:
@@ -147,30 +141,6 @@ export default function CeMiLeePage() {
               <iframe
                 src="https://www.youtube.com/embed/DMIRZVMv9xQ"
                 title="Ce Mi Lee Interview"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                className="absolute top-0 left-0 w-full h-full"
-              ></iframe>
-            </div>
-          </div>
-        </section>
-
-        {/* Self Introduction Video */}
-        <section className="mb-16">
-          <div className="max-w-4xl mx-auto text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2 inline-flex items-center">
-              <FaPlay className="text-blue-600 mr-3 text-2xl" />
-              {t.introTitle}
-            </h2>
-            <p className="text-gray-600">{t.introDescription}</p>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            <div className="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl ring-1 ring-gray-900/10">
-              <iframe
-                src="https://www.youtube.com/embed/l-nHMr870To"
-                title="Ce Mi Lee Self Introduction"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
