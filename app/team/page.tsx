@@ -162,6 +162,20 @@ const translations = {
         chineseDescription:
           "Joanne Cheng 是美國執業訓練出身的律師，為財富策劃帶來法律視角。她於天普大學 Beasley 法學院取得法學博士(Juris Doctor)學位並獲頒 Conwell 獎學金，2019 年通過紐約州律師資格考試，同年考獲 CFA 一級。她的職涯橫跨香港及中國內地的股票資本市場與基金營運，由 IPO 及可轉換債券發行，到基金架構設計及管理層法律審閱。她習慣先讀條款、後看計劃書，讓客戶清楚知道自己買的到底是什麼。",
       },
+      {
+        id: "cece-wong",
+        name: "Cece Wong",
+        chineseName: "",
+        position: "Wealth Management Manager",
+        chinesePosition: "財富管理經理",
+        specialization: "Law & Risk Management",
+        chineseSpecialization: "法律及風險管理",
+        experience: "HK Solicitor Qualification (Pending Admission)",
+        description:
+          "Cece Wong trained in law before choosing financial planning. After her legal education, she completed two years of training at an international commercial law firm to qualify as a solicitor in Hong Kong, and is now pending admission. She moved into wealth planning for a career built on human interaction and trust. Owning her client relationships and her time also gives her the flexibility to study part-time for a master's degree in environmental management and take part in climate-related projects. She is committed to helping clients manage their risks and resources so they can focus on their goals.",
+        chineseDescription:
+          "Cece Wong 投身財富策劃之前，接受的是法律訓練。修畢法律課程後，她於一間國際商業律師行完成兩年見習律師培訓，以取得香港律師資格，現正等候認許。她轉投財富策劃，是希望事業以人與人之間的交流和信任為核心；自主管理客戶關係和時間，亦讓她可以兼讀環境管理碩士課程，並參與氣候相關項目。她致力協助客戶管理風險與資源，讓他們能專注於自己的目標。",
+      },
     ],
   },
   "zh-HK": {
@@ -318,6 +332,20 @@ const translations = {
         chineseDescription:
           "Joanne Cheng 是美國執業訓練出身的律師，為財富策劃帶來法律視角。她於天普大學 Beasley 法學院取得法學博士(Juris Doctor)學位並獲頒 Conwell 獎學金，2019 年通過紐約州律師資格考試，同年考獲 CFA 一級。她的職涯橫跨香港及中國內地的股票資本市場與基金營運，由 IPO 及可轉換債券發行，到基金架構設計及管理層法律審閱。她習慣先讀條款、後看計劃書，讓客戶清楚知道自己買的到底是什麼。",
       },
+      {
+        id: "cece-wong",
+        name: "Cece Wong",
+        chineseName: "",
+        position: "Wealth Management Manager",
+        chinesePosition: "財富管理經理",
+        specialization: "Law & Risk Management",
+        chineseSpecialization: "法律及風險管理",
+        experience: "香港律師資格(待認許)",
+        description:
+          "Cece Wong trained in law before choosing financial planning. After her legal education, she completed two years of training at an international commercial law firm to qualify as a solicitor in Hong Kong, and is now pending admission. She moved into wealth planning for a career built on human interaction and trust. Owning her client relationships and her time also gives her the flexibility to study part-time for a master's degree in environmental management and take part in climate-related projects. She is committed to helping clients manage their risks and resources so they can focus on their goals.",
+        chineseDescription:
+          "Cece Wong 投身財富策劃之前，接受的是法律訓練。修畢法律課程後，她於一間國際商業律師行完成兩年見習律師培訓，以取得香港律師資格，現正等候認許。她轉投財富策劃，是希望事業以人與人之間的交流和信任為核心；自主管理客戶關係和時間，亦讓她可以兼讀環境管理碩士課程，並參與氣候相關項目。她致力協助客戶管理風險與資源，讓他們能專注於自己的目標。",
+      },
     ],
   },
 };
@@ -438,6 +466,13 @@ export default function TeamPage() {
                         ) : member.id === "joanne-cheng" ? (
                           <Image
                             src="/assets/joanne/joanne.jpg"
+                            alt={`${member.name} - ${member.position}`}
+                            fill
+                            className="object-cover object-top"
+                          />
+                        ) : member.id === "cece-wong" ? (
+                          <Image
+                            src="/assets/cece/cece.jpg"
                             alt={`${member.name} - ${member.position}`}
                             fill
                             className="object-cover object-top"
