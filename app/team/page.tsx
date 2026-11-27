@@ -472,7 +472,7 @@ export default function TeamPage() {
                           />
                         ) : member.id === "cece-wong" ? (
                           <Image
-                            src="/assets/cece/cece.jpg"
+                            src="/assets/cece/cece-v2.jpg"
                             alt={`${member.name} - ${member.position}`}
                             fill
                             className="object-cover object-top"

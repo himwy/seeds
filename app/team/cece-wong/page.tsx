@@ -23,7 +23,7 @@ function HeroPortrait({ initials }: { initials: string }) {
           </div>
         ) : (
           <Image
-            src="/assets/cece/cece.jpg"
+            src="/assets/cece/cece-v2.jpg"
             alt="Cece Wong - Team Member"
             fill
             sizes="256px"
